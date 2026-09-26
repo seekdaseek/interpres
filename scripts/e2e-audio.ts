@@ -139,6 +139,8 @@ type TargetResult = {
   audio: { chunksSent: number; reanchors: number };
   shaper: Record<string, unknown>;
   addressVerdict?: AddressVerdict;
+  /** The server's session.ended, verbatim. */
+  ended?: Record<string, unknown>;
   ok: boolean;
 };
 
@@ -219,6 +221,7 @@ async function runTarget(
     audio: { chunksSent: pump.chunksSent, reanchors: pump.reanchors },
     shaper: { ...session.shaperStats },
     replies: session.replies.map((r) => ({ startedAt: r.startedAt, firstAudioAt: r.firstAudioAt, audioMs: Math.round(r.audioBytes / 48), doneAt: r.doneAt })),
+    ended: session.endedEvent,
     ok: session.failures.length === 0,
   };
   const addressTurn = turns[turns.length - 1];

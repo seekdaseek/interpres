@@ -144,6 +144,43 @@ does not verify the middle. The confirmed spoken address above still carried its
 `c8e` -> `cad` error, because the last four were right. Read the value on the
 card - or paste it.
 
+## Measured against the docs
+
+AssemblyAI's documentation was re-read on 2026-09-26 through its own docs MCP
+server. Two behaviours differ from it, and both reproduce with
+`scripts/e2e-audio.ts`.
+
+**1. Interactive mode speaks no transition phrase.**
+- What the docs say: `tools/overview.mdx` ("Execution modes") says to default to
+  `interactive`, and its sequence diagram has the agent say "let me check that"
+  before `tool.call`. `client-side-tools.mdx` gives `execution_mode` a default
+  of `"interactive"`.
+- Every tool interpres sends sets that field explicitly. Session History's copy
+  of the `session.update` for `sess_8dfc36d82b21496781ff85d48145ad04` shows all
+  7 tools with `"execution_mode": "interactive"`.
+- Across the spoken suite (`data/e2e-audio-execmode.json`), the agent spoke 0 ms
+  of audio before the tool call in 14 of 14 calls. At CHECKPOINT A, before the
+  field was set, it was 0 of 20.
+- Session History agrees: the turns that call a tool have no reply start and no
+  time to first audio.
+- A prompt line asking for a phrase changed nothing either (6 of 6 turns silent).
+
+So a tool call is silence the caller hears; warm connections (above) are what
+shorten it. To reproduce, run `node --env-file=.env scripts/e2e-audio.ts` and read
+its `timing` lines: "transition phrase 0ms of audio".
+
+**2. `audio_duration_seconds` is null although audio was streamed.**
+- What the docs say, in `events-reference.mdx`: "Total audio you streamed in.
+  `null` if you streamed none."
+- In `sess_11e6597b5a6a4b96945eff34cb9911cc` the harness streamed 446 chunks of
+  40 ms (17.8 s), and the agent heard "What books does Bill Gates recommend?".
+- `session.ended` still said `"audio_duration_seconds": null`, with
+  `session_duration_seconds` at 18.3.
+
+To reproduce, run `node --env-file=.env scripts/e2e-audio.ts --preset <url> --say
+"<question>"`: every result now keeps the server's `session.ended` verbatim, under
+`ended`. Take `transcript.user` as the proof that audio arrived.
+
 ## Tests
 
 ```bash

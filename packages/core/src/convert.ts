@@ -183,6 +183,10 @@ export function convertTool(
     name: voiceName,
     description,
     parameters,
+    // The documented default, stated anyway: interactive is the mode that is
+    // meant to speak a transition phrase while the tool runs
+    // (tools/overview.mdx, "Execution modes").
+    execution_mode: 'interactive',
   };
 
   const report: ToolConversionReport = {

@@ -1,0 +1,105 @@
+{
+  "at": "2026-09-26T15:08:41.609Z",
+  "voice": "Samantha",
+  "carry": true,
+  "results": [
+    {
+      "url": "https://mostrecommendedbooks.com/api/mcp",
+      "sessionId": "sess_11e6597b5a6a4b96945eff34cb9911cc",
+      "turns": [
+        {
+          "said": "What books does Bill Gates recommend?",
+          "heard": [
+            "What books does Bill Gates recommend?"
+          ],
+          "calls": [
+            {
+              "callId": "chatcmpl-tool-b0a0849befaeaea7",
+              "name": "get_person_recommendations",
+              "arguments": {
+                "person": "Bill Gates"
+              },
+              "callAt": 1790435306449,
+              "transitionReply": 0,
+              "mcpName": "get_person_recommendations",
+              "normalisersApplied": [],
+              "rawChars": 3011,
+              "spokenChars": 262,
+              "spoken": "Bill Gates has 235 verified book recommendations:. Army of None by Paul Scharre — \"\"The book I had been waiting for. I can’t recommend it highly enough.\" - Bill Gates\". 13 Things That Don't Make Sense by Michael Brooks — \"List of books Bill Gates read in 2011.\".",
+              "method": "local",
+              "refine": "no_shaper",
+              "refineMs": 0,
+              "mcpMs": 520,
+              "isError": false,
+              "readyAt": 1790435306976,
+              "execMs": 526,
+              "sentAt": 1790435306977,
+              "answerReply": 1,
+              "transitionDoneAt": 1790435306756,
+              "agentWaitMs": 221,
+              "transitionAudioMs": 0,
+              "silenceOnUsMs": 528
+            }
+          ],
+          "agentReply": "Bill Gates has two hundred and thirty-five verified book recommendations in our database. Some examples include Army of None by Paul Scharre, which he highly recommends, and 13 Things That Don't Make Sense by Michael Brooks.",
+          "interrupted": false,
+          "startedAt": 1790435303468,
+          "speechEndAt": 1790435305388,
+          "firstAudioAt": 1790435307697,
+          "voiceToVoiceMs": 2309,
+          "idleAt": 1790435320087,
+          "ms": 16619,
+          "timeToAnswerMs": 2309
+        }
+      ],
+      "events": {
+        "session.updated": 1,
+        "session.ready": 1,
+        "input.speech.started": 1,
+        "transcript.user.delta": 2,
+        "input.speech.stopped": 1,
+        "transcript.user": 1,
+        "reply.started": 2,
+        "tool.call": 1,
+        "reply.done": 2,
+        "reply.audio": 1244,
+        "transcript.agent.delta": 36,
+        "transcript.agent": 1,
+        "session.ended": 1
+      },
+      "failures": [],
+      "audio": {
+        "chunksSent": 446,
+        "reanchors": 0
+      },
+      "shaper": {
+        "calls": 0,
+        "used": 0,
+        "failures": 0,
+        "rateLimited": 0,
+        "timeouts": 0,
+        "totalMs": 0
+      },
+      "replies": [
+        {
+          "startedAt": 1790435306002,
+          "audioMs": 0,
+          "doneAt": 1790435306756
+        },
+        {
+          "startedAt": 1790435307038,
+          "firstAudioAt": 1790435307697,
+          "audioMs": 12440,
+          "doneAt": 1790435320086
+        }
+      ],
+      "ended": {
+        "session_duration_seconds": 18.341434,
+        "type": "session.ended",
+        "timestamp": 1790435321.0350218,
+        "audio_duration_seconds": null
+      },
+      "ok": true
+    }
+  ]
+}

@@ -144,6 +144,8 @@ export class LiveSession {
   readonly protocol: AgentProtocol;
   readonly shaperStats: ShaperStats = newShaperStats();
   readonly events: Record<string, number> = {};
+  /** The server's own session.ended, kept verbatim: its audio_duration_seconds is checked against the docs. */
+  endedEvent?: Record<string, unknown>;
   readonly failures: string[] = [];
   sessionId = '';
   phase: Phase;
@@ -275,6 +277,7 @@ export class LiveSession {
         let msg: ServerEvent;
         try { msg = JSON.parse(String((ev as MessageEvent).data)) as ServerEvent; } catch { return; }
         this.events[msg.type] = (this.events[msg.type] ?? 0) + 1;
+        if (msg.type === 'session.ended') this.endedEvent = msg as Record<string, unknown>;
         if (this.verbose && msg.type !== 'reply.audio' && msg.type !== 'transcript.agent.delta' && msg.type !== 'transcript.user.delta') {
           console.log(`  <- ${msg.type}${msg.type === 'session.error' ? ` ${JSON.stringify(msg)}` : ''}`);
         }

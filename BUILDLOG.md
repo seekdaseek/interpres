@@ -1897,3 +1897,35 @@ showed both rows, no horizontal overflow and no errors from that load.
 $ node --test packages/core/test/starters.test.ts apps/server/test/starters.test.ts   ℹ tests 9  ℹ pass 9
 $ npm test                                                                              ℹ tests 335  ℹ pass 335  ℹ fail 0
 ```
+
+---
+
+## 2026-09-26 - task 7: measured against the docs
+
+Both pages were re-read through AssemblyAI's docs MCP server.
+- `tools/overview.mdx`, "Execution modes": "**Default to interactive.**" Its
+  interactive sequence diagram has `reply.audio ("let me check that")` before
+  `tool.call`.
+- `client-side-tools.mdx`, field table: `execution_mode`, default `"interactive"`.
+
+1. Every converted tool now carries `execution_mode: "interactive"`
+   (`convert.ts`). Until now only `find_tools` and `use_pasted_text` did. Session
+   History's recorded `session.update` for `sess_8dfc36d82b21496781ff85d48145ad04`
+   shows all 7 tools with it.
+2. Re-measured with the spoken suite (`data/e2e-audio-execmode.json`): 11
+   tool-calling turns, 14 tool calls, and **0 ms of agent audio before the tool
+   call in 14 of 14**. Session History shows no reply start and no time to first
+   audio on those turns. Sessions: sess_fc31e4e1ef8f4503acdda9b5e9b8b135
+   sess_ef77c48ce29f4cc589050881f62bf9c1 sess_ea1c89987ca14e8c962c58cfa4aaf595
+   sess_8dfc36d82b21496781ff85d48145ad04 sess_8215c429e4d34b08a94a272f9156cb0d
+   sess_5fba3a877f5b4a3d9ade2532d6d7c9ba.
+3. Still silent, so it is written up in the README, section "Measured against the
+   docs", next to the `audio_duration_seconds` finding. The harness now keeps the
+   server's `session.ended` verbatim, which gives that finding fresh evidence:
+   `sess_11e6597b5a6a4b96945eff34cb9911cc` streamed 446 x 40 ms of audio, the agent
+   heard the question, and `session.ended` said `"audio_duration_seconds": null`
+   (`session_duration_seconds` 18.3). The docs: "`null` if you streamed none."
+
+```
+$ npm test    ℹ tests 336  ℹ pass 336  ℹ fail 0
+```
