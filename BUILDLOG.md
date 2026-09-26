@@ -2072,3 +2072,26 @@ documents.
 ```
 $ npm test    ℹ tests 337  ℹ pass 337  ℹ fail 0
 ```
+
+---
+
+## 2026-09-26 - README: each price credited to the page it is on
+
+The "Why" paragraph said AssemblyAI's migration guide sells the switch on price
+"($4.50/hr vs $18.00/hr)". The guide has no $18.00 figure; that figure is on the
+product page. Both pages were re-read in the browser on 2026-09-26:
+
+- **The migration guide**
+  (<https://www.assemblyai.com/blog/migrating-from-openai-realtime-api-to-assemblyai-voice-agent-api>),
+  dated September 22, 2026: `$4.50` appears 8 times in the article. `18.00`
+  appears 0 times and `mcp` (plain substring, any case) 0 times in the page's
+  full 165,737-character HTML. Each pattern first matched a known-positive string.
+- **The Voice Agent API page** (<https://www.assemblyai.com/products/voice-agent-api>):
+  the Compare APIs table's Price row reads $4.50/hr (AssemblyAI), $18.00/hr
+  (OpenAI Realtime API) and $4.50/hr (Deepgram). That is the only $18.00 on the
+  page, and it is centred under the OpenAI header (x 571 against 570).
+- **The sentence now** credits both prices to the Voice Agent API page and
+  "never mentions MCP" to the Sep 22 guide, with a link to each. The closing
+  clause is unchanged. No other tracked file carried the claim: a grep for
+  `18.00` and `migration guide` found only this sentence.
+- Docs only: no redeploy, and `apps/web` is untouched.

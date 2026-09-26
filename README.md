@@ -13,9 +13,12 @@ AssemblyAI's Voice Agent API calls that server's tools live, out loud.
 OpenAI's Realtime API has a native `mcp` tool type: you hand it a `server_url`
 and the API executes the remote MCP server's tools for you. AssemblyAI's Voice
 Agent API has only `function` (client-side) and `http` (server-side) tools — no
-MCP. AssemblyAI's own migration guide sells the switch on price ($4.50/hr vs
-$18.00/hr) and never mentions MCP, so every team that migrates silently loses
-its MCP tools.
+MCP. AssemblyAI's
+[Voice Agent API page](https://www.assemblyai.com/products/voice-agent-api) lists
+it at $4.50/hr and OpenAI Realtime at $18.00/hr, and its
+[Sep 22 migration guide](https://www.assemblyai.com/blog/migrating-from-openai-realtime-api-to-assemblyai-voice-agent-api)
+from Realtime never mentions MCP, so every team that migrates silently loses its
+MCP tools.
 
 interpres is the missing adapter.
 
