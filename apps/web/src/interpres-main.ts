@@ -9,10 +9,17 @@ import { api, postJson } from './http.ts';
 
 type Preset = { label: string; url: string; blurb: string; asks: string[]; exercisesPhases?: boolean };
 type CatalogEntry = { voiceName: string; mcpName: string; description: string; isWriteTool: boolean; writeReason?: string };
+/** A server discovery found for a website. */
+type Candidate = { url: string; tools: number; source: 'registry' | 'probe'; name?: string; title?: string; note: string };
+type DiscoveryInfo = { kind: 'one' | 'several' | 'none'; domain: string; tried: string[]; ms: number; cached: boolean; from: string; found?: Candidate };
+/** Several servers answered for one website: the page shows a pick list. */
+type ChooseResponse = { url: string; input: string; choose: Candidate[]; discovery: DiscoveryInfo };
+type RegistryServer = { name: string; title?: string; url: string; host: string; tools: number; transport: string; description?: string };
 type ConnectResponse = ConnectPayload & {
   /** What was typed, and what the server made of it. */
   input: string;
   notes: UrlNote[];
+  discovery: DiscoveryInfo | null;
   cached: boolean;
   transport: string;
   server: { name?: string; title?: string; version?: string } | null;
@@ -440,24 +447,53 @@ function previewUrl(): void {
   showHint(`Will connect to ${r.url}${r.notes.length ? ` (${r.notes.map((n) => NOTE_TEXT[n]).join('; ')})` : ''}`);
 }
 
-async function connect(input: string): Promise<void> {
+const toolsText = (n: number) => `${n} ${n === 1 ? 'tool' : 'tools'}`;
+
+/** Several servers answered for one website: one button each, and a click connects. */
+function showChoices(d: ChooseResponse | null): void {
+  const el = $('choices');
+  clear(el);
+  el.hidden = d === null;
+  if (d === null) return;
+  el.append(h('p', { class: 'choices-label' }, `${d.choose.length} MCP servers answered for ${d.discovery.domain}. Pick one:`));
+  for (const cand of d.choose) {
+    el.append(h('button', {
+      type: 'button',
+      class: 'pick',
+      onclick: () => { ($('url') as HTMLInputElement).value = cand.url; void connect(cand.url, { scroll: true }); },
+    },
+    h('span', { class: 'pick-title' }, cand.title ?? cand.name ?? new URL(cand.url).host),
+    h('span', { class: 'pick-meta' }, `${cand.url} · ${toolsText(cand.tools)} · ${cand.note}`)));
+  }
+}
+
+async function connect(input: string, opts: { scroll?: boolean } = {}): Promise<void> {
   if (session) await session.stop('switched server');
   showError(null);
+  showChoices(null);
   // The same normaliser the server runs, so a refusal needs no round trip.
   // The server runs it again and its answer is the one that counts.
   const preview = normaliseServerUrl(input);
   if (!preview.ok) { showHint(null); showError(preview.message); return; }
   const btn = $('connect-btn') as HTMLButtonElement;
   btn.disabled = true;
-  btn.textContent = 'Connecting…';
+  btn.textContent = preview.url.endsWith('/') && new URL(preview.url).pathname === '/' ? 'Looking…' : 'Connecting…';
   try {
-    const r = await postJson<ConnectResponse>('/api/mcp/connect', { url: input });
+    const r = await postJson<ConnectResponse | ChooseResponse>('/api/mcp/connect', { url: input });
     if (!r.ok) { showHint(null); showError(r.message, r.detail); return; }
-    conn = r.data;
+    if ('choose' in r.data && Array.isArray(r.data.choose)) { showHint(null); showChoices(r.data); return; }
+    conn = r.data as ConnectResponse;
     ($('url') as HTMLInputElement).value = conn.url;
     const notes = conn.notes ?? [];
-    showHint(notes.length ? `Connected to ${conn.url}: ${notes.map((n) => NOTE_TEXT[n] ?? n).join('; ')}.` : null);
+    const found = conn.discovery?.kind === 'one' ? conn.discovery.found : undefined;
+    if (found && conn.discovery) {
+      const ms = conn.discovery.ms;
+      showHint(`${found.note}: ${conn.url} · ${toolsText(found.tools)} · ${ms < 1000 ? `${ms} ms` : `${(ms / 1000).toFixed(1)} s`}${conn.discovery.cached ? ', remembered from an earlier look' : ''}`);
+    } else {
+      showHint(notes.length ? `Connected to ${conn.url}: ${notes.map((n) => NOTE_TEXT[n] ?? n).join('; ')}.` : null);
+    }
     renderServer(conn);
+    if (opts.scroll) $('server').scrollIntoView({ behavior: 'smooth', block: 'start' });
     void loadStarters(conn.url);
     const q = new URL(location.href);
     q.searchParams.set('url', conn.url);
@@ -537,13 +573,70 @@ function onPasteChange(): void {
   else if (conn) renderKeyterms(mergeKeyterms(conn.phase.keyterms, pasteKeyterms(text)), pasteKeyterms(text));
 }
 
-async function loadPresets(): Promise<Preset[]> {
-  const r = await api<{ presets: Preset[] }>('/api/presets');
-  return r.ok && Array.isArray(r.data.presets) ? r.data.presets : [];
+async function loadPresets(): Promise<{ presets: Preset[]; registryCount: number | null }> {
+  const r = await api<{ presets: Preset[]; registry?: { count?: number } }>('/api/presets');
+  if (!r.ok) return { presets: [], registryCount: null };
+  return {
+    presets: Array.isArray(r.data.presets) ? r.data.presets : [],
+    registryCount: typeof r.data.registry?.count === 'number' ? r.data.registry.count : null,
+  };
+}
+
+// ------------------------------------------------------------------ search
+
+let searchSeq = 0;
+let searchTimer: ReturnType<typeof setTimeout> | undefined;
+
+function searchNote(text: string | null): void {
+  const el = $('search-note');
+  el.hidden = text === null;
+  el.textContent = text ?? '';
+}
+
+function onSearchInput(): void {
+  const q = ($('search') as HTMLInputElement).value.trim();
+  if (searchTimer) clearTimeout(searchTimer);
+  if (q.length < 2) {
+    searchSeq++;   // an answer still on its way is now stale
+    clear($('results'));
+    searchNote(q.length === 1 ? 'Type at least 2 characters.' : null);
+    return;
+  }
+  searchTimer = setTimeout(() => void runSearch(q), 250);
+}
+
+async function runSearch(q: string): Promise<void> {
+  const seq = ++searchSeq;
+  const r = await api<{ results: RegistryServer[]; total: number }>(`/api/registry/search?q=${encodeURIComponent(q)}`);
+  if (seq !== searchSeq) return;   // a newer search is on its way
+  const list = $('results');
+  clear(list);
+  if (!r.ok) { searchNote(r.message); return; }
+  const { results, total } = r.data;
+  searchNote(results.length === 0
+    ? `Nothing among ${total.toLocaleString('en-US')} servers matches “${q}”.`
+    : `${results.length} of ${total.toLocaleString('en-US')}, at most two per host. Click one to connect.`);
+  for (const s of results) {
+    list.append(h('li', {}, h('button', {
+      type: 'button',
+      class: 'result',
+      title: s.url,
+      onclick: () => { ($('url') as HTMLInputElement).value = s.url; void connect(s.url, { scroll: true }); },
+    },
+    h('span', { class: 'result-title' }, s.title ?? s.name),
+    h('span', { class: 'result-meta' }, `${s.host} · ${toolsText(s.tools)}`),
+    s.description ? h('span', { class: 'result-desc' }, s.description) : null)));
+  }
 }
 
 async function main(): Promise<void> {
-  const presets = await loadPresets();
+  const { presets, registryCount } = await loadPresets();
+  // N is the server's index count, shown only once it has arrived.
+  if (registryCount !== null) {
+    $('registry-count').textContent = registryCount.toLocaleString('en-US');
+    $('registry').hidden = false;
+  }
+  $('search').addEventListener('input', onSearchInput);
   const box = $('presets');
   for (const p of presets) {
     box.append(h('button', {

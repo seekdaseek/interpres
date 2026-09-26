@@ -36,7 +36,7 @@ export function invalidate(url?: string): void {
 
 export async function getCatalog(
   url: string,
-  opts: { force?: boolean; now?: number } = {},
+  opts: { force?: boolean; now?: number; timeoutMs?: number } = {},
 ): Promise<{ catalog: Catalog; cached: boolean }> {
   const now = opts.now ?? Date.now();
   const hit = cache.get(url);
@@ -44,7 +44,8 @@ export async function getCatalog(
     return { catalog: hit.catalog, cached: true };
   }
 
-  const connection = await probeServer(url);
+  // Discovery probes pass 5 s; a connect keeps probeServer's own default.
+  const connection = await probeServer(url, opts.timeoutMs === undefined ? {} : { timeoutMs: opts.timeoutMs });
   // `find_tools` is ours, so a server tool of the same name must be renamed
   // rather than silently shadowing the meta-tool.
   const conversion = convertCatalog(connection.tools, { reserved: [FIND_TOOLS_NAME] });

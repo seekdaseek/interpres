@@ -50,6 +50,12 @@ export const config = {
     perIpPerHour: num('RATE_PER_IP_HOUR', 6),
     /** Token mints across all callers per day, so the credit grant survives. */
     globalPerDay: num('RATE_GLOBAL_DAY', 400),
+    /** Connects per IP per hour. Each one makes this server fetch a stranger's URL. */
+    connectPerIpPerHour: num('RATE_CONNECT_IP_HOUR', 120),
+    /** Registry searches per IP per hour, the same as connects. */
+    searchPerIpPerHour: num('RATE_SEARCH_IP_HOUR', 120),
+    /** Website discoveries per IP per hour: each can probe up to eight URLs. */
+    discoverPerIpPerHour: num('RATE_DISCOVER_IP_HOUR', 20),
     /** How long a converted catalog is reused for one URL. */
     catalogCacheMs: num('CATALOG_CACHE_MS', 10 * 60 * 1000),
     /** Cached catalogs held at once. */

@@ -76,6 +76,30 @@ test('connect refuses a URL the normaliser or the SSRF guard blocks, with a code
   }
 });
 
+test('registry search: two characters at least, twelve results at most, two per host', async () => {
+  for (const q of ['', 'a', '%20b%20']) {
+    const r = await get(`/api/registry/search?q=${q}`);
+    assert.equal(r.status, 400, `q=${q}`);
+    assert.equal((await r.json()).code, 'query_too_short');
+  }
+  const r = await get('/api/registry/search?q=books');
+  assert.equal(r.status, 200);
+  const body = await r.json();
+  assert.ok(body.total > 10_000, 'the whole index is counted');
+  assert.equal(body.results[0].host, 'mostrecommendedbooks.com');
+  assert.ok(body.results.length <= 12);
+  const presets = await (await get('/api/presets')).json();
+  assert.equal(presets.registry.count, body.total, 'the page reads N from the same index');
+});
+
+test('a bare private address is refused as private, not searched around', async () => {
+  for (const url of ['127.0.0.1', 'https://10.0.0.1/', '192.168.1.1']) {
+    const r = await post('/api/mcp/connect', { url });
+    assert.equal(r.status, 400, url);
+    assert.equal((await r.json()).code, 'blocked_address', url);
+  }
+});
+
 test('the call route refuses a bad URL as a request error, and never with a gateway status', async () => {
   const r = await post('/api/mcp/call', { url: 'javascript:alert(1)', tool: 'x' });
   assert.equal(r.status, 400);

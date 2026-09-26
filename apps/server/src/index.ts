@@ -9,6 +9,7 @@
  * CORS and no second hostname.
  */
 import { Hono } from 'hono';
+import type { Context } from 'hono';
 import { serve } from '@hono/node-server';
 import type { HttpBindings } from '@hono/node-server';
 import { serveStatic } from '@hono/node-server/serve-static';
@@ -20,11 +21,16 @@ import {
 import type { Phase, PlannerInput } from '@interpres/core';
 import { config, assertConfigured } from './config.ts';
 import { RateLimiter, clientKey } from './ratelimit.ts';
+import type { Decision } from './ratelimit.ts';
 import { EventLog, publicEvent } from './logs.ts';
 import { getCatalog, cacheStats, invalidate } from './catalog.ts';
 import type { Catalog } from './catalog.ts';
 import { callTool, pool } from './mcp.ts';
-import { UPSTREAM_FAILED, explainFailure, requireServerUrl } from './errors.ts';
+import { MESSAGES, UPSTREAM_FAILED, explainFailure, requireServerUrl } from './errors.ts';
+import type { Failure } from './errors.ts';
+import { SsrfError, ensureVerified } from './ssrf.ts';
+import { MIN_QUERY, Registry } from './registry.ts';
+import { DISCOVERY_TIMEOUT_MS, DiscoveryCache, discover, domainOf, isSiteRoot } from './discover.ts';
 import { CircuitBreaker, makeShaper, newShaperStats } from './shaper.ts';
 import { PRESETS, presetFor } from './presets.ts';
 import { writeStarters } from './starters.ts';
@@ -35,13 +41,21 @@ const limiter = new RateLimiter({
   perIpPerHour: config.limits.perIpPerHour,
   globalPerDay: config.limits.globalPerDay,
 });
+// Connects, searches and discoveries are free to us but make this server fetch
+// strangers' URLs, so each has its own per-IP hourly bucket and no daily cap.
+const connectLimiter = new RateLimiter({ perIpPerHour: config.limits.connectPerIpPerHour, globalPerDay: Number.POSITIVE_INFINITY });
+const searchLimiter = new RateLimiter({ perIpPerHour: config.limits.searchPerIpPerHour, globalPerDay: Number.POSITIVE_INFINITY });
+const discoverLimiter = new RateLimiter({ perIpPerHour: config.limits.discoverPerIpPerHour, globalPerDay: Number.POSITIVE_INFINITY });
+/** The registry index, read once at start and kept in memory. */
+const registry = Registry.load();
+const discoveryCache = new DiscoveryCache();
 const shaperStats = newShaperStats();
 const breaker = new CircuitBreaker();
 const shaper = makeShaper({ stats: shaperStats, breaker });
 /** Consulted before every Gateway call, so an open breaker costs no wait. */
 const shaperAvailable = (): boolean => config.shaperRefine && !breaker.isOpen();
 
-const counters = { tokens: 0, connects: 0, toolCalls: 0, toolFailures: 0, findTools: 0 };
+const counters = { tokens: 0, connects: 0, toolCalls: 0, toolFailures: 0, findTools: 0, discoveries: 0, searches: 0 };
 
 // HttpBindings gives access to the raw Node request, and so to the socket's
 // own peer address - the only client identity a caller cannot forge.
@@ -80,7 +94,12 @@ app.onError((err, c) => {
 
 app.get('/api/health', (c) => c.json({ ok: true, at: new Date().toISOString() }));
 
-app.get('/api/presets', (c) => c.json({ presets: PRESETS, maxToolsPerPhase: MAX_TOOLS_PER_PHASE }));
+app.get('/api/presets', (c) => c.json({
+  presets: PRESETS,
+  maxToolsPerPhase: MAX_TOOLS_PER_PHASE,
+  // The page's "search N public MCP servers" reads N from here, never from its own copy.
+  registry: { count: registry.count, recheckAt: registry.recheckAt, rule: registry.rule },
+}));
 
 /**
  * A short-lived Voice Agent token. The API key stays in this process.
@@ -142,7 +161,128 @@ app.get('/api/token', async (c) => {
   }
 });
 
-/** Connect to an MCP server, convert its tools, and return the opening phase. */
+/**
+ * The connect payload for a URL: its converted catalog, the opening phase, and
+ * what the gate knows about each tool. Throws what getCatalog throws.
+ */
+async function connectPayload(url: string, opts: { input: string; notes: string[]; started: number; force?: boolean; discovery?: Record<string, unknown> }) {
+  const { catalog, cached } = await getCatalog(url, { force: opts.force });
+  const phase = initialPhase(plannerInput(catalog));
+  // The API validates none of this, so our own guard is the only one there is.
+  assertPhaseValid(phase);
+
+  counters.connects++;
+  log.record(cached ? 'mcp.cache.hit' : 'mcp.connect', {
+    url, ms: Date.now() - opts.started, ok: true,
+    transport: catalog.transport,
+    toolsIn: catalog.conversion.stats.toolsIn,
+    toolsConverted: catalog.conversion.stats.toolsConverted,
+    failed: catalog.conversion.stats.failed,
+  });
+
+  const preset = presetFor(url);
+  // The gate's view of every tool: whether it changes state (classifier,
+  // not just a preset's hand list) and the server's own argument patterns.
+  const gate = gateTools(
+    catalog.conversion.converted.filter((cv) => cv.source).map((cv) => ({ voiceName: cv.tool.name, source: cv.source! })),
+    preset?.writeTools ?? [],
+  );
+  const gateByName = new Map(gate.map((g) => [g.voiceName, g]));
+  return {
+    url,
+    input: opts.input,
+    notes: opts.notes,
+    discovery: opts.discovery ?? null,
+    cached,
+    transport: catalog.transport,
+    server: catalog.server ?? null,
+    instructions: catalog.instructions ?? null,
+    greeting: buildGreeting(catalog.server, catalog.conversion.converted.length),
+    stats: catalog.conversion.stats,
+    failures: catalog.conversion.failures,
+    catalog: catalog.conversion.converted.map((cv) => ({
+      voiceName: cv.tool.name,
+      mcpName: cv.report.mcpName,
+      description: cv.tool.description,
+      parameters: cv.tool.parameters,
+      report: cv.report,
+      isWriteTool: gateByName.get(cv.tool.name)?.write ?? false,
+      writeReason: gateByName.get(cv.tool.name)?.writeReason ?? '',
+    })),
+    phase: phasePayload(phase),
+    asks: preset?.asks ?? [],
+    sampleValue: preset?.sampleValue ?? null,
+    gate: { tools: gate, server: new URL(url).host },
+  };
+}
+
+/** A 429 in the same JSON shape as every other refusal. */
+function limited(c: Context, d: Exclude<Decision, { allowed: true }>, error: string) {
+  return c.json({ error, code: 'rate_limited', retryAfterSeconds: d.retryAfterSeconds }, 429, { 'retry-after': String(d.retryAfterSeconds) });
+}
+
+/** "a, b and c". */
+const listSentence = (xs: string[]) => (xs.length <= 1 ? xs.join('') : `${xs.slice(0, -1).join(', ')} and ${xs.at(-1)}`);
+
+/** Discovery's probe: the same path as a connect, so a hit is cached for the connect that follows. */
+async function probeForDiscovery(url: string): Promise<{ tools: number; title?: string }> {
+  const { catalog } = await getCatalog(url, { timeoutMs: DISCOVERY_TIMEOUT_MS });
+  const tools = catalog.conversion.converted.length;
+  if (tools === 0) throw new Error('answered with no tools');
+  return { tools, title: catalog.server?.title ?? catalog.server?.name };
+}
+
+/**
+ * A website in, its MCP server out: discovery, then the connect. One answer
+ * connects; several come back as a pick list; none is the not-MCP sentence
+ * plus everything that was tried.
+ */
+async function discoverAndConnect(c: Context, a: {
+  input: string; url: string; notes: string[]; key: string; started: number; skip?: string[]; firstFailure?: Failure;
+}) {
+  const target = new URL(a.url);
+  // A private address is refused as it is, not searched around.
+  const apex = await ensureVerified(target.href).then(() => null, (e: unknown) => e);
+  if (apex instanceof SsrfError && apex.code === 'blocked_address') throw apex;
+
+  const cacheKey = `${domainOf(target)}|${isSiteRoot(target) ? 'root' : (a.skip ?? []).join(',')}`;
+  let result = discoveryCache.get(cacheKey);
+  const cached = result !== undefined;
+  if (result === undefined) {
+    const d = discoverLimiter.take(a.key);
+    if (!d.allowed) {
+      if (a.firstFailure) return c.json(a.firstFailure.body, a.firstFailure.status);
+      return limited(c, d, `interpres has looked up ${discoverLimiter.perIpPerHour} websites for you this hour, which is the limit. Paste the server's full MCP address instead.`);
+    }
+    result = await discover(target, { forDomain: (dom) => registry.forDomain(dom), probe: probeForDiscovery }, { skip: a.skip });
+    discoveryCache.set(cacheKey, result);
+    counters.discoveries++;
+  }
+  log.record('discover', {
+    url: a.url, ok: result.kind !== 'none', ms: result.ms, count: result.tried.length, cached,
+    source: result.kind === 'one' ? result.found.source : result.kind,
+  });
+  const discovery = { ...result, from: a.input, cached };
+
+  if (result.kind === 'one') return c.json(await connectPayload(result.found.url, { input: a.input, notes: a.notes, started: a.started, discovery }));
+  if (result.kind === 'several') return c.json({ url: a.url, input: a.input, notes: a.notes, choose: result.candidates, discovery });
+  // Nothing found. An address that does not even resolve says so instead.
+  if (apex instanceof SsrfError) throw apex;
+  return c.json({
+    error: `${MESSAGES.notMcp} Nothing on ${result.domain} answered as one: interpres looked in the official MCP registry and tried ${listSentence(result.tried)}.`,
+    code: 'not_found',
+    kind: 'not_mcp',
+    tried: result.tried,
+    ...(a.firstFailure?.body.detail ? { detail: a.firstFailure.body.detail } : {}),
+    discovery,
+  }, UPSTREAM_FAILED);
+}
+
+/**
+ * Connect to an MCP server, convert its tools, and return the opening phase.
+ * A bare domain or site root goes to discovery first; a URL that answers but
+ * not as MCP goes there after.
+ */
 app.post('/api/mcp/connect', async (c) => {
   let body: { url?: unknown; force?: unknown };
   try {
@@ -153,6 +293,11 @@ app.post('/api/mcp/connect', async (c) => {
   if (typeof body.url !== 'string' || body.url.trim() === '') {
     return c.json({ error: 'Send a url.', code: 'bad_request' }, 400);
   }
+  const key = clientKey(c.req.raw.headers, c.env?.incoming?.socket?.remoteAddress);
+  const allowed = connectLimiter.take(key);
+  if (!allowed.allowed) {
+    return limited(c, allowed, `That is ${connectLimiter.perIpPerHour} connects from your address this hour, which is the limit. Try again later.`);
+  }
   const input = body.url.trim();
   const started = Date.now();
   let url = input;
@@ -161,58 +306,35 @@ app.post('/api/mcp/connect', async (c) => {
   try {
     // What was typed becomes what was meant; the SSRF guard then vets that.
     ({ url, notes } = requireServerUrl(input));
-    const { catalog, cached } = await getCatalog(url, { force: body.force === true });
-    const phase = initialPhase(plannerInput(catalog));
-    // The API validates none of this, so our own guard is the only one there is.
-    assertPhaseValid(phase);
-
-    counters.connects++;
-    log.record(cached ? 'mcp.cache.hit' : 'mcp.connect', {
-      url, ms: Date.now() - started, ok: true,
-      transport: catalog.transport,
-      toolsIn: catalog.conversion.stats.toolsIn,
-      toolsConverted: catalog.conversion.stats.toolsConverted,
-      failed: catalog.conversion.stats.failed,
-    });
-
-    const preset = presetFor(url);
-    // The gate's view of every tool: whether it changes state (classifier,
-    // not just a preset's hand list) and the server's own argument patterns.
-    const gate = gateTools(
-      catalog.conversion.converted.filter((cv) => cv.source).map((cv) => ({ voiceName: cv.tool.name, source: cv.source! })),
-      preset?.writeTools ?? [],
-    );
-    const gateByName = new Map(gate.map((g) => [g.voiceName, g]));
-    return c.json({
-      url,
-      input,
-      notes,
-      cached,
-      transport: catalog.transport,
-      server: catalog.server ?? null,
-      instructions: catalog.instructions ?? null,
-      greeting: buildGreeting(catalog.server, catalog.conversion.converted.length),
-      stats: catalog.conversion.stats,
-      failures: catalog.conversion.failures,
-      catalog: catalog.conversion.converted.map((cv) => ({
-        voiceName: cv.tool.name,
-        mcpName: cv.report.mcpName,
-        description: cv.tool.description,
-        parameters: cv.tool.parameters,
-        report: cv.report,
-        isWriteTool: gateByName.get(cv.tool.name)?.write ?? false,
-        writeReason: gateByName.get(cv.tool.name)?.writeReason ?? '',
-      })),
-      phase: phasePayload(phase),
-      asks: preset?.asks ?? [],
-      sampleValue: preset?.sampleValue ?? null,
-      gate: { tools: gate, server: new URL(url).host },
-    });
+    if (isSiteRoot(new URL(url))) return await discoverAndConnect(c, { input, url, notes, key, started });
+    try {
+      return c.json(await connectPayload(url, { input, notes, started, force: body.force === true }));
+    } catch (err) {
+      const f = explainFailure(err);
+      if (f.body.kind !== 'not_mcp' && f.body.kind !== 'redirect') throw err;
+      return await discoverAndConnect(c, { input, url, notes, key, started, skip: [url], firstFailure: f });
+    }
   } catch (err) {
     const f = explainFailure(err);
     log.record('mcp.connect.failed', { url, ms: Date.now() - started, ok: false, code: f.body.code, kind: f.body.kind, error: f.body.detail ?? f.body.error });
     return c.json(f.body, f.status);
   }
+});
+
+/**
+ * Search the registry index: the top 12 on name, host, title and description,
+ * two per host at most. Needs two characters.
+ */
+app.get('/api/registry/search', (c) => {
+  const q = (c.req.query('q') ?? '').trim();
+  if (q.length < MIN_QUERY) return c.json({ error: `Type at least ${MIN_QUERY} characters to search.`, code: 'query_too_short' }, 400);
+  if (q.length > 100) return c.json({ error: 'That search is too long: 100 characters at most.', code: 'query_too_long' }, 400);
+  const d = searchLimiter.take(clientKey(c.req.raw.headers, c.env?.incoming?.socket?.remoteAddress));
+  if (!d.allowed) return limited(c, d, `That is ${searchLimiter.perIpPerHour} searches from your address this hour, which is the limit. Try again later.`);
+  const started = performance.now();
+  const { results, cached } = registry.search(q);
+  counters.searches++;
+  return c.json({ q, total: registry.count, results, cached, ms: Math.round(performance.now() - started) });
 });
 
 /** Handle a `find_tools` call: rank the catalog and hand back a new phase. */

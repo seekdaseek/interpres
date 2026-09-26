@@ -33,12 +33,20 @@
         <form class="connect" id="connect-form" autocomplete="off" novalidate>
           <label class="sr" for="url">MCP server URL</label>
           <input id="url" name="url" type="text" inputmode="url" autocapitalize="off" autocorrect="off"
-                 spellcheck="false" placeholder="mcp.example.com/mcp" />
+                 spellcheck="false" placeholder="example.com, or mcp.example.com/mcp" />
           <button type="submit" id="connect-btn" class="btn">Connect</button>
         </form>
         <p class="url-hint" id="url-hint" aria-live="polite" hidden></p>
         <div class="error" id="connect-error" role="alert" hidden></div>
+        <div class="choices" id="choices" hidden></div>
         <div class="presets" id="presets" aria-label="Try a public server"></div>
+        <div class="registry" id="registry" hidden>
+          <label class="registry-label" for="search">Or search <span id="registry-count"></span> public MCP servers</label>
+          <input id="search" type="search" autocomplete="off" autocapitalize="off" autocorrect="off"
+                 spellcheck="false" placeholder="books, weather, docs…" />
+          <p class="registry-note" id="search-note" aria-live="polite" hidden></p>
+          <ol class="results" id="results"></ol>
+        </div>
         <button type="button" class="replay-btn" id="replay-btn">No microphone? Watch a real session</button>
       </section>
 

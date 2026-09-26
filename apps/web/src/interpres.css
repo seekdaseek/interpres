@@ -66,6 +66,24 @@ button { font: inherit; color: inherit; }
 .error-detail code { display: block; margin-top: 4px; font-size: 11.5px; white-space: pre-wrap; word-break: break-word; }
 .url-hint { color: var(--muted); font: 12.5px/1.5 var(--mono); margin: 10px 4px 0; max-width: 760px; word-break: break-all; }
 
+/* ------------------------------------------- discovery pick list, search */
+.choices { margin: 12px 0 0; max-width: 760px; display: grid; gap: 8px; }
+.choices-label { color: var(--muted); font-size: 13px; }
+.pick, .result { text-align: left; width: 100%; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 10px 14px; cursor: pointer; display: grid; gap: 3px; color: var(--text); font: inherit; }
+.pick:hover, .result:hover { border-color: var(--line-2); }
+.pick:focus-visible, .result:focus-visible { outline: 2px solid var(--voice); outline-offset: 2px; }
+.pick-title, .result-title { font-weight: 600; font-size: 14px; overflow-wrap: anywhere; }
+.pick-meta, .result-meta { color: var(--muted); font: 12px/1.5 var(--mono); overflow-wrap: anywhere; }
+.result-desc { color: var(--muted); font-size: 12.5px; line-height: 1.45; }
+.registry { margin: 14px 0 10px; max-width: 900px; }
+.registry-label { display: block; font-size: 13.5px; color: var(--muted); margin: 0 0 8px 2px; }
+.registry-label span { color: var(--text); font-weight: 600; }
+.registry input { width: 100%; max-width: 760px; background: var(--surface); border: 1px solid var(--line); border-radius: 999px; color: var(--text); font: 14px var(--mono); padding: 11px 18px; outline: 0; }
+.registry input:focus { border-color: var(--voice); box-shadow: 0 0 0 4px var(--voice-dim); }
+.registry-note { color: var(--muted); font: 12.5px/1.5 var(--mono); margin: 8px 4px 0; }
+.results { list-style: none; margin: 10px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 8px; }
+.results:empty { display: none; }
+
 .presets { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; margin: 18px 0 8px; max-width: 900px; }
 .preset { text-align: left; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; cursor: pointer; display: grid; gap: 4px; transition: border-color .15s, transform .15s; }
 .preset:hover { border-color: var(--line-2); transform: translateY(-1px); }

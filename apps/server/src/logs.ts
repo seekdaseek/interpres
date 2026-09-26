@@ -11,7 +11,7 @@ export type Event = {
     | 'token.minted' | 'token.refused' | 'token.error'
     | 'mcp.connect' | 'mcp.connect.failed' | 'mcp.cache.hit'
     | 'tool.call' | 'tool.call.failed'
-    | 'find_tools' | 'starters'
+    | 'find_tools' | 'starters' | 'discover'
     | 'shape';
   ms?: number;
   ok?: boolean;

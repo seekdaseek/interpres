@@ -12,7 +12,7 @@ if [ -n "$(git status --porcelain)" ]; then
 fi
 npm run build > /dev/null
 git archive --format=tar HEAD package.json package-lock.json LICENSE packages/core/package.json packages/core/src \
-    apps/server/package.json apps/server/src apps/web/package.json ops \
+    apps/server/package.json apps/server/src apps/server/data apps/web/package.json ops \
   | ssh -o BatchMode=yes solwatch 'tar -x -C /opt/interpres'
 # The built app goes in beside the old one and replaces it in one move.
 COPYFILE_DISABLE=1 tar --no-mac-metadata --no-xattrs -C apps/web -cf - dist \

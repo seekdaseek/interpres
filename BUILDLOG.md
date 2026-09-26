@@ -2261,3 +2261,82 @@ The same 19 inputs through Cloudflare, `data/public-matrix-after-p0.json`
 - The box became `https://mcp.goji.agency/mcp`, the line under it read "Connected
   to https://mcp.goji.agency/mcp: added https://.", and the server card showed
   goji, v1.0.1, 9 tools.
+
+---
+
+## 2026-09-26 - round E, P1: a website finds its MCP server, and the registry is searchable
+
+**The index** is built by `scripts/registry-index-build.ts` and written to
+`apps/server/data/registry-index.json.gz`. The server loads it once at start.
+- **Rule:** a server is in the index if it was `ok` at the recheck and has at least one tool. The data
+  supports the recheck directly: `data/sweep-2026-09-26T1252Z-recheck-summary.json.gz` is the second
+  pass over pass A's `ok` servers, an hour later (11,578 `ok`, 11,572 of them with a tool).
+- **Contents:** 11,572 servers on 7,316 hosts. Each records name, url, host, tool count and transport,
+  plus the registry title. Every one carries a registry description, cut to 140 characters.
+- **File:** 667731 bytes gzipped, sha256 `a9df8691925cac98680445b84c794d8a03befde6308b96c7e905b1bbb92164e7`.
+- **Deterministic:** entries are sorted by name and then URL, keys are in a fixed order, and the gzip
+  MTIME and OS bytes are fixed. Two builds printed the same sha256. A test rebuilds the index from the
+  committed summary and compares hashes, and another shows that the input order does not change the
+  bytes.
+- **Memory:** per-word arrays of every name, title and description held 20.8 MB of heap after load.
+  The shipped form keeps lowercased strings only and holds 7.6 MB (RSS +25.8 MB, gc between). Queries
+  take 7-8 ms. This matters because PM2 recycles interpres at 250 MB.
+
+**`GET /api/registry/search?q=`** (`apps/server/src/registry.ts`):
+- **Matching:** every query word must match somewhere. Each word takes its best field, scored as a
+  whole unit / the start of one / anywhere inside:
+  - host label 10/7/6;
+  - name segment 8/6/5;
+  - title word 7/5/4;
+  - description word 3/2/1.
+  If the whole phrase appears in the title or description, the result gets +2.
+- **Results:** the top 12, at most 2 per host, and one URL counts as one server. Ties go by name, so
+  the order is stable. Results are cached per query.
+- **Refusals:** under 2 characters is a 400 `query_too_short`, and over 100 characters is a 400.
+- **Rate limits** (`RATE_*_IP_HOUR`):
+  - 120 searches per IP per hour;
+  - 120 connects per IP per hour. Connect had no limit before this;
+  - 20 discoveries per IP per hour, counting only uncached runs.
+
+**Discovery** (`apps/server/src/discover.ts`):
+- **When it runs:** for a bare domain or site root, before anything else. It also runs when a URL
+  answered but not as MCP, or redirected.
+- **Where it looks, in order:**
+  1. The registry: remotes on the domain or a subdomain, and names that start with the domain
+     reversed (`goji.agency` becomes `agency.goji/`). At most 5, probed together.
+  2. Then `/mcp`, `/sse` and `mcp.<domain>/mcp`, and the root itself last for a site root. These
+     run one at a time and stop at the first that answers.
+- **Probes:** 5 s each. Each probe is `getCatalog`, the connect path, so it goes through the SSRF
+  guard, lists tools and never calls one, and a hit is already cached for the connect.
+- **Outcomes:** one answer connects, and the page says "Found in the official MCP registry" or "Found
+  at /mcp". Several give a pick list of at most 5 with tool counts. None gives the not-MCP sentence
+  plus every URL tried.
+- **Private or unresolvable hosts:** a private apex is refused as private before any discovery runs.
+  An apex that does not resolve reports the DNS failure, if nothing else was found.
+- **Cache:** results are cached per domain for 10 minutes.
+
+**The page:**
+- "Or search N public MCP servers" appears under the presets. N comes from `/api/presets` →
+  `registry.count`, and the block stays hidden until it arrives.
+- Search is debounced (250 ms), and a stale answer is dropped. One click on a result connects through
+  the same `connect()` as the box.
+
+**Proof, local** (the browser pane, dev server):
+- `npm test`: 376 of 376 pass. That includes 9 registry tests (the determinism test is one of them),
+  8 discovery tests, and route tests: search 400s under 2 characters, `q=books` puts
+  mostrecommendedbooks.com first, and `127.0.0.1`, `https://10.0.0.1/` and `192.168.1.1` are all
+  `blocked_address`.
+- **Search:** I typed `books` into the new box: "12 of 11,572, at most two per host", with Most
+  Recommended Books first. One click connected (most-recommended-books, 6 tools).
+- **Discovery from the box:**
+
+| typed | connected to | how | page timing |
+| --- | --- | --- | ---: |
+| `goji.agency` | https://mcp.goji.agency/mcp, 9 tools | registry | 307 ms |
+| `tandem.ac` | https://tandem.ac/mcp, 13 tools | registry | 609 ms |
+| `afg.ai` | https://afg.ai/mcp, 15 tools | registry | 1,417 ms |
+| `mostrecommendedbooks.com` | https://mostrecommendedbooks.com/api/mcp, 6 tools | registry (catalog already cached) | 102 ms |
+| `example.com` | none: the not-MCP sentence plus the 4 URLs tried | - | 304 ms |
+
+- **`a2awire.com`** (112 registry servers) gave a pick list of 5, each with 23 tools. The titles now
+  come from the registry, because the servers' own names were all "a2awire".

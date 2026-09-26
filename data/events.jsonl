@@ -90,3 +90,19 @@
 {"at":"2026-09-26T18:18:28.669Z","kind":"blocked","url":"https://<ip>/mcp","ms":1,"ok":false,"code":"blocked_address","error":"<ip> is not a publicly routable address."}
 {"at":"2026-09-26T18:18:35.953Z","kind":"mcp.connect","url":"https://tandem.ac/mcp","ms":590,"ok":true,"transport":"streamable-http","toolsIn":13,"toolsConverted":13,"failed":0}
 {"at":"2026-09-26T18:18:36.704Z","kind":"starters","url":"https://tandem.ac/mcp","source":"gateway","ms":742,"count":3}
+{"at":"2026-09-26T18:31:13.770Z","kind":"mcp.connect","url":"https://mostrecommendedbooks.com/api/mcp","ms":938,"ok":true,"transport":"streamable-http","toolsIn":6,"toolsConverted":6,"failed":0}
+{"at":"2026-09-26T18:31:14.634Z","kind":"starters","url":"https://mostrecommendedbooks.com/api/mcp","source":"gateway","ms":846,"count":3}
+{"at":"2026-09-26T18:31:26.816Z","kind":"discover","url":"https://goji.agency/","ok":true,"ms":213,"count":1,"cached":false,"source":"registry"}
+{"at":"2026-09-26T18:31:26.817Z","kind":"mcp.cache.hit","url":"https://mcp.goji.agency/mcp","ms":240,"ok":true,"transport":"streamable-http","toolsIn":9,"toolsConverted":9,"failed":0}
+{"at":"2026-09-26T18:31:27.431Z","kind":"discover","url":"https://tandem.ac/","ok":true,"ms":528,"count":1,"cached":false,"source":"registry"}
+{"at":"2026-09-26T18:31:27.453Z","kind":"mcp.cache.hit","url":"https://tandem.ac/mcp","ms":572,"ok":true,"transport":"streamable-http","toolsIn":13,"toolsConverted":13,"failed":0}
+{"at":"2026-09-26T18:31:27.576Z","kind":"starters","url":"https://mcp.goji.agency/mcp","source":"gateway","ms":749,"count":3}
+{"at":"2026-09-26T18:31:28.059Z","kind":"starters","url":"https://tandem.ac/mcp","source":"template","ms":601,"reason":"rate_limited","count":3}
+{"at":"2026-09-26T18:31:28.894Z","kind":"discover","url":"https://afg.ai/","ok":true,"ms":1316,"count":1,"cached":false,"source":"registry"}
+{"at":"2026-09-26T18:31:28.897Z","kind":"mcp.cache.hit","url":"https://afg.ai/mcp","ms":1409,"ok":true,"transport":"streamable-http","toolsIn":15,"toolsConverted":15,"failed":0}
+{"at":"2026-09-26T18:31:28.907Z","kind":"starters","url":"https://afg.ai/mcp","source":"template","ms":0,"reason":"breaker_open","count":3}
+{"at":"2026-09-26T18:31:28.910Z","kind":"discover","url":"https://mostrecommendedbooks.com/","ok":true,"ms":3,"count":1,"cached":false,"source":"registry"}
+{"at":"2026-09-26T18:31:28.910Z","kind":"mcp.cache.hit","url":"https://mostrecommendedbooks.com/api/mcp","ms":3,"ok":true,"transport":"streamable-http","toolsIn":6,"toolsConverted":6,"failed":0}
+{"at":"2026-09-26T18:31:29.221Z","kind":"discover","url":"https://example.com/","ok":false,"ms":197,"count":4,"cached":false,"source":"none"}
+{"at":"2026-09-26T18:31:43.522Z","kind":"discover","url":"https://a2awire.com/","ok":true,"ms":1724,"count":5,"cached":false,"source":"several"}
+{"at":"2026-09-26T18:33:36.122Z","kind":"discover","url":"https://a2awire.com/","ok":true,"ms":2007,"count":5,"cached":false,"source":"several"}
