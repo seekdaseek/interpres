@@ -2340,3 +2340,35 @@ The same 19 inputs through Cloudflare, `data/public-matrix-after-p0.json`
 
 - **`a2awire.com`** (112 registry servers) gave a pick list of 5, each with 23 tools. The titles now
   come from the registry, because the servers' own names were all "a2awire".
+
+---
+
+## 2026-09-26 - round E, P1 on the public URL
+
+`sh ops/redeploy.sh` shipped 6cbbbdf, and `/opt/interpres/apps/server/data/registry-index.json.gz`
+arrived at 667,731 bytes.
+- The PM2 snapshot has 45 rows before and after. One line differs:
+  `interpres 3632991 0 online` became `interpres 3633885 0 online`.
+- interpres RSS is 142 MB (126 MB before P1), against PM2's 250 MB limit.
+
+Acceptance through Cloudflare, `data/public-p1.json` (18:34Z, uncached, the first runs after the
+deploy):
+
+| typed | status | connected to | tools | how | discovery (server) | round trip |
+| --- | ---: | --- | ---: | --- | ---: | ---: |
+| `goji.agency` | 200 | https://mcp.goji.agency/mcp | 9 | Found in the official MCP registry | 475 ms | 899 ms |
+| `tandem.ac` | 200 | https://tandem.ac/mcp | 13 | Found in the official MCP registry | 297 ms | 486 ms |
+| `afg.ai` | 200 | https://afg.ai/mcp | 15 | Found in the official MCP registry | 958 ms | 1144 ms |
+| `mostrecommendedbooks.com` | 200 | https://mostrecommendedbooks.com/api/mcp | 6 | Found in the official MCP registry | 811 ms | 952 ms |
+| `example.com` | 424 | none: the not-MCP sentence + 4 URLs tried | - | - | 169 ms | 273 ms |
+
+- `books`: 12 of 11,572, 8 ms on the server, 123 ms round trip. Most Recommended Books (mostrecommendedbooks.com, 6 tools); 无名图书 wuming-books (www.book345.com, 6 tools); On-Demand-Books (on-demand-books-dq2yvpdh.fermyon.app, 3 tools).
+- `weather`: 12 of 11,572, 7 ms on the server, 75 ms round trip. Weather & Geo Intel MCP (weather.datakoot.com, 6 tools); Marine buoy weather observations (marinewatch) (a2awire.com, 16 tools); Space Weather (Kp Index, Solar Flares) — buy per-query in-s… (a2awire.com, 16 tools).
+- `goji`: 2 of 11,572, 3 ms on the server, 71 ms round trip. agency.goji/goji (mcp.goji.agency, 9 tools); Jinko MCP (mcp.gojinko.com, 7 tools).
+
+**The page, public URL, at 375 px:**
+- "Or search 11,572 public MCP servers" appeared under the presets.
+- I typed `books` into it: 12 results, "12 of 11,572, at most two per host". The page stayed 375 px
+  wide, and the widest element ends at 359 px.
+- One tap on Most Recommended Books connected (v2.0.1, 6 tools) and scrolled the server card to the
+  top of the screen.

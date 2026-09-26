@@ -1,0 +1,274 @@
+{
+ "base": "https://interpres.ochinimus.app",
+ "at": "2026-09-26T18:34:45.896Z",
+ "discovery": [
+  {
+   "typed": "goji.agency",
+   "status": 200,
+   "roundTripMs": 899,
+   "json": true,
+   "connectedTo": "https://mcp.goji.agency/mcp",
+   "tools": 9,
+   "kind": "one",
+   "source": "registry",
+   "note": "Found in the official MCP registry",
+   "discoveryMs": 475,
+   "tried": [
+    "https://mcp.goji.agency/mcp"
+   ],
+   "error": null
+  },
+  {
+   "typed": "tandem.ac",
+   "status": 200,
+   "roundTripMs": 486,
+   "json": true,
+   "connectedTo": "https://tandem.ac/mcp",
+   "tools": 13,
+   "kind": "one",
+   "source": "registry",
+   "note": "Found in the official MCP registry",
+   "discoveryMs": 297,
+   "tried": [
+    "https://tandem.ac/mcp"
+   ],
+   "error": null
+  },
+  {
+   "typed": "afg.ai",
+   "status": 200,
+   "roundTripMs": 1144,
+   "json": true,
+   "connectedTo": "https://afg.ai/mcp",
+   "tools": 15,
+   "kind": "one",
+   "source": "registry",
+   "note": "Found in the official MCP registry",
+   "discoveryMs": 958,
+   "tried": [
+    "https://afg.ai/mcp"
+   ],
+   "error": null
+  },
+  {
+   "typed": "mostrecommendedbooks.com",
+   "status": 200,
+   "roundTripMs": 952,
+   "json": true,
+   "connectedTo": "https://mostrecommendedbooks.com/api/mcp",
+   "tools": 6,
+   "kind": "one",
+   "source": "registry",
+   "note": "Found in the official MCP registry",
+   "discoveryMs": 811,
+   "tried": [
+    "https://mostrecommendedbooks.com/api/mcp"
+   ],
+   "error": null
+  },
+  {
+   "typed": "example.com",
+   "status": 424,
+   "roundTripMs": 273,
+   "json": true,
+   "connectedTo": null,
+   "tools": null,
+   "kind": "none",
+   "source": null,
+   "note": null,
+   "discoveryMs": 169,
+   "tried": [
+    "https://example.com/mcp",
+    "https://example.com/sse",
+    "https://mcp.example.com/mcp",
+    "https://example.com/"
+   ],
+   "error": "That address answered, but not as an MCP server. MCP endpoints usually end in /mcp or /sse. Nothing on example.com answered as one: interpres looked in the official MCP registry and tried https://example.com/mcp, https://example.com/sse, https://mcp.example.com/mcp and https://example.com/."
+  }
+ ],
+ "searches": [
+  {
+   "q": "books",
+   "status": 200,
+   "roundTripMs": 123,
+   "serverMs": 8,
+   "total": 11572,
+   "results": [
+    {
+     "title": "Most Recommended Books",
+     "host": "mostrecommendedbooks.com",
+     "tools": 6,
+     "url": "https://mostrecommendedbooks.com/api/mcp"
+    },
+    {
+     "title": "无名图书 wuming-books",
+     "host": "www.book345.com",
+     "tools": 6,
+     "url": "https://www.book345.com/api/mcp"
+    },
+    {
+     "title": "On-Demand-Books",
+     "host": "on-demand-books-dq2yvpdh.fermyon.app",
+     "tools": 3,
+     "url": "https://on-demand-books-dq2yvpdh.fermyon.app/"
+    },
+    {
+     "title": "Greenlit Books",
+     "host": "greenlitbooks.com",
+     "tools": 9,
+     "url": "https://greenlitbooks.com/api/mcp"
+    },
+    {
+     "title": "US compliance and books health",
+     "host": "medianfi.com",
+     "tools": 12,
+     "url": "https://medianfi.com/mcp"
+    },
+    {
+     "title": "Books & Papers MCP Server",
+     "host": "mcp.jmrp.io",
+     "tools": 4,
+     "url": "https://mcp.jmrp.io/libgen"
+    },
+    {
+     "title": "bookstore4agents",
+     "host": "bookstore4agents-mcp.bookstore4agents.workers.dev",
+     "tools": 49,
+     "url": "https://bookstore4agents-mcp.bookstore4agents.workers.dev/mcp"
+    },
+    {
+     "title": "HelloBooks AI Agents MCP Server",
+     "host": "agents.hellobooks.ai",
+     "tools": 29,
+     "url": "https://agents.hellobooks.ai/mcp"
+    },
+    {
+     "title": "Tokenbooks - crypto and fiat accounting and payments",
+     "host": "api.tokenbooks.io",
+     "tools": 36,
+     "url": "https://api.tokenbooks.io/mcp"
+    },
+    {
+     "title": "Jainebooks Catalogue",
+     "host": "jainebooks.org",
+     "tools": 3,
+     "url": "https://jainebooks.org/mcp"
+    },
+    {
+     "title": "bstorms.ai — Free Execution Playbooks + Agent Brainstorming",
+     "host": "bstorms.ai",
+     "tools": 14,
+     "url": "https://bstorms.ai/mcp"
+    },
+    {
+     "title": "app.performix/performix-site",
+     "host": "performix.app",
+     "tools": 11,
+     "url": "https://performix.app/api/mcp"
+    }
+   ]
+  },
+  {
+   "q": "weather",
+   "status": 200,
+   "roundTripMs": 75,
+   "serverMs": 7,
+   "total": 11572,
+   "results": [
+    {
+     "title": "Weather & Geo Intel MCP",
+     "host": "weather.datakoot.com",
+     "tools": 6,
+     "url": "https://weather.datakoot.com/mcp"
+    },
+    {
+     "title": "Marine buoy weather observations (marinewatch)",
+     "host": "a2awire.com",
+     "tools": 16,
+     "url": "https://a2awire.com/mcp/data/marinewatch-live-noaa-marine-buoy-observations-b6e91c/http"
+    },
+    {
+     "title": "Space Weather (Kp Index, Solar Flares) — buy per-query in-s…",
+     "host": "a2awire.com",
+     "tools": 16,
+     "url": "https://a2awire.com/mcp/data/spaceweather-solar-geomagnetic-activity-index-632aa8/http"
+    },
+    {
+     "title": "Crosby, TX Weather",
+     "host": "crosbynews.com",
+     "tools": 14,
+     "url": "https://crosbynews.com/mcp"
+    },
+    {
+     "title": "Weather Markets Edge Desk",
+     "host": "predictionmarketspicks.com",
+     "tools": 6,
+     "url": "https://predictionmarketspicks.com/api/mcp-weather/mcp"
+    },
+    {
+     "title": "Vertical Weather",
+     "host": "api.verticalweather.com",
+     "tools": 3,
+     "url": "https://api.verticalweather.com/mcp"
+    },
+    {
+     "title": "MCP Kill-Chain Research — Stage 1 (Identity ≠ Behavior)",
+     "host": "ailm.gtfo.dev",
+     "tools": 1,
+     "url": "https://ailm.gtfo.dev/mcp"
+    },
+    {
+     "title": "Weather MCP",
+     "host": "ads.getlulu.dev",
+     "tools": 2,
+     "url": "https://ads.getlulu.dev/weather/mcp"
+    },
+    {
+     "title": "aviation-weather-mcp-server",
+     "host": "aviation-weather.caseyjhand.com",
+     "tools": 5,
+     "url": "https://aviation-weather.caseyjhand.com/mcp"
+    },
+    {
+     "title": "nws-weather-mcp-server",
+     "host": "nws.caseyjhand.com",
+     "tools": 7,
+     "url": "https://nws.caseyjhand.com/mcp"
+    },
+    {
+     "title": "io.github.f-tiger/getecoback-climate-weather",
+     "host": "getecoback.com",
+     "tools": 10,
+     "url": "https://getecoback.com/mcp/"
+    },
+    {
+     "title": "Weather Hint",
+     "host": "agent-observatory-sensor.nolimit-observatory.workers.dev",
+     "tools": 31,
+     "url": "https://agent-observatory-sensor.nolimit-observatory.workers.dev/s/weather-hint/mcp"
+    }
+   ]
+  },
+  {
+   "q": "goji",
+   "status": 200,
+   "roundTripMs": 71,
+   "serverMs": 3,
+   "total": 11572,
+   "results": [
+    {
+     "title": "agency.goji/goji",
+     "host": "mcp.goji.agency",
+     "tools": 9,
+     "url": "https://mcp.goji.agency/mcp"
+    },
+    {
+     "title": "Jinko MCP",
+     "host": "mcp.gojinko.com",
+     "tools": 7,
+     "url": "https://mcp.gojinko.com"
+    }
+   ]
+  }
+ ]
+}
