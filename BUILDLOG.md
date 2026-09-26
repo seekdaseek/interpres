@@ -1068,3 +1068,143 @@ Calibration on the first 300 servers: registry collected in 222 s, 300 probes in
 found an output bug - `mkdir('data')` did not create the `--out` path's own
 directory - fixed. 6 offline tests cover the cause chain, the fallback decision
 and the reason codes.
+
+---
+
+## 2026-09-26 - task 2: the confirmation gate and the paste box
+
+One mechanism with two triggers, as a pure class in `packages/core/src/gate.ts`
+(`ToolGate`; the clock is passed in, no I/O). Every executor calls it before any
+MCP request: the browser (`apps/web/src/voice.ts`), and both proof scripts through
+`scripts/lib/session.ts`. A held call makes no request and returns
+`{"status":"needs_confirmation", "heard": ..., "say": ...}`; the page shows a
+confirm card rendered through the `textContent` helper.
+
+**One deliberate deviation from the spec's classifier wording.** "After removing
+internal spaces, ... any run of 16 or more characters ... with at least 3 digits
+and 3 letters" - applied to a whole argument - flags ordinary sentences:
+"the tests failed 3 times on run 42" collapses to 27 characters with 4 digits, yet
+"a plain sentence" is one of the spec's own negatives. So only *spelled-out* runs
+are collapsed (4+ single characters, or 4+ short hex groups), and each token is
+classified separately. Every listed positive and negative still holds (test 1).
+
+**Two holes the tests found, fixed:**
+- **Echo laundering.** A tool that echoes its argument - afg's reputation lookup
+  does - put a misheard, once-confirmed address into "an earlier tool result",
+  and the next identical call ran unasked. Results are now recorded with their own
+  identifier arguments stripped out.
+- **The paste result stopped the agent.** In the browser, with the bare text
+  returned, the agent read the box and then asked "what would you like to know
+  about it?" The result now carries the next step. In the spoken run afterwards it
+  chained `use_pasted_text` -> `afg_get_reputation` without prompting.
+
+**Phases.** Every phase now holds `use_pasted_text`. A catalog of 9 or fewer is
+shown whole beside it; above that, `find_tools` + `use_pasted_text` + 8. (Keeping
+the logged CHECKPOINT A deviation: no `find_tools` when nothing is hidden.)
+
+**Write classifier on AFG's real 15 tools: 15/15 agreement** with the hand-written
+`writeTools` list - and still 15/15 with every annotation stripped, name rule only.
+Disagreements: none. `isWriteTool` in the connect payload now comes from the
+classifier, so arbitrary pasted servers get the warning too.
+
+### Acceptance 1-3: core and protocol level
+
+```
+$ node --test packages/core/test/gate.test.ts
+✔ known positives are identifier-shaped
+✔ known negatives are not
+✔ digit-only strings are out of scope, as the README says
+✔ spelled-out speech is collapsed back into the value
+✔ hex compares case-insensitively; base58 exactly
+✔ destructiveHint and write-verb names are writes
+✔ read verbs are not writes
+✔ readOnlyHint wins over a write-looking name; destructiveHint wins over everything
+✔ a prefix every tool shares is stripped first
+✔ AFG's real 15 tools: the classifier agrees with the hand-written list, with and without annotations
+✔ a spoken identifier is gated with zero requests; an identical repeat after yes makes exactly one
+✔ a changed repeat is gated again, even after a yes
+✔ a no, or a yes outside the window, does not release the call
+✔ a pasted value passes straight through, exactly
+✔ an identifier from an earlier tool result passes through
+✔ a state-changing tool is gated, names what it will do, and runs once after yes
+✔ a read-only tool with plain arguments is never gated
+✔ the original schema pattern is enforced before any request
+✔ the call key ignores hex case and speech spacing, so a re-cased repeat still matches
+✔ affirmatives and negatives
+✔ grouping and the paste tool result
+✔ a tool that echoes its argument does not launder a misheard value
+ℹ tests 22
+ℹ pass 22
+ℹ fail 0
+```
+
+The protocol tests run a real `AgentProtocol` with the gate in front and a fake
+MCP transport that only counts requests.
+
+### Acceptance 4: real speech (e2e-audio)
+
+`--case gate-spoken` (`data/e2e-audio-gate-spoken.json`, `sess_c7ecda9ca1ca4a3f8eebfb18378bd139`):
+
+```
+SAY   What is the reputation of wallet 0 x 3 f 9 a 1 c ... 6 f 0 9?
+HEARD "What is the reputation of wallet 0x3f9a1c7e5b2d8f4a6c0e9b3d7f1a5cad2b4d6f09?"
+      TOOL.CALL afg_get_reputation({"address":"0x3f9a1c7e5b2d8f4a6c0e9b3d7f1a5cad2b4d6f09"})
+      GATE confirm (identifier): I heard a value ending in 6 F 0 9. Check it on screen: ...
+SAY   Yes, that's right.
+      TOOL.CALL afg_get_reputation({...same...})  ->  RESULT mcp=1164ms
+MCP requests: after turn 1 = 0, after turn 2 = 1
+PASS turn1Gated   PASS turn1ZeroMcpCalls   PASS turn2ExactlyOne
+```
+
+The value that ran was still misheard (`5 c 8 e` -> `5cad`, the same error as every
+earlier run of this address); its last four characters were right. The gate did
+exactly what the spec says, and the run shows its limit: a voice "yes" to the last
+four does not verify the middle. The card shows the whole value; the paste box is
+the robust path. Flagged for Sergiu.
+
+`--case gate-paste` (`data/e2e-audio-gate-paste.json`, `sess_a8124ef3931d4db29020c227d0aebe4e`):
+
+```
+SAY   Check the reputation of the wallet I pasted.
+      TOOL.CALL use_pasted_text({})  ->  PASTE 42 chars
+      TOOL.CALL afg_get_reputation({"address":"0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed"})
+pasted          sha256 = e066de5176c4f671c4d01441f2c9a6d8dcb4098b770f90b96f5bb2ce21b925cc
+sent to server  sha256 = e066de5176c4f671c4d01441f2c9a6d8dcb4098b770f90b96f5bb2ce21b925cc
+server response : {"ok":true,...,"result":{"address":"0x5aaeb6053f3e94c9b9a09f33669435e7ef1beaed",...
+PASS usedPasteTool  PASS reachedTheTool  PASS sha256Matches  PASS serverEchoedTheExactValue  PASS notGated
+```
+
+### The person's own words become keyterms: the "ochinimus" A/B
+
+Pasted text's speakable word parts (letters only, 4+, never hex or base58, never a
+common word) go into `input.keyterms` via `session.update`, marked "yours" in the
+key-terms pane. `--case ochinimus-ab`, said: "Check ochinimus dot app.", AdvisorsAI:
+
+```
+WITH keyterm     sess_f5d1ecbd29bc44f8bd1000e31258cdce  heard: ["Check ochinimus.app."]
+WITH keyterm     sess_9e26b21330564db5b3b68c8c65036c69  heard: ["Check ochinimus.app."]
+WITH keyterm     sess_debb391ad86b4e10a3ca4893305b5c81  heard: ["Check ochinimus.app."]
+WITHOUT keyterm  sess_dca021bae2074e9c9b4163b332c9ba3d  heard: ["Check aginimus.app."]
+WITHOUT keyterm  sess_5096d3fc6b784aa58bf374fa5369e718  heard: ["Check aginimus.app."]
+WITHOUT keyterm  sess_dcb13300d5e24a74b037cb79e17094f0  heard: ["Check aginimus.app."]
+"ochinimus" spelled right: with 3/3, without 0/3
+```
+
+Same synthetic audio in all six, so this isolates the keyterm. It is no longer
+UNTESTED; whether it holds for Sergiu's own voice is still his to try.
+
+### Acceptance 5: browser (the desktop app's Chromium, against the live API)
+
+- **The confirm card renders.** An address given in the question (test-only text
+  injection) made the agent call `afg_get_reputation`; the page made **0**
+  `/api/mcp/call` requests, sent `needs_confirmation`, the agent spoke "I heard a
+  value ending in 6 F 0 9 ...", and the card showed
+  `0x3f 9a1c 7e5b 2d8f 4a6c e09b 3d7f 1a5c ad2b 4d6f 09`.
+- **No horizontal overflow at 375 px, with the card showing:** scrollWidth 375 =
+  viewport 375, no overflowing elements, card right edge at 359 px.
+- **Console errors: none**, across both runs.
+
+```
+$ npm test          ℹ tests 296  ℹ pass 296  ℹ fail 0
+$ npm run build     JS 36.2 kB (14.1 kB gzip), CSS 11.7 kB
+```

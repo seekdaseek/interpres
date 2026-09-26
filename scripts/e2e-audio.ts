@@ -15,6 +15,7 @@
  *   options: --voice Samantha --rate 175 --verbose --out <file>
  */
 import { writeFile, mkdir } from 'node:fs/promises';
+import { createHash } from 'node:crypto';
 import { PRESETS } from '../apps/server/src/presets.ts';
 import { config } from '../apps/server/src/config.ts';
 import { AudioPump, synthesize, silence } from './lib/audio.ts';
@@ -343,6 +344,106 @@ async function runBargeIn(args: Args): Promise<void> {
   process.exit(required ? 0 : 1);
 }
 
+// --------------------------------------------------------- the gate, spoken
+
+type ScriptedTurn = { say: string };
+type Scripted = { url: string; paste?: string; pasteKeyterms?: boolean; turns: ScriptedTurn[] };
+
+/** Speak each turn in one session, and return the session for inspection. */
+async function runScripted(c: Scripted, args: Args): Promise<{ session: LiveSession; turns: TurnRecord[]; mcpAfterTurn: number[] }> {
+  const clips = [];
+  for (const t of c.turns) clips.push({ text: t.say, ...(await synthesize(t.say, { voice: args.voice, rate: args.rate })) });
+  const session = await LiveSession.open(c.url, { verbose: args.verbose, paste: c.paste, pasteKeyterms: c.pasteKeyterms });
+  console.log(`session.ready  session_id=${session.sessionId}${c.paste ? `  paste box: ${c.paste.length} chars; your keyterms: ${JSON.stringify(session.yourKeyterms)}` : ''}`);
+  const pump = new AudioPump((b64) => session.sendAudio(b64));
+  pump.start();
+  await pump.enqueue(silence(400));
+  const turns: TurnRecord[] = [];
+  const mcpAfterTurn: number[] = [];
+  for (const clip of clips) {
+    console.log(`\n--- SAY: ${clip.text}`);
+    const turn = session.beginTurn(clip.text);
+    await pump.enqueue(clip.pcm);
+    turn.speechEndAt = Date.now();
+    const idle = session.waitIdle(90_000);
+    void pump.enqueue(silence(1500));
+    if ((await idle) === 'timeout') session.failures.push(`turn timed out: ${clip.text}`);
+    const done = session.endTurn()!;
+    console.log(`  AGENT: ${done.agentReply || '(nothing)'}`);
+    turns.push(done);
+    mcpAfterTurn.push(session.mcpRequests.length);
+    await pump.enqueue(silence(800));
+  }
+  pump.stop();
+  await session.close();
+  return { session, turns, mcpAfterTurn };
+}
+
+const SPOKEN_ADDRESS = 'What is the reputation of wallet 0 x 3 f 9 a 1 c 7 e 5 b 2 d 8 f 4 a 6 c 0 e 9 b 3 d 7 f 1 a 5 c 8 e 2 b 4 d 6 f 0 9?';
+const SAMPLE_ADDRESS = '0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed';
+
+async function runGateCases(which: string, args: Args): Promise<void> {
+  const out: Record<string, unknown> = { at: new Date().toISOString() };
+  let ok = true;
+
+  if (which === 'gate-spoken') {
+    const r = await runScripted({ url: 'https://afg.ai/mcp', turns: [{ say: SPOKEN_ADDRESS }, { say: "Yes, that's right." }] }, args);
+    const rep = r.session.mcpRequests.filter((m) => m.tool === 'afg_get_reputation');
+    const gated = r.session.gateLog.filter((g) => g.tool === 'afg_get_reputation' && g.action === 'confirm');
+    const a = {
+      turn1Gated: gated.length >= 1 && gated[0]!.trigger === 'identifier',
+      turn1ZeroMcpCalls: (r.mcpAfterTurn[0] ?? -1) === 0,
+      turn2ExactlyOne: rep.length === 1 && (r.mcpAfterTurn[1] ?? 0) - (r.mcpAfterTurn[0] ?? 0) === 1,
+    };
+    console.log(`\n${'#'.repeat(78)}\nGATE, SPOKEN  session_id=${r.session.sessionId}`);
+    console.log(`  heard turn 1   : ${JSON.stringify(r.turns[0]?.heard)}`);
+    console.log(`  gate           : ${JSON.stringify(r.session.gateLog)}`);
+    console.log(`  MCP requests   : after turn 1 = ${r.mcpAfterTurn[0]}, after turn 2 = ${r.mcpAfterTurn[1]}; afg_get_reputation calls = ${rep.length}`);
+    console.log(`  executed with  : ${rep[0] ? JSON.stringify(rep[0].args) : '(never)'}`);
+    for (const [k, v] of Object.entries(a)) console.log(`  ${v ? 'PASS' : 'FAIL'}  ${k}`);
+    ok = Object.values(a).every(Boolean);
+    Object.assign(out, { case: which, sessionId: r.session.sessionId, assertions: a, gateLog: r.session.gateLog, mcpRequests: r.session.mcpRequests, turns: r.turns });
+  } else if (which === 'gate-paste') {
+    const r = await runScripted({ url: 'https://afg.ai/mcp', paste: SAMPLE_ADDRESS, turns: [{ say: 'Check the reputation of the wallet I pasted.' }] }, args);
+    const pastedSha = createHash('sha256').update(SAMPLE_ADDRESS).digest('hex');
+    const rep = r.session.mcpRequests.find((m) => m.tool === 'afg_get_reputation');
+    const repCall = r.turns[0]?.calls.find((c) => c.name === 'afg_get_reputation');
+    const raw = repCall ? r.session.rawResults.get(repCall.callId) ?? '' : '';
+    const a = {
+      usedPasteTool: (r.turns[0]?.calls ?? []).some((c) => c.name === 'use_pasted_text'),
+      reachedTheTool: rep !== undefined,
+      sha256Matches: rep?.sha256.address === pastedSha,
+      serverEchoedTheExactValue: raw.includes(SAMPLE_ADDRESS) || raw.toLowerCase().includes(SAMPLE_ADDRESS.toLowerCase()),
+      notGated: !r.session.gateLog.some((g) => g.tool === 'afg_get_reputation'),
+    };
+    console.log(`\n${'#'.repeat(78)}\nGATE, PASTE  session_id=${r.session.sessionId}`);
+    console.log(`  pasted          sha256 = ${pastedSha}`);
+    console.log(`  sent to server  sha256 = ${rep?.sha256.address ?? '(never sent)'}`);
+    console.log(`  argument        : ${rep ? JSON.stringify(rep.args) : '(none)'}`);
+    console.log(`  server response : ${raw.slice(0, 200).replace(/\s+/g, ' ')}`);
+    for (const [k, v] of Object.entries(a)) console.log(`  ${v ? 'PASS' : 'FAIL'}  ${k}`);
+    ok = a.usedPasteTool && a.reachedTheTool && a.sha256Matches && a.notGated;
+    Object.assign(out, { case: which, sessionId: r.session.sessionId, pastedSha, assertions: a, mcpRequests: r.session.mcpRequests, turns: r.turns });
+  } else if (which === 'ochinimus-ab') {
+    const say = 'Check ochinimus dot app.';
+    const runs: Array<{ withKeyterm: boolean; sessionId: string; heard: string[]; keyterms: string[] }> = [];
+    for (const withKeyterm of [true, true, true, false, false, false]) {
+      const r = await runScripted({ url: 'https://advisorsai.ai/mcp', paste: withKeyterm ? 'ochinimus.app' : undefined, turns: [{ say }] }, args);
+      runs.push({ withKeyterm, sessionId: r.session.sessionId, heard: r.turns[0]?.heard ?? [], keyterms: r.session.yourKeyterms });
+    }
+    console.log(`\n${'#'.repeat(78)}\n"OCHINIMUS" A/B - said: "${say}"`);
+    for (const x of runs) console.log(`  ${x.withKeyterm ? 'WITH keyterm   ' : 'WITHOUT keyterm'}  ${x.sessionId}  heard: ${JSON.stringify(x.heard)}`);
+    const right = (xs: typeof runs) => xs.filter((x) => x.heard.join(' ').toLowerCase().includes('ochinimus')).length;
+    console.log(`  "ochinimus" spelled right: with ${right(runs.filter((x) => x.withKeyterm))}/3, without ${right(runs.filter((x) => !x.withKeyterm))}/3`);
+    Object.assign(out, { case: which, say, runs });
+  }
+
+  const outPath = args.out ?? `data/e2e-audio-${which}.json`;
+  await writeFile(outPath, `${JSON.stringify(out, null, 2)}\n`);
+  console.log(`\nwritten: ${outPath}`);
+  process.exit(ok ? 0 : 1);
+}
+
 // --------------------------------------------------------------------- main
 
 const args = parseArgs(process.argv.slice(2));
@@ -352,6 +453,7 @@ if (config.assemblyAiKey === '') {
 }
 
 if (args.caseName === 'barge-in') await runBargeIn(args);
+if (args.caseName === 'gate-spoken' || args.caseName === 'gate-paste' || args.caseName === 'ochinimus-ab') await runGateCases(args.caseName, args);
 
 type Target = { url: string; asks: string[]; spokenAddress?: string; startPhaseQuery?: string; mustBeHidden?: string };
 let targets: Target[];

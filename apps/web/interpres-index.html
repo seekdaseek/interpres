@@ -64,6 +64,26 @@
         <div class="timer" id="timer" hidden></div>
       </section>
 
+      <section class="paste" id="paste-row" hidden>
+        <label for="paste">Paste an address or ID</label>
+        <div class="paste-field">
+          <input id="paste" type="text" spellcheck="false" autocomplete="off" autocapitalize="off"
+                 placeholder="0x..., a mint, a job ID, a URL" />
+          <button type="button" id="sample-btn" class="btn ghost" hidden></button>
+        </div>
+        <p class="paste-hint">Say "the one I pasted" and the agent reads it exactly. Speech-to-text cannot carry long IDs: nothing it mishears is ever run.</p>
+      </section>
+
+      <section class="gate-card" id="gate-card" hidden aria-live="assertive">
+        <div class="gate-head">
+          <span class="gate-kind" id="gate-kind"></span>
+          <span class="gate-tool" id="gate-tool"></span>
+        </div>
+        <div class="gate-value" id="gate-value"></div>
+        <p class="gate-what" id="gate-what"></p>
+        <p class="gate-say" id="gate-say"></p>
+      </section>
+
       <main class="panes" id="panes" hidden>
         <section class="pane convo">
           <h2>Conversation</h2>

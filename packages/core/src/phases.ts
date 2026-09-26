@@ -11,6 +11,7 @@ import { rankTools } from './rank.ts';
 import { buildKeyterms, buildTranscriptionPrompt } from './keyterms.ts';
 import { buildSystemPrompt } from './prompt.ts';
 import { extractEntities } from './entities.ts';
+import { usePastedTextDefinition, USE_PASTED_TEXT_NAME } from './gate.ts';
 
 /** The documented ceiling on tools per phase. */
 export const MAX_TOOLS_PER_PHASE = 10;
@@ -68,6 +69,14 @@ export type PlannerInput = {
   instructions?: string;
 };
 
+/**
+ * Built-in tools present in every phase. `use_pasted_text` is how an exact
+ * identifier reaches a tool without passing through speech-to-text.
+ */
+export const BUILTIN_SLOTS = 1;
+/** Catalog tools per phase when find_tools is also present: 10 - 2 built-ins. */
+export const CATALOG_SLOTS_WITH_FIND = MAX_TOOLS_PER_PHASE - BUILTIN_SLOTS - 1;
+
 function assemble(
   input: PlannerInput,
   visible: ConvertedTool[],
@@ -75,6 +84,7 @@ function assemble(
   reason: string,
 ): Phase {
   const tools: VoiceAgentTool[] = visible.map((c) => c.tool);
+  tools.unshift(usePastedTextDefinition());
   if (hasFindTools) tools.unshift(findToolsDefinition(input.catalog.length, visible.length));
   return {
     tools,
@@ -103,7 +113,7 @@ function assemble(
  * place, and phase 0 shows `find_tools` plus the 9 best-ranked tools.
  */
 export function initialPhase(input: PlannerInput): Phase {
-  if (input.catalog.length <= MAX_TOOLS_PER_PHASE) {
+  if (input.catalog.length <= MAX_TOOLS_PER_PHASE - BUILTIN_SLOTS) {
     return assemble(input, input.catalog, false, 'catalog fits in one phase');
   }
   // No query yet. Rank against the server's own self-description so the opening
@@ -113,7 +123,7 @@ export function initialPhase(input: PlannerInput): Phase {
     .filter((s): s is string => typeof s === 'string' && s.trim() !== '')
     .join(' ');
   const ranked = seed ? rankTools(input.catalog, seed) : input.catalog.map((tool) => ({ tool, score: 0 }));
-  const visible = ranked.slice(0, MAX_TOOLS_PER_PHASE - 1).map((r) => r.tool);
+  const visible = ranked.slice(0, CATALOG_SLOTS_WITH_FIND).map((r) => r.tool);
   return assemble(input, visible, true, `catalog of ${input.catalog.length} exceeds the ${MAX_TOOLS_PER_PHASE}-tool limit`);
 }
 
@@ -142,7 +152,7 @@ export type FindToolsOptions = {
 /** Handle a `find_tools` call: rank, reveal, and report back. */
 export function handleFindTools(input: PlannerInput, query: string, opts: FindToolsOptions = {}): FindToolsOutcome {
   const ranked = rankTools(input.catalog, query);
-  const keep = MAX_TOOLS_PER_PHASE - 1;
+  const keep = CATALOG_SLOTS_WITH_FIND;
   const visible = ranked.slice(0, keep).map((r) => r.tool);
   const phase = assemble(input, visible, true, `find_tools(${JSON.stringify(query)})`);
   const available = phase.tools.map((t) => t.name);
@@ -157,7 +167,7 @@ export function handleFindTools(input: PlannerInput, query: string, opts: FindTo
   }
 
   const result: Record<string, unknown> = {
-    available_tools: available.filter((n) => n !== FIND_TOOLS_NAME),
+    available_tools: available.filter((n) => n !== FIND_TOOLS_NAME && n !== USE_PASTED_TEXT_NAME),
     note: 'These tools are now callable. Call the right one now.',
   };
   if (carried.length > 0) {

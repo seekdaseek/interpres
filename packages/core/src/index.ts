@@ -12,3 +12,4 @@ export * from './shape.ts';
 export * from './extract.ts';
 export * from './protocol.ts';
 export * from './entities.ts';
+export * from './gate.ts';

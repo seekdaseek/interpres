@@ -2,10 +2,11 @@ import './interpres.css';
 import { $, h, clear, clip } from './dom.ts';
 import { VoiceSession } from './voice.ts';
 import type { ConnectPayload, PhasePayload, Status, ToolOutcome, VoiceUi } from './voice.ts';
-import type { ToolCall } from '@interpres/core';
+import type { GateDecision, ToolCall } from '@interpres/core';
+import { groupInFours, mergeKeyterms, pasteKeyterms } from '@interpres/core';
 
 type Preset = { label: string; url: string; blurb: string; asks: string[]; exercisesPhases?: boolean };
-type CatalogEntry = { voiceName: string; mcpName: string; description: string; isWriteTool: boolean };
+type CatalogEntry = { voiceName: string; mcpName: string; description: string; isWriteTool: boolean; writeReason?: string };
 type ConnectResponse = ConnectPayload & {
   cached: boolean;
   transport: string;
@@ -13,6 +14,7 @@ type ConnectResponse = ConnectPayload & {
   stats: { toolsIn: number; toolsConverted: number; failed: number; convertedWithHints: number };
   catalog: CatalogEntry[];
   asks: string[];
+  sampleValue: { label: string; value: string } | null;
 };
 
 let conn: ConnectResponse | null = null;
@@ -77,11 +79,56 @@ function renderPhase(phase: PhasePayload, why: string): void {
   $('phase-reason').textContent = why;
   visibleBefore = now;
 
+  renderKeyterms(phase.keyterms, currentYours);
+}
+
+let currentYours: string[] = [];
+
+function renderKeyterms(all: string[], yours: string[]): void {
+  currentYours = yours;
   const kt = $('keyterms');
   clear(kt);
-  for (const k of phase.keyterms.slice(0, 48)) kt.append(h('li', { class: 'chip' }, k));
-  if (phase.keyterms.length > 48) kt.append(h('li', { class: 'chip more' }, `+${phase.keyterms.length - 48}`));
-  $('kt-count').textContent = String(phase.keyterms.length);
+  const mine = new Set(yours.map((y) => y.toLowerCase()));
+  for (const k of all.slice(0, 48)) {
+    const isYours = mine.has(k.toLowerCase());
+    kt.append(h('li', { class: `chip${isYours ? ' yours' : ''}`, title: isYours ? 'From your paste box' : undefined }, k, isYours ? h('span', { class: 'yours-tag' }, 'yours') : null));
+  }
+  if (all.length > 48) kt.append(h('li', { class: 'chip more' }, `+${all.length - 48}`));
+  $('kt-count').textContent = String(all.length);
+}
+
+// ---------------------------------------------------------------- the gate
+
+let gateHideTimer: ReturnType<typeof setTimeout> | undefined;
+
+function showGate(call: ToolCall, d: Exclude<GateDecision, { action: 'execute' }>): void {
+  if (gateHideTimer) clearTimeout(gateHideTimer);
+  const card = $('gate-card');
+  card.hidden = false;
+  card.dataset.kind = d.action === 'invalid' ? 'invalid' : d.trigger;
+  $('gate-kind').textContent =
+    d.action === 'invalid' ? 'Wrong format - paste it instead'
+      : d.trigger === 'identifier' ? 'Heard from speech - check it'
+        : 'Changes something - confirm first';
+  $('gate-tool').textContent = d.action === 'confirm' && d.trigger === 'write' && d.card.server ? `${call.name} on ${d.card.server}` : call.name;
+  const value = $('gate-value');
+  value.hidden = !d.card.value;
+  value.textContent = d.card.value ? groupInFours(d.card.value) : '';
+  const what = $('gate-what');
+  what.hidden = !d.card.what;
+  what.textContent = d.card.what ?? '';
+  $('gate-say').textContent = d.card.say;
+  // A held call is released only within 120 s; the card should not outlive that.
+  gateHideTimer = setTimeout(() => { card.hidden = true; }, 120_000);
+}
+
+function releaseGate(call: ToolCall): void {
+  const card = $('gate-card');
+  card.dataset.kind = 'released';
+  $('gate-kind').textContent = 'Confirmed - running it';
+  $('gate-tool').textContent = call.name;
+  if (gateHideTimer) clearTimeout(gateHideTimer);
+  gateHideTimer = setTimeout(() => { card.hidden = true; }, 2500);
 }
 
 // ------------------------------------------------------------ tool timeline
@@ -110,6 +157,7 @@ function toolStart(call: ToolCall): void {
 function toolDone(call: ToolCall, out: ToolOutcome, ms: number): void {
   const li = callItems.get(call.callId);
   if (!li) return;
+  if (li.classList.contains('held')) return;   // the gate already wrote this card
   li.classList.remove('pending');
   const meta = li.querySelector('.call-meta')!;
   if (call.name === 'find_tools' && out.phase) {
@@ -210,12 +258,28 @@ const ui: VoiceUi = {
   level(rms) {
     $('talk').style.setProperty('--level', rms.toFixed(3));
   },
+  gateHeld(call, decision) {
+    showGate(call, decision);
+    const li = callItems.get(call.callId);
+    if (li) {
+      li.classList.remove('pending');
+      li.classList.add('held');
+      li.querySelector('.call-meta')!.textContent = decision.action === 'invalid' ? 'held: wrong format' : `held: ${decision.trigger === 'identifier' ? 'heard, not pasted' : 'changes state'}`;
+      li.append(h('p', { class: 'call-spoken' }, decision.card.say));
+    }
+  },
+  gateReleased(call) {
+    releaseGate(call);
+  },
+  keyterms(all, yours) {
+    renderKeyterms(all, yours);
+  },
 };
 
 async function toggleTalk(): Promise<void> {
   if (!conn) return;
   if (session) { await session.stop('ended by you'); return; }
-  session = new VoiceSession(conn, ui);
+  session = new VoiceSession(conn, ui, () => ($('paste') as HTMLInputElement).value);
   $('talk').classList.add('live');
   $('mic').setAttribute('aria-label', 'End the conversation');
   // The opening phase again: each conversation starts from phase 0.
@@ -299,13 +363,45 @@ function renderServer(c: ConnectResponse): void {
   visibleBefore = new Set();
   renderPhase(c.phase, c.phase.reason);
 
+  const sample = $('sample-btn') as HTMLButtonElement;
+  sample.hidden = !c.sampleValue;
+  if (c.sampleValue) {
+    const sv = c.sampleValue;
+    sample.textContent = sv.label;
+    sample.onclick = async () => {
+      // Clipboard first, so the judge pastes it themselves; fill the box if the
+      // browser will not allow the copy.
+      try {
+        await navigator.clipboard.writeText(sv.value);
+        sample.textContent = 'Copied - now paste it in the box';
+      } catch {
+        ($('paste') as HTMLInputElement).value = sv.value;
+        onPasteChange();
+        sample.textContent = 'Filled in for you';
+      }
+      setTimeout(() => { sample.textContent = sv.label; }, 2500);
+    };
+  }
+  $('gate-card').hidden = true;
+  const yoursNow = pasteKeyterms(($('paste') as HTMLInputElement).value);
+  renderKeyterms(mergeKeyterms(c.phase.keyterms, yoursNow), yoursNow);
+
   $('server').hidden = false;
   $('talk').hidden = false;
+  $('paste-row').hidden = false;
   $('panes').hidden = false;
   setStatus('ended');
   $('status').textContent = 'Press to talk';
   $('substatus').textContent = 'Your browser will ask for the microphone.';
   $('talk').dataset.state = 'idle';
+}
+
+let pasteTimer: ReturnType<typeof setTimeout> | undefined;
+
+function onPasteChange(): void {
+  const text = ($('paste') as HTMLInputElement).value;
+  if (session) session.notePaste(text);
+  else if (conn) renderKeyterms(mergeKeyterms(conn.phase.keyterms, pasteKeyterms(text)), pasteKeyterms(text));
 }
 
 async function loadPresets(): Promise<Preset[]> {
@@ -335,6 +431,10 @@ async function main(): Promise<void> {
     if (url) void connect(url);
   });
   $('mic').addEventListener('click', () => void toggleTalk());
+  $('paste').addEventListener('input', () => {
+    if (pasteTimer) clearTimeout(pasteTimer);
+    pasteTimer = setTimeout(onPasteChange, 300);
+  });
 
   const fromQuery = new URL(location.href).searchParams.get('url');
   if (fromQuery) {

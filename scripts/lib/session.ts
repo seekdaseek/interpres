@@ -7,7 +7,10 @@
 import {
   AgentProtocol, applyNormalisers, assertPhaseValid, buildNameMap, convertCatalog,
   handleFindTools, initialPhase, phaseSessionUpdate, shapeResult, FIND_TOOLS_NAME,
+  ToolGate, gateTools, USE_PASTED_TEXT_NAME, pastedTextResult, pasteKeyterms, mergeKeyterms,
 } from '@interpres/core';
+import type { GateDecision } from '@interpres/core';
+import { createHash } from 'node:crypto';
 import type { ConvertedTool, ExecResult, Phase, PlannerInput, ServerEvent, ToolCall } from '@interpres/core';
 import { probeServer, callTool } from '../../apps/server/src/mcp.ts';
 import type { McpConnection } from '../../apps/server/src/mcp.ts';
@@ -120,6 +123,10 @@ export type TurnRecord = {
 
 export type OpenOptions = {
   verbose?: boolean;
+  /** What is in the paste box for this session, if anything. */
+  paste?: string;
+  /** Put the paste box's word parts into input.keyterms ("yours"). Default on. */
+  pasteKeyterms?: boolean;
   /** Carry spoken values across a find_tools phase change. Off only for A/B runs. */
   carry?: boolean;
   /**
@@ -145,6 +152,13 @@ export class LiveSession {
 
   private readonly breaker = new CircuitBreaker();
   private readonly refine: boolean;
+  readonly gate: ToolGate;
+  paste: string;
+  readonly yourKeyterms: string[];
+  /** Every gate decision that stopped a call, in order. */
+  readonly gateLog: Array<{ tool: string; action: GateDecision['action']; trigger?: string; heard?: string; at: number }> = [];
+  /** MCP tools/call requests actually made, by tool - the thing the gate must keep at zero. */
+  readonly mcpRequests: Array<{ tool: string; args: Record<string, unknown>; sha256: Record<string, string>; at: number }> = [];
   private readonly shaper;
   private readonly verbose: boolean;
   private readonly carry: boolean;
@@ -165,6 +179,13 @@ export class LiveSession {
     this.ws = ws;
     this.verbose = opts.verbose ?? false;
     this.carry = opts.carry ?? true;
+    this.paste = opts.paste ?? '';
+    this.yourKeyterms = opts.pasteKeyterms === false ? [] : pasteKeyterms(this.paste);
+    this.gate = new ToolGate(
+      gateTools(catalog.planner.catalog.filter((c) => c.source).map((c) => ({ voiceName: c.tool.name, source: c.source! }))),
+      (() => { try { return new URL(catalog.url).host; } catch { return catalog.url; } })(),
+    );
+    if (this.paste) this.gate.recordPaste(this.paste);
     this.phase = opts.startPhaseQuery
       ? handleFindTools(catalog.planner, opts.startPhaseQuery, { carry: false }).phase
       : initialPhase(catalog.planner);
@@ -222,7 +243,7 @@ export class LiveSession {
   }
 
   private log(line: string): void {
-    if (this.verbose || /TOOL\.CALL|PHASE|RESULT|HEARD|AGENT|INTERRUPTED|DROPPED|!!/.test(line)) console.log(line);
+    if (this.verbose || /TOOL\.CALL|PHASE|RESULT|HEARD|AGENT|INTERRUPTED|DROPPED|GATE|PASTE|!!/.test(line)) console.log(line);
   }
 
   private send(msg: Record<string, unknown>): void {
@@ -270,6 +291,7 @@ export class LiveSession {
             break;
           case 'transcript.user':
             this.lastUserTranscript = String(msg.text ?? '');
+            this.gate.recordUserTurn(this.lastUserTranscript, Date.now());
             this.turn?.heard.push(this.lastUserTranscript);
             this.log(`  HEARD  "${this.lastUserTranscript}"`);
             break;
@@ -316,7 +338,7 @@ export class LiveSession {
       session: {
         system_prompt: this.phase.systemPrompt,
         tools: this.phase.tools,
-        input: { keyterms: this.phase.keyterms, transcription_prompt: this.phase.transcriptionPrompt },
+        input: { keyterms: mergeKeyterms(this.phase.keyterms, this.yourKeyterms), transcription_prompt: this.phase.transcriptionPrompt },
         output: { voice: VOICE, format: { encoding: 'audio/pcm' } },
       },
     });
@@ -328,10 +350,19 @@ export class LiveSession {
     const record = this.turn?.calls.find((c) => c.callId === call.callId);
     const started = Date.now();
 
+    if (call.name === USE_PASTED_TEXT_NAME) {
+      if (this.paste) this.gate.recordPaste(this.paste);
+      if (record) { record.method = 'paste'; record.readyAt = Date.now(); record.spoken = this.paste ? `pasted ${this.paste.length} chars` : 'empty'; }
+      this.log(`  PASTE -> ${this.paste ? `${this.paste.length} chars` : '(empty)'}`);
+      return { result: pastedTextResult(this.paste) };
+    }
+
     if (call.name === FIND_TOOLS_NAME) {
       const query = String(call.arguments.query ?? '');
       const outcome = handleFindTools(this.catalog.planner, query, { lastUserTurn: this.lastUserTranscript, carry: this.carry });
       assertPhaseValid(outcome.phase);
+      // The person's own terms ride across every phase change.
+      outcome.phase.keyterms = mergeKeyterms(outcome.phase.keyterms, this.yourKeyterms);
       this.phase = outcome.phase;
       const upd = phaseSessionUpdate(outcome.phase);
       if (record) {
@@ -351,9 +382,21 @@ export class LiveSession {
       this.failures.push(`agent called unknown tool ${call.name}`);
       return { result: JSON.stringify({ error: `There is no tool called ${call.name}. Call find_tools to see what exists.` }) };
     }
+    // The gate, before any MCP request: a misheard identifier or an unconfirmed
+    // state change gets a needs_confirmation result and no request at all.
+    const decision = this.gate.check(call.name, call.arguments, Date.now());
+    if (decision.action !== 'execute') {
+      this.gateLog.push({ tool: call.name, action: decision.action, trigger: decision.action === 'confirm' ? decision.trigger : 'pattern', heard: decision.card.value, at: Date.now() });
+      if (record) { record.method = `gate_${decision.action}`; record.readyAt = Date.now(); record.spoken = decision.card.say; record.execMs = record.readyAt - started; }
+      this.log(`  GATE ${decision.action}${decision.action === 'confirm' ? ` (${decision.trigger})` : ''}: ${decision.card.say}`);
+      return { result: decision.result };
+    }
     const entry = this.catalog.byVoiceName.get(call.name);
     const { args, applied } = applyNormalisers(call.arguments, entry?.report.normalisers ?? []);
     try {
+      const sha256: Record<string, string> = {};
+      for (const [k, v] of Object.entries(args)) if (typeof v === 'string') sha256[k] = createHash('sha256').update(v).digest('hex');
+      this.mcpRequests.push({ tool: mcpName, args, sha256, at: Date.now() });
       const outcome = await callTool(this.catalog.url, mcpName, args);
       const shaped = await shapeResult(call.name, outcome.result, {
         shaper: this.refine ? this.shaper : undefined,
@@ -361,6 +404,7 @@ export class LiveSession {
         question: this.lastUserTranscript || this.turn?.said,
       });
       this.rawResults.set(call.callId, shaped.raw);
+      this.gate.recordToolResult(shaped.raw, args);
       if (record) {
         Object.assign(record, {
           mcpName, normalisersApplied: applied, rawChars: shaped.rawChars, spokenChars: shaped.spokenChars,

@@ -12,6 +12,7 @@
 import type { ConvertedTool, JsonSchema, McpServerInfo } from './types.ts';
 import { humanise } from './convert.ts';
 import { isCommonWord } from './common-words.ts';
+import { findIdentifiers } from './gate.ts';
 
 export const KEYTERMS_MAX = 100;
 export const TRANSCRIPTION_PROMPT_MAX = 1750;
@@ -179,4 +180,37 @@ export function buildTranscriptionPrompt(
   const slice = joined.slice(0, max - 1);
   const cut = slice.lastIndexOf(' ');
   return (cut > max * 0.5 ? slice.slice(0, cut) : slice).trimEnd();
+}
+
+/**
+ * Keyterms from what the person pasted: the speakable word parts, so that the
+ * name they then SAY is heard. Measured problem: "ochinimus.app" was heard as
+ * "okinimus.app". Only letters count, four or more of them; never a hex or
+ * base58 string, and never a common word the recogniser already knows.
+ */
+export function pasteKeyterms(text: string): string[] {
+  const out: string[] = [];
+  for (const token of text.split(/\s+/)) {
+    if (token === '' || findIdentifiers(token).length > 0) continue;
+    for (const part of token.split(/[^A-Za-z]+/)) {
+      if (part.length < 4 || isCommonWord(part)) continue;
+      if (/^[0-9a-f]+$/i.test(part) && part.length >= 12) continue;
+      if (!out.some((o) => o.toLowerCase() === part.toLowerCase())) out.push(part);
+    }
+  }
+  return out;
+}
+
+/** The person's terms first - they are the most specific there are - then the phase's. */
+export function mergeKeyterms(phaseTerms: string[], yours: string[], max: number = KEYTERMS_MAX): string[] {
+  const out: string[] = [];
+  const seen = new Set<string>();
+  for (const t of [...yours, ...phaseTerms]) {
+    const k = t.toLowerCase();
+    if (seen.has(k)) continue;
+    seen.add(k);
+    out.push(t);
+    if (out.length >= max) break;
+  }
+  return out;
 }

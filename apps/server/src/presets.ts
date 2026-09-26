@@ -16,6 +16,8 @@ export type Preset = {
   exercisesPhases?: boolean;
   /** Tools that change state. Shown as a warning; never auto-called. */
   writeTools?: string[];
+  /** A value a judge can copy into the paste box to try the identifier flow. */
+  sampleValue?: { label: string; value: string };
 };
 
 export const PRESETS: Preset[] = [
@@ -35,14 +37,15 @@ export const PRESETS: Preset[] = [
     url: 'https://afg.ai/mcp',
     blurb: '15 tools, so find_tools has to swap the set. Test money only.',
     asks: [
+      // Paste the sample address first: identifiers go by keyboard, intent by voice.
+      'Check the reputation of the wallet I pasted.',
       // afg_speccheck is NOT in the opening phase, so this needs find_tools.
       // Verified spoken on 2026-09-26: the agent calls find_tools itself.
       'I want to run a spec check on a job contract.',
       'What does the contract template for a passing test suite look like?',
-      // afg_fund is hidden in the opening phase too. The agent needs a job id
-      // before it would call it, so it explains and asks rather than acting.
-      'How do I fund a job?',
     ],
+    // The EIP-55 test vector: a valid checksummed address, nobody's wallet.
+    sampleValue: { label: 'Copy sample address', value: '0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed' },
     // Not suggested in the UI: a spoken 40-character hex address. Speech-to-text
     // mis-hears it (see BUILDLOG, e2e-audio), so it makes a bad first impression.
     exercisesPhases: true,

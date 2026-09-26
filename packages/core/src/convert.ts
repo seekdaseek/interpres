@@ -203,7 +203,7 @@ export function convertTool(
   if (dressed.descriptionsAdded > 0) {
     report.warnings.push(`${dressed.descriptionsAdded} property description(s) synthesised from the property name`);
   }
-  return { tool, report };
+  return { tool, report, source: mcp };
 }
 
 export function emptyStats(): CatalogStats {

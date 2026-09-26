@@ -126,6 +126,8 @@ export type ToolConversionReport = {
 export type ConvertedTool = {
   tool: VoiceAgentTool;
   report: ToolConversionReport;
+  /** The MCP tool as the server declared it: annotations and original patterns, for the gate. */
+  source?: McpTool;
 };
 
 export type ConversionFailure = {

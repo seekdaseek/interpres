@@ -17,25 +17,41 @@ const inputOf = (tools: McpTool[]) => ({
   server: { name: 'test-server', title: 'Test Server' },
 });
 
-test('a catalog that fits is shown whole, with no discovery tool', () => {
-  for (const n of [1, 5, MAX_TOOLS_PER_PHASE]) {
+test('a catalog that fits is shown whole, with use_pasted_text and no discovery tool', () => {
+  // use_pasted_text takes one of the ten slots, so nine catalog tools is the most that fits.
+  for (const n of [1, 5, MAX_TOOLS_PER_PHASE - 1]) {
     const phase = initialPhase(inputOf(mkTools(n)));
     assertPhaseValid(phase);
-    assert.equal(phase.tools.length, n, `${n} tools should all be visible`);
+    assert.equal(phase.tools.length, n + 1, `${n} tools plus use_pasted_text should all be visible`);
     assert.equal(phase.hasFindTools, false, `find_tools would waste a slot at ${n} tools`);
     assert.ok(!phase.tools.some((t) => t.name === FIND_TOOLS_NAME));
+    assert.ok(phase.tools.some((t) => t.name === 'use_pasted_text'), 'the paste box is always reachable');
   }
 });
 
-test('a catalog that overflows gets find_tools plus nine', () => {
-  for (const n of [MAX_TOOLS_PER_PHASE + 1, 15, 40]) {
+test('a catalog that overflows gets find_tools, use_pasted_text and eight', () => {
+  for (const n of [MAX_TOOLS_PER_PHASE, 15, 40]) {
     const phase = initialPhase(inputOf(mkTools(n)));
     assertPhaseValid(phase);
     assert.equal(phase.tools.length, MAX_TOOLS_PER_PHASE, `${n} tools must narrow to ${MAX_TOOLS_PER_PHASE}`);
     assert.equal(phase.hasFindTools, true);
     assert.equal(phase.tools[0]!.name, FIND_TOOLS_NAME, 'discovery goes first');
-    assert.equal(phase.visible.length, MAX_TOOLS_PER_PHASE - 1);
+    assert.equal(phase.tools[1]!.name, 'use_pasted_text', 'then the paste box');
+    assert.equal(phase.visible.length, MAX_TOOLS_PER_PHASE - 2);
   }
+});
+
+test('find_tools keeps both built-ins and reveals eight catalog tools', () => {
+  const { phase, available, toolResult } = handleFindTools(inputOf(mkTools(30)), 'job 17');
+  assertPhaseValid(phase);
+  assert.equal(phase.visible.length, 8);
+  assert.ok(available.includes('use_pasted_text') && available.includes(FIND_TOOLS_NAME));
+  const listed = JSON.parse(toolResult).available_tools as string[];
+  assert.ok(!listed.includes('use_pasted_text') && !listed.includes(FIND_TOOLS_NAME), 'the result lists only catalog tools');
+});
+
+test('the prompt tells the agent to use the paste box for anything pasted', () => {
+  assert.match(initialPhase(inputOf(mkTools(3))).systemPrompt, /call\s+use_pasted_text/);
 });
 
 test('the documented ceiling is never exceeded, whatever find_tools is asked', () => {

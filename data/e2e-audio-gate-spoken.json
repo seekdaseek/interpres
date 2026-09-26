@@ -1,0 +1,113 @@
+{
+  "at": "2026-09-26T11:57:53.875Z",
+  "case": "gate-spoken",
+  "sessionId": "sess_c7ecda9ca1ca4a3f8eebfb18378bd139",
+  "assertions": {
+    "turn1Gated": true,
+    "turn1ZeroMcpCalls": true,
+    "turn2ExactlyOne": true
+  },
+  "gateLog": [
+    {
+      "tool": "afg_get_reputation",
+      "action": "confirm",
+      "trigger": "identifier",
+      "heard": "0x3f9a1c7e5b2d8f4a6c0e9b3d7f1a5cad2b4d6f09",
+      "at": 1790423893677
+    }
+  ],
+  "mcpRequests": [
+    {
+      "tool": "afg_get_reputation",
+      "args": {
+        "address": "0x3f9a1c7e5b2d8f4a6c0e9b3d7f1a5cad2b4d6f09"
+      },
+      "sha256": {
+        "address": "0853494425ae20cd53e2d97b59f6e41aeab505eafa3fd935457a0764f347997e"
+      },
+      "at": 1790423905234
+    }
+  ],
+  "turns": [
+    {
+      "said": "What is the reputation of wallet 0 x 3 f 9 a 1 c 7 e 5 b 2 d 8 f 4 a 6 c 0 e 9 b 3 d 7 f 1 a 5 c 8 e 2 b 4 d 6 f 0 9?",
+      "heard": [
+        "What is the reputation of wallet 0x3f9a1c7e5b2d8f4a6c0e9b3d7f1a5cad2b4d6f09?"
+      ],
+      "calls": [
+        {
+          "callId": "chatcmpl-tool-af2c3c3bbc32607b",
+          "name": "afg_get_reputation",
+          "arguments": {
+            "address": "0x3f9a1c7e5b2d8f4a6c0e9b3d7f1a5cad2b4d6f09"
+          },
+          "callAt": 1790423893673,
+          "transitionReply": 0,
+          "method": "gate_confirm",
+          "readyAt": 1790423893677,
+          "spoken": "I heard a value ending in 6 F 0 9. Check it on screen: say yes if it is right, or paste the correct one.",
+          "execMs": 2,
+          "sentAt": 1790423893968,
+          "answerReply": 1,
+          "transitionDoneAt": 1790423893968,
+          "agentWaitMs": 0,
+          "transitionAudioMs": 0,
+          "silenceOnUsMs": 295
+        }
+      ],
+      "agentReply": "I heard a value ending in 6 F 0 9. Check it on screen: say yes if it is right, or paste the correct one.",
+      "interrupted": false,
+      "startedAt": 1790423879406,
+      "speechEndAt": 1790423890967,
+      "firstAudioAt": 1790423894752,
+      "voiceToVoiceMs": 3785,
+      "idleAt": 1790423901638,
+      "ms": 22232,
+      "timeToAnswerMs": 3785
+    },
+    {
+      "said": "Yes, that's right.",
+      "heard": [
+        "Yes, that's right."
+      ],
+      "calls": [
+        {
+          "callId": "chatcmpl-tool-a477da1bd7eb31e1",
+          "name": "afg_get_reputation",
+          "arguments": {
+            "address": "0x3f9a1c7e5b2d8f4a6c0e9b3d7f1a5cad2b4d6f09"
+          },
+          "callAt": 1790423905233,
+          "transitionReply": 2,
+          "mcpName": "afg_get_reputation",
+          "normalisersApplied": [],
+          "rawChars": 1527,
+          "spokenChars": 256,
+          "spoken": "basis AFG job outcomes (MVP: mock ledger, test tokens, no real value). settled AFG jobs by wallet, as provider and as buyer. refund outcomes, and how each was reached (auto, mediator, panel, timeout). disputes and appeals, and whose favor they resolved in.",
+          "method": "local",
+          "refine": "no_shaper",
+          "refineMs": 0,
+          "mcpMs": 1164,
+          "isError": false,
+          "readyAt": 1790423906407,
+          "execMs": 1174,
+          "sentAt": 1790423906409,
+          "answerReply": 3,
+          "transitionDoneAt": 1790423905519,
+          "agentWaitMs": 890,
+          "transitionAudioMs": 0,
+          "silenceOnUsMs": 1176
+        }
+      ],
+      "agentReply": "That wallet has no recorded reputation yet, with zero jobs completed as either a provider or a buyer.",
+      "interrupted": false,
+      "startedAt": 1790423902407,
+      "speechEndAt": 1790423903727,
+      "firstAudioAt": 1790423907135,
+      "voiceToVoiceMs": 3408,
+      "idleAt": 1790423913128,
+      "ms": 10721,
+      "timeToAnswerMs": 3408
+    }
+  ]
+}

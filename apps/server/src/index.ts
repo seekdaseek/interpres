@@ -15,7 +15,7 @@ import { serveStatic } from '@hono/node-server/serve-static';
 import { existsSync } from 'node:fs';
 import {
   applyNormalisers, assertPhaseValid, handleFindTools, initialPhase,
-  buildGreeting, phaseSessionUpdate, shapeResult, MAX_TOOLS_PER_PHASE,
+  buildGreeting, phaseSessionUpdate, shapeResult, gateTools, MAX_TOOLS_PER_PHASE,
 } from '@interpres/core';
 import type { Phase, PlannerInput } from '@interpres/core';
 import { config, assertConfigured } from './config.ts';
@@ -180,6 +180,13 @@ app.post('/api/mcp/connect', async (c) => {
     });
 
     const preset = presetFor(url);
+    // The gate's view of every tool: whether it changes state (classifier,
+    // not just a preset's hand list) and the server's own argument patterns.
+    const gate = gateTools(
+      catalog.conversion.converted.filter((cv) => cv.source).map((cv) => ({ voiceName: cv.tool.name, source: cv.source! })),
+      preset?.writeTools ?? [],
+    );
+    const gateByName = new Map(gate.map((g) => [g.voiceName, g]));
     return c.json({
       url,
       cached,
@@ -195,10 +202,13 @@ app.post('/api/mcp/connect', async (c) => {
         description: cv.tool.description,
         parameters: cv.tool.parameters,
         report: cv.report,
-        isWriteTool: preset?.writeTools?.includes(cv.report.mcpName) ?? false,
+        isWriteTool: gateByName.get(cv.tool.name)?.write ?? false,
+        writeReason: gateByName.get(cv.tool.name)?.writeReason ?? '',
       })),
       phase: phasePayload(phase),
       asks: preset?.asks ?? [],
+      sampleValue: preset?.sampleValue ?? null,
+      gate: { tools: gate, server: new URL(url).host },
     });
   } catch (err) {
     log.record('mcp.connect.failed', { url, ms: Date.now() - started, ok: false, ...errorBody(err) });

@@ -53,6 +53,56 @@ rate-limited hard on this plan: 4 of 6 sequential calls returned
 Set `SHAPER_REFINE=on` to use it, and `SHAPER_MODEL` to use another model on an
 account that can reach one.
 
+## Identifiers and state-changing tools
+
+**Voice for intent, keyboard for identifiers, and nothing misheard gets executed.**
+
+Speech-to-text cannot carry a long identifier. Measured with real speech through
+the Voice Agent API, it fails in three distinct ways:
+
+1. **A repetition loop.** `0x` followed by 39 zeros and a `1` came back as roughly
+   900 zeros, with no `1`.
+2. **Merged doubled letters.** `5 a a e b` became `5aeb`, and `b e a e d` became `bead`:
+   38 characters where 40 were said, and the server rejected it.
+3. **A valid-looking wrong value.** `... 6 c 0 e 9 b ... 5 c 8 e ...` became
+   `... 6ce09b ... 5cad ...`: still 40 hex characters, a *different* address, and the
+   server answered confidently about a wallet nobody asked for.
+
+Names fail too: in a live test "ochinimus.app" was heard as "okinimus.app".
+
+So a gate sits in front of every MCP request, in the browser and in both proof
+scripts:
+
+- **An identifier-shaped argument** - `0x` + 16 or more hex, 24+ hex or base58 mixing
+  digits and letters, a UUID, or 16+ characters without spaces holding at least 3
+  digits and 3 letters - runs only if it appears verbatim in the paste box or in an
+  earlier tool result (hex compared case-insensitively, base58 exactly). A result
+  that merely echoes back the argument it was sent does not count. Otherwise no
+  request is made: the agent gets `needs_confirmation`, says the last four
+  characters, and the page shows the full heard value in large type, grouped in
+  fours. If the server's own schema has a `pattern` for that argument and the value
+  fails it, the answer is `invalid`: paste it.
+- **A tool that changes state** - `destructiveHint`, or not `readOnlyHint` and a
+  name whose first word (after any prefix every tool shares) is a write verb such as
+  create, send, transfer or sign - is held the same way, and the line names what it
+  will do and on which server.
+- **An identical repeat within 120 s, after the person says yes, runs exactly once.**
+  A changed repeat is held again.
+- Digit-only strings are **not** treated as identifiers yet: card numbers, phone
+  numbers and order numbers pass through. That is the next thing to add.
+
+**The paste box** under the Talk button is the other half. Its text reaches tools
+through a built-in `use_pasted_text` tool, verbatim: measured, the sha256 of the
+pasted address equalled the sha256 of the argument the MCP server received. Its
+word parts also become keyterms, which fixes names: "check ochinimus dot app"
+was transcribed correctly 3 times out of 3 with the pasted keyterm, and 0 out of 3
+without it (heard as "aginimus").
+
+One limit, measured: a spoken "yes" after hearing only the last four characters
+does not verify the middle. The confirmed spoken address above still carried its
+`c8e` -> `cad` error, because the last four were right. Read the value on the
+card - or paste it.
+
 ## Status
 
 Under construction for the lablab.ai AssemblyAI Voice Agent Hackathon

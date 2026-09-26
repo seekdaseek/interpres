@@ -1,0 +1,61 @@
+{
+  "at": "2026-09-26T11:58:50.805Z",
+  "case": "ochinimus-ab",
+  "say": "Check ochinimus dot app.",
+  "runs": [
+    {
+      "withKeyterm": true,
+      "sessionId": "sess_f5d1ecbd29bc44f8bd1000e31258cdce",
+      "heard": [
+        "Check ochinimus.app."
+      ],
+      "keyterms": [
+        "ochinimus"
+      ]
+    },
+    {
+      "withKeyterm": true,
+      "sessionId": "sess_9e26b21330564db5b3b68c8c65036c69",
+      "heard": [
+        "Check ochinimus.app."
+      ],
+      "keyterms": [
+        "ochinimus"
+      ]
+    },
+    {
+      "withKeyterm": true,
+      "sessionId": "sess_debb391ad86b4e10a3ca4893305b5c81",
+      "heard": [
+        "Check ochinimus.app."
+      ],
+      "keyterms": [
+        "ochinimus"
+      ]
+    },
+    {
+      "withKeyterm": false,
+      "sessionId": "sess_dca021bae2074e9c9b4163b332c9ba3d",
+      "heard": [
+        "Check aginimus.app."
+      ],
+      "keyterms": []
+    },
+    {
+      "withKeyterm": false,
+      "sessionId": "sess_5096d3fc6b784aa58bf374fa5369e718",
+      "heard": [
+        "Check aginimus.app."
+      ],
+      "keyterms": []
+    },
+    {
+      "withKeyterm": false,
+      "sessionId": "sess_dcb13300d5e24a74b037cb79e17094f0",
+      "heard": [
+        "Check aginimus.app."
+      ],
+      "keyterms": []
+    }
+  ]
+}
