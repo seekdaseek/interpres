@@ -52,6 +52,11 @@ export type ProtocolHooks = {
   onTurnIdle?: () => void;
   /** The caller barged in. Flush playback. */
   onInterrupted?: () => void;
+  /**
+   * A tool finished after the reply it belonged to was interrupted, so its
+   * result was dropped rather than delivered into the next turn.
+   */
+  onDropped?: (call: ToolCall) => void;
 };
 
 export class AgentProtocol {
@@ -113,13 +118,13 @@ export class AgentProtocol {
 
     void this.execute(call)
       .then((exec) => {
-        if (epoch !== this.epoch) return;          // its reply was interrupted
+        if (epoch !== this.epoch) { this.hooks.onDropped?.(call); return; }   // its reply was interrupted
         if (exec.sessionUpdate) this.sendFn({ type: 'session.update', ...exec.sessionUpdate });
         this.pending.push({ call_id: call.callId, result: exec.result });
         this.hooks.onToolDone?.(call, exec, Date.now() - started);
       })
       .catch((err: unknown) => {
-        if (epoch !== this.epoch) return;
+        if (epoch !== this.epoch) { this.hooks.onDropped?.(call); return; }
         this.hooks.onToolError?.(call, err);
         // The agent still needs an answer it can speak, or the turn stalls
         // until its own tool timeout.

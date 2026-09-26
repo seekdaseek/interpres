@@ -170,3 +170,19 @@ test('malformed tool.call arguments do not crash the protocol', async () => {
   h.ev('reply.done', { status: 'completed' });
   assert.equal(results(h.sent).length, 1);
 });
+
+test('a result dropped by the epoch check is reported through onDropped', async () => {
+  const dropped: string[] = [];
+  let release!: (r: ExecResult) => void;
+  const proto = new AgentProtocol(
+    () => {},
+    () => new Promise<ExecResult>((res) => { release = res; }),
+    { onDropped: (c) => dropped.push(c.name) },
+  );
+  proto.handle({ type: 'reply.started' });
+  proto.handle({ type: 'tool.call', call_id: 'c1', name: 'slow_tool', arguments: {} });
+  proto.handle({ type: 'reply.done', status: 'interrupted' });
+  release({ result: '"late"' });
+  await new Promise((r) => setImmediate(r));
+  assert.deepEqual(dropped, ['slow_tool']);
+});

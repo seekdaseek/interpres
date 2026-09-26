@@ -83,6 +83,10 @@ export function buildSystemPrompt(ctx: PromptContext): string {
       'or two facts that answer the question. If a tool fails, say plainly what failed and ' +
       'what you need in order to retry.',
   );
+  lines.push(
+    'A tool result can carry a "facts" object beside its summary. Do not read it out; use it to ' +
+      'answer follow-up questions about that same result, such as a price, a date or a name.',
+  );
 
   return lines.join('\n\n');
 }

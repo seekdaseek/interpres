@@ -228,6 +228,121 @@ async function runTarget(
   return result;
 }
 
+// ------------------------------------------------------------------ barge-in
+
+/**
+ * Barge-in without a human. The AFG template question produces a long spoken
+ * answer; 1.5 s after that answer's first audio chunk, a second utterance -
+ * "Stop, just tell me the price." - starts streaming through the same
+ * continuous mic. Asserted: the server ends the reply with status
+ * "interrupted", the client's flush hook fires, a tool result arriving after
+ * the cut is dropped by the epoch check (if one is in flight), and the next
+ * answer carries the price from the template.
+ */
+async function runBargeIn(args: Args): Promise<void> {
+  const url = 'https://afg.ai/mcp';
+  const ask = 'What does the contract template for a passing test suite look like?';
+  const cut = 'Stop, just tell me the price.';
+  const clip1 = await synthesize(ask, { voice: args.voice, rate: args.rate });
+  const clip2 = await synthesize(cut, { voice: args.voice, rate: args.rate });
+  console.log(`audio: question ${clip1.durationMs} ms, interruption ${clip2.durationMs} ms`);
+
+  const session = await LiveSession.open(url, { verbose: args.verbose });
+  console.log(`session.ready  session_id=${session.sessionId}`);
+  const pump = new AudioPump((b64) => session.sendAudio(b64));
+  pump.start();
+  await pump.enqueue(silence(400));
+
+  const ev = {
+    answerFirstAudioAt: 0, cutStreamStartAt: 0, cutStreamEndAt: 0, interruptedAt: 0,
+    cutAgentText: '', answerAudioBeforeCutMs: 0,
+  };
+  let scheduled = false;
+  let answerReplyIndex = -1;
+  session.onEvent((m) => {
+    if (m.type === 'reply.audio' && !scheduled) {
+      const tpl = session.turn?.calls.find((c) => c.name === 'afg_contract_template' && c.sentAt !== undefined);
+      if (tpl) {
+        scheduled = true;
+        ev.answerFirstAudioAt = Date.now();
+        answerReplyIndex = session.replies.length - 1;
+        setTimeout(() => {
+          ev.cutStreamStartAt = Date.now();
+          console.log(`  >>> streaming the interruption, ${ev.cutStreamStartAt - ev.answerFirstAudioAt} ms after the answer's first audio`);
+          void pump.enqueue(clip2.pcm).then(() => {
+            ev.cutStreamEndAt = Date.now();
+            void pump.enqueue(silence(1500));
+          });
+        }, 1500);
+      }
+    }
+    if (m.type === 'reply.done' && m.status === 'interrupted' && ev.interruptedAt === 0) ev.interruptedAt = Date.now();
+    if (m.type === 'transcript.agent' && m.interrupted === true) ev.cutAgentText = String(m.text ?? '');
+  });
+
+  console.log(`\n--- SAY: ${ask}`);
+  const turn1 = session.beginTurn(ask);
+  await pump.enqueue(clip1.pcm);
+  turn1.speechEndAt = Date.now();
+  void pump.enqueue(silence(1500));
+
+  // Wait for the server to cut the answer.
+  const deadline = Date.now() + 120_000;
+  while (ev.interruptedAt === 0 && Date.now() < deadline) await new Promise((r) => setTimeout(r, 100));
+  const t1 = session.endTurn()!;
+  const answer = session.replies[answerReplyIndex];
+  if (answer) ev.answerAudioBeforeCutMs = Math.round(answer.audioBytes / 48);
+
+  console.log(`\n--- SAY (barging in): ${cut}`);
+  const turn2 = session.beginTurn(cut);
+  while (ev.cutStreamEndAt === 0 && Date.now() < deadline) await new Promise((r) => setTimeout(r, 50));
+  turn2.speechEndAt = ev.cutStreamEndAt;
+  const idle = await session.waitIdle(60_000);
+  const t2 = session.endTurn()!;
+  pump.stop();
+  await session.close();
+
+  const tplCall = t1.calls.find((c) => c.name === 'afg_contract_template');
+  const raw = tplCall ? session.rawResults.get(tplCall.callId) ?? '' : '';
+  const priceMatch = raw.match(/"price"\s*:\s*\{[^}]*"amount"\s*:\s*"?([\d.]+)/);
+  const price = priceMatch ? Number(priceMatch[1]) : NaN;
+  const PRICE_WORDS: Record<number, string> = { 40: 'forty', 50: 'fifty', 25: 'twenty-five', 100: 'one hundred', 10: 'ten', 20: 'twenty', 30: 'thirty' };
+  const carriesPrice = Number.isFinite(price) && (new RegExp(`\\b${price}(\\.0+)?\\b`).test(t2.agentReply) || (PRICE_WORDS[price] !== undefined && new RegExp(PRICE_WORDS[price]!, 'i').test(t2.agentReply)));
+  const inFlightAtCut = session.inFlightAtInterrupt[0] ?? 0;
+
+  const assertions = {
+    replyDoneInterrupted: ev.interruptedAt > 0,
+    flushHookFired: session.flushes >= 1,
+    lateResultDroppedByEpoch: session.droppedLate >= 1,
+    lateResultApplicable: inFlightAtCut > 0,
+    nextAnswerCarriesPrice: carriesPrice,
+  };
+  console.log(`\n${'#'.repeat(78)}\nBARGE-IN (spoken)  session_id=${session.sessionId}`);
+  console.log(`  question heard      : ${JSON.stringify(t1.heard)}`);
+  console.log(`  tool                : ${tplCall ? `${tplCall.name}(${JSON.stringify(tplCall.arguments)}) mcp=${tplCall.mcpMs}ms` : '(not called)'}`);
+  console.log(`  answer audio played : ${ev.answerAudioBeforeCutMs} ms before the cut; interrupted text: ${JSON.stringify(ev.cutAgentText.slice(0, 160))}`);
+  console.log(`  interruption heard  : ${JSON.stringify(t2.heard)}`);
+  console.log(`  cut latency         : ${ev.interruptedAt && ev.cutStreamStartAt ? ev.interruptedAt - ev.cutStreamStartAt : '?'} ms from the interruption's first audio chunk to reply.done(interrupted)`);
+  console.log(`  after the cut       : ${JSON.stringify(t2.agentReply)} (${idle})`);
+  console.log(`  template price      : ${Number.isFinite(price) ? price : '(not found in result)'}`);
+  console.log(`  flushes=${session.flushes} droppedLate=${session.droppedLate} toolsInFlightAtCut=${inFlightAtCut}`);
+  for (const [k, v] of Object.entries(assertions)) {
+    if (k === 'lateResultApplicable') continue;
+    const na = k === 'lateResultDroppedByEpoch' && !assertions.lateResultApplicable;
+    console.log(`  ${na ? 'N/A ' : v ? 'PASS' : 'FAIL'}  ${k}${na ? ' (no tool call was in flight at the cut)' : ''}`);
+  }
+  if (!assertions.lateResultApplicable) {
+    console.log('  note: no tool call was in flight when the answer was cut - the agent speaks only after its result is sent -');
+    console.log('        so the epoch check had nothing to drop live. Covered offline: protocol.test.ts "an interruption drops pending results".');
+  }
+  const outPath = args.out ?? `data/e2e-audio-bargein-${new Date().toISOString().slice(0, 19).replace(/[:T]/g, '')}.json`;
+  await mkdir('data', { recursive: true });
+  await writeFile(outPath, `${JSON.stringify({ at: new Date().toISOString(), sessionId: session.sessionId, assertions, ev, price, inFlightAtCut, flushes: session.flushes, droppedLate: session.droppedLate, turns: [t1, t2], replies: session.replies.map((r) => ({ ...r, audioMs: Math.round(r.audioBytes / 48) })) }, null, 2)}\n`);
+  console.log(`\nwritten: ${outPath}`);
+  const required = assertions.replyDoneInterrupted && assertions.flushHookFired && assertions.nextAnswerCarriesPrice && (assertions.lateResultDroppedByEpoch || !assertions.lateResultApplicable);
+  process.exit(required ? 0 : 1);
+}
+
 // --------------------------------------------------------------------- main
 
 const args = parseArgs(process.argv.slice(2));
@@ -235,6 +350,8 @@ if (config.assemblyAiKey === '') {
   console.error('ASSEMBLYAI_API_KEY is not set. Run with: node --env-file=.env scripts/e2e-audio.ts');
   process.exit(2);
 }
+
+if (args.caseName === 'barge-in') await runBargeIn(args);
 
 type Target = { url: string; asks: string[]; spokenAddress?: string; startPhaseQuery?: string; mustBeHidden?: string };
 let targets: Target[];

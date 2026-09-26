@@ -170,9 +170,12 @@ export async function shapeResult(
   const isError = result.isError === true;
 
   const base = { raw, rawChars: raw.length, isError, refineMs: 0 };
+  // Shaping keeps the spoken line short; facts keep the details a follow-up
+  // question needs. Only for shaped results: passthrough text is already whole.
+  const factsFor = (shaped: boolean) => (shaped && !isError ? extractFacts(raw) : null);
   const done = (spoken: string, method: string, shaped: boolean, refine: RefineOutcome, refineMs = 0, asError = false): ShapeResult => ({
     ...base,
-    result: JSON.stringify(asError ? { error: spoken } : { result: spoken }),
+    result: JSON.stringify(asError ? { error: spoken } : (() => { const f = factsFor(shaped); return f ? { result: spoken, facts: f } : { result: spoken }; })()),
     spoken,
     shaped,
     method,
@@ -226,6 +229,55 @@ export async function shapeResult(
     return done(local, 'local', true, 'error', refineMs);
   }
   return done(local, 'local', true, outcome.kind === 'timeout' ? 'timeout' : 'error', refineMs);
+}
+
+/** Budget for the facts object carried beside the spoken summary. */
+export const FACTS_MAX_CHARS = 1500;
+
+/**
+ * The structured leaves of a JSON result, shallowest first, within a budget.
+ *
+ * Why: the spoken summary is aimed at the question that was asked. Measured in
+ * the barge-in test (2026-09-26): a 33,607-character contract template was
+ * shaped to 241 characters about the template, the caller then asked "just tell
+ * me the price", and the agent - correctly refusing to invent one - said it had
+ * never seen a price. It had not: the price was shaped away. Facts keep the
+ * details a follow-up needs in the same tool.result, without being read aloud.
+ */
+export function extractFacts(raw: string, budget: number = FACTS_MAX_CHARS): Record<string, string | number | boolean> | null {
+  let parsed: unknown;
+  try { parsed = JSON.parse(raw.trim()); } catch { return null; }
+  if (parsed === null || typeof parsed !== 'object') return null;
+
+  const facts: Record<string, string | number | boolean> = {};
+  let used = 2;
+  // Breadth-first, so top-level facts are kept before deep ones.
+  let level: Array<[string, unknown]> = Object.entries(parsed as Record<string, unknown>);
+  if (Array.isArray(parsed)) level = parsed.slice(0, 5).map((v, i) => [`[${i}]`, v]);
+  for (let depth = 0; depth < 6 && level.length > 0 && used < budget; depth++) {
+    const next: Array<[string, unknown]> = [];
+    for (const [path, v] of level) {
+      if (v === null || v === undefined) continue;
+      if (typeof v === 'object') {
+        const kids = Array.isArray(v) ? v.slice(0, 3).map((x, i) => [`${path}[${i}]`, x] as [string, unknown]) : Object.entries(v as Record<string, unknown>).map(([k, x]) => [`${path}.${k}`, x] as [string, unknown]);
+        next.push(...kids);
+        continue;
+      }
+      let value: string | number | boolean = v as string | number | boolean;
+      if (typeof value === 'string') {
+        // Blobs (base64, code, long prose) are not facts; short identifiers are.
+        if (value.length > 120 || /^[A-Za-z0-9+/=]{100,}$/.test(value)) continue;
+        value = value.trim();
+        if (value === '') continue;
+      }
+      const cost = path.length + String(value).length + 6;
+      if (used + cost > budget) continue;
+      facts[path] = value;
+      used += cost;
+    }
+    level = next;
+  }
+  return Object.keys(facts).length > 0 ? facts : null;
 }
 
 /**

@@ -152,6 +152,12 @@ export class LiveSession {
   private replyDoneTimes: number[] = [];
   readonly replies: ReplyRecord[] = [];
   private currentReply = -1;
+  /** Barge-in accounting: flushes requested, late results dropped, tools in flight when cut. */
+  flushes = 0;
+  droppedLate = 0;
+  inFlightAtInterrupt: number[] = [];
+  /** Raw MCP results by call id, in memory only (they can be tens of KB). */
+  readonly rawResults = new Map<string, string>();
   private readonly listeners: Array<(msg: ServerEvent) => void> = [];
 
   private constructor(catalog: Catalog, ws: WebSocket, opts: OpenOptions) {
@@ -188,7 +194,15 @@ export class LiveSession {
           }
         },
         onReplyDone: () => { this.replyDoneTimes.push(Date.now()); },
-        onInterrupted: () => { if (this.turn) this.turn.interrupted = true; this.log('  INTERRUPTED'); },
+        onInterrupted: () => {
+          // The protocol has already reset its own counters by now; the session's
+          // view of what was still running is taken from the call records.
+          this.flushes++;
+          this.inFlightAtInterrupt.push((this.turn?.calls ?? []).filter((c) => c.readyAt === undefined).length);
+          if (this.turn) this.turn.interrupted = true;
+          this.log('  INTERRUPTED (playback flush requested)');
+        },
+        onDropped: (call) => { this.droppedLate++; this.log(`  DROPPED late result of ${call.name} (its reply was interrupted)`); },
         onTurnIdle: () => {
           const waiters = this.idleWaiters;
           this.idleWaiters = [];
@@ -208,7 +222,7 @@ export class LiveSession {
   }
 
   private log(line: string): void {
-    if (this.verbose || /TOOL\.CALL|PHASE|RESULT|HEARD|AGENT|INTERRUPTED|!!/.test(line)) console.log(line);
+    if (this.verbose || /TOOL\.CALL|PHASE|RESULT|HEARD|AGENT|INTERRUPTED|DROPPED|!!/.test(line)) console.log(line);
   }
 
   private send(msg: Record<string, unknown>): void {
@@ -346,6 +360,7 @@ export class LiveSession {
         shaperAvailable: () => !this.breaker.isOpen(),
         question: this.lastUserTranscript || this.turn?.said,
       });
+      this.rawResults.set(call.callId, shaped.raw);
       if (record) {
         Object.assign(record, {
           mcpName, normalisersApplied: applied, rawChars: shaped.rawChars, spokenChars: shaped.spokenChars,

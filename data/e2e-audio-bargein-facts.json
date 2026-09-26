@@ -1,0 +1,106 @@
+{
+  "at": "2026-09-26T11:41:36.296Z",
+  "sessionId": "sess_572712169f594470999191b96918affb",
+  "assertions": {
+    "replyDoneInterrupted": true,
+    "flushHookFired": true,
+    "lateResultDroppedByEpoch": false,
+    "lateResultApplicable": false,
+    "nextAnswerCarriesPrice": true
+  },
+  "ev": {
+    "answerFirstAudioAt": 1790422886184,
+    "cutStreamStartAt": 1790422887685,
+    "cutStreamEndAt": 1790422889789,
+    "interruptedAt": 1790422888830,
+    "cutAgentText": "For a passing test suite, the contract uses a command",
+    "answerAudioBeforeCutMs": 2750
+  },
+  "price": 40,
+  "inFlightAtCut": 0,
+  "flushes": 1,
+  "droppedLate": 0,
+  "turns": [
+    {
+      "said": "What does the contract template for a passing test suite look like?",
+      "heard": [
+        "What does the contract template for a passing test suite look like?"
+      ],
+      "calls": [
+        {
+          "callId": "chatcmpl-tool-9d94e642b51c58ce",
+          "name": "afg_contract_template",
+          "arguments": {
+            "category": "code_fix_test_suite_pass"
+          },
+          "callAt": 1790422883839,
+          "transitionReply": 0,
+          "mcpName": "afg_contract_template",
+          "normalisersApplied": [],
+          "rawChars": 33607,
+          "spokenChars": 241,
+          "spoken": "test command pytest -q --junitxml=out.xml. x demo AFG MCP template: code fix graded by test_suite_pass + hash_match on a tiny demo repo. TEST MONEY ONLY (mock ledger).. notice TEST MONEY ONLY: mock ledger, test tokens (tUSDC), no real funds.",
+          "method": "local",
+          "refine": "no_shaper",
+          "refineMs": 0,
+          "mcpMs": 1504,
+          "isError": false,
+          "readyAt": 1790422885353,
+          "execMs": 1512,
+          "sentAt": 1790422885354,
+          "answerReply": 1,
+          "transitionDoneAt": 1790422884105,
+          "agentWaitMs": 1249,
+          "transitionAudioMs": 0,
+          "silenceOnUsMs": 1515
+        }
+      ],
+      "agentReply": "For a passing test suite, the contract uses a command",
+      "interrupted": true,
+      "startedAt": 1790422878469,
+      "speechEndAt": 1790422881989,
+      "firstAudioAt": 1790422886184,
+      "voiceToVoiceMs": 4195,
+      "idleAt": 1790422888850,
+      "ms": 10381,
+      "timeToAnswerMs": 4195
+    },
+    {
+      "said": "Stop, just tell me the price.",
+      "heard": [
+        "Stop, just tell me the price."
+      ],
+      "calls": [],
+      "agentReply": "The price is forty dollars in USDC.",
+      "interrupted": false,
+      "startedAt": 1790422888850,
+      "speechEndAt": 1790422889789,
+      "firstAudioAt": 1790422892556,
+      "voiceToVoiceMs": 2767,
+      "idleAt": 1790422895533,
+      "ms": 6683
+    }
+  ],
+  "replies": [
+    {
+      "startedAt": 1790422882808,
+      "audioBytes": 0,
+      "doneAt": 1790422884105,
+      "audioMs": 0
+    },
+    {
+      "startedAt": 1790422885416,
+      "audioBytes": 132000,
+      "firstAudioAt": 1790422886184,
+      "doneAt": 1790422888830,
+      "audioMs": 2750
+    },
+    {
+      "startedAt": 1790422890564,
+      "audioBytes": 144000,
+      "firstAudioAt": 1790422892556,
+      "doneAt": 1790422895533,
+      "audioMs": 3000
+    }
+  ]
+}

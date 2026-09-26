@@ -1,0 +1,106 @@
+{
+  "at": "2026-09-26T11:40:02.711Z",
+  "sessionId": "sess_b3d6adc6f2594c948f817e73f900cb2b",
+  "assertions": {
+    "replyDoneInterrupted": true,
+    "flushHookFired": true,
+    "lateResultDroppedByEpoch": false,
+    "lateResultApplicable": false,
+    "nextAnswerCarriesPrice": false
+  },
+  "ev": {
+    "answerFirstAudioAt": 1790422788246,
+    "cutStreamStartAt": 1790422789746,
+    "cutStreamEndAt": 1790422791866,
+    "interruptedAt": 1790422790916,
+    "cutAgentText": "The contract template for a passing test suite uses the",
+    "answerAudioBeforeCutMs": 2770
+  },
+  "price": 40,
+  "inFlightAtCut": 0,
+  "flushes": 1,
+  "droppedLate": 0,
+  "turns": [
+    {
+      "said": "What does the contract template for a passing test suite look like?",
+      "heard": [
+        "What does the contract template for a passing test suite look like?"
+      ],
+      "calls": [
+        {
+          "callId": "chatcmpl-tool-ae49a9671e448cba",
+          "name": "afg_contract_template",
+          "arguments": {
+            "category": "code_fix_test_suite_pass"
+          },
+          "callAt": 1790422785897,
+          "transitionReply": 0,
+          "mcpName": "afg_contract_template",
+          "normalisersApplied": [],
+          "rawChars": 33607,
+          "spokenChars": 241,
+          "spoken": "test command pytest -q --junitxml=out.xml. x demo AFG MCP template: code fix graded by test_suite_pass + hash_match on a tiny demo repo. TEST MONEY ONLY (mock ledger).. notice TEST MONEY ONLY: mock ledger, test tokens (tUSDC), no real funds.",
+          "method": "local",
+          "refine": "no_shaper",
+          "refineMs": 0,
+          "mcpMs": 1501,
+          "isError": false,
+          "readyAt": 1790422787409,
+          "execMs": 1511,
+          "sentAt": 1790422787409,
+          "answerReply": 1,
+          "transitionDoneAt": 1790422786152,
+          "agentWaitMs": 1257,
+          "transitionAudioMs": 0,
+          "silenceOnUsMs": 1512
+        }
+      ],
+      "agentReply": "The contract template for a passing test suite uses the",
+      "interrupted": true,
+      "startedAt": 1790422780626,
+      "speechEndAt": 1790422784145,
+      "firstAudioAt": 1790422788246,
+      "voiceToVoiceMs": 4101,
+      "idleAt": 1790422791005,
+      "ms": 10379,
+      "timeToAnswerMs": 4101
+    },
+    {
+      "said": "Stop, just tell me the price.",
+      "heard": [
+        "Stop, just tell me the price."
+      ],
+      "calls": [],
+      "agentReply": "I'm sorry, but I don't have any information about a price. I haven't seen a price mentioned in our conversation or in any tool results.",
+      "interrupted": false,
+      "startedAt": 1790422791005,
+      "speechEndAt": 1790422791866,
+      "firstAudioAt": 1790422794623,
+      "voiceToVoiceMs": 2757,
+      "idleAt": 1790422802353,
+      "ms": 11348
+    }
+  ],
+  "replies": [
+    {
+      "startedAt": 1790422784881,
+      "audioBytes": 0,
+      "doneAt": 1790422786151,
+      "audioMs": 0
+    },
+    {
+      "startedAt": 1790422787475,
+      "audioBytes": 132960,
+      "firstAudioAt": 1790422788246,
+      "doneAt": 1790422790915,
+      "audioMs": 2770
+    },
+    {
+      "startedAt": 1790422792488,
+      "audioBytes": 372960,
+      "firstAudioAt": 1790422794623,
+      "doneAt": 1790422802353,
+      "audioMs": 7770
+    }
+  ]
+}

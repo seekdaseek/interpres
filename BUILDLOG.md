@@ -876,3 +876,98 @@ $ npm test          ℹ tests 252  ℹ pass 252  ℹ fail 0
 $ npx tsc --noEmit  (clean)
 $ npm run build     dist/interpres-index.html 5.0 kB, JS 20.6 kB (7.7 kB gzip), CSS 9.7 kB
 ```
+
+---
+
+## 2026-09-26 - CHECKPOINT B follow-ups (0a, 0b)
+
+### Brave's sample rate: closed
+
+Sergiu's live test in Brave: the footer read
+`audio 24000 Hz in / 24000 Hz out (asked for 24000)`. Brave honours the 24 kHz
+request in both directions; the worklets' resampling is not exercised there,
+but is still unit-tested for 16/44.1/48 kHz browsers that do not.
+
+### 0a. Did the agent hear itself through the speakers? No.
+
+`scripts/session-history.ts` (new) reads a session back from Session History:
+`GET /v1/sessions/{id}`, then the `timeline` artifact through its pre-signed URL
+with no Authorization header. Sergiu's session
+`sess_03f781a8d57c4ba98c3c6a16e92ef4d8` (108 s, laptop speakers, AdvisorsAI):
+
+```
+turn 0 greeting     completed  reply +0.36s..+5.10s   ttfa=332ms
+turn 1 user_speech  completed  speech +6.72..+7.82    "What service do you have?"              -> advisors_catalog_list_services 812ms
+turn 2 tool_result  completed  reply  ..+22.17s
+turn 3 user_speech  completed  speech +23.62..+26.92  "I need an audit trail for my agents. Outfits."  -> advisors_catalog_match_service 679ms
+turn 4 tool_result  completed  reply  ..+39.41s
+turn 5 user_speech  completed  speech +44.62..+48.42  "I need check the basics. my site."   ttfa=3255ms (no tool)
+turn 6 user_speech  completed  speech +57.62..+60.40  "okinimus.app"                          -> advisors_site_check_basics 3484ms
+turn 7 tool_result  completed  reply  ..+73.69s
+turn 8 user_speech  completed  speech +76.12..+81.20  "You have to swap K with CH."           -> advisors_site_check_basics 5186ms
+turn 9 tool_result  completed  reply  ..+100.73s
+interrupted turns: 0; interrupted_at_ms: null in all 10; user speech starting inside a known agent reply: 0
+```
+
+Every user utterance began after the preceding agent reply had ended (by
+1.4-5.2 s). No reply was cut, so the agent never interrupted itself.
+
+Reported exactly as the API returns it: for `tool_result` turns the timeline
+gives `agent_reply_ended_at_ms` only - `agent_reply_started_at_ms` and
+`time_to_first_audio_ms` are null. Time to first audio is therefore measurable
+only on the greeting (332 ms) and the one tool-free turn (3,255 ms). Two
+recognition errors are visible in the transcripts: "what fits" became "Outfits",
+and "ochinimus.app" became "okinimus.app" - so mishearing is not limited to hex;
+it hits any word the recogniser does not know.
+
+### 0b. Barge-in without a human
+
+`scripts/e2e-audio.ts --case barge-in`. The AFG template question produces a long
+answer; 1.5 s after that answer's first `reply.audio` chunk, a second utterance -
+"Stop, just tell me the price." - starts streaming through the same continuous
+mic. `AgentProtocol` gained an `onDropped` hook, so a result dropped by the epoch
+check is counted rather than discarded silently.
+
+**First run** (`data/e2e-audio-bargein.json`, `sess_b3d6adc6f2594c948f817e73f900cb2b`):
+
+```
+answer audio played : 2770 ms before the cut; interrupted text: "The contract template for a passing test suite uses the"
+interruption heard  : ["Stop, just tell me the price."]
+cut latency         : 1170 ms from the interruption's first audio chunk to reply.done(interrupted)
+after the cut       : "I'm sorry, but I don't have any information about a price. I haven't seen a
+                       price mentioned in our conversation or in any tool results."
+template price      : 40
+PASS replyDoneInterrupted   PASS flushHookFired   FAIL nextAnswerCarriesPrice
+```
+
+**The defect it found: shaping threw the price away.** The local shaper turned a
+33,607-character template into a 241-character summary aimed at the first
+question; `price.amount` was not in it, so the agent had never seen a price - and
+the anti-fabrication clause, working as designed, stopped it inventing one.
+
+**Fix:** a shaped result now carries a bounded `facts` object beside the spoken
+summary - the JSON's scalar leaves, shallowest first, at most 1,500 characters,
+blobs and long strings skipped (`extractFacts` in `packages/core/src/shape.ts`).
+The system prompt says to use `facts` for follow-ups and never read it out.
+
+**After** (`data/e2e-audio-bargein-facts.json`, `sess_572712169f594470999191b96918affb`):
+
+```
+answer audio played : 2750 ms before the cut; interrupted text: "For a passing test suite, the contract uses a command"
+interruption heard  : ["Stop, just tell me the price."]
+cut latency         : 1145 ms
+after the cut       : "The price is forty dollars in USDC."
+PASS replyDoneInterrupted   PASS flushHookFired   PASS nextAnswerCarriesPrice
+N/A  lateResultDroppedByEpoch (no tool call was in flight at the cut)
+```
+
+**The epoch assertion is structurally unreachable live**, and the reason is a
+measured one: the agent speaks only after its tool result is sent (0 of 20 turns
+had audio before a tool call), so when the caller cuts into an answer there is no
+tool in flight for the epoch check to drop - `toolsInFlightAtCut=0` in both runs.
+It is covered offline: `protocol.test.ts` "an interruption drops pending results
+and ends the turn" and the new "a result dropped by the epoch check is reported
+through onDropped".
+
+The speaker-echo question stays with 0a above: this test proves the protocol
+path, not acoustic echo cancellation.

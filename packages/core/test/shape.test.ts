@@ -236,3 +236,45 @@ test('speakable prose never goes near the Gateway', async () => {
   assert.equal(r.refine, 'not_needed');
   assert.equal(r.refineMs, 0);
 });
+
+// ------------------------------------------- facts survive the spoken summary
+
+test('facts keep a nested price that the spoken summary drops', async () => {
+  // The shape of the afg contract template: the price is two levels down, and
+  // long prose around it wins the extractive summary.
+  const template = {
+    version: 'afg-acs/0-draft',
+    description: 'A job contract graded by a hidden test suite. '.repeat(30),
+    parties: { buyer: 'buyer.acme-ci', provider: 'fixer.py-agent' },
+    price: { amount: '40.00', asset: 'USDC', chain_id: 8453 },
+    artifacts: [{ name: 'repo', bytes_b64: 'QUJD'.repeat(200) }],
+  };
+  const r = await shapeResult('afg_contract_template', { content: [{ type: 'text', text: JSON.stringify(template) }] }, { question: 'What does the template look like?' });
+  const body = JSON.parse(r.result);
+  assert.ok(typeof body.result === 'string' && body.result.length > 0);
+  assert.equal(body.facts['price.amount'], '40.00', `facts: ${JSON.stringify(body.facts)}`);
+  assert.equal(body.facts['price.asset'], 'USDC');
+  assert.equal(body.facts['parties.buyer'], 'buyer.acme-ci');
+  assert.ok(!('artifacts[0].bytes_b64' in body.facts), 'a base64 blob is not a fact');
+  assert.ok(JSON.stringify(body.facts).length <= 1500 + 50, 'facts stay inside their budget');
+});
+
+test('facts are shallowest first and respect the budget', async () => {
+  const { extractFacts } = await import('../src/shape.ts');
+  const deep = { a: 1, b: { c: 2, d: { e: 3, f: { g: 4 } } } };
+  assert.deepEqual(Object.keys(extractFacts(JSON.stringify(deep))!), ['a', 'b.c', 'b.d.e', 'b.d.f.g']);
+  const wide = Object.fromEntries(Array.from({ length: 500 }, (_, i) => [`key${i}`, `value number ${i}`]));
+  const f = extractFacts(JSON.stringify(wide), 300)!;
+  assert.ok(JSON.stringify(f).length < 360, `over budget: ${JSON.stringify(f).length}`);
+  assert.ok('key0' in f, 'the first keys are kept');
+});
+
+test('prose, errors and short results carry no facts', async () => {
+  const { extractFacts } = await import('../src/shape.ts');
+  assert.equal(extractFacts('just some prose'), null);
+  assert.equal(extractFacts('"a bare string"'), null);
+  const short = await shapeResult('t', { content: [{ type: 'text', text: 'It is sunny.' }] });
+  assert.equal(JSON.parse(short.result).facts, undefined, 'passthrough text is already whole');
+  const err = await shapeResult('t', { isError: true, content: [{ type: 'text', text: '{"code":"E1"}' }] });
+  assert.equal(JSON.parse(err.result).facts, undefined);
+});
