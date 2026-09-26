@@ -1,5 +1,5 @@
 import './interpres.css';
-import { $, h, clear, clip } from './dom.ts';
+import { $, h, clear, clip, reveal } from './dom.ts';
 import { TokenRefusedError, VoiceSession } from './voice.ts';
 import { ReplayPlayer, replay } from './replay.ts';
 import type { ConnectPayload, PhasePayload, Status, ToolOutcome, VoiceUi } from './voice.ts';
@@ -147,7 +147,7 @@ function showGate(call: ToolCall, d: Exclude<GateDecision, { action: 'execute' }
   if (d.action !== 'confirm') {
     const box = $('paste') as HTMLInputElement;
     box.focus();
-    box.scrollIntoView({ block: 'center', behavior: 'smooth' });
+    reveal(box, 'center');
   }
   // A held call is released only within 120 s; the card should not outlive that.
   gateHideTimer = setTimeout(() => { card.hidden = true; }, 120_000);
@@ -379,7 +379,7 @@ async function startReplay(why: string | null): Promise<void> {
     toolDone: (id, name, spoken, method, ms, ok) => toolDone({ callId: id, name, arguments: {} }, { spoken, method, totalMs: ms, isError: !ok } as ToolOutcome, ms),
   });
   audio.currentTime = 0;
-  $('replay').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  reveal($('replay'));
   if (!(await player.play())) $('replay-note').textContent += ' Press play to start it.';
 }
 
@@ -493,7 +493,7 @@ async function connect(input: string, opts: { scroll?: boolean } = {}): Promise<
       showHint(notes.length ? `Connected to ${conn.url}: ${notes.map((n) => NOTE_TEXT[n] ?? n).join('; ')}.` : null);
     }
     renderServer(conn);
-    if (opts.scroll) $('server').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (opts.scroll) reveal($('server'));
     void loadStarters(conn.url);
     const q = new URL(location.href);
     q.searchParams.set('url', conn.url);
