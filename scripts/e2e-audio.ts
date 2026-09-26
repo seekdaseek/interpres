@@ -13,6 +13,8 @@
  *   node --env-file=.env scripts/e2e-audio.ts --case afg-address
  *   node --env-file=.env scripts/e2e-audio.ts --preset <url> --say "..." [--say "..."]
  *   options: --voice Samantha --rate 175 --verbose --out <file>
+ *            --api https://interpres.ochinimus.app   token, connect, find_tools and
+ *              tool calls through that server's public HTTP API, as the page does
  */
 import { writeFile, mkdir } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
@@ -80,7 +82,7 @@ export const ADDRESSES: Record<string, { address: string; asks: string[]; startP
   },
 };
 
-type Args = { preset?: string; say: string[]; caseName?: string; voice: string; rate?: number; verbose: boolean; out?: string; carry: boolean };
+type Args = { preset?: string; say: string[]; caseName?: string; voice: string; rate?: number; verbose: boolean; out?: string; carry: boolean; api?: string };
 
 function parseArgs(argv: string[]): Args {
   const a: Args = { say: [], voice: 'Samantha', verbose: false, carry: true };
@@ -93,6 +95,7 @@ function parseArgs(argv: string[]): Args {
     else if (k === '--voice') { a.voice = v ?? a.voice; i++; }
     else if (k === '--rate') { a.rate = Number(v); i++; }
     else if (k === '--out') { a.out = v; i++; }
+    else if (k === '--api') { a.api = v; i++; }
     else if (k === '--verbose') a.verbose = true;
     else if (k === '--no-carry') a.carry = false;
   }
@@ -162,8 +165,9 @@ async function runTarget(
     clips.push({ text, ...s });
   }
 
-  const session = await LiveSession.open(url, { verbose: args.verbose, carry: args.carry, startPhaseQuery: setup.startPhaseQuery });
+  const session = await LiveSession.open(url, { verbose: args.verbose, carry: args.carry, startPhaseQuery: setup.startPhaseQuery, api: args.api });
   console.log(`carry across phase changes: ${args.carry ? 'ON' : 'OFF (A/B baseline)'}`);
+  if (args.api) console.log(`through ${args.api}: token, connect, find_tools and tool calls over its public HTTP API`);
   if (setup.startPhaseQuery) {
     const visible = session.phase.tools.map((t) => t.name);
     console.log(`HARNESS-SET start phase = find_tools(${JSON.stringify(setup.startPhaseQuery)})`);

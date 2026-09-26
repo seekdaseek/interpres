@@ -143,7 +143,37 @@ export type OpenOptions = {
   readOnlyOnly?: boolean;
   /** The session cap asked of the token endpoint; the API accepts 60-10800. */
   maxSessionSeconds?: number;
+  /**
+   * An interpres server to go through, e.g. https://interpres.ochinimus.app. The
+   * token, the connect, find_tools and every tool call then take the same HTTP
+   * route a judge's browser does, through Cloudflare. Only the audio goes
+   * straight to AssemblyAI, exactly as the page sends it.
+   */
+  api?: string;
 };
+
+/** What `/api/mcp/connect` returns, as far as a session needs it. */
+type RemoteConnect = {
+  url: string;
+  server: { name?: string; version?: string; title?: string } | null;
+  instructions: string | null;
+  stats: { toolsIn: number; toolsConverted: number };
+  catalog: Array<{ voiceName: string; mcpName: string }>;
+  phase: { tools: Phase['tools']; systemPrompt: string; keyterms: string[]; transcriptionPrompt: string; reason: string; hasFindTools: boolean; sessionUpdate: { session: Record<string, unknown> } };
+  gate: { tools: ReturnType<typeof gateTools>; server: string };
+};
+
+async function remoteJson<T>(api: string, path: string, init?: RequestInit): Promise<T> {
+  const res = await fetch(`${api.replace(/\/$/, '')}${path}`, init);
+  const text = await res.text();
+  let body: unknown;
+  try { body = JSON.parse(text); } catch { throw new Error(`${path} answered ${res.status} without JSON: ${text.slice(0, 80)}`); }
+  if (!res.ok) throw new Error(`${path} answered ${res.status}: ${(body as { error?: string }).error ?? text.slice(0, 120)}`);
+  return body as T;
+}
+
+const postRemote = <T>(api: string, path: string, body: unknown) =>
+  remoteJson<T>(api, path, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) });
 
 /** One Voice Agent session bound to one MCP server's catalog. */
 export class LiveSession {
@@ -184,22 +214,31 @@ export class LiveSession {
   readonly rawResults = new Map<string, string>();
   private readonly listeners: Array<(msg: ServerEvent) => void> = [];
 
-  private constructor(catalog: Catalog, ws: WebSocket, opts: OpenOptions) {
+  /** Set when the session goes through an interpres server (`OpenOptions.api`). */
+  readonly remote?: { api: string; connect: RemoteConnect };
+
+  private constructor(catalog: Catalog, ws: WebSocket, opts: OpenOptions, remote?: { api: string; connect: RemoteConnect }) {
     this.catalog = catalog;
     this.ws = ws;
+    this.remote = remote;
     this.verbose = opts.verbose ?? false;
     this.carry = opts.carry ?? true;
     this.paste = opts.paste ?? '';
     this.yourKeyterms = opts.pasteKeyterms === false ? [] : pasteKeyterms(this.paste);
-    this.gate = new ToolGate(
-      gateTools(catalog.planner.catalog.filter((c) => c.source).map((c) => ({ voiceName: c.tool.name, source: c.source! }))),
-      (() => { try { return new URL(catalog.url).host; } catch { return catalog.url; } })(),
-    );
+    this.gate = remote
+      // The server's own view of each tool, exactly what the page's gate gets.
+      ? new ToolGate(remote.connect.gate.tools, remote.connect.gate.server)
+      : new ToolGate(
+        gateTools(catalog.planner.catalog.filter((c) => c.source).map((c) => ({ voiceName: c.tool.name, source: c.source! }))),
+        (() => { try { return new URL(catalog.url).host; } catch { return catalog.url; } })(),
+      );
     if (this.paste) this.gate.recordPaste(this.paste);
-    this.phase = opts.startPhaseQuery
-      ? handleFindTools(catalog.planner, opts.startPhaseQuery, { carry: false }).phase
-      : initialPhase(catalog.planner);
-    assertPhaseValid(this.phase);
+    this.phase = remote
+      ? ({ ...remote.connect.phase, visible: [] } as unknown as Phase)
+      : opts.startPhaseQuery
+        ? handleFindTools(catalog.planner, opts.startPhaseQuery, { carry: false }).phase
+        : initialPhase(catalog.planner);
+    if (!remote) assertPhaseValid(this.phase);
     this.shaper = makeShaper({ stats: this.shaperStats, breaker: this.breaker });
     this.refine = config.shaperRefine;
     this.protocol = new AgentProtocol(
@@ -244,10 +283,29 @@ export class LiveSession {
   }
 
   static async open(url: string, opts: OpenOptions = {}): Promise<LiveSession> {
+    if (opts.api) return LiveSession.openRemote(url, opts.api, opts);
     const catalog = await loadCatalog(url, { readOnlyOnly: opts.readOnlyOnly });
     const token = await mintToken(opts.maxSessionSeconds);
     const ws = new WebSocket(`${WS_URL}?token=${encodeURIComponent(token)}`);
     const session = new LiveSession(catalog, ws, opts);
+    await session.connect();
+    return session;
+  }
+
+  /** The page's route: connect and token from an interpres server, not from this process. */
+  private static async openRemote(url: string, api: string, opts: OpenOptions): Promise<LiveSession> {
+    const connect = await postRemote<RemoteConnect>(api, '/api/mcp/connect', { url });
+    const token = (await remoteJson<{ token: string }>(api, '/api/token')).token;
+    const catalog: Catalog = {
+      url: connect.url,
+      connection: { url: connect.url, transport: 'streamable-http', serverInfo: connect.server ?? undefined, capabilities: {}, tools: [] } as unknown as McpConnection,
+      planner: { catalog: [], server: connect.server ?? undefined, instructions: connect.instructions ?? undefined } as unknown as PlannerInput,
+      nameMap: new Map(connect.catalog.map((c) => [c.voiceName, c.mcpName])),
+      byVoiceName: new Map(),
+      stats: { toolsIn: connect.stats.toolsIn, toolsConverted: connect.stats.toolsConverted },
+    };
+    const ws = new WebSocket(`${WS_URL}?token=${encodeURIComponent(token)}`);
+    const session = new LiveSession(catalog, ws, opts, { api, connect });
     await session.connect();
     return session;
   }
@@ -368,6 +426,25 @@ export class LiveSession {
       return { result: pastedTextResult(this.paste) };
     }
 
+    if (call.name === FIND_TOOLS_NAME && this.remote) {
+      const query = String(call.arguments.query ?? '');
+      const r = await postRemote<{ phase: RemoteConnect['phase']; toolResult: string; carried: string[]; available: string[] }>(
+        this.remote.api, '/api/mcp/find-tools', { url: this.catalog.url, query, lastUserTurn: this.lastUserTranscript },
+      );
+      const keyterms = mergeKeyterms(r.phase.keyterms, this.yourKeyterms);
+      this.phase = { ...r.phase, keyterms, visible: [] } as unknown as Phase;
+      const session = { ...r.phase.sessionUpdate.session, input: { ...(r.phase.sessionUpdate.session.input as Record<string, unknown>), keyterms } };
+      if (record) {
+        record.phaseAfter = r.available;
+        record.method = 'phase_change';
+        record.spoken = r.carried.length > 0 ? `carried: ${r.carried.join(', ')}` : 'carried: none';
+        record.readyAt = Date.now();
+        record.execMs = record.readyAt - started;
+      }
+      this.log(`  PHASE -> ${r.available.join(', ')}`);
+      return { result: r.toolResult, sessionUpdate: { session } };
+    }
+
     if (call.name === FIND_TOOLS_NAME) {
       const query = String(call.arguments.query ?? '');
       const outcome = handleFindTools(this.catalog.planner, query, { lastUserTurn: this.lastUserTranscript, carry: this.carry });
@@ -402,6 +479,36 @@ export class LiveSession {
       this.log(`  GATE ${decision.action}: ${decision.card.say}`);
       return { result: decision.result };
     }
+    if (this.remote) {
+      // The page's /api/mcp/call, through the public server: it maps the name,
+      // normalises, calls the MCP server and shapes the result.
+      const sha256: Record<string, string> = {};
+      for (const [k, v] of Object.entries(call.arguments)) if (typeof v === 'string') sha256[k] = createHash('sha256').update(v).digest('hex');
+      this.mcpRequests.push({ tool: mcpName, args: call.arguments, sha256, at: Date.now() });
+      try {
+        const r = await postRemote<{ result: string; spoken: string; raw?: string; isError: boolean; method?: string; refine?: string; refineMs?: number; mcpMs?: number; rawChars?: number; spokenChars?: number; normalisersApplied?: string[] }>(
+          this.remote.api, '/api/mcp/call',
+          { url: this.catalog.url, tool: call.name, arguments: call.arguments, question: this.lastUserTranscript || this.turn?.said, session: this.sessionId },
+        );
+        if (r.raw) this.rawResults.set(call.callId, r.raw);
+        this.gate.recordToolResult(r.raw ?? r.result, call.arguments);
+        if (record) {
+          Object.assign(record, {
+            mcpName, normalisersApplied: r.normalisersApplied, rawChars: r.rawChars, spokenChars: r.spokenChars,
+            spoken: r.spoken, method: r.method, refine: r.refine, refineMs: r.refineMs, mcpMs: r.mcpMs, isError: r.isError, readyAt: Date.now(),
+          });
+          record.execMs = record.readyAt! - started;
+        }
+        this.log(`  RESULT ${mcpName} via ${this.remote.api}: ${r.rawChars ?? '?'} raw -> ${r.spokenChars ?? '?'} spoken [${r.method}] mcp=${r.mcpMs ?? '?'}ms`);
+        return { result: r.result };
+      } catch (err) {
+        const detail = err instanceof Error ? err.message : String(err);
+        this.failures.push(`tool ${call.name} threw: ${detail}`);
+        if (record) { record.isError = true; record.spoken = detail; record.readyAt = Date.now(); }
+        return { result: JSON.stringify({ error: detail }) };
+      }
+    }
+
     const entry = this.catalog.byVoiceName.get(call.name);
     const { args, applied } = applyNormalisers(call.arguments, entry?.report.normalisers ?? []);
     try {
