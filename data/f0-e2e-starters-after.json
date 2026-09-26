@@ -1,0 +1,251 @@
+{
+  "at": "2026-09-26T20:11:49.084Z",
+  "voice": "Samantha",
+  "carry": true,
+  "results": [
+    {
+      "url": "https://x402.ochinimus.app/mcp",
+      "sessionId": "sess_8c771c84f5d44ad7b69ba88e2e812a9a",
+      "turns": [
+        {
+          "said": "What is the current crypto fear and greed index?",
+          "heard": [
+            "What is the current crypto fear and greed index?"
+          ],
+          "calls": [
+            {
+              "callId": "chatcmpl-tool-baa6b8c2f543389b",
+              "name": "find_tools",
+              "arguments": {
+                "query": "fear and greed index"
+              },
+              "callAt": 1790453476577,
+              "transitionReply": 0,
+              "phaseAfter": [
+                "find_tools",
+                "use_pasted_text",
+                "get_fear_greed",
+                "get_market_snapshot",
+                "get_trade_context",
+                "get_dex_quote",
+                "get_base_balance",
+                "get_base_gas",
+                "get_basis",
+                "get_btc_price"
+              ],
+              "method": "phase_change",
+              "spoken": "carried: none",
+              "readyAt": 1790453476717,
+              "execMs": 137,
+              "sentAt": 1790453476875,
+              "answerReply": 1,
+              "transitionDoneAt": 1790453476875,
+              "agentWaitMs": 0,
+              "transitionAudioMs": 0,
+              "silenceOnUsMs": 298
+            },
+            {
+              "callId": "chatcmpl-tool-90053db33205eba0",
+              "name": "get_fear_greed",
+              "arguments": {},
+              "callAt": 1790453477496,
+              "transitionReply": 1,
+              "mcpName": "get_fear_greed",
+              "normalisersApplied": [],
+              "rawChars": 119,
+              "spokenChars": 96,
+              "spoken": "tool get_fear_greed. value 74. classification Greed. timestamp 1790380800. source alternative.me",
+              "method": "local",
+              "refine": "circuit_open",
+              "refineMs": 0,
+              "mcpMs": 131,
+              "isError": false,
+              "readyAt": 1790453477712,
+              "execMs": 216,
+              "sentAt": 1790453477795,
+              "answerReply": 2,
+              "transitionDoneAt": 1790453477795,
+              "agentWaitMs": 0,
+              "transitionAudioMs": 0,
+              "silenceOnUsMs": 299
+            }
+          ],
+          "agentReply": "The current fear and greed index is seventy four, which is classified as greed.",
+          "interrupted": false,
+          "startedAt": 1790453471451,
+          "speechEndAt": 1790453473931,
+          "firstAudioAt": 1790453478541,
+          "voiceToVoiceMs": 4610,
+          "idleAt": 1790453482626,
+          "ms": 11175,
+          "timeToAnswerMs": 4610
+        },
+        {
+          "said": "How much does the full liquidation forecast cost?",
+          "heard": [
+            "How much does the full liquidation forecast cost?"
+          ],
+          "calls": [
+            {
+              "callId": "chatcmpl-tool-bfa4c9cb687d3a3f",
+              "name": "find_tools",
+              "arguments": {
+                "query": "liquidation forecast cost"
+              },
+              "callAt": 1790453488558,
+              "transitionReply": 3,
+              "phaseAfter": [
+                "find_tools",
+                "use_pasted_text",
+                "get_cascade_forecast_free",
+                "get_cascade_forecast",
+                "get_forecast_question",
+                "get_forecast_record",
+                "get_liquidation_stats",
+                "get_last_liquidation",
+                "get_recent_liquidations",
+                "get_liquidation_leaders"
+              ],
+              "method": "phase_change",
+              "spoken": "carried: none",
+              "readyAt": 1790453488688,
+              "execMs": 129,
+              "sentAt": 1790453488796,
+              "answerReply": 4,
+              "transitionDoneAt": 1790453488796,
+              "agentWaitMs": 0,
+              "transitionAudioMs": 0,
+              "silenceOnUsMs": 238
+            }
+          ],
+          "agentReply": "The liquidation forecast costs zero point zero two USDC per call.",
+          "interrupted": false,
+          "startedAt": 1790453483411,
+          "speechEndAt": 1790453486292,
+          "firstAudioAt": 1790453489533,
+          "voiceToVoiceMs": 3241,
+          "idleAt": 1790453494005,
+          "ms": 10594,
+          "timeToAnswerMs": 3241
+        },
+        {
+          "said": "What is the last liquidation for Bitcoin?",
+          "heard": [
+            "What is the last liquidation for Bitcoin?"
+          ],
+          "calls": [
+            {
+              "callId": "chatcmpl-tool-89922847c67fda2d",
+              "name": "get_last_liquidation",
+              "arguments": {},
+              "callAt": 1790453500225,
+              "transitionReply": 5,
+              "mcpName": "get_last_liquidation",
+              "normalisersApplied": [],
+              "rawChars": 882,
+              "spokenChars": 120,
+              "spoken": "delay notice Data delayed 15 minutes. Real-time via get_recent_liquidations ($0.003) or get_liquidation_stats ($0.004)..",
+              "method": "local",
+              "refine": "circuit_open",
+              "refineMs": 0,
+              "mcpMs": 39,
+              "isError": false,
+              "readyAt": 1790453500398,
+              "execMs": 173,
+              "sentAt": 1790453500446,
+              "answerReply": 6,
+              "transitionDoneAt": 1790453500445,
+              "agentWaitMs": 1,
+              "transitionAudioMs": 0,
+              "silenceOnUsMs": 221
+            }
+          ],
+          "agentReply": "The last Bitcoin liquidation was for a long position worth approximately forty seven thousand five hundred thirty eight dollars.",
+          "interrupted": false,
+          "startedAt": 1790453494771,
+          "speechEndAt": 1790453497051,
+          "firstAudioAt": 1790453501183,
+          "voiceToVoiceMs": 4132,
+          "idleAt": 1790453507535,
+          "ms": 12764,
+          "timeToAnswerMs": 4132
+        }
+      ],
+      "events": {
+        "session.updated": 3,
+        "session.ready": 1,
+        "input.speech.started": 3,
+        "transcript.user.delta": 9,
+        "input.speech.stopped": 3,
+        "transcript.user": 3,
+        "reply.started": 7,
+        "tool.call": 4,
+        "reply.done": 7,
+        "reply.audio": 1503,
+        "transcript.agent.delta": 44,
+        "transcript.agent": 3,
+        "session.ended": 1
+      },
+      "failures": [],
+      "audio": {
+        "chunksSent": 933,
+        "reanchors": 0
+      },
+      "shaper": {
+        "calls": 0,
+        "used": 0,
+        "failures": 0,
+        "rateLimited": 0,
+        "timeouts": 0,
+        "totalMs": 0
+      },
+      "replies": [
+        {
+          "startedAt": 1790453475880,
+          "audioMs": 0,
+          "doneAt": 1790453476875
+        },
+        {
+          "startedAt": 1790453476939,
+          "audioMs": 0,
+          "doneAt": 1790453477795
+        },
+        {
+          "startedAt": 1790453477858,
+          "firstAudioAt": 1790453478541,
+          "audioMs": 4120,
+          "doneAt": 1790453482625
+        },
+        {
+          "startedAt": 1790453487153,
+          "audioMs": 0,
+          "doneAt": 1790453488796
+        },
+        {
+          "startedAt": 1790453488860,
+          "firstAudioAt": 1790453489533,
+          "audioMs": 4520,
+          "doneAt": 1790453494005
+        },
+        {
+          "startedAt": 1790453498931,
+          "audioMs": 0,
+          "doneAt": 1790453500445
+        },
+        {
+          "startedAt": 1790453500510,
+          "firstAudioAt": 1790453501183,
+          "audioMs": 6390,
+          "doneAt": 1790453507534
+        }
+      ],
+      "ended": {
+        "session_duration_seconds": 37.832583,
+        "type": "session.ended",
+        "timestamp": 1790453508.4993253,
+        "audio_duration_seconds": null
+      },
+      "ok": true
+    }
+  ]
+}

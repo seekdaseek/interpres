@@ -1,0 +1,223 @@
+{
+  "at": "2026-09-26T20:12:31.584Z",
+  "voice": "Samantha",
+  "carry": true,
+  "results": [
+    {
+      "url": "https://x402.ochinimus.app/mcp",
+      "sessionId": "sess_92029e702afd4feaae15c7b5af6b8ff5",
+      "turns": [
+        {
+          "said": "What is the crypto fear and greed index right now?",
+          "heard": [
+            "What is the Crypto Fear and Greed Index right now?"
+          ],
+          "calls": [
+            {
+              "callId": "chatcmpl-tool-a4eaeedb2717ae8f",
+              "name": "find_tools",
+              "arguments": {
+                "query": "fear and greed index"
+              },
+              "callAt": 1790453527962,
+              "transitionReply": 0,
+              "phaseAfter": [
+                "find_tools",
+                "use_pasted_text",
+                "get_fear_greed",
+                "get_market_snapshot",
+                "get_trade_context",
+                "get_dex_quote",
+                "get_base_balance",
+                "get_base_gas",
+                "get_basis",
+                "get_btc_price"
+              ],
+              "method": "phase_change",
+              "spoken": "carried: none",
+              "readyAt": 1790453528083,
+              "execMs": 120,
+              "sentAt": 1790453528253,
+              "answerReply": 1,
+              "transitionDoneAt": 1790453528252,
+              "agentWaitMs": 1,
+              "transitionAudioMs": 0,
+              "silenceOnUsMs": 291
+            },
+            {
+              "callId": "chatcmpl-tool-828b1d60d30072dd",
+              "name": "get_fear_greed",
+              "arguments": {},
+              "callAt": 1790453528841,
+              "transitionReply": 1,
+              "mcpName": "get_fear_greed",
+              "normalisersApplied": [],
+              "rawChars": 119,
+              "spokenChars": 96,
+              "spoken": "tool get_fear_greed. value 74. classification Greed. timestamp 1790380800. source alternative.me",
+              "method": "local",
+              "refine": "circuit_open",
+              "refineMs": 0,
+              "mcpMs": 122,
+              "isError": false,
+              "readyAt": 1790453529040,
+              "execMs": 198,
+              "sentAt": 1790453529133,
+              "answerReply": 2,
+              "transitionDoneAt": 1790453529133,
+              "agentWaitMs": 0,
+              "transitionAudioMs": 0,
+              "silenceOnUsMs": 292
+            }
+          ],
+          "agentReply": "The Crypto Fear and Greed Index is currently at seventy four, which means the market is in a state of greed.",
+          "interrupted": false,
+          "startedAt": 1790453524116,
+          "speechEndAt": 1790453526762,
+          "firstAudioAt": 1790453529874,
+          "voiceToVoiceMs": 3112,
+          "idleAt": 1790453535813,
+          "ms": 11697,
+          "timeToAnswerMs": 3112
+        },
+        {
+          "said": "What is the live SOL price right now?",
+          "heard": [
+            "What is the live SOL price right now?"
+          ],
+          "calls": [
+            {
+              "callId": "chatcmpl-tool-ad077c4bdad9b746",
+              "name": "find_tools",
+              "arguments": {
+                "query": "SOL price"
+              },
+              "callAt": 1790453540276,
+              "transitionReply": 3,
+              "phaseAfter": [
+                "find_tools",
+                "use_pasted_text",
+                "get_sol_price",
+                "get_sol_network",
+                "pricing",
+                "get_btc_price",
+                "get_eth_price",
+                "get_market_snapshot",
+                "get_funding_rate",
+                "get_trade_context"
+              ],
+              "method": "phase_change",
+              "spoken": "carried: none",
+              "readyAt": 1790453540403,
+              "execMs": 127,
+              "sentAt": 1790453540513,
+              "answerReply": 4,
+              "transitionDoneAt": 1790453540513,
+              "agentWaitMs": 0,
+              "transitionAudioMs": 0,
+              "silenceOnUsMs": 237
+            },
+            {
+              "callId": "chatcmpl-tool-a6f1b5413513d8b5",
+              "name": "get_sol_price",
+              "arguments": {},
+              "callAt": 1790453541123,
+              "transitionReply": 4,
+              "mcpName": "get_sol_price",
+              "spoken": "That tool is paid: 0.001 USDC per call over x402. interpres doesn't pay for tools, so try a free one.",
+              "method": "paid, x402",
+              "mcpMs": 38,
+              "isError": true,
+              "readyAt": 1790453541231,
+              "execMs": 108,
+              "sentAt": 1790453541393,
+              "answerReply": 5,
+              "transitionDoneAt": 1790453541392,
+              "agentWaitMs": 1,
+              "transitionAudioMs": 0,
+              "silenceOnUsMs": 270
+            }
+          ],
+          "agentReply": "That tool requires a payment of zero point zero zero one USDC. Would you like me to check the market snapshot instead, which includes the SOL price?",
+          "interrupted": false,
+          "startedAt": 1790453536595,
+          "speechEndAt": 1790453538795,
+          "firstAudioAt": 1790453542168,
+          "voiceToVoiceMs": 3373,
+          "idleAt": 1790453550082,
+          "ms": 13487,
+          "timeToAnswerMs": 3373
+        }
+      ],
+      "events": {
+        "session.updated": 3,
+        "session.ready": 1,
+        "input.speech.started": 2,
+        "transcript.user.delta": 6,
+        "input.speech.stopped": 2,
+        "transcript.user": 2,
+        "reply.started": 6,
+        "tool.call": 4,
+        "reply.done": 6,
+        "reply.audio": 1395,
+        "transcript.agent.delta": 48,
+        "transcript.agent": 2,
+        "session.ended": 1
+      },
+      "failures": [],
+      "audio": {
+        "chunksSent": 680,
+        "reanchors": 0
+      },
+      "shaper": {
+        "calls": 0,
+        "used": 0,
+        "failures": 0,
+        "rateLimited": 0,
+        "timeouts": 0,
+        "totalMs": 0
+      },
+      "replies": [
+        {
+          "startedAt": 1790453527371,
+          "audioMs": 0,
+          "doneAt": 1790453528252
+        },
+        {
+          "startedAt": 1790453528318,
+          "audioMs": 0,
+          "doneAt": 1790453529133
+        },
+        {
+          "startedAt": 1790453529198,
+          "firstAudioAt": 1790453529874,
+          "audioMs": 5990,
+          "doneAt": 1790453535812
+        },
+        {
+          "startedAt": 1790453539371,
+          "audioMs": 0,
+          "doneAt": 1790453540513
+        },
+        {
+          "startedAt": 1790453540578,
+          "audioMs": 0,
+          "doneAt": 1790453541392
+        },
+        {
+          "startedAt": 1790453541458,
+          "firstAudioAt": 1790453542168,
+          "audioMs": 7960,
+          "doneAt": 1790453550082
+        }
+      ],
+      "ended": {
+        "session_duration_seconds": 27.666431,
+        "type": "session.ended",
+        "timestamp": 1790453551.0117016,
+        "audio_duration_seconds": null
+      },
+      "ok": true
+    }
+  ]
+}

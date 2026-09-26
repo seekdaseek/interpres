@@ -2659,3 +2659,38 @@ recomputes it after, identical, and a control shows it would notice a reordered 
 ```
 $ npm test    ℹ tests 422  ℹ pass 422  ℹ fail 0
 ```
+
+---
+
+## 2026-09-26 - round F, F0 on the public URL
+
+`sh ops/redeploy.sh` shipped a40eb87 and printed `200 /api/health on 127.0.0.1:3031`.
+- PM2 snapshot: 45 rows before and after, and one line differs:
+  `interpres 3635133 0 online` became `interpres 3641140 0 online`.
+- interpres RSS is 137 MB. The neighbours answer: x402 200, mcp 405.
+
+**`ochinimus.app`, before and after:**
+
+| | before (`data/f0-starters-before.json`) | after (`data/f0-starters-after.json`) |
+| --- | --- | --- |
+| connects to | `https://x402.ochinimus.app/mcp`, 59 tools, found in the registry | the same |
+| starters (LLM Gateway) | "What is the current liquidation pulse?", "Show me the top liquidation leaders.", "What is the cascade forecast for Solana?" | "What is the current crypto fear and greed index?", "How much does the full liquidation forecast cost?", "What is the last liquidation for Bitcoin?" |
+
+**The new starters can be answered free.** All three were asked out loud through the public API
+(`data/f0-e2e-starters-after.json`, `sess_8c771c84f5d44ad7b69ba88e2e812a9a`), and no paid tool was
+called:
+1. `find_tools` then `get_fear_greed`: "seventy four, which is classified as greed".
+2. `find_tools` only, answered from the tool list: "The liquidation forecast costs zero point zero
+   two USDC per call."
+3. `get_last_liquidation`: "a long position worth approximately forty seven thousand five hundred
+   thirty eight dollars".
+
+**The two spoken questions** (`e2e-audio --api`):
+
+| | before, `sess_e16cdfa61c704fb0b00202d0fbbabffd` | after, `sess_92029e702afd4feaae15c7b5af6b8ff5` |
+| --- | --- | --- |
+| "What is the crypto fear and greed index right now?" | `find_tools` then `get_fear_greed`, answered: 74, greed | the same, answered: 74, greed |
+| "What is the live SOL price right now?" | `get_sol_price` returned `isError`, method `truncated`, spoken text = the x402 JSON cut to 321 characters | `get_sol_price` returned method `paid, x402`, spoken text "That tool is paid: 0.001 USDC per call over x402. interpres doesn't pay for tools, so try a free one." The agent said: "That tool requires a payment of zero point zero zero one USDC. Would you like me to check the market snapshot instead, which includes the SOL price?" No JSON in any answer (checked: no `{`, `"`, `x402Version` or `accepts`). |
+
+**Noted, not changed:** the agent's own suggestion, `get_market_snapshot`, is itself a paid tool. The
+sentence says "try a free one", but the agent does not know which ones are free.
