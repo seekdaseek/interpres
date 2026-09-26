@@ -24,6 +24,10 @@
 
 * { box-sizing: border-box; }
 html, body { margin: 0; }
+/* No scroll anchoring: once a click has brought the server card to the top,
+   the starter questions load inside it and grow it, and Chrome would shift the
+   page by that growth (+249 px, measured Sep 26) to hold a lower element still. */
+html { overflow-anchor: none; }
 body {
   background:
     radial-gradient(1200px 600px at 80% -10%, #16222a 0%, transparent 60%),
