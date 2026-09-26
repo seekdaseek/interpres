@@ -2201,3 +2201,63 @@ In the browser pane on the local server:
   link to the https URL.
 
 The public check comes after the redeploy, in the next entry.
+
+---
+
+## 2026-09-26 - round E, P0 on the public URL
+
+`sh ops/redeploy.sh` shipped 87f5304 and printed
+`200 /api/health on 127.0.0.1:3031`.
+
+The PM2 snapshot (name, pid, restarts, status; never env) has 45 rows before and
+after, and one line differs:
+```
+< interpres 3624145 0 online
+> interpres 3632991 0 online
+```
+- After: `Mem: 3809 total, 1839 used`, and interpres RSS is 126 MB.
+- The neighbours answer: `x402.ochinimus.app` 200, `mcp.ochinimus.app/mcp` 405.
+
+The same 19 inputs through Cloudflare, `data/public-matrix-after-p0.json`
+(18:20Z). "HTML" marks a body Cloudflare replaced:
+
+| case | sent | before | after | JSON after? | what arrives now |
+| --- | --- | ---: | ---: | --- | --- |
+| no scheme | `mcp.goji.agency/mcp` | 400 | 200 | yes | connected: https://mcp.goji.agency/mcp |
+| bare domain | `goji.agency` | 400 | 424 | yes | Couldn't reach it. Check the address and try again. |
+| http scheme | `http://mcp.goji.agency/mcp` | 400 | 200 | yes | connected: https://mcp.goji.agency/mcp |
+| spaces around | `  https://mcp.goji.agency/mcp  ` | 200 | 200 | yes | connected: https://mcp.goji.agency/mcp |
+| wrapped in quotes | `"https://mcp.goji.agency/mcp"` | 400 | 200 | yes | connected: https://mcp.goji.agency/mcp |
+| wrapped in <> | `<https://mcp.goji.agency/mcp>` | 400 | 200 | yes | connected: https://mcp.goji.agency/mcp |
+| not MCP | `https://example.com` | 502 HTML | 424 | yes | That address answered, but not as an MCP server. MCP endpoints usually end in /m |
+| a website | `https://goji.agency` | 502 HTML | 424 | yes | That address answered, but not as an MCP server. MCP endpoints usually end in /m |
+| inference.sh | `https://api.inference.sh/mcp` | 502 HTML | 424 | yes | This server needs a login. interpres only connects to servers that need none, an |
+| no such host | `https://nothing-here.invalid/mcp` | 400 | 400 | yes | Couldn't reach it. Check the address and try again. |
+| closed port | `https://example.com:81/mcp` | 504 HTML | 424 | yes | Couldn't reach it. Check the address and try again. |
+| private: loopback | `https://127.0.0.1/mcp` | 400 | 400 | yes | 127.0.0.1 is not a publicly routable address. |
+| private: 10/8 | `https://10.0.0.1/mcp` | 400 | 400 | yes | 10.0.0.1 is not a publicly routable address. |
+| credentials | `https://user:pass@mcp.goji.agency/mcp` | 400 | 400 | yes | interpres never sends credentials. Remove the user:password@ part of the address |
+| javascript: | `javascript:alert(1)` | 400 | 400 | yes | javascript: is not a web address. Only web addresses work here: http:// or https |
+| file: | `file:///etc/passwd` | 400 | 400 | yes | file: is not a web address. Only web addresses work here: http:// or https://. |
+| starters, not MCP | `https://example.com` | 502 HTML | 424 | yes | That address answered, but not as an MCP server. MCP endpoints usually end in /m |
+| find-tools, not MCP | `https://example.com` | 502 HTML | 424 | yes | That address answered, but not as an MCP server. MCP endpoints usually end in /m |
+| call, not MCP | `https://example.com` | 200 | 200 | yes | That address answered, but not as an MCP server. MCP endpoints usually end in /m |
+
+**Every body now arrives as our JSON**, and no route answered 5xx.
+- `goji.agency` normalised to `https://goji.agency/`, and that probe timed out at
+  10,087 ms. A POST to the same address answered 405 in 1.35 s and then 0.10 s
+  from the Mac, and the next row (`https://goji.agency`, the same URL) was "not
+  MCP" in 1,176 ms. So the first probe hit a cold, slow site, and the message was
+  the right class for what happened. Discovery (P1) is what takes this input to
+  mcp.goji.agency.
+- **A token-service failure through Cloudflare: UNTESTED.** The only ways to cause
+  one are to break the production key or AssemblyAI's endpoint, or to wait for
+  their outage. The hermetic test (`a token-service failure is a 424 in JSON`)
+  proves the route's 424 JSON. The rows above prove that Cloudflare passes a 424
+  JSON body through intact.
+
+**The page on the public URL**, in the browser pane:
+- I typed `mcp.goji.agency/mcp` with real keystrokes and pressed Enter.
+- The box became `https://mcp.goji.agency/mcp`, the line under it read "Connected
+  to https://mcp.goji.agency/mcp: added https://.", and the server card showed
+  goji, v1.0.1, 9 tools.
