@@ -1,14 +1,19 @@
 /**
- * End-to-end proof, without a microphone.
+ * FALLBACK HARNESS - text injection, not speech.
+ *
+ * The main proof path is `scripts/e2e-audio.ts`, which streams real synthesised
+ * speech through `input.audio` exactly as a microphone would. This script
+ * injects the question as text instead (`conversation.message` plus
+ * `reply.create.instructions`), which is faster and needs no audio tooling, but
+ * it is a different input path. Measured on 2026-09-26: an argument given in an
+ * injected question did not survive a `find_tools` phase change, because an
+ * injected message does not count as a user turn for argument inference. Keep
+ * this for quick protocol checks; trust e2e-audio for anything about speech.
  *
  * Opens a real Voice Agent session, registers a real MCP server's converted
- * tools, injects a user turn as text, and lets the agent do the rest: it decides
- * to call a tool, we run it against the MCP server, hand back the shaped result,
- * and wait for the spoken answer that uses it.
- *
- * It takes the browser's path exactly - mint a token, connect with `?token=` -
- * rather than the Authorization header a Node client could use, so what passes
- * here is what the demo does.
+ * tools, injects a user turn, and waits for a spoken answer that uses the tool
+ * output. It takes the browser's path - mint a token, connect with `?token=` -
+ * rather than the Authorization header a Node client could use.
  *
  *   node --env-file=.env scripts/e2e.ts [--preset <url>] [--ask "question"] [--verbose]
  */
@@ -19,8 +24,7 @@ import {
 } from '@interpres/core';
 import type { ConvertedTool, McpServerInfo, PlannerInput } from '@interpres/core';
 import { probeServer, callTool } from '../apps/server/src/mcp.ts';
-import { makeShaper } from '../apps/server/src/shaper.ts';
-import type { ShaperStats } from '../apps/server/src/shaper.ts';
+import { CircuitBreaker, makeShaper, newShaperStats } from '../apps/server/src/shaper.ts';
 import { config } from '../apps/server/src/config.ts';
 import { PRESETS } from '../apps/server/src/presets.ts';
 
@@ -111,8 +115,9 @@ async function runPreset(url: string, asks: string[], verbose: boolean): Promise
   );
   console.log(`phase 0 (${phase.reason}): ${phase.tools.map((t) => t.name).join(', ')}`);
 
-  const shaperStats: ShaperStats = { calls: 0, failures: 0, totalMs: 0, retries: 0 };
-  const shaper = makeShaper(shaperStats);
+  const breaker = new CircuitBreaker();
+  const shaper = makeShaper({ stats: newShaperStats(), breaker });
+  const shaperAvailable = (): boolean => !breaker.isOpen();
   const byVoiceName = new Map<string, ConvertedTool>(conversion.converted.map((c) => [c.tool.name, c]));
 
   // 2. Open the session the way the browser does.
@@ -232,7 +237,7 @@ async function runPreset(url: string, asks: string[], verbose: boolean): Promise
               record.normalisersApplied = applied;
 
               const outcome = await callTool(url, mcpName, normalised);
-              const shaped = await shapeResult(name, outcome.result, { shaper, question: currentTurn?.ask });
+              const shaped = await shapeResult(name, outcome.result, { shaper, shaperAvailable, question: currentTurn?.ask });
               record.rawChars = shaped.rawChars;
               record.spokenChars = shaped.spokenChars;
               record.spoken = shaped.spoken;
@@ -242,7 +247,7 @@ async function runPreset(url: string, asks: string[], verbose: boolean): Promise
               record.totalMs = Date.now() - started;
               console.log(
                 `  RESULT  ${mcpName}: ${shaped.rawChars} chars raw -> ${shaped.spokenChars} spoken ` +
-                  `[${shaped.method}] in ${outcome.durationMs}ms`,
+                  `[${shaped.method}, refine=${shaped.refine} ${shaped.refineMs}ms] in ${outcome.durationMs}ms`,
               );
               console.log(`  SHAPED  ${shaped.spoken.slice(0, 200)}`);
               pending.push({ call_id: callId, result: shaped.result });

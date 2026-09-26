@@ -1,45 +1,88 @@
 /**
- * The result shaper's LLM call, against AssemblyAI's LLM Gateway.
+ * The Gateway refinement: an optional second pass over a result the local
+ * extractive shaper has already made speakable.
  *
- * OpenAI-compatible, same API key as the Voice Agent API. `packages/core` owns
- * the decision of *whether* to shape; this is only the network call, so core
- * stays testable without one.
+ * AssemblyAI's LLM Gateway, OpenAI-compatible, same API key as the Voice Agent
+ * API. Two measured facts decide how it is used:
+ *
+ *   - this account reaches exactly one model, `qwen3.5-4b-32k-fast`; every other
+ *     id answers `400 "Your account does not have access to this LLM Gateway
+ *     model"`
+ *   - that model answers `429 "too many requests for this action"` under any
+ *     load: 4 refusals in 6 sequential calls on 2026-09-26
+ *
+ * So speech never waits on it. `packages/core` computes the local answer first
+ * and gives this call `REFINE_DEADLINE_MS` (1.5 s) to beat it. After any 429 the
+ * breaker opens and the Gateway is not asked at all for 60 seconds.
  */
 import type { Shaper } from '@interpres/core';
-import { SHAPER_SYSTEM_PROMPT, buildShaperUserPrompt } from '@interpres/core';
+import { SHAPER_SYSTEM_PROMPT, buildShaperUserPrompt, REFINE_DEADLINE_MS } from '@interpres/core';
 import { config } from './config.ts';
+
+export const BREAKER_OPEN_MS = 60_000;
+
+/** Opens on a 429 and stays open for a fixed window. Nothing cleverer is needed. */
+export class CircuitBreaker {
+  readonly openMs: number;
+  private openUntil = 0;
+  trips = 0;
+
+  constructor(openMs: number = BREAKER_OPEN_MS) {
+    this.openMs = openMs;
+  }
+
+  isOpen(now: number = Date.now()): boolean {
+    return now < this.openUntil;
+  }
+
+  trip(now: number = Date.now()): void {
+    this.openUntil = now + this.openMs;
+    this.trips++;
+  }
+
+  /** Seconds until the Gateway is tried again; 0 when closed. */
+  secondsLeft(now: number = Date.now()): number {
+    return Math.max(0, Math.ceil((this.openUntil - now) / 1000));
+  }
+}
 
 export type ShaperStats = {
   calls: number;
+  used: number;
   failures: number;
+  rateLimited: number;
+  timeouts: number;
   totalMs: number;
-  /** Retries spent on a 429. */
-  retries: number;
   /** Last failure, so a silent fallback is diagnosable from /api/status. */
   lastError?: string;
   lastErrorAt?: string;
 };
 
-/**
- * One retry, and only for 429.
- *
- * Measured on 2026-09-26: 4 of 6 shaping calls on this account came back
- * `429 "too many requests for this action"`. A single short retry converts some
- * of those without keeping a voice turn waiting; the local extractive shaper in
- * `packages/core` handles the rest, so a refusal degrades instead of failing.
- */
-const RETRY_AFTER_429_MS = 700;
+export function newShaperStats(): ShaperStats {
+  return { calls: 0, used: 0, failures: 0, rateLimited: 0, timeouts: 0, totalMs: 0 };
+}
 
-export function makeShaper(stats: ShaperStats, apiKey: string = config.assemblyAiKey): Shaper {
+export function makeShaper(opts: {
+  stats: ShaperStats;
+  breaker: CircuitBreaker;
+  apiKey?: string;
+  fetchImpl?: typeof fetch;
+  timeoutMs?: number;
+}): Shaper {
+  const { stats, breaker } = opts;
+  const apiKey = opts.apiKey ?? config.assemblyAiKey;
+  const doFetch = opts.fetchImpl ?? fetch;
+  // The same budget core races against, so the socket is released when the
+  // race is lost rather than left to finish on its own.
+  const timeoutMs = opts.timeoutMs ?? REFINE_DEADLINE_MS;
+
   return async ({ text, question, toolName, maxChars }) => {
     const started = Date.now();
     stats.calls++;
     const ac = new AbortController();
-    // A voice turn is waiting. Better a local answer than a pause.
-    const timer = setTimeout(() => ac.abort(), 8000);
-
-    const attempt = async (retried: boolean): Promise<string> => {
-      const res = await fetch(config.llmGateway, {
+    const timer = setTimeout(() => ac.abort(), timeoutMs);
+    try {
+      const res = await doFetch(config.llmGateway, {
         method: 'POST',
         signal: ac.signal,
         headers: { authorization: `Bearer ${apiKey}`, 'content-type': 'application/json' },
@@ -53,34 +96,28 @@ export function makeShaper(stats: ShaperStats, apiKey: string = config.assemblyA
           ],
         }),
       });
+      if (res.status === 429) {
+        // One refusal is enough: the next minute of calls would only queue up
+        // more refusals, each spending some of a waiting turn's budget.
+        breaker.trip();
+        stats.rateLimited++;
+        throw new Error('llm gateway 429: rate limited; breaker open');
+      }
       if (!res.ok) {
-        // The body names the reason - a gated model, a rate limit - and without
-        // it a failure is invisible behind the local fallback.
+        // The body names the reason - a gated model, a bad request.
         const detail = await res.text().catch(() => '');
-        if (res.status === 429 && !retried) {
-          stats.retries++;
-          await new Promise((r) => setTimeout(r, RETRY_AFTER_429_MS));
-          return attempt(true);
-        }
         throw new Error(`llm gateway ${res.status}: ${detail.slice(0, 200)}`);
       }
       const body = (await res.json()) as { choices?: Array<{ message?: { content?: string } }> };
       const content = body.choices?.[0]?.message?.content ?? '';
-      if (content.trim() === '') {
-        throw new Error('llm gateway returned an empty completion');
-      }
+      if (content.trim() === '') throw new Error('llm gateway returned an empty completion');
+      stats.used++;
       return content.trim().slice(0, maxChars * 2);
-    };
-
-    try {
-      return await attempt(false);
     } catch (err) {
-      // Counted in exactly one place. Incrementing at each throw site as well
-      // made a single failure show up as two in /api/status.
       stats.failures++;
-      stats.lastError = err instanceof Error
-        ? (err.name === 'AbortError' || err.name === 'TimeoutError' ? `timeout after ${Date.now() - started}ms` : err.message)
-        : String(err);
+      const aborted = err instanceof Error && (err.name === 'AbortError' || err.name === 'TimeoutError');
+      if (aborted) stats.timeouts++;
+      stats.lastError = aborted ? `timeout after ${Date.now() - started}ms` : err instanceof Error ? err.message : String(err);
       stats.lastErrorAt = new Date().toISOString();
       throw err;
     } finally {

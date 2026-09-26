@@ -25,8 +25,7 @@ import { getCatalog, cacheStats, invalidate } from './catalog.ts';
 import type { Catalog } from './catalog.ts';
 import { McpError, callTool } from './mcp.ts';
 import { SsrfError } from './ssrf.ts';
-import { makeShaper } from './shaper.ts';
-import type { ShaperStats } from './shaper.ts';
+import { CircuitBreaker, makeShaper, newShaperStats } from './shaper.ts';
 import { PRESETS, presetFor } from './presets.ts';
 
 const log = new EventLog(config.logPath);
@@ -34,8 +33,11 @@ const limiter = new RateLimiter({
   perIpPerHour: config.limits.perIpPerHour,
   globalPerDay: config.limits.globalPerDay,
 });
-const shaperStats: ShaperStats = { calls: 0, failures: 0, totalMs: 0, retries: 0 };
-const shaper = makeShaper(shaperStats);
+const shaperStats = newShaperStats();
+const breaker = new CircuitBreaker();
+const shaper = makeShaper({ stats: shaperStats, breaker });
+/** Consulted before every Gateway call, so an open breaker costs no wait. */
+const shaperAvailable = (): boolean => !breaker.isOpen();
 
 const counters = { tokens: 0, connects: 0, toolCalls: 0, toolFailures: 0, findTools: 0 };
 
@@ -276,6 +278,7 @@ app.post('/api/mcp/call', async (c) => {
     const outcome = await callTool(url, mcpName, args);
     const shaped = await shapeResult(voiceName, outcome.result, {
       shaper,
+      shaperAvailable,
       question: typeof body.question === 'string' ? body.question : undefined,
     });
 
@@ -290,7 +293,9 @@ app.post('/api/mcp/call', async (c) => {
       spokenChars: shaped.spokenChars,
       shaped: shaped.shaped,
       method: shaped.method,
-      ...(shaped.method === 'llm_failed_local' ? { shaperError: shaperStats.lastError } : {}),
+      refine: shaped.refine,
+      refineMs: shaped.refineMs,
+      ...(shaped.refine === 'error' ? { shaperError: shaperStats.lastError } : {}),
     });
 
     return c.json({
@@ -300,6 +305,8 @@ app.post('/api/mcp/call', async (c) => {
       isError: shaped.isError,
       shaped: shaped.shaped,
       method: shaped.method,
+      refine: shaped.refine,
+      refineMs: shaped.refineMs,
       rawChars: shaped.rawChars,
       spokenChars: shaped.spokenChars,
       mcpMs: outcome.durationMs,
@@ -328,7 +335,13 @@ app.post('/api/mcp/call', async (c) => {
 app.get('/api/status', (c) =>
   c.json({
     counters,
-    shaper: { ...shaperStats, avgMs: shaperStats.calls > 0 ? Math.round(shaperStats.totalMs / shaperStats.calls) : 0 },
+    shaper: {
+      ...shaperStats,
+      avgMs: shaperStats.calls > 0 ? Math.round(shaperStats.totalMs / shaperStats.calls) : 0,
+      breakerOpen: breaker.isOpen(),
+      breakerSecondsLeft: breaker.secondsLeft(),
+      breakerTrips: breaker.trips,
+    },
     cache: cacheStats(),
     rate: { trackedKeys: limiter.trackedKeys, globalUsed: limiter.globalUsed, globalPerDay: limiter.globalPerDay, perIpPerHour: limiter.perIpPerHour },
     recent: log.tail(30),

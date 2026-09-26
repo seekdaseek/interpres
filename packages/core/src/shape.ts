@@ -49,12 +49,29 @@ export type ShapeResult = {
   /** The untouched text, for the UI's raw pane. */
   raw: string;
   shaped: boolean;
-  /** `empty`, `passthrough`, `truncated`, `llm`, `llm_failed_local`, `local`. */
+  /** `empty`, `passthrough`, `truncated`, `local`, or `llm`. */
   method: string;
+  /**
+   * What happened to the Gateway refinement, for results that needed shaping:
+   * `used`, `timeout`, `error`, `circuit_open`, `no_shaper`. `not_needed` for
+   * results that were already speakable and never went near the Gateway.
+   */
+  refine: RefineOutcome;
+  /** Milliseconds spent waiting on the Gateway; never more than the deadline. */
+  refineMs: number;
   isError: boolean;
   rawChars: number;
   spokenChars: number;
 };
+
+export type RefineOutcome = 'used' | 'timeout' | 'error' | 'circuit_open' | 'no_shaper' | 'not_needed';
+
+/**
+ * The Gateway gets this long to improve on the local answer, and no longer.
+ * The local answer is already computed when the clock starts, so the worst
+ * case for speech is this many milliseconds - never an open-ended wait.
+ */
+export const REFINE_DEADLINE_MS = 1500;
 
 /** Flatten MCP content blocks into one piece of text. */
 export function flattenContent(result: McpCallResult): string {
@@ -125,65 +142,96 @@ export function buildShaperUserPrompt(toolName: string, text: string, question?:
 /**
  * Shape one MCP tool result.
  *
- * Never throws and never leaves the agent waiting on nothing: if the shaper
- * fails or is absent, the result is truncated locally and the method says so.
+ * Local first, always. The extractive answer is computed before the Gateway is
+ * asked anything, and the Gateway then has `refineDeadlineMs` to beat it. It
+ * cannot delay speech past that deadline, cannot fail a turn, and is not asked
+ * at all while `shaperAvailable()` says no - which is how the server's circuit
+ * breaker keeps a rate-limited Gateway out of the path for a minute at a time.
+ *
+ * Never throws.
  */
 export async function shapeResult(
   toolName: string,
   result: McpCallResult,
-  opts: { shaper?: Shaper; question?: string; maxChars?: number; shapeOverChars?: number } = {},
+  opts: {
+    shaper?: Shaper;
+    /** Consulted before every call; false skips the Gateway without waiting. */
+    shaperAvailable?: () => boolean;
+    question?: string;
+    maxChars?: number;
+    shapeOverChars?: number;
+    refineDeadlineMs?: number;
+  } = {},
 ): Promise<ShapeResult> {
   const maxChars = opts.maxChars ?? SPOKEN_MAX_CHARS;
   const shapeOver = opts.shapeOverChars ?? SHAPE_OVER_CHARS;
+  const deadline = opts.refineDeadlineMs ?? REFINE_DEADLINE_MS;
   const raw = flattenContent(result);
   const isError = result.isError === true;
 
-  const base = { raw, rawChars: raw.length, isError };
+  const base = { raw, rawChars: raw.length, isError, refineMs: 0 };
+  const done = (spoken: string, method: string, shaped: boolean, refine: RefineOutcome, refineMs = 0, asError = false): ShapeResult => ({
+    ...base,
+    result: JSON.stringify(asError ? { error: spoken } : { result: spoken }),
+    spoken,
+    shaped,
+    method,
+    refine,
+    refineMs,
+    spokenChars: spoken.length,
+  });
 
   if (raw === '') {
-    const spoken = isError
-      ? 'The tool reported an error but gave no detail.'
-      : 'The tool returned nothing.';
-    return { ...base, result: JSON.stringify(isError ? { error: spoken } : { result: spoken }), spoken, shaped: false, method: 'empty', spokenChars: spoken.length };
+    const spoken = isError ? 'The tool reported an error but gave no detail.' : 'The tool returned nothing.';
+    return done(spoken, 'empty', false, 'not_needed', 0, isError);
   }
 
   // An error is short and the model reads it verbatim, so keep the server's own
   // words: the docs want the failing field named, not a paraphrase.
   if (isError) {
     const spoken = truncateSpoken(raw, maxChars);
-    return { ...base, result: JSON.stringify({ error: spoken }), spoken, shaped: spoken !== raw, method: spoken === raw ? 'passthrough' : 'truncated', spokenChars: spoken.length };
+    return done(spoken, spoken === raw ? 'passthrough' : 'truncated', spoken !== raw, 'not_needed', 0, true);
   }
 
-  const needsShaping = raw.length > shapeOver || looksStructured(raw);
-  if (!needsShaping) {
+  if (!(raw.length > shapeOver || looksStructured(raw))) {
     const spoken = truncateSpoken(raw, maxChars);
-    return { ...base, result: JSON.stringify({ result: spoken }), spoken, shaped: false, method: spoken === raw ? 'passthrough' : 'truncated', spokenChars: spoken.length };
+    return done(spoken, spoken === raw ? 'passthrough' : 'truncated', false, 'not_needed');
   }
 
-  if (opts.shaper) {
-    try {
-      const summary = await opts.shaper({ text: raw, question: opts.question, toolName, maxChars });
-      const spoken = truncateSpoken(summary, maxChars);
-      if (spoken !== '') {
-        return { ...base, result: JSON.stringify({ result: spoken }), spoken, shaped: true, method: 'llm', spokenChars: spoken.length };
-      }
-    } catch {
-      // Fall through to the local path. A voice turn is in flight; a thrown
-      // error here would leave the agent silent until its tool timeout.
-    }
-    const spoken = localShape(raw, opts.question, maxChars);
-    return { ...base, result: JSON.stringify({ result: spoken }), spoken, shaped: true, method: 'llm_failed_local', spokenChars: spoken.length };
-  }
+  // Local first. Everything after this line can only replace it, never delay it
+  // past the deadline.
+  const local = localShape(raw, opts.question, maxChars);
 
-  const spoken = localShape(raw, opts.question, maxChars);
-  return { ...base, result: JSON.stringify({ result: spoken }), spoken, shaped: true, method: 'local', spokenChars: spoken.length };
+  if (!opts.shaper) return done(local, 'local', true, 'no_shaper');
+  if (opts.shaperAvailable && !opts.shaperAvailable()) return done(local, 'local', true, 'circuit_open');
+
+  const started = Date.now();
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  const timeout = new Promise<{ kind: 'timeout' }>((resolve) => {
+    timer = setTimeout(() => resolve({ kind: 'timeout' }), deadline);
+  });
+  const call = opts
+    .shaper({ text: raw, question: opts.question, toolName, maxChars })
+    .then((text) => ({ kind: 'ok' as const, text }))
+    // A late rejection must not surface as an unhandled one once the race is lost.
+    .catch(() => ({ kind: 'error' as const }));
+
+  const outcome = await Promise.race([call, timeout]);
+  clearTimeout(timer);
+  const refineMs = Date.now() - started;
+
+  if (outcome.kind === 'ok') {
+    const spoken = truncateSpoken(outcome.text, maxChars);
+    if (spoken !== '') return done(spoken, 'llm', true, 'used', refineMs);
+    return done(local, 'local', true, 'error', refineMs);
+  }
+  return done(local, 'local', true, outcome.kind === 'timeout' ? 'timeout' : 'error', refineMs);
 }
 
 /**
- * The local shaping path, used whenever the LLM Gateway is unavailable - which
- * on this account is most of the time, since it answers 429 under any load.
- * JSON is flattened to words first, then the extractive summariser picks the
- * sentences that answer the question.
+ * The local shaping path: the answer every shaped result starts from. JSON is
+ * flattened to words first, then the extractive summariser picks the sentences
+ * that answer the question.
  */
 export function localShape(raw: string, question: string | undefined, maxChars: number): string {
   const flattened = looksJson(raw) ? stripStructure(raw) : raw;

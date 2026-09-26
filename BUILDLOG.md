@@ -613,3 +613,46 @@ $ node --test apps/server/test/logs.test.ts apps/server/test/api.test.ts
 ℹ tests 19
 ℹ pass 19
 ```
+
+### 2. The Gateway is behind a circuit breaker and a hard 1.5 s deadline
+
+`packages/core/src/shape.ts` now computes the local extractive answer **first**,
+then races the Gateway against `REFINE_DEADLINE_MS = 1500`. Lose the race, fail,
+or find the breaker open, and the local answer is sent. The server's shaper
+aborts its fetch at the same 1.5 s, so a lost race releases its socket instead
+of finishing in the background. After any 429, `CircuitBreaker` opens for 60 s
+and `shaperAvailable()` returns false, so the Gateway is not called at all. The
+old 700 ms retry-on-429 is gone: it contradicted the breaker and spent the budget.
+
+Each shaped result now reports `refine`: `used`, `timeout`, `error`,
+`circuit_open`, `no_shaper`, or `not_needed`, plus `refineMs`.
+
+Tests pin the guarantees rather than the happy path:
+- a Gateway that answers after 5 s is abandoned at a 60 ms deadline, and the call
+  returns inside 210 ms with the local answer
+- an open breaker means **zero** Gateway calls and no wait
+- a Gateway that rejects after losing the race leaves no unhandled rejection
+- one 429 trips the breaker; 400/500/503 do not
+- the network call aborts near its own deadline instead of waiting 5 s
+
+Live, six calls in a row through the real server:
+
+```
+method=llm    refine=used          refineMs= 853  total=3180ms
+method=llm    refine=used          refineMs= 429  total=1789ms
+method=local  refine=error         refineMs= 210  total=1577ms   <- the 429
+method=local  refine=circuit_open  refineMs=   0  total=1343ms
+method=local  refine=circuit_open  refineMs=   0  total=1296ms
+method=local  refine=circuit_open  refineMs=   0  total=1288ms
+gateway: calls=3 used=2 rateLimited=1 breakerOpen=true trips=1 secondsLeft=56
+```
+
+Six tool calls, three Gateway calls. Slowest refinement 853 ms, inside the
+deadline. The README states which models this account reaches and that no reply
+depends on the Gateway.
+
+```
+$ npm test
+ℹ tests 225
+ℹ pass 225
+```

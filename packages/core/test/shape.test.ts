@@ -49,6 +49,7 @@ test('the shaper is used when supplied, and told what was asked', async () => {
   const shaper: Shaper = async (input) => { seen.push(input); return 'Four bolts and nine nuts are in stock.'; };
   const r = await shapeResult('inventory', text('{"bolt":4,"nut":9}'), { shaper, question: 'how many bolts' });
   assert.equal(r.method, 'llm');
+  assert.equal(r.refine, 'used');
   assert.equal(r.spoken, 'Four bolts and nine nuts are in stock.');
   assert.equal(seen[0].question, 'how many bolts');
   assert.equal(seen[0].toolName, 'inventory');
@@ -58,14 +59,16 @@ test('the shaper is used when supplied, and told what was asked', async () => {
 test('a shaper that throws must not leave the agent silent', async () => {
   const shaper: Shaper = async () => { throw new Error('gateway down'); };
   const r = await shapeResult('t', text('{"a":1,"b":2}'), { shaper });
-  assert.equal(r.method, 'llm_failed_local');
+  assert.equal(r.method, 'local');
+  assert.equal(r.refine, 'error');
   assert.ok(r.spoken.length > 0, 'something must be said');
   assert.ok(!r.spoken.includes('{'));
 });
 
 test('a shaper that returns nothing falls back rather than saying nothing', async () => {
   const r = await shapeResult('t', text('{"a":1}'), { shaper: async () => '   ' });
-  assert.equal(r.method, 'llm_failed_local');
+  assert.equal(r.method, 'local');
+  assert.equal(r.refine, 'error');
   assert.ok(r.spoken.length > 0);
 });
 
@@ -171,4 +174,65 @@ test('a result just over the threshold is shaped and just under is not', async (
   const over = 'a. '.repeat(800);        // ~2400 chars
   assert.equal((await shapeResult('t', text(under))).shaped, false);
   assert.equal((await shapeResult('t', text(over))).shaped, true);
+});
+
+// ------------------------------------------- the Gateway can never delay speech
+
+test('a slow Gateway is abandoned at the deadline and the local answer is sent', async () => {
+  const slow: Shaper = () => new Promise((resolve) => setTimeout(() => resolve('too late'), 5000));
+  const started = Date.now();
+  const r = await shapeResult('t', text('{"temp_c":22,"condition":"sunny"}'), { shaper: slow, refineDeadlineMs: 60 });
+  const elapsed = Date.now() - started;
+  assert.equal(r.method, 'local');
+  assert.equal(r.refine, 'timeout');
+  assert.ok(elapsed < 60 + 150, `waited ${elapsed}ms against a 60ms deadline`);
+  assert.ok(r.refineMs >= 55 && r.refineMs < 60 + 150, `refineMs ${r.refineMs}`);
+  assert.ok(!r.spoken.includes('too late'));
+  assert.ok(r.spoken.length > 0);
+});
+
+test('the default deadline is the documented 1.5 s', async () => {
+  const { REFINE_DEADLINE_MS } = await import('../src/shape.ts');
+  assert.equal(REFINE_DEADLINE_MS, 1500);
+});
+
+test('an open breaker means the Gateway is not called at all', async () => {
+  let called = 0;
+  const shaper: Shaper = async () => { called++; return 'x'; };
+  const started = Date.now();
+  const r = await shapeResult('t', text('{"a":1}'), { shaper, shaperAvailable: () => false });
+  assert.equal(called, 0, 'an open breaker must cost no network call');
+  assert.equal(r.refine, 'circuit_open');
+  assert.equal(r.method, 'local');
+  assert.ok(Date.now() - started < 50, 'and no wait');
+});
+
+test('a Gateway that rejects after losing the race leaves no unhandled rejection', async () => {
+  const unhandled: unknown[] = [];
+  const onUnhandled = (e: unknown) => unhandled.push(e);
+  process.on('unhandledRejection', onUnhandled);
+  try {
+    const late: Shaper = () => new Promise((_, reject) => setTimeout(() => reject(new Error('late 429')), 80));
+    const r = await shapeResult('t', text('{"a":1}'), { shaper: late, refineDeadlineMs: 20 });
+    assert.equal(r.refine, 'timeout');
+    await new Promise((r2) => setTimeout(r2, 150));   // let the late rejection land
+    assert.deepEqual(unhandled, []);
+  } finally {
+    process.off('unhandledRejection', onUnhandled);
+  }
+});
+
+test('a fast Gateway answer is used and its time recorded', async () => {
+  const r = await shapeResult('t', text('{"a":1}'), { shaper: async () => 'A is one.', refineDeadlineMs: 500 });
+  assert.equal(r.method, 'llm');
+  assert.equal(r.refine, 'used');
+  assert.ok(r.refineMs < 500);
+});
+
+test('speakable prose never goes near the Gateway', async () => {
+  let called = 0;
+  const r = await shapeResult('t', text('It is 22 degrees and sunny.'), { shaper: async () => { called++; return 'x'; } });
+  assert.equal(called, 0);
+  assert.equal(r.refine, 'not_needed');
+  assert.equal(r.refineMs, 0);
 });
