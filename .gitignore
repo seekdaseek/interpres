@@ -14,3 +14,6 @@ data/raw/
 
 # os
 .DS_Store
+
+# local tooling
+.claude/

@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>interpres - talk to any MCP server</title>
+    <meta name="description" content="Paste a remote MCP server URL and talk to it. AssemblyAI's Voice Agent API calls the server's tools live." />
+    <meta name="theme-color" content="#0b0d10" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230b0d10'/%3E%3Cpath d='M9 20c2-8 4-8 7 0s5 8 7 0' stroke='%236ee7b7' stroke-width='2.4' fill='none' stroke-linecap='round'/%3E%3C/svg%3E" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="page">
+      <header class="top">
+        <a class="brand" href="/" aria-label="interpres home">
+          <span class="wordmark">interpres</span>
+          <span class="tag">MCP, spoken</span>
+        </a>
+        <nav class="toplinks">
+          <a href="https://github.com/seekdaseek/interpres" target="_blank" rel="noopener">GitHub</a>
+        </nav>
+      </header>
+
+      <section class="hero">
+        <h1>Talk to any MCP server.</h1>
+        <p class="lede">
+          Paste a remote MCP server's URL and press talk. Its tools become voice tools for
+          AssemblyAI's Voice Agent API, which has no MCP support of its own.
+        </p>
+
+        <form class="connect" id="connect-form" autocomplete="off">
+          <label class="sr" for="url">MCP server URL</label>
+          <input id="url" name="url" type="url" inputmode="url" spellcheck="false"
+                 placeholder="https://example.com/mcp" required />
+          <button type="submit" id="connect-btn" class="btn">Connect</button>
+        </form>
+        <p class="error" id="connect-error" role="alert" hidden></p>
+        <div class="presets" id="presets" aria-label="Try a public server"></div>
+      </section>
+
+      <section class="server" id="server" hidden>
+        <div class="server-head">
+          <div>
+            <div class="server-name" id="server-name"></div>
+            <div class="server-meta" id="server-meta"></div>
+          </div>
+          <div class="server-warn" id="server-warn" hidden></div>
+        </div>
+        <div class="asks" id="asks"></div>
+      </section>
+
+      <section class="talk" id="talk" hidden>
+        <button class="mic" id="mic" type="button" aria-label="Start talking">
+          <span class="mic-ring" aria-hidden="true"></span>
+          <svg class="mic-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15a3 3 0 0 0 3-3V6a3 3 0 1 0-6 0v6a3 3 0 0 0 3 3Zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.93V21h2v-2.07A7 7 0 0 0 19 12h-2Z"/></svg>
+          <svg class="stop-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="2"/></svg>
+        </button>
+        <div class="talk-text">
+          <div class="status" id="status">Press to talk</div>
+          <div class="substatus" id="substatus">Your browser will ask for the microphone.</div>
+        </div>
+        <div class="timer" id="timer" hidden></div>
+      </section>
+
+      <main class="panes" id="panes" hidden>
+        <section class="pane convo">
+          <h2>Conversation</h2>
+          <ol class="lines" id="lines" aria-live="polite"></ol>
+          <p class="empty" id="lines-empty">Press talk and ask something. Both sides of the conversation appear here as it happens.</p>
+        </section>
+        <section class="pane timeline">
+          <h2>Tool calls <span class="count" id="call-count">0</span></h2>
+          <ol class="calls" id="calls"></ol>
+          <p class="empty" id="calls-empty">Tool calls appear here as the agent makes them.</p>
+        </section>
+        <section class="pane phase">
+          <h2>Tools the agent can see <span class="count" id="phase-count"></span></h2>
+          <p class="phase-reason" id="phase-reason"></p>
+          <ul class="chips" id="phase-tools"></ul>
+        </section>
+        <section class="pane keyterms">
+          <h2>Speech-to-text key terms <span class="count" id="kt-count"></span></h2>
+          <ul class="chips small" id="keyterms"></ul>
+        </section>
+      </main>
+
+      <footer class="foot">
+        <p>
+          Sessions end after five minutes. interpres only connects to MCP servers that need no
+          authentication, and never sends them a credential. Your voice goes to AssemblyAI's Voice
+          Agent API, which records sessions; interpres logs tool names and timings, never IP addresses.
+        </p>
+        <p class="diag" id="diag"></p>
+      </footer>
+    </div>
+    <script type="module" src="/src/interpres-main.ts"></script>
+  </body>
+</html>

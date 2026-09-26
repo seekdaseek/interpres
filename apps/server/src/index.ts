@@ -37,7 +37,7 @@ const shaperStats = newShaperStats();
 const breaker = new CircuitBreaker();
 const shaper = makeShaper({ stats: shaperStats, breaker });
 /** Consulted before every Gateway call, so an open breaker costs no wait. */
-const shaperAvailable = (): boolean => !breaker.isOpen();
+const shaperAvailable = (): boolean => config.shaperRefine && !breaker.isOpen();
 
 const counters = { tokens: 0, connects: 0, toolCalls: 0, toolFailures: 0, findTools: 0 };
 
@@ -208,7 +208,7 @@ app.post('/api/mcp/connect', async (c) => {
 
 /** Handle a `find_tools` call: rank the catalog and hand back a new phase. */
 app.post('/api/mcp/find-tools', async (c) => {
-  let body: { url?: unknown; query?: unknown };
+  let body: { url?: unknown; query?: unknown; lastUserTurn?: unknown };
   try {
     body = await c.req.json();
   } catch {
@@ -219,10 +219,13 @@ app.post('/api/mcp/find-tools', async (c) => {
   }
   try {
     const { catalog } = await getCatalog(body.url.trim());
-    const outcome = handleFindTools(plannerInput(catalog), body.query);
+    // The caller's last final transcript, so values they spoke ride across the
+    // phase change. Capped: it is user speech, not a place to post a novel.
+    const lastUserTurn = typeof body.lastUserTurn === 'string' ? body.lastUserTurn.slice(0, 2000) : undefined;
+    const outcome = handleFindTools(plannerInput(catalog), body.query, { lastUserTurn });
     assertPhaseValid(outcome.phase);
     counters.findTools++;
-    log.record('find_tools', { url: body.url, query: body.query, revealed: outcome.available.length, top: outcome.matched.slice(0, 3) });
+    log.record('find_tools', { url: body.url, query: body.query, revealed: outcome.available.length, carried: outcome.carried.length, top: outcome.matched.slice(0, 3) });
     return c.json({
       available: outcome.available,
       matched: outcome.matched,
@@ -349,13 +352,23 @@ app.get('/api/status', (c) =>
 // ------------------------------------------------------------ static web app
 
 const WEB_DIST = 'apps/web/dist';
-if (existsSync(WEB_DIST)) {
-  app.use('/*', serveStatic({ root: WEB_DIST }));
-  app.get('*', serveStatic({ path: `${WEB_DIST}/index.html` }));
+/** Per-app prefixed entry rather than index.html: many apps share the box. */
+const WEB_ENTRY = 'interpres-index.html';
+if (existsSync(`${WEB_DIST}/${WEB_ENTRY}`)) {
+  const entry = serveStatic({ path: `${WEB_DIST}/${WEB_ENTRY}` });
+  app.get('/', entry);
+  app.use('/assets/*', serveStatic({ root: WEB_DIST }));
+  // A missing hashed asset is a 404, not the app: after a redeploy, a stale page
+  // asking for an old bundle would otherwise be handed HTML as JavaScript.
+  app.get('/assets/*', (c) => c.notFound());
+  // Any other GET is the app itself (for ?url= links), except an unknown API
+  // path, which must 404 as JSON rather than come back as a 200 HTML page.
+  app.get('*', async (c, next) => {
+    if (c.req.path.startsWith('/api/')) return c.json({ error: 'Not found', code: 'not_found' }, 404);
+    return (await entry(c, next)) ?? c.notFound();
+  });
 } else {
-  app.get('/', (c) =>
-    c.text(`interpres API is up. The web app is not built yet - run: npm run build -w @interpres/web\n`),
-  );
+  app.get('/', (c) => c.text('interpres API is up. The web app is not built yet - run: npm run build -w @interpres/web\n'));
 }
 
 // ----------------------------------------------------------------- bootstrap

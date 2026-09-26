@@ -761,3 +761,118 @@ make the agent call `find_tools` on its own.
 **Open measurement:** in every shaped call of that run the agent waited 1.1-2.4 s
 after its transition phrase, and the Gateway accounted for 0.78-1.13 s of it.
 The 1.5 s cap bounds that; it does not make it zero. Being measured properly next.
+
+---
+
+## 2026-09-26 - the Gateway, measured properly; and step 5: the web mic loop
+
+### No transition phrase, ever: so the Gateway is off on the speech path
+
+The README had claimed the Gateway's 1.5 s window "overlaps the agent's own
+'let me check that' phrase". That was never measured, so it was measured.
+`scripts/lib/session.ts` now records every agent reply (start, first audio, bytes
+of audio) and, per tool call, the audio in the reply that carried the
+`tool.call`. One run's full timeline:
+
+```
+speech ends            +0 ms
+reply 0 starts       +629 ms   no audio, ever
+tool.call           +1475 ms   (inside reply 0)
+result ready        +3177 ms   <- MCP + shaping + Gateway: pure silence
+answer first audio  +3874 ms
+```
+
+Across 20 tool-calling turns in four runs: **0 of 20** had any audio before our
+result went out. The agent calls tools silently, so everything between
+`tool.call` and `tool.result` is silence the caller hears. With refinement on,
+the Gateway added 582-1,133 ms of it per refined call; median voice-to-voice
+went from 4,476 ms (off) to 5,208 ms (on), same presets, same questions.
+
+Sergiu's decision asked for two things that the measurement shows cannot both
+hold: "the Gateway only refines" and "so it can never delay speech" / "the README
+must state that speech never waits on the Gateway". The second is his stated
+goal and the README cannot say something false, so **`SHAPER_REFINE` now
+defaults to off**; the Gateway, breaker and 1.5 s deadline are one env var away.
+Flagged at CHECKPOINT B. The README's unmeasured "overlaps" sentence is gone and
+replaced with the numbers above.
+
+**Tried and reverted: prompting for a transition phrase.** A system-prompt line
+asking the agent to say "Let me check." before any tool call. Result over 6
+spoken tool turns: 0 of 6 spoke before the call, time to first audio unchanged
+(4,476 -> 4,570 ms median, noise), and one answer degenerated into just
+"One moment." - said after the result instead of the answer. Reverted; the
+reason is recorded in `prompt.ts` where the line would have gone.
+
+### Docs discrepancy 14: `session.ended.audio_duration_seconds` is always null
+
+The docs: "Total audio you streamed in. `null` if you streamed none." Measured
+null on every session - including one where 7.08 s of real speech was streamed
+and transcribed exactly ("Hello there, can you hear me?"). The field is not
+populated; it cannot be used as proof that audio arrived. `transcript.user` can.
+
+### `apps/web`: Vite 8, vanilla TypeScript, 20.6 KB of JS
+
+- **Per-app prefixed entry** (`interpres-index.html`, CLAUDE.md rule 11). Vite 8
+  swapped Rollup for Rolldown; the option is `build.rolldownOptions`, read off the
+  installed `index.d.ts` (`rollupOptions` is a deprecated alias).
+- **Same origin.** The Hono server serves `dist/`: `/` is the app, `/assets/*`
+  are the hashed bundles and a missing one is a 404 (so a stale page is never
+  handed HTML as JavaScript), `?url=` links load the app, and an unknown
+  `/api/*` path is a JSON 404.
+- **No innerHTML anywhere.** Tool names, descriptions and results come from
+  arbitrary third-party MCP servers, and transcripts come from speech, so every
+  string goes in through `textContent` via a small `h()` helper.
+- **Audio written from scratch.** AssemblyAI's starter repo has no licence
+  (`gh api repos/AssemblyAI/voice-agent-starter-js --jq .license` -> none), which
+  makes its code all-rights-reserved, so none of it is copied into this MIT
+  project. Only the published technique is reused: resample inside the
+  worklets, play through a flushable ring buffer. Capture batches into fixed
+  40 ms frames (25 socket messages a second instead of one per 128-sample render
+  quantum).
+- **The worklet code is unit-tested as shipped.** The worklet source strings run
+  in a `node:vm` sandbox standing in for `AudioWorkletGlobalScope`. 16 tests:
+  a 440 Hz tone must come out at 880 zero-crossings a second when captured at 16,
+  24, 44.1 and 48 kHz and when played at 24, 44.1 and 48 kHz (a wrong resampling
+  ratio reads 440 or 1,760), frames are exactly 960 samples, overdrive clips
+  instead of wrapping, flush silences at once, an empty chunk cannot inject NaN,
+  a full ring drops rather than overwrites, base64 round-trips exactly.
+
+### Browser verification, in the desktop app's built-in Chromium
+
+No microphone in the pane, so a synthetic one was injected for these checks only
+(`getUserMedia` returning an oscillator stream). Everything else is the shipped
+page against the live API.
+
+```
+greeting session   sess_11c9077bbc574f19a6dd7a87f8f4aa61
+  session.update (the browser's own payload: greeting + input.format + voice)
+  -> session.updated -> session.ready
+  agent: "Connected to AssemblyAI, with 3 tools available. What would you like to do?"
+         452 reply.audio chunks, 13 word deltas, 0 session.error, 0 console errors
+  diag:  audio 24000 Hz in / 24000 Hz out (asked for 24000)   <- this Chromium honoured it
+  stop:  session.end -> session.ended (24.09 s) -> "Session ended: ended by you."
+
+capture check      sess_d9e78b4d58ac4569a457e533abb46977
+  177 input.audio frames x 1,920 bytes = 7.08 s of audio in a ~7.5 s session
+
+tool paths         (afg, text turns injected into the page's socket, test only)
+  tool.call afg_contract_template -> page POST /api/mcp/call 200 1601 ms
+     timeline: "afg_contract_template | 1586 ms · local"
+  tool.call find_tools            -> page POST /api/mcp/find-tools 200 39 ms
+     session.update sent; phase pane swapped; new chips marked:
+     afg_post_job*, afg_speccheck*, afg_upload_artifact*
+     agent: "I have the tools ready to run a spec check. Just give me the contract..."
+
+mobile (375 x 812) scrollWidth 375 = viewport 375: no horizontal overflow
+```
+
+**Still UNTESTED, and only CHECKPOINT B can test it:** a human voice through a
+real microphone in Brave; hearing the agent through speakers without it
+interrupting itself (echo cancellation); a real barge-in; and whether Brave
+honours the 24 kHz request (the footer's diag line will say, either way).
+
+```
+$ npm test          ℹ tests 252  ℹ pass 252  ℹ fail 0
+$ npx tsc --noEmit  (clean)
+$ npm run build     dist/interpres-index.html 5.0 kB, JS 20.6 kB (7.7 kB gzip), CSS 9.7 kB
+```

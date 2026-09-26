@@ -74,10 +74,31 @@ export type CallRecord = {
   transitionDoneAt?: number;
   /**
    * How long the agent sat silent after its transition phrase, waiting for this
-   * result. Zero means the tool and the shaping were done before the agent had
-   * finished saying "let me check" - nothing on our side delayed speech.
+   * result, measured from the transition reply's `reply.done`. That event lands
+   * about 0.3 s after `tool.call`, while the phrase's audio may still be playing,
+   * so this overstates what a listener hears. `perceivedGapMs` is the real one.
    */
   agentWaitMs?: number;
+  /**
+   * The silence this call caused: from the later of the tool.call and the end
+   * of any transition phrase, to the result going out. With no transition
+   * phrase (the measured norm) it is the whole of the call's execution.
+   */
+  silenceOnUsMs?: number;
+  /** Audio in the reply that carried the tool.call; 0 means no transition phrase. */
+  transitionAudioMs?: number;
+  /** Index into the session's reply list, for the gap computation. */
+  transitionReply?: number;
+  answerReply?: number;
+};
+
+/** One agent reply, as the listener experiences it. */
+export type ReplyRecord = {
+  startedAt: number;
+  firstAudioAt?: number;
+  /** Decoded PCM bytes of this reply's audio; 48 bytes = 1 ms at 24 kHz mono 16-bit. */
+  audioBytes: number;
+  doneAt?: number;
 };
 
 export type TurnRecord = {
@@ -89,8 +110,10 @@ export type TurnRecord = {
   startedAt: number;
   speechEndAt?: number;
   firstAudioAt?: number;
-  /** Speech end to the agent's first audio: what a caller feels as latency. */
+  /** Speech end to the agent's first audio of any kind, a transition phrase included. */
   voiceToVoiceMs?: number;
+  /** Speech end to the first audio of the answer that used the tool results. */
+  timeToAnswerMs?: number;
   idleAt?: number;
   ms?: number;
 };
@@ -121,11 +144,14 @@ export class LiveSession {
   lastUserTranscript = '';
 
   private readonly breaker = new CircuitBreaker();
+  private readonly refine: boolean;
   private readonly shaper;
   private readonly verbose: boolean;
   private readonly carry: boolean;
   private idleWaiters: Array<() => void> = [];
   private replyDoneTimes: number[] = [];
+  readonly replies: ReplyRecord[] = [];
+  private currentReply = -1;
   private readonly listeners: Array<(msg: ServerEvent) => void> = [];
 
   private constructor(catalog: Catalog, ws: WebSocket, opts: OpenOptions) {
@@ -138,12 +164,16 @@ export class LiveSession {
       : initialPhase(catalog.planner);
     assertPhaseValid(this.phase);
     this.shaper = makeShaper({ stats: this.shaperStats, breaker: this.breaker });
+    this.refine = config.shaperRefine;
     this.protocol = new AgentProtocol(
       (msg) => this.send(msg),
       (call) => this.execute(call),
       {
         onToolCall: (call) => {
-          this.turn?.calls.push({ callId: call.callId, name: call.name, arguments: call.arguments, callAt: Date.now() });
+          this.turn?.calls.push({
+            callId: call.callId, name: call.name, arguments: call.arguments, callAt: Date.now(),
+            transitionReply: this.currentReply >= 0 ? this.currentReply : undefined,
+          });
           this.log(`  TOOL.CALL ${call.name}(${JSON.stringify(call.arguments)})`);
         },
         onResultsSent: (ids) => {
@@ -151,6 +181,8 @@ export class LiveSession {
           for (const c of this.turn?.calls ?? []) {
             if (!ids.includes(c.callId)) continue;
             c.sentAt = now;
+            // The answer is the next reply to start after the result goes out.
+            c.answerReply = this.replies.length;
             c.transitionDoneAt = this.replyDoneTimes.find((t) => t >= c.callAt);
             if (c.transitionDoneAt !== undefined) c.agentWaitMs = Math.max(0, c.sentAt - c.transitionDoneAt);
           }
@@ -227,12 +259,28 @@ export class LiveSession {
             this.turn?.heard.push(this.lastUserTranscript);
             this.log(`  HEARD  "${this.lastUserTranscript}"`);
             break;
-          case 'reply.audio':
+          case 'reply.started':
+            this.replies.push({ startedAt: Date.now(), audioBytes: 0 });
+            this.currentReply = this.replies.length - 1;
+            break;
+          case 'reply.done': {
+            const r = this.replies[this.currentReply];
+            if (r) r.doneAt = Date.now();
+            break;
+          }
+          case 'reply.audio': {
+            const r = this.replies[this.currentReply];
+            if (r) {
+              r.firstAudioAt ??= Date.now();
+              const b64 = String(msg.data ?? '');
+              r.audioBytes += Math.floor((b64.length * 3) / 4) - (b64.endsWith('==') ? 2 : b64.endsWith('=') ? 1 : 0);
+            }
             if (this.turn && this.turn.firstAudioAt === undefined && this.turn.speechEndAt !== undefined) {
               this.turn.firstAudioAt = Date.now();
               this.turn.voiceToVoiceMs = this.turn.firstAudioAt - this.turn.speechEndAt;
             }
             break;
+          }
           case 'transcript.agent': {
             const text = String(msg.text ?? '');
             if (this.turn && text.trim() !== '') this.turn.agentReply = this.turn.agentReply ? `${this.turn.agentReply} ${text}` : text;
@@ -294,7 +342,7 @@ export class LiveSession {
     try {
       const outcome = await callTool(this.catalog.url, mcpName, args);
       const shaped = await shapeResult(call.name, outcome.result, {
-        shaper: this.shaper,
+        shaper: this.refine ? this.shaper : undefined,
         shaperAvailable: () => !this.breaker.isOpen(),
         question: this.lastUserTranscript || this.turn?.said,
       });
@@ -335,6 +383,17 @@ export class LiveSession {
     if (t) {
       t.idleAt = Date.now();
       t.ms = t.idleAt - t.startedAt;
+      for (const c of t.calls) {
+        const tr = c.transitionReply !== undefined ? this.replies[c.transitionReply] : undefined;
+        c.transitionAudioMs = tr ? Math.round(tr.audioBytes / 48) : 0;
+        // If a phrase played, the caller heard it until firstAudioAt + its length.
+        const phraseEnd = tr?.firstAudioAt !== undefined ? tr.firstAudioAt + c.transitionAudioMs : undefined;
+        const from = phraseEnd !== undefined ? Math.max(c.callAt, phraseEnd) : c.callAt;
+        if (c.sentAt !== undefined) c.silenceOnUsMs = Math.max(0, c.sentAt - from);
+      }
+      const last = t.calls[t.calls.length - 1];
+      const answer = last?.answerReply !== undefined ? this.replies[last.answerReply] : undefined;
+      if (answer?.firstAudioAt !== undefined && t.speechEndAt !== undefined) t.timeToAnswerMs = answer.firstAudioAt - t.speechEndAt;
     }
     this.turn = null;
     return t;

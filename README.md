@@ -26,13 +26,15 @@ table rules, record labels), scores sentences against the caller's question,
 and returns at most four of them in document order. Every sentence it speaks
 appears in the tool output; it cannot invent a fact.
 
-**The LLM Gateway only refines, and no reply depends on it.** The local answer
-is computed first. AssemblyAI's LLM Gateway then gets a hard **1.5 s** window to
-replace it with a better sentence. If it is slow, fails, or is rate-limited, the
-local answer goes out. After any `429`, a circuit breaker skips the Gateway
-entirely for **60 s**, so a rate-limited Gateway costs no waiting at all. The
-most the Gateway can ever add to a turn is 1.5 s, and in `interactive` mode that
-window overlaps the agent's own "let me check that" phrase.
+**Speech never waits on the LLM Gateway.** Gateway refinement is off unless
+`SHAPER_REFINE=on`, because it was measured and found to cost audible silence:
+across 20 tool-calling turns of real speech, the agent never spoke a transition
+phrase before calling a tool (0 of 20), so the time between `tool.call` and the
+result is silence the caller hears. With refinement on, the Gateway added
+582-1,133 ms of it to every call it refined, and median voice-to-voice rose from
+4,476 ms to 5,208 ms. When switched on, it still cannot fail a turn: the local
+answer is computed first, the Gateway gets a hard 1.5 s to replace it, and a
+circuit breaker skips it for 60 s after any `429`.
 
 **Which Gateway models this account can reach** (measured 2026-09-26, Free plan
 with hackathon credits):
@@ -48,7 +50,8 @@ with hackathon credits):
 `qwen3.5-4b-32k-fast` is the model AssemblyAI serves itself. It is also
 rate-limited hard on this plan: 4 of 6 sequential calls returned
 `429 "too many requests for this action"`, which is why the breaker exists.
-Set `SHAPER_MODEL` to use another model on an account that can reach one.
+Set `SHAPER_REFINE=on` to use it, and `SHAPER_MODEL` to use another model on an
+account that can reach one.
 
 ## Status
 

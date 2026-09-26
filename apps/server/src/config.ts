@@ -26,6 +26,17 @@ export const config = {
    * structured output needed. Its 32k context is why `shaper.ts` clips the input.
    */
   shaperModel: process.env.SHAPER_MODEL ?? 'qwen3.5-4b-32k-fast',
+  /**
+   * Gateway refinement, OFF unless SHAPER_REFINE=on.
+   *
+   * Measured 2026-09-26 over 20 tool-calling turns of real speech: the agent
+   * never spoke a transition phrase before a tool call (0 of 20), so every
+   * millisecond between tool.call and tool.result is silence the caller hears.
+   * With refinement on, the Gateway added 582-1133 ms of it per shaped call and
+   * moved median voice-to-voice from 4476 ms to 5208 ms. Off, speech never waits
+   * on the Gateway at all. The breaker and the 1.5 s deadline still apply when on.
+   */
+  shaperRefine: process.env.SHAPER_REFINE === 'on',
 
   token: {
     /** Redemption window for the token, not the session length. 1-600. */

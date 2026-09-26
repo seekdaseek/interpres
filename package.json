@@ -19,7 +19,9 @@
     "sweep": "node scripts/sweep.ts",
     "e2e": "node scripts/e2e.ts",
     "proof": "node scripts/proof.ts",
-    "test:core": "node --test 'packages/core/test/*.test.ts'"
+    "test:core": "node --test 'packages/core/test/*.test.ts'",
+    "dev:local": "RATE_PER_IP_HOUR=120 node --env-file=.env apps/server/src/index.ts",
+    "build": "npm run build -w @interpres/web"
   },
   "devDependencies": {
     "@types/node": "^26.6.3",

@@ -1,0 +1,413 @@
+{
+  "at": "2026-09-26T10:48:16.047Z",
+  "voice": "Samantha",
+  "carry": true,
+  "results": [
+    {
+      "url": "https://www.assemblyai.com/docs/mcp",
+      "sessionId": "sess_b3eca575280b42158852c9a0d5bae644",
+      "turns": [
+        {
+          "said": "What audio format does the Voice Agent API expect?",
+          "heard": [
+            "What audio format does the voice agent API expect?"
+          ],
+          "calls": [
+            {
+              "callId": "chatcmpl-tool-8358cd9c04dfa455",
+              "name": "search_assembly_ai",
+              "arguments": {
+                "query": "voice agent API audio format"
+              },
+              "callAt": 1790419582747,
+              "transitionReply": 0,
+              "mcpName": "search_assembly_ai",
+              "normalisersApplied": [],
+              "rawChars": 31239,
+              "spokenChars": 176,
+              "spoken": "The starter agent is four fields:. Talk to an agent in the Voice Agent playground. for details, or jump to the Voice Agent API overview. See Audio format for playback guidance.",
+              "method": "local",
+              "refine": "no_shaper",
+              "refineMs": 0,
+              "mcpMs": 1307,
+              "isError": false,
+              "readyAt": 1790419584072,
+              "execMs": 1323,
+              "sentAt": 1790419584073,
+              "answerReply": 1,
+              "transitionDoneAt": 1790419583008,
+              "agentWaitMs": 1065
+            },
+            {
+              "callId": "chatcmpl-tool-ae4035009be38da4",
+              "name": "query_docs_filesystem_assembly_ai",
+              "arguments": {
+                "command": "rg -il \"Audio format\" / | xargs grep -l \"Audio format\" /"
+              },
+              "callAt": 1790419585176,
+              "transitionReply": 1,
+              "mcpName": "query_docs_filesystem_assembly_ai",
+              "normalisersApplied": [],
+              "rawChars": 414,
+              "spokenChars": 413,
+              "spoken": "exit: 0 --- stdout --- /coding-agent-prompts.mdx /pre-recorded-audio/guides/bulk-transcription-and-load-tests-at-scale.mdx /voice-agents/voice-agent-api/audio-format.mdx /voice-agents/voice-agent-api/create-agent.mdx /voice-agents/voice-agent-api/events-reference.mdx /voice-agents/voice-agent-api/message-sequence.mdx /voice-agents/voice-agent-api/session-configuration.mdx --- stderr --- grep: /: Is a directory",
+              "method": "truncated",
+              "refine": "not_needed",
+              "refineMs": 0,
+              "mcpMs": 2336,
+              "isError": false,
+              "readyAt": 1790419587519,
+              "execMs": 2343,
+              "sentAt": 1790419587520,
+              "answerReply": 2,
+              "transitionDoneAt": 1790419585438,
+              "agentWaitMs": 2082
+            },
+            {
+              "callId": "chatcmpl-tool-a7696f9269d66c9b",
+              "name": "query_docs_filesystem_assembly_ai",
+              "arguments": {
+                "command": "cat /voice-agents/voice-agent-api/audio-format.mdx"
+              },
+              "callAt": 1790419588158,
+              "transitionReply": 2,
+              "mcpName": "query_docs_filesystem_assembly_ai",
+              "normalisersApplied": [],
+              "rawChars": 7688,
+              "spokenChars": 213,
+              "spoken": "All audio is base64-encoded and mono. Both default to audio/pcm at 24 kHz. Set it on the agent when you create or update it:. Inline, output.format is immutable after session.ready, so set it on your first update.",
+              "method": "local",
+              "refine": "no_shaper",
+              "refineMs": 0,
+              "mcpMs": 1040,
+              "isError": false,
+              "readyAt": 1790419589204,
+              "execMs": 1045,
+              "sentAt": 1790419589206,
+              "answerReply": 3,
+              "transitionDoneAt": 1790419588449,
+              "agentWaitMs": 757
+            }
+          ],
+          "agentReply": "The Voice Agent API expects mono, base64-encoded audio, which defaults to audio/pcm at twenty-four kilohertz.",
+          "interrupted": false,
+          "startedAt": 1790419576909,
+          "speechEndAt": 1790419580148,
+          "firstAudioAt": 1790419589866,
+          "voiceToVoiceMs": 9718,
+          "idleAt": 1790419598590,
+          "ms": 21681
+        },
+        {
+          "said": "How many tools can an agent have per phase?",
+          "heard": [
+            "How many tools can an agent have per phase?"
+          ],
+          "calls": [
+            {
+              "callId": "chatcmpl-tool-9fb6cd8892e9c6cf",
+              "name": "search_assembly_ai",
+              "arguments": {
+                "query": "how many tools can an agent have per phase"
+              },
+              "callAt": 1790419604392,
+              "transitionReply": 4,
+              "mcpName": "search_assembly_ai",
+              "normalisersApplied": [],
+              "rawChars": 19460,
+              "spokenChars": 329,
+              "spoken": "For multi-step workflows (lookup → estimate → commit), don't register all tools upfront. After each successful tool.result, send session.update adding the next phase's tools, and update system_prompt to match. Smaller per-phase tool sets also raise selection accuracy. Getting the agent to call your tools and per-agent patterns.",
+              "method": "local",
+              "refine": "no_shaper",
+              "refineMs": 0,
+              "mcpMs": 1250,
+              "isError": false,
+              "readyAt": 1790419605655,
+              "execMs": 1262,
+              "sentAt": 1790419605656,
+              "answerReply": 5,
+              "transitionDoneAt": 1790419604630,
+              "agentWaitMs": 1026
+            }
+          ],
+          "agentReply": "The documentation doesn't specify a maximum number of tools, but it recommends using smaller tool sets for each phase to improve selection accuracy.",
+          "interrupted": false,
+          "startedAt": 1790419599389,
+          "speechEndAt": 1790419601829,
+          "firstAudioAt": 1790419606305,
+          "voiceToVoiceMs": 4476,
+          "idleAt": 1790419614859,
+          "ms": 15470
+        }
+      ],
+      "events": {
+        "session.updated": 1,
+        "session.ready": 1,
+        "input.speech.started": 2,
+        "transcript.user.delta": 6,
+        "input.speech.stopped": 2,
+        "transcript.user": 2,
+        "reply.started": 6,
+        "tool.call": 4,
+        "reply.done": 6,
+        "reply.audio": 1736,
+        "transcript.agent.delta": 38,
+        "transcript.agent": 2,
+        "session.ended": 1
+      },
+      "failures": [],
+      "audio": {
+        "chunksSent": 979,
+        "reanchors": 0
+      },
+      "shaper": {
+        "calls": 0,
+        "used": 0,
+        "failures": 0,
+        "rateLimited": 0,
+        "timeouts": 0,
+        "totalMs": 0
+      },
+      "ok": true
+    },
+    {
+      "url": "https://afg.ai/mcp",
+      "sessionId": "sess_cf30a7f51b2f4442a32c551d9de2050f",
+      "turns": [
+        {
+          "said": "I want to run a spec check on a job contract.",
+          "heard": [
+            "I want to run a spec check on a job contract."
+          ],
+          "calls": [
+            {
+              "callId": "chatcmpl-tool-a8106ab241045de1",
+              "name": "find_tools",
+              "arguments": {
+                "query": "spec check on a job contract"
+              },
+              "callAt": 1790419624950,
+              "transitionReply": 0,
+              "phaseAfter": [
+                "find_tools",
+                "afg_post_job",
+                "afg_speccheck",
+                "afg_sign_contract",
+                "afg_contract_template",
+                "afg_get_job",
+                "afg_prepare_signed_request",
+                "afg_dispute",
+                "afg_submit",
+                "afg_upload_artifact"
+              ],
+              "method": "phase_change",
+              "spoken": "carried: none",
+              "readyAt": 1790419624951,
+              "execMs": 1,
+              "sentAt": 1790419625262,
+              "answerReply": 1,
+              "transitionDoneAt": 1790419625262,
+              "agentWaitMs": 0
+            }
+          ],
+          "agentReply": "I can certainly help with that. Please provide the job contract you would like me to check.",
+          "interrupted": false,
+          "startedAt": 1790419621222,
+          "speechEndAt": 1790419623901,
+          "firstAudioAt": 1790419626099,
+          "voiceToVoiceMs": 2198,
+          "idleAt": 1790419631151,
+          "ms": 9929
+        },
+        {
+          "said": "What does the contract template for a passing test suite look like?",
+          "heard": [
+            "What does the contract template for a passing test suite look like?"
+          ],
+          "calls": [
+            {
+              "callId": "chatcmpl-tool-a79373dad549e1a6",
+              "name": "afg_contract_template",
+              "arguments": {
+                "category": "code_fix_test_suite_pass"
+              },
+              "callAt": 1790419637823,
+              "transitionReply": 2,
+              "mcpName": "afg_contract_template",
+              "normalisersApplied": [],
+              "rawChars": 33607,
+              "spokenChars": 241,
+              "spoken": "test command pytest -q --junitxml=out.xml. x demo AFG MCP template: code fix graded by test_suite_pass + hash_match on a tiny demo repo. TEST MONEY ONLY (mock ledger).. notice TEST MONEY ONLY: mock ledger, test tokens (tUSDC), no real funds.",
+              "method": "local",
+              "refine": "no_shaper",
+              "refineMs": 0,
+              "mcpMs": 1585,
+              "isError": false,
+              "readyAt": 1790419639417,
+              "execMs": 1593,
+              "sentAt": 1790419639417,
+              "answerReply": 3,
+              "transitionDoneAt": 1790419638060,
+              "agentWaitMs": 1357
+            }
+          ],
+          "agentReply": "The template for a passing test suite uses the command pytest -q with an output file named out dot xml. It's designed to grade a code fix by running a test suite and checking for a hash match on a small demo repository.",
+          "interrupted": false,
+          "startedAt": 1790419631941,
+          "speechEndAt": 1790419635459,
+          "firstAudioAt": 1790419640284,
+          "voiceToVoiceMs": 4825,
+          "idleAt": 1790419652449,
+          "ms": 20508
+        }
+      ],
+      "events": {
+        "session.updated": 2,
+        "session.ready": 1,
+        "input.speech.started": 2,
+        "transcript.user.delta": 6,
+        "input.speech.stopped": 2,
+        "transcript.user": 2,
+        "reply.started": 4,
+        "tool.call": 2,
+        "reply.done": 4,
+        "reply.audio": 1729,
+        "transcript.agent.delta": 60,
+        "transcript.agent": 2,
+        "session.ended": 1
+      },
+      "failures": [],
+      "audio": {
+        "chunksSent": 811,
+        "reanchors": 0
+      },
+      "shaper": {
+        "calls": 0,
+        "used": 0,
+        "failures": 0,
+        "rateLimited": 0,
+        "timeouts": 0,
+        "totalMs": 0
+      },
+      "ok": true
+    },
+    {
+      "url": "https://advisorsai.ai/mcp",
+      "sessionId": "sess_da2d378f267e4cacbe8cfa7e76d2e8e7",
+      "turns": [
+        {
+          "said": "What services do you have?",
+          "heard": [
+            "What services do you have?"
+          ],
+          "calls": [
+            {
+              "callId": "chatcmpl-tool-9711188c65accef8",
+              "name": "advisors_catalog_list_services",
+              "arguments": {
+                "language": "en"
+              },
+              "callAt": 1790419661542,
+              "transitionReply": 0,
+              "mcpName": "advisors_catalog_list_services",
+              "normalisersApplied": [],
+              "rawChars": 5450,
+              "spokenChars": 598,
+              "spoken": "summary If you have AI programs acting on your behalf (agents), we examine from your documents what each one can really do and where the risk is, then write the rules that stop it and an application plan — without operating or installing anything on your side; the local implementation bundle, if you order it, is yours to download and run.. for whom Teams running agents or AI automation that need either a risk-and-guardrail audit or a governed local team they can run, test, and roll back themselves.. name Your share of AI answers — documented measurement. name AI Readiness & Blind-Spot Audit.",
+              "method": "local",
+              "refine": "no_shaper",
+              "refineMs": 0,
+              "mcpMs": 633,
+              "isError": false,
+              "readyAt": 1790419662183,
+              "execMs": 641,
+              "sentAt": 1790419662184,
+              "answerReply": 1,
+              "transitionDoneAt": 1790419661808,
+              "agentWaitMs": 376
+            }
+          ],
+          "agentReply": "We offer five main services, including an AI Readiness and Blind-Spot Audit, and an Agent Team service to help manage AI automation risks. I can also help with AI visibility measurement, store audits, and a custom monitor service.",
+          "interrupted": false,
+          "startedAt": 1790419658546,
+          "speechEndAt": 1790419660068,
+          "firstAudioAt": 1790419662923,
+          "voiceToVoiceMs": 2855,
+          "idleAt": 1790419677089,
+          "ms": 18543
+        },
+        {
+          "said": "I need an audit trail for my agents - what fits?",
+          "heard": [
+            "I need an audit trail for my agents. What fits?"
+          ],
+          "calls": [
+            {
+              "callId": "chatcmpl-tool-8034f9e882d3a79f",
+              "name": "advisors_catalog_match_service",
+              "arguments": {
+                "language": "en",
+                "need": "audit trail for my agents"
+              },
+              "callAt": 1790419682965,
+              "transitionReply": 2,
+              "mcpName": "advisors_catalog_match_service",
+              "normalisersApplied": [],
+              "rawChars": 3440,
+              "spokenChars": 559,
+              "spoken": "summary If you have AI programs acting on your behalf (agents), we examine from your documents what each one can really do and where the risk is, then write the rules that stop it and an application plan — without operating or installing anything on your side; the local implementation bundle, if you order it, is yours to download and run.. for whom Teams running agents or AI automation that need either a risk-and-guardrail audit or a governed local team they can run, test, and roll back themselves.. scoring method bounded deterministic keyword evidence.",
+              "method": "local",
+              "refine": "no_shaper",
+              "refineMs": 0,
+              "mcpMs": 605,
+              "isError": false,
+              "readyAt": 1790419683580,
+              "execMs": 615,
+              "sentAt": 1790419683581,
+              "answerReply": 3,
+              "transitionDoneAt": 1790419683208,
+              "agentWaitMs": 373
+            }
+          ],
+          "agentReply": "Based on your need, the AI Readiness and Blind-Spot Audit would be a great fit. It examines your AI agents to identify risks and provides an application plan and guardrails.",
+          "interrupted": false,
+          "startedAt": 1790419677867,
+          "speechEndAt": 1790419680707,
+          "firstAudioAt": 1790419684263,
+          "voiceToVoiceMs": 3556,
+          "idleAt": 1790419694499,
+          "ms": 16632
+        }
+      ],
+      "events": {
+        "session.updated": 1,
+        "session.ready": 1,
+        "input.speech.started": 2,
+        "transcript.user.delta": 5,
+        "input.speech.stopped": 2,
+        "transcript.user": 2,
+        "reply.started": 4,
+        "tool.call": 2,
+        "reply.done": 4,
+        "reply.audio": 2448,
+        "transcript.agent.delta": 68,
+        "transcript.agent": 2,
+        "session.ended": 1
+      },
+      "failures": [],
+      "audio": {
+        "chunksSent": 929,
+        "reanchors": 0
+      },
+      "shaper": {
+        "calls": 0,
+        "used": 0,
+        "failures": 0,
+        "rateLimited": 0,
+        "timeouts": 0,
+        "totalMs": 0
+      },
+      "ok": true
+    }
+  ]
+}

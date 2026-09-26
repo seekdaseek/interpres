@@ -71,6 +71,12 @@ export function buildSystemPrompt(ctx: PromptContext): string {
   lines.push(
     'When in doubt, call the tool. A wasted call is fine. Answering from memory is not.',
   );
+  // Deliberately NO "say 'let me check' before a tool call" line. Tried and
+  // measured on 2026-09-26: the reply carrying a tool.call still had no audio in
+  // 6 of 6 turns, time to first audio did not move (4476 -> 4570 ms median), and
+  // one answer degenerated into just "One moment." - the phrase spoken after the
+  // result instead of the answer. The agent emits tool calls silently whatever
+  // the prompt says.
   lines.push(ANTI_FABRICATION);
   lines.push(
     'A tool result may be long or full of JSON. Never read it out verbatim: say the one ' +

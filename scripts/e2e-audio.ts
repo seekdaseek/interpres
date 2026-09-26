@@ -130,6 +130,8 @@ function judgeAddressCase(turn: TurnRecord, spokenAddress: string): AddressVerdi
 type TargetResult = {
   url: string;
   sessionId: string;
+  /** Every agent reply in the session: when it started, when audio arrived, how much. */
+  replies?: Array<{ startedAt: number; firstAudioAt?: number; audioMs: number; doneAt?: number }>;
   turns: TurnRecord[];
   events: Record<string, number>;
   failures: string[];
@@ -190,10 +192,13 @@ async function runTarget(
     if (outcome === 'timeout') session.failures.push(`turn timed out: ${clip.text}`);
     const done = session.endTurn()!;
     if (done.agentReply.trim() === '') session.failures.push(`no agent reply for: ${clip.text}`);
-    console.log(`  AGENT (${done.ms}ms, voice-to-voice ${done.voiceToVoiceMs ?? '?'}ms): ${done.agentReply || '(nothing)'}`);
+    console.log(`  AGENT (${done.ms}ms; first audio ${done.voiceToVoiceMs ?? '?'}ms, answer audio ${done.timeToAnswerMs ?? '-'}ms after speech end): ${done.agentReply || '(nothing)'}`);
     for (const c of done.calls) {
       if (c.agentWaitMs !== undefined) {
-        console.log(`  timing ${c.name}: agent waited ${c.agentWaitMs}ms after its transition phrase (exec ${c.execMs}ms, refine ${c.refineMs ?? 0}ms)`);
+        console.log(
+          `  timing ${c.name}: transition phrase ${c.transitionAudioMs ?? 0}ms of audio | ` +
+            `silence caused by the tool call ${c.silenceOnUsMs ?? '?'}ms (exec ${c.execMs}ms, of which Gateway ${c.refineMs ?? 0}ms)`,
+        );
       }
     }
     turns.push(done);
@@ -212,6 +217,7 @@ async function runTarget(
     failures: session.failures,
     audio: { chunksSent: pump.chunksSent, reanchors: pump.reanchors },
     shaper: { ...session.shaperStats },
+    replies: session.replies.map((r) => ({ startedAt: r.startedAt, firstAudioAt: r.firstAudioAt, audioMs: Math.round(r.audioBytes / 48), doneAt: r.doneAt })),
     ok: session.failures.length === 0,
   };
   const addressTurn = turns[turns.length - 1];
