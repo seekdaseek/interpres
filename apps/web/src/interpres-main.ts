@@ -1,6 +1,7 @@
 import './interpres.css';
 import { $, h, clear, clip } from './dom.ts';
-import { VoiceSession } from './voice.ts';
+import { TokenRefusedError, VoiceSession } from './voice.ts';
+import { ReplayPlayer, replay } from './replay.ts';
 import type { ConnectPayload, PhasePayload, Status, ToolOutcome, VoiceUi } from './voice.ts';
 import type { GateDecision, ToolCall } from '@interpres/core';
 import { groupInFours, mergeKeyterms, pasteKeyterms } from '@interpres/core';
@@ -25,6 +26,7 @@ const callItems = new Map<string, HTMLElement>();
 const agentLines = new Map<string, HTMLElement>();
 let userLive: HTMLElement | null = null;
 let timerHandle: ReturnType<typeof setInterval> | undefined;
+let player: ReplayPlayer | null = null;
 
 // -------------------------------------------------------------------- status
 
@@ -58,6 +60,18 @@ function addLine(who: 'you' | 'agent' | 'note', text: string): HTMLElement {
   $('lines').append(li);
   scrollDown($('lines'));
   return li;
+}
+
+function resetPanels(): void {
+  clear($('lines'));
+  $('lines-empty').hidden = false;
+  clear($('calls'));
+  callItems.clear();
+  agentLines.clear();
+  userLive = null;
+  callCount = 0;
+  $('call-count').textContent = '0';
+  $('calls-empty').hidden = false;
 }
 
 function joinWord(existing: string, word: string): string {
@@ -302,11 +316,59 @@ async function toggleTalk(): Promise<void> {
   try {
     await session.start();
   } catch (err) {
+    if (err instanceof TokenRefusedError) {
+      // The demo degrades, it never goes dark: the recording plays instead.
+      await session?.stop('could not start').catch(() => {});
+      void startReplay(`Live sessions are paused: ${err.message} Here is a recorded one instead.`);
+      return;
+    }
     const message = err instanceof Error ? err.message : String(err);
     const blocked = err instanceof DOMException && (err.name === 'NotAllowedError' || err.name === 'SecurityError');
     await session?.stop('could not start').catch(() => {});
     setStatus('error', blocked ? 'The microphone is blocked. Allow it from the address bar, then press again.' : message);
   }
+}
+
+// ------------------------------------------------------------------ replay
+
+/**
+ * Plays the recorded session in the live panes: from the homepage button, and
+ * in place of an error when /api/token refuses.
+ */
+async function startReplay(why: string | null): Promise<void> {
+  if (session) await session.stop('switched to the recording');
+  player?.stop();
+  $('server-name').textContent = replay.server.label;
+  $('server-meta').textContent = [`recorded ${replay.recordedAt.slice(0, 10)}`, `${replay.tools.length} tools`, `${Math.round(replay.durationSeconds)} s`].join(' · ');
+  $('server-warn').hidden = true;
+  clear($('asks'));
+  $('gate-card').hidden = true;
+  $('talk').hidden = true;
+  $('paste-row').hidden = true;
+  const list = $('phase-tools');
+  clear(list);
+  for (const name of replay.tools) list.append(h('li', { class: 'chip' }, name));
+  $('phase-count').textContent = `${replay.tools.length} of 10`;
+  $('phase-reason').textContent = 'the tools this session was given';
+  visibleBefore = new Set();
+  renderKeyterms([], []);
+  $('replay-note').textContent = why ?? 'A real session, recorded. The caller is synthetic speech; the agent, its voice and every tool call are live AssemblyAI and MCP traffic.';
+  $('replay-id').textContent = replay.sessionId;
+  $('replay-voice').textContent = `Caller voice: ${replay.voice}.`;
+  resetPanels();
+  $('server').hidden = false;
+  $('panes').hidden = false;
+  $('replay').hidden = false;
+  const audio = $('replay-audio') as HTMLAudioElement;
+  player = new ReplayPlayer(audio, {
+    reset: resetPanels,
+    line: (who) => addLine(who, ''),
+    toolStart: (id, name, args) => toolStart({ callId: id, name, arguments: args }),
+    toolDone: (id, name, spoken, method, ms, ok) => toolDone({ callId: id, name, arguments: {} }, { spoken, method, totalMs: ms, isError: !ok } as ToolOutcome, ms),
+  });
+  audio.currentTime = 0;
+  $('replay').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  if (!(await player.play())) $('replay-note').textContent += ' Press play to start it.';
 }
 
 // ----------------------------------------------------------------- connect
@@ -365,17 +427,11 @@ function renderServer(c: ConnectResponse): void {
     for (const a of c.asks) asks.append(h('span', { class: 'ask' }, `“${a}”`));
   }
 
-  clear($('lines'));
-  $('lines-empty').hidden = false;
-  clear($('calls'));
-  callItems.clear();
-  agentLines.clear();
-  userLive = null;
-  callCount = 0;
-  $('call-count').textContent = '0';
-  $('calls-empty').hidden = false;
+  resetPanels();
   visibleBefore = new Set();
   renderPhase(c.phase, c.phase.reason);
+  player?.stop();
+  $('replay').hidden = true;
 
   const sample = $('sample-btn') as HTMLButtonElement;
   sample.hidden = !c.sampleValue;
@@ -445,6 +501,7 @@ async function main(): Promise<void> {
     if (url) void connect(url);
   });
   $('mic').addEventListener('click', () => void toggleTalk());
+  $('replay-btn').addEventListener('click', () => void startReplay(null));
   $('paste').addEventListener('input', () => {
     if (pasteTimer) clearTimeout(pasteTimer);
     pasteTimer = setTimeout(onPasteChange, 300);

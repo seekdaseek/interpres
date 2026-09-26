@@ -1621,3 +1621,70 @@ console errors: none
 ```
 
 An idle tab now costs 65.9 s ($0.082 at $4.50/hr) instead of up to 300 s ($0.375).
+
+---
+
+## 2026-09-26 - C: "Watch a real session", and the cap fallback
+
+**The recording is Session History's own.** The audio artifact of an e2e-audio
+session downloads through its pre-signed URL: Ogg Opus, stereo, 48 kHz, 39.66 s,
+672 KB. Its channels separate cleanly: channel 0 holds the caller (0.6-2.5 s and
+18.0-20.2 s), channel 1 the agent (5.1-16.6 s and 24.1-37.9 s).
+
+`scripts/replay-build.ts <session> <data file> "<label>"`:
+- mixes the recording to mono, so the voices are not hard-panned, and encodes AAC
+  (`afconvert`, 64 kbps, 315 KB), which every browser plays;
+- finds speech per channel;
+- places the timeline on the recording's clock. Its user-speech starts sit 0.468 s
+  after the caller channel's (the median over both turns), and its tool dispatch
+  and result times are shifted by that. The timeline gives no start time for a
+  tool_result reply, so agent lines start where channel 1's speech does;
+- takes the tool list from the session's own `session.update` (`config_changes`),
+  and the shaped line each call returned from the harness's data file.
+
+The session: `sess_4e6cc252c2cb4754adec545d0a36824f`, Most Recommended Books,
+"What books does Bill Gates recommend?" and "What is the reading order for the
+Dune series?". The caller is Samantha, a macOS `say` voice, and the page says so.
+
+```
+0.60 s user   What books does Bill Gates recommend?
+3.04 s call   get_person_recommendations      4.01 s result 977 ms ok
+5.10 s agent  Bill Gates has two hundred and thirty-five verified recommendations...
+18.00 s user  What is the reading order for the Dune series?
+21.74 s call  get_series_reading_order       22.62 s result 881 ms ok
+24.10 s agent The Dune series consists of six books in this publication order...
+```
+
+**On the page:**
+- The homepage has "No microphone? Watch a real session".
+- The replay drives the live page's own panes. Each line appears at its real time
+  and fills word by word across the span the voice is heard. Each tool call
+  appears at its dispatch time and completes at its result time. The session_id
+  and the voice label are shown. Seeking backwards redraws from the start.
+- When `/api/token` answers 429 (the per-IP limit or the daily cap), the page shows
+  "Live sessions are paused: <the server's message> Here is a recorded one instead."
+  and plays the recording, rather than showing an error.
+
+**One serving fix:**
+- Hono's MIME table has no `.m4a`, so the file went out as
+  `application/octet-stream`. Chrome sniffs it, but Safari does not.
+- A wrapper on `/assets/*` now labels it `audio/mp4`. Byte ranges already worked (206).
+- There is a test for both.
+
+Browser (local dev server):
+- The button started playback. At 6.4 s the page showed the question, the tool
+  call done in 977 ms, and "Bill Gates has two" still filling in.
+- Seeking to 30 s showed both exchanges. Seeking back to 2 s redrew only the first
+  question and call.
+- Fallback: `/api/token` was made to answer the real 429 body (test
+  instrumentation, code `global`), then Talk was pressed on Recipes Daily. The
+  replay showed and played with "Live sessions are paused: The demo has used its
+  daily session budget. Try again tomorrow. Here is a recorded one instead."
+  No error alert, no console errors.
+- At 375 px: scrollWidth 375, replay card right edge 359, 0 overflowing elements.
+
+```
+$ npm test                        ℹ tests 305  ℹ pass 305  ℹ fail 0
+$ sandbox-exec (deny outbound)    ℹ tests 305  ℹ pass 305  ℹ fail 0
+$ npm run typecheck               exit 0
+```

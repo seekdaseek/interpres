@@ -38,6 +38,7 @@
         </form>
         <p class="error" id="connect-error" role="alert" hidden></p>
         <div class="presets" id="presets" aria-label="Try a public server"></div>
+        <button type="button" class="replay-btn" id="replay-btn">No microphone? Watch a real session</button>
       </section>
 
       <section class="server" id="server" hidden>
@@ -85,6 +86,16 @@
         <p class="gate-say" id="gate-say"></p>
       </section>
 
+      <section class="replay" id="replay" hidden>
+        <div class="replay-head">
+          <span class="replay-tag">Recorded session</span>
+          <code class="replay-id" id="replay-id"></code>
+        </div>
+        <p class="replay-note" id="replay-note"></p>
+        <audio id="replay-audio" controls preload="metadata"></audio>
+        <p class="replay-voice" id="replay-voice"></p>
+      </section>
+
       <main class="panes" id="panes" hidden>
         <section class="pane convo">
           <h2>Conversation</h2>
@@ -109,7 +120,7 @@
 
       <footer class="foot">
         <p>
-          Sessions end after five minutes. interpres only connects to MCP servers that need no
+          Sessions end after five minutes, or after one minute in which nobody speaks. interpres only connects to MCP servers that need no
           authentication, and never sends them a credential. Your voice goes to AssemblyAI's Voice
           Agent API, which records sessions; interpres logs tool names and timings, never IP addresses.
         </p>

@@ -206,3 +206,14 @@ button { font: inherit; color: inherit; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
+
+/* ---- the recorded session ---- */
+.replay-btn { margin-top: 14px; padding: 9px 14px; border-radius: 999px; border: 1px solid var(--line-2); background: transparent; color: var(--muted); font: 500 13px var(--sans, inherit); cursor: pointer; }
+.replay-btn:hover { color: var(--text); border-color: var(--voice); }
+.replay { margin: 0 0 18px; padding: 16px 18px; border-radius: var(--radius); border: 1px solid var(--line-2); border-left: 4px solid var(--voice); background: linear-gradient(180deg, var(--surface-2), var(--surface)); }
+.replay-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.replay-tag { font: 500 11px var(--mono); text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); }
+.replay-id { font: 500 12px var(--mono); color: var(--muted); overflow-wrap: anywhere; }
+.replay-note { margin: 8px 0 12px; font-size: 14px; }
+.replay audio { width: 100%; }
+.replay-voice { margin: 8px 0 0; color: var(--muted); font-size: 12.5px; }

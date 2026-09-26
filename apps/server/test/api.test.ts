@@ -133,3 +133,17 @@ test('a client address is never written to the event log', async () => {
   assert.ok(file.length > 0, 'the log must have been written, or this proves nothing');
   assert.ok(!file.includes(clientIp), 'the file must not hold it');
 });
+
+test('the replay recording is served as audio/mp4, with byte ranges', async (t) => {
+  const { readdirSync, existsSync } = await import('node:fs');
+  const dir = 'apps/web/dist/assets';
+  const m4a = existsSync(dir) ? readdirSync(dir).find((f) => f.endsWith('.m4a')) : undefined;
+  if (!m4a) { t.skip('web app not built'); return; }
+  const whole = await get(`/assets/${m4a}`);
+  assert.equal(whole.status, 200);
+  assert.equal(whole.headers.get('content-type'), 'audio/mp4');
+  const part = await get(`/assets/${m4a}`, { range: 'bytes=0-99' });
+  assert.equal(part.status, 206);
+  assert.equal(part.headers.get('content-type'), 'audio/mp4');
+  assert.equal(part.headers.get('content-length'), '100');
+});

@@ -367,6 +367,13 @@ const WEB_ENTRY = 'interpres-index.html';
 if (existsSync(`${WEB_DIST}/${WEB_ENTRY}`)) {
   const entry = serveStatic({ path: `${WEB_DIST}/${WEB_ENTRY}` });
   app.get('/', entry);
+  // The replay's recording. Hono's MIME table has no .m4a, and Safari will not
+  // play audio served as application/octet-stream. Registered first, so it wraps
+  // the static handler and fixes the header on the way out.
+  app.use('/assets/*', async (c, next) => {
+    await next();
+    if (c.req.path.endsWith('.m4a')) c.header('Content-Type', 'audio/mp4');
+  });
   app.use('/assets/*', serveStatic({ root: WEB_DIST }));
   // A missing hashed asset is a 404, not the app: after a redeploy, a stale page
   // asking for an old bundle would otherwise be handed HTML as JavaScript.

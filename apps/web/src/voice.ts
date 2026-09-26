@@ -71,6 +71,16 @@ export type ConnectPayload = {
   gate: { tools: GateTool[]; server: string };
 };
 
+/** /api/token said no - the per-IP limit or the daily cap. The page plays the recording instead. */
+export class TokenRefusedError extends Error {
+  readonly code: string;
+  constructor(message: string, code: string) {
+    super(message);
+    this.name = 'TokenRefusedError';
+    this.code = code;
+  }
+}
+
 async function postJson<T>(path: string, body: unknown, signal?: AbortSignal): Promise<T> {
   const res = await fetch(path, {
     method: 'POST',
@@ -138,7 +148,8 @@ export class VoiceSession {
   async start(): Promise<void> {
     this.ui.status('connecting');
     const tokenRes = await fetch('/api/token');
-    const tokenBody = (await tokenRes.json().catch(() => ({}))) as { token?: string; error?: string; maxSessionDurationSeconds?: number };
+    const tokenBody = (await tokenRes.json().catch(() => ({}))) as { token?: string; error?: string; code?: string; maxSessionDurationSeconds?: number };
+    if (tokenRes.status === 429) throw new TokenRefusedError(tokenBody.error ?? 'The demo limit is reached.', tokenBody.code ?? 'rate_limited');
     if (!tokenRes.ok || !tokenBody.token) throw new Error(tokenBody.error ?? `Could not get a session token (${tokenRes.status}).`);
     const maxSeconds = tokenBody.maxSessionDurationSeconds ?? 300;
 

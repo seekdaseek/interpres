@@ -1,0 +1,89 @@
+{
+ "sessionId": "sess_4e6cc252c2cb4754adec545d0a36824f",
+ "recordedAt": "2026-09-26T12:41:53.912732Z",
+ "durationSeconds": 39.65,
+ "server": {
+  "label": "Most Recommended Books",
+  "url": "https://mostrecommendedbooks.com/api/mcp"
+ },
+ "tools": [
+  "use_pasted_text",
+  "search_books",
+  "get_person_recommendations",
+  "get_book_recommenders",
+  "get_series_reading_order",
+  "get_list",
+  "get_summary"
+ ],
+ "voice": "Samantha, a macOS say voice: synthetic speech, not a person",
+ "audio": "sess_4e6cc252c2cb4754adec545d0a36824f.m4a",
+ "alignment": {
+  "offsetSeconds": 0.468,
+  "callerUtterances": 2,
+  "agentUtterances": 2
+ },
+ "events": [
+  {
+   "at": 0.6,
+   "kind": "user",
+   "end": 2.5,
+   "text": "What books does Bill Gates recommend?"
+  },
+  {
+   "at": 3.037,
+   "kind": "call",
+   "id": "call1",
+   "name": "get_person_recommendations",
+   "args": {
+    "person": "Bill Gates"
+   }
+  },
+  {
+   "at": 4.014,
+   "kind": "result",
+   "id": "call1",
+   "name": "get_person_recommendations",
+   "ms": 977,
+   "ok": true,
+   "spoken": "Bill Gates has 235 verified book recommendations:. Army of None by Paul Scharre — \"\"The book I had been waiting for. I can’t recommend it highly enough.\" - Bill Gates\". 13 Things That Don't Make Sense by Michael Brooks — \"List of books Bill Gates read in 2011.\".",
+   "method": "local"
+  },
+  {
+   "at": 5.1,
+   "kind": "agent",
+   "end": 16.6,
+   "text": "Bill Gates has two hundred and thirty-five verified recommendations. Some examples include Army of None by Paul Scharre, which he highly recommends, and 13 Things That Don't Make Sense by Michael Brooks."
+  },
+  {
+   "at": 18,
+   "kind": "user",
+   "end": 20.2,
+   "text": "What is the reading order for the Dune series?"
+  },
+  {
+   "at": 21.741,
+   "kind": "call",
+   "id": "call2",
+   "name": "get_series_reading_order",
+   "args": {
+    "series": "Dune"
+   }
+  },
+  {
+   "at": 22.622,
+   "kind": "result",
+   "id": "call2",
+   "name": "get_series_reading_order",
+   "ms": 881,
+   "ok": true,
+   "spoken": "Dune — 6 books in publication order: 1. Dune (1965) 2. Dune Messiah (1969) 3. Children of Dune (1976) 4. God Emperor of Dune (1981) 5. Heretics of Dune (1984) 6. Chapterhouse: Dune (1985) Source: https://mostrecommendedbooks.com/series/dune-books-in-order (mostrecommendedbooks.com)",
+   "method": "truncated"
+  },
+  {
+   "at": 24.1,
+   "kind": "agent",
+   "end": 37.9,
+   "text": "The Dune series consists of six books in this publication order. You should start with Dune from nineteen sixty-five, followed by Dune Messiah, Children of Dune, God Emperor of Dune, Heretics of Dune, and finally Chapterhouse: Dune."
+  }
+ ]
+}
