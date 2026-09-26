@@ -61,6 +61,10 @@ button { font: inherit; color: inherit; }
 .btn:hover { background: #fff; }
 .btn:disabled { opacity: 0.6; cursor: progress; }
 .error { color: var(--danger); font: 13px/1.5 var(--mono); margin: 12px 4px 0; max-width: 760px; }
+.error-detail { margin-top: 6px; color: var(--muted); }
+.error-detail summary { cursor: pointer; font-size: 12px; }
+.error-detail code { display: block; margin-top: 4px; font-size: 11.5px; white-space: pre-wrap; word-break: break-word; }
+.url-hint { color: var(--muted); font: 12.5px/1.5 var(--mono); margin: 10px 4px 0; max-width: 760px; word-break: break-all; }
 
 .presets { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; margin: 18px 0 8px; max-width: 900px; }
 .preset { text-align: left; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; cursor: pointer; display: grid; gap: 4px; transition: border-color .15s, transform .15s; }

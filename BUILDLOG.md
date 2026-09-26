@@ -2095,3 +2095,109 @@ product page. Both pages were re-read in the browser on 2026-09-26:
   clause is unchanged. No other tracked file carried the claim: a grep for
   `18.00` and `migration guide` found only this sentence.
 - Docs only: no redeploy, and `apps/web` is untouched.
+
+---
+
+## 2026-09-26 - round E, P0: the box takes what people type, and errors arrive as JSON
+
+**Before, through Cloudflare.** `scripts/public-matrix.ts` posts 19 inputs to the
+public URL and records the status, and whether the body parsed as JSON.
+`data/public-matrix-before.json`, 18:07Z:
+
+| case | sent | status | JSON? | what arrived |
+| --- | --- | ---: | --- | --- |
+| no scheme | `mcp.goji.agency/mcp` | 400 | yes | That is not a URL. |
+| bare domain | `goji.agency` | 400 | yes | That is not a URL. |
+| http scheme | `http://mcp.goji.agency/mcp` | 400 | yes | Only https:// MCP servers are accepted. |
+| spaces around | `  https://mcp.goji.agency/mcp  ` | 200 | yes | {"url":"https://mcp.goji.agency/mcp","cached":true,"transport":"stream |
+| wrapped in quotes | `"https://mcp.goji.agency/mcp"` | 400 | yes | That is not a URL. |
+| wrapped in <> | `<https://mcp.goji.agency/mcp>` | 400 | yes | That is not a URL. |
+| not MCP | `https://example.com` | 502 | **no** | <!DOCTYPE html> <!--[if lt IE 7]> <html class="no-js ie6 oldie" lang=" |
+| a website | `https://goji.agency` | 502 | **no** | <!DOCTYPE html> <!--[if lt IE 7]> <html class="no-js ie6 oldie" lang=" |
+| inference.sh | `https://api.inference.sh/mcp` | 502 | **no** | <!DOCTYPE html> <!--[if lt IE 7]> <html class="no-js ie6 oldie" lang=" |
+| no such host | `https://nothing-here.invalid/mcp` | 400 | yes | Could not resolve nothing-here.invalid. |
+| closed port | `https://example.com:81/mcp` | 504 | **no** | <!DOCTYPE html> <!--[if lt IE 7]> <html class="no-js ie6 oldie" lang=" |
+| private: loopback | `https://127.0.0.1/mcp` | 400 | yes | 127.0.0.1 is not a publicly routable address. |
+| private: 10/8 | `https://10.0.0.1/mcp` | 400 | yes | 10.0.0.1 is not a publicly routable address. |
+| credentials | `https://user:pass@mcp.goji.agency/mcp` | 400 | yes | Remove the credentials from the URL. |
+| javascript: | `javascript:alert(1)` | 400 | yes | Only https:// MCP servers are accepted. |
+| file: | `file:///etc/passwd` | 400 | yes | Only https:// MCP servers are accepted. |
+| starters, not MCP | `https://example.com` | 502 | **no** | <!DOCTYPE html> <!--[if lt IE 7]> <html class="no-js ie6 oldie" lang=" |
+| find-tools, not MCP | `https://example.com` | 502 | **no** | <!DOCTYPE html> <!--[if lt IE 7]> <html class="no-js ie6 oldie" lang=" |
+| call, not MCP | `https://example.com` | 200 | yes | That call failed: Streamable HTTP error: Error POSTing to endpoint: <! |
+
+- The origin did send JSON. The same POST for `https://example.com` on the box
+  (`127.0.0.1:3031`) answered `502 application/json`. Cloudflare replaced every
+  502 and 504 body with its own HTML page, which the page then fed to
+  `JSON.parse`.
+- The `call` row is a 200, but its spoken sentence quoted example.com's HTML to
+  the agent.
+
+**The normaliser**, `packages/core/src/url.ts` (`normaliseServerUrl`). The page
+and the server run the same function, and the server is the authority.
+- It trims, and strips wrapping quotes (straight and curly), backticks, angle
+  brackets, and trailing `.,;` characters. A trailing `)` or `]` goes only when
+  nothing opened it, so `https://[::1]` keeps its bracket.
+- With no scheme it adds `https://`. It switches `http://` to `https://` and
+  says so in `notes`.
+- It refuses every other scheme, and any `user:password@`: "interpres never
+  sends credentials."
+- `URL` lowercases the host and converts IDN to punycode.
+- It keeps the path and query, and drops a `#fragment`.
+- A single typed word ("books") is refused as not an address.
+- The SSRF guard runs afterwards, unchanged.
+- `packages/core/test/url.test.ts`: 33 input rows, each mapped to a URL or an
+  error code. They include the four §0.2 inputs, `mcp.goji.agency@127.0.0.1`
+  (`has_credentials`), `https://[::1]/mcp`, `javascript:`, `file:`, an IDN host,
+  a query, a trailing slash and `<…>`. Every accepted URL is a fixed point.
+
+**Statuses**, `apps/server/src/errors.ts` (`explainFailure`):
+- An upstream MCP failure or an SSRF timeout is **424**, and so is any
+  token-service failure. It was 502 or 504.
+- A bad request stays 400, 429 is unchanged, and our own bug is a JSON 500
+  (`app.onError`).
+- One sentence per class, each with a next step:
+  - **auth:** the brief's wording.
+  - **not MCP:** `protocol_error`, or a 404, 405 or 410 on the endpoint.
+  - **unreachable:** unreachable, a timeout, or a DNS failure.
+  - **blocked:** the guard's own wording is kept.
+  - Also new: 429 ("busy"), 5xx ("answered with an error") and too large.
+- The upstream text moved to a clipped `detail`. The page folds it under "What
+  the server said", and the sentence never contains it.
+- `/api/mcp/call` gives the agent the same sentence in its `tool.result`.
+- A refused redirect now names its `Location` ("... redirects to
+  https://x/mcp/"). It is still refused; only the message changed.
+
+**The page:**
+- The input is `type="text" inputmode="url" autocapitalize="off"
+  autocorrect="off" spellcheck="false"`, the form has `novalidate`, and the label
+  is kept.
+- A live line under the box shows what the typed text will connect to. After a
+  connect it shows what was changed, for example "switched http:// to https://".
+- `apps/web/src/http.ts` reads every response as text and parses it inside a
+  try. A non-JSON body becomes "interpres answered 502 without any details. Try
+  again in a moment." `voice.ts` throws that sentence, so a failed tool's
+  `tool.result` carries it.
+
+**1c (the http to https redirect with HSTS)** was never built: a grep for
+`strict-transport|hsts` over the source finds nothing, and the same grep hits a
+control line. Skipped, as the brief allows.
+
+**Proof, local:**
+```
+$ npm test                    ℹ tests 357  ℹ pass 357  ℹ fail 0
+$ (put back one `, 502);` in index.ts) node --test apps/server/test/errors.test.ts
+  ℹ pass 7  ℹ fail 1   index.ts answers with a gateway status     (then restored)
+```
+In the browser pane on the local server:
+- `mcp.goji.agency/mcp` now passes `checkValidity()` (Brave refused it before),
+  the hint read "Will connect to https://mcp.goji.agency/mcp (added https://)",
+  and the connect gave goji, 9 tools.
+- `https://example.com` gave the not-MCP sentence, with the HTML folded under it.
+- `javascript:alert(1)` and `books` were refused in the page, with no request.
+- `http://mcp.goji.agency/mcp` connected and said it switched to https.
+- `https://127.0.0.1/mcp` gave "127.0.0.1 is not a publicly routable address."
+- `?url=tandem.ac/mcp` connected to Tandem Docs MCP (13 tools) and rewrote the
+  link to the https URL.
+
+The public check comes after the redeploy, in the next entry.

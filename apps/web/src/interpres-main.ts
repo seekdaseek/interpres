@@ -3,12 +3,16 @@ import { $, h, clear, clip } from './dom.ts';
 import { TokenRefusedError, VoiceSession } from './voice.ts';
 import { ReplayPlayer, replay } from './replay.ts';
 import type { ConnectPayload, PhasePayload, Status, ToolOutcome, VoiceUi } from './voice.ts';
-import type { GateDecision, ToolCall } from '@interpres/core';
-import { groupInFours, mergeKeyterms, pasteKeyterms } from '@interpres/core';
+import type { GateDecision, ToolCall, UrlNote } from '@interpres/core';
+import { groupInFours, mergeKeyterms, normaliseServerUrl, pasteKeyterms } from '@interpres/core';
+import { api, postJson } from './http.ts';
 
 type Preset = { label: string; url: string; blurb: string; asks: string[]; exercisesPhases?: boolean };
 type CatalogEntry = { voiceName: string; mcpName: string; description: string; isWriteTool: boolean; writeReason?: string };
 type ConnectResponse = ConnectPayload & {
+  /** What was typed, and what the server made of it. */
+  input: string;
+  notes: UrlNote[];
   cached: boolean;
   transport: string;
   server: { name?: string; title?: string; version?: string } | null;
@@ -389,10 +393,10 @@ async function loadStarters(url: string): Promise<void> {
   el.hidden = false;
   el.append(h('span', { class: 'asks-label' }, 'Try asking'), h('span', { class: 'starter-note' }, 'writing questions…'));
   try {
-    const res = await fetch('/api/mcp/starters', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ url }) });
-    const s = (await res.json()) as { source?: string; questions?: string[]; ms?: number; model?: string; reason?: string };
+    const r = await postJson<{ source?: string; questions?: string[]; ms?: number; model?: string; reason?: string }>('/api/mcp/starters', { url });
     if (conn?.url !== url) return;   // switched server meanwhile
-    if (!res.ok || !Array.isArray(s.questions)) { el.hidden = true; return; }
+    if (!r.ok || !Array.isArray(r.data.questions)) { el.hidden = true; return; }
+    const s = r.data as { source?: string; questions: string[]; ms?: number; model?: string; reason?: string };
     clear(el);
     el.append(h('span', { class: 'asks-label' }, 'Try asking'));
     for (const q of s.questions) el.append(h('span', { class: 'ask' }, `“${q}”`));
@@ -406,34 +410,58 @@ async function loadStarters(url: string): Promise<void> {
 
 // ----------------------------------------------------------------- connect
 
-function showError(message: string | null): void {
+/** One plain sentence, and what the server actually said folded under it. */
+function showError(message: string | null, detail?: string): void {
   const el = $('connect-error');
+  clear(el);
   el.hidden = message === null;
-  el.textContent = message ?? '';
+  if (message === null) return;
+  el.append(h('span', {}, message));
+  if (detail) el.append(h('details', { class: 'error-detail' }, h('summary', {}, 'What the server said'), h('code', {}, detail)));
 }
 
-async function connect(url: string): Promise<void> {
+const NOTE_TEXT: Record<UrlNote, string> = {
+  added_https: 'added https://',
+  switched_to_https: 'switched http:// to https://, the only kind interpres connects to',
+  cleaned: 'removed the quotes and punctuation around it',
+};
+
+function showHint(text: string | null): void {
+  const el = $('url-hint');
+  el.hidden = text === null;
+  el.textContent = text ?? '';
+}
+
+/** As the box is typed in: the address it will connect to, when that differs. Errors wait for Connect. */
+function previewUrl(): void {
+  const typed = ($('url') as HTMLInputElement).value;
+  const r = normaliseServerUrl(typed);
+  if (!r.ok || r.url === typed.trim()) { showHint(null); return; }
+  showHint(`Will connect to ${r.url}${r.notes.length ? ` (${r.notes.map((n) => NOTE_TEXT[n]).join('; ')})` : ''}`);
+}
+
+async function connect(input: string): Promise<void> {
   if (session) await session.stop('switched server');
   showError(null);
+  // The same normaliser the server runs, so a refusal needs no round trip.
+  // The server runs it again and its answer is the one that counts.
+  const preview = normaliseServerUrl(input);
+  if (!preview.ok) { showHint(null); showError(preview.message); return; }
   const btn = $('connect-btn') as HTMLButtonElement;
   btn.disabled = true;
   btn.textContent = 'Connecting…';
   try {
-    const res = await fetch('/api/mcp/connect', {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ url }),
-    });
-    const body = await res.json();
-    if (!res.ok) { showError(`${body.error ?? 'Could not connect.'}${body.code ? ` (${body.code})` : ''}`); return; }
-    conn = body as ConnectResponse;
+    const r = await postJson<ConnectResponse>('/api/mcp/connect', { url: input });
+    if (!r.ok) { showHint(null); showError(r.message, r.detail); return; }
+    conn = r.data;
+    ($('url') as HTMLInputElement).value = conn.url;
+    const notes = conn.notes ?? [];
+    showHint(notes.length ? `Connected to ${conn.url}: ${notes.map((n) => NOTE_TEXT[n] ?? n).join('; ')}.` : null);
     renderServer(conn);
     void loadStarters(conn.url);
     const q = new URL(location.href);
-    q.searchParams.set('url', url);
+    q.searchParams.set('url', conn.url);
     history.replaceState(null, '', q);
-  } catch (err) {
-    showError(err instanceof Error ? err.message : 'Could not connect.');
   } finally {
     btn.disabled = false;
     btn.textContent = 'Connect';
@@ -510,12 +538,8 @@ function onPasteChange(): void {
 }
 
 async function loadPresets(): Promise<Preset[]> {
-  try {
-    const res = await fetch('/api/presets');
-    return ((await res.json()) as { presets: Preset[] }).presets;
-  } catch {
-    return [];
-  }
+  const r = await api<{ presets: Preset[] }>('/api/presets');
+  return r.ok && Array.isArray(r.data.presets) ? r.data.presets : [];
 }
 
 async function main(): Promise<void> {
@@ -532,9 +556,9 @@ async function main(): Promise<void> {
 
   $('connect-form').addEventListener('submit', (e) => {
     e.preventDefault();
-    const url = ($('url') as HTMLInputElement).value.trim();
-    if (url) void connect(url);
+    void connect(($('url') as HTMLInputElement).value);
   });
+  $('url').addEventListener('input', previewUrl);
   $('mic').addEventListener('click', () => void toggleTalk());
   $('replay-btn').addEventListener('click', () => void startReplay(null));
   $('paste').addEventListener('input', () => {

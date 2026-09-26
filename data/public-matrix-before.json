@@ -1,0 +1,219 @@
+{
+ "base": "https://interpres.ochinimus.app",
+ "at": "2026-09-26T18:07:21.622Z",
+ "rows": [
+  {
+   "label": "no scheme",
+   "path": "/api/mcp/connect",
+   "input": "mcp.goji.agency/mcp",
+   "status": 400,
+   "contentType": "application/json",
+   "ms": 262,
+   "json": true,
+   "code": "not_a_url",
+   "message": "That is not a URL.",
+   "bodyHead": "{\"error\":\"That is not a URL.\",\"code\":\"not_a_url\"}"
+  },
+  {
+   "label": "bare domain",
+   "path": "/api/mcp/connect",
+   "input": "goji.agency",
+   "status": 400,
+   "contentType": "application/json",
+   "ms": 131,
+   "json": true,
+   "code": "not_a_url",
+   "message": "That is not a URL.",
+   "bodyHead": "{\"error\":\"That is not a URL.\",\"code\":\"not_a_url\"}"
+  },
+  {
+   "label": "http scheme",
+   "path": "/api/mcp/connect",
+   "input": "http://mcp.goji.agency/mcp",
+   "status": 400,
+   "contentType": "application/json",
+   "ms": 53,
+   "json": true,
+   "code": "bad_scheme",
+   "message": "Only https:// MCP servers are accepted.",
+   "bodyHead": "{\"error\":\"Only https:// MCP servers are accepted.\",\"code\":\"bad_scheme\"}"
+  },
+  {
+   "label": "spaces around",
+   "path": "/api/mcp/connect",
+   "input": "  https://mcp.goji.agency/mcp  ",
+   "status": 200,
+   "contentType": "application/json",
+   "ms": 59,
+   "json": true,
+   "bodyHead": "{\"url\":\"https://mcp.goji.agency/mcp\",\"cached\":true,\"transport\":\"streamable-http\",\"server\":"
+  },
+  {
+   "label": "wrapped in quotes",
+   "path": "/api/mcp/connect",
+   "input": "\"https://mcp.goji.agency/mcp\"",
+   "status": 400,
+   "contentType": "application/json",
+   "ms": 52,
+   "json": true,
+   "code": "not_a_url",
+   "message": "That is not a URL.",
+   "bodyHead": "{\"error\":\"That is not a URL.\",\"code\":\"not_a_url\"}"
+  },
+  {
+   "label": "wrapped in <>",
+   "path": "/api/mcp/connect",
+   "input": "<https://mcp.goji.agency/mcp>",
+   "status": 400,
+   "contentType": "application/json",
+   "ms": 50,
+   "json": true,
+   "code": "not_a_url",
+   "message": "That is not a URL.",
+   "bodyHead": "{\"error\":\"That is not a URL.\",\"code\":\"not_a_url\"}"
+  },
+  {
+   "label": "not MCP",
+   "path": "/api/mcp/connect",
+   "input": "https://example.com",
+   "status": 502,
+   "contentType": "text/html; charset=UTF-8",
+   "ms": 125,
+   "json": false,
+   "bodyHead": "<!DOCTYPE html> <!--[if lt IE 7]> <html class=\"no-js ie6 oldie\" lang=\"en-US\"> <![endif]-->"
+  },
+  {
+   "label": "a website",
+   "path": "/api/mcp/connect",
+   "input": "https://goji.agency",
+   "status": 502,
+   "contentType": "text/html; charset=UTF-8",
+   "ms": 1405,
+   "json": false,
+   "bodyHead": "<!DOCTYPE html> <!--[if lt IE 7]> <html class=\"no-js ie6 oldie\" lang=\"en-US\"> <![endif]-->"
+  },
+  {
+   "label": "inference.sh",
+   "path": "/api/mcp/connect",
+   "input": "https://api.inference.sh/mcp",
+   "status": 502,
+   "contentType": "text/html; charset=UTF-8",
+   "ms": 231,
+   "json": false,
+   "bodyHead": "<!DOCTYPE html> <!--[if lt IE 7]> <html class=\"no-js ie6 oldie\" lang=\"en-US\"> <![endif]-->"
+  },
+  {
+   "label": "no such host",
+   "path": "/api/mcp/connect",
+   "input": "https://nothing-here.invalid/mcp",
+   "status": 400,
+   "contentType": "application/json",
+   "ms": 52,
+   "json": true,
+   "code": "dns_failed",
+   "message": "Could not resolve nothing-here.invalid.",
+   "bodyHead": "{\"error\":\"Could not resolve nothing-here.invalid.\",\"code\":\"dns_failed\"}"
+  },
+  {
+   "label": "closed port",
+   "path": "/api/mcp/connect",
+   "input": "https://example.com:81/mcp",
+   "status": 504,
+   "contentType": "text/html; charset=UTF-8",
+   "ms": 10088,
+   "json": false,
+   "bodyHead": "<!DOCTYPE html> <!--[if lt IE 7]> <html class=\"no-js ie6 oldie\" lang=\"en-US\"> <![endif]-->"
+  },
+  {
+   "label": "private: loopback",
+   "path": "/api/mcp/connect",
+   "input": "https://127.0.0.1/mcp",
+   "status": 400,
+   "contentType": "application/json",
+   "ms": 103,
+   "json": true,
+   "code": "blocked_address",
+   "message": "127.0.0.1 is not a publicly routable address.",
+   "bodyHead": "{\"error\":\"127.0.0.1 is not a publicly routable address.\",\"code\":\"blocked_address\"}"
+  },
+  {
+   "label": "private: 10/8",
+   "path": "/api/mcp/connect",
+   "input": "https://10.0.0.1/mcp",
+   "status": 400,
+   "contentType": "application/json",
+   "ms": 53,
+   "json": true,
+   "code": "blocked_address",
+   "message": "10.0.0.1 is not a publicly routable address.",
+   "bodyHead": "{\"error\":\"10.0.0.1 is not a publicly routable address.\",\"code\":\"blocked_address\"}"
+  },
+  {
+   "label": "credentials",
+   "path": "/api/mcp/connect",
+   "input": "https://user:pass@mcp.goji.agency/mcp",
+   "status": 400,
+   "contentType": "application/json",
+   "ms": 50,
+   "json": true,
+   "code": "has_credentials",
+   "message": "Remove the credentials from the URL.",
+   "bodyHead": "{\"error\":\"Remove the credentials from the URL.\",\"code\":\"has_credentials\"}"
+  },
+  {
+   "label": "javascript:",
+   "path": "/api/mcp/connect",
+   "input": "javascript:alert(1)",
+   "status": 400,
+   "contentType": "application/json",
+   "ms": 52,
+   "json": true,
+   "code": "bad_scheme",
+   "message": "Only https:// MCP servers are accepted.",
+   "bodyHead": "{\"error\":\"Only https:// MCP servers are accepted.\",\"code\":\"bad_scheme\"}"
+  },
+  {
+   "label": "file:",
+   "path": "/api/mcp/connect",
+   "input": "file:///etc/passwd",
+   "status": 400,
+   "contentType": "application/json",
+   "ms": 51,
+   "json": true,
+   "code": "bad_scheme",
+   "message": "Only https:// MCP servers are accepted.",
+   "bodyHead": "{\"error\":\"Only https:// MCP servers are accepted.\",\"code\":\"bad_scheme\"}"
+  },
+  {
+   "label": "starters, not MCP",
+   "path": "/api/mcp/starters",
+   "input": "https://example.com",
+   "status": 502,
+   "contentType": "text/html; charset=UTF-8",
+   "ms": 99,
+   "json": false,
+   "bodyHead": "<!DOCTYPE html> <!--[if lt IE 7]> <html class=\"no-js ie6 oldie\" lang=\"en-US\"> <![endif]-->"
+  },
+  {
+   "label": "find-tools, not MCP",
+   "path": "/api/mcp/find-tools",
+   "input": "https://example.com",
+   "status": 502,
+   "contentType": "text/html; charset=UTF-8",
+   "ms": 95,
+   "json": false,
+   "bodyHead": "<!DOCTYPE html> <!--[if lt IE 7]> <html class=\"no-js ie6 oldie\" lang=\"en-US\"> <![endif]-->"
+  },
+  {
+   "label": "call, not MCP",
+   "path": "/api/mcp/call",
+   "input": "https://example.com",
+   "status": 200,
+   "contentType": "application/json",
+   "ms": 95,
+   "json": true,
+   "message": "That call failed: Streamable HTTP error: Error POSTing to endpoint: <!doctype html><html lang=\"en\"><head><title>Example Domain</title><link rel=\"icon\" href=\"data:,\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><style>body{background:#eee;width:60vw;margin:15vh auto;font-family:system-ui,sans-serif}h1{font-size:1.5em}div{opacity:0.8}a:link,a:visited{color:#348}</style></head><body><div><h1>Example Domain</h1><p>This domain is for use in documentation examples without needing permission. Avoid use in operations.</p><p><a href=\"https://iana.org/domains/example\">Learn more</a></p></div></body></html> [HTTP 405]",
+   "bodyHead": "{\"result\":\"{\\\"error\\\":\\\"unreachable: Streamable HTTP error: Error POSTing to endpoint: <!d"
+  }
+ ]
+}

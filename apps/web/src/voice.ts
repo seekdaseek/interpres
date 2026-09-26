@@ -6,6 +6,7 @@
 import { AgentProtocol, IdleClock, IDLE_LIMIT_MS, ToolGate, USE_PASTED_TEXT_NAME, pastedTextResult, pasteKeyterms, mergeKeyterms } from '@interpres/core';
 import type { ExecResult, GateDecision, GateTool, ServerEvent, ToolCall } from '@interpres/core';
 import { AudioEngine, fromBase64, toBase64 } from './audio.ts';
+import { api, postJson as postJsonSafe } from './http.ts';
 
 const WS_URL = 'wss://agents.assemblyai.com/v1/ws';
 /** A US English voice from the docs' list. */
@@ -81,18 +82,15 @@ export class TokenRefusedError extends Error {
   }
 }
 
+/**
+ * A tool's round trip to our server. A failure throws the plain sentence from
+ * `http.ts`, which is what the agent's `tool.result` then carries - never a
+ * parser message or an upstream body.
+ */
 async function postJson<T>(path: string, body: unknown, signal?: AbortSignal): Promise<T> {
-  const res = await fetch(path, {
-    method: 'POST',
-    headers: { 'content-type': 'application/json' },
-    body: JSON.stringify(body),
-    signal,
-  });
-  const text = await res.text();
-  let json: unknown;
-  try { json = JSON.parse(text); } catch { throw new Error(`${path} answered ${res.status} with non-JSON`); }
-  if (!res.ok) throw new Error((json as { error?: string }).error ?? `${path} answered ${res.status}`);
-  return json as T;
+  const r = await postJsonSafe<T>(path, body, signal);
+  if (!r.ok) throw new Error(r.message);
+  return r.data;
 }
 
 export class VoiceSession {
@@ -147,10 +145,11 @@ export class VoiceSession {
   /** Must be called from a click handler: audio contexts need a user gesture. */
   async start(): Promise<void> {
     this.ui.status('connecting');
-    const tokenRes = await fetch('/api/token');
-    const tokenBody = (await tokenRes.json().catch(() => ({}))) as { token?: string; error?: string; code?: string; maxSessionDurationSeconds?: number };
-    if (tokenRes.status === 429) throw new TokenRefusedError(tokenBody.error ?? 'The demo limit is reached.', tokenBody.code ?? 'rate_limited');
-    if (!tokenRes.ok || !tokenBody.token) throw new Error(tokenBody.error ?? `Could not get a session token (${tokenRes.status}).`);
+    const t = await api<{ token?: string; maxSessionDurationSeconds?: number }>('/api/token');
+    if (!t.ok && t.status === 429) throw new TokenRefusedError(t.message, t.code ?? 'rate_limited');
+    if (!t.ok) throw new Error(t.message);
+    if (!t.data.token) throw new Error('No session token came back. Try again in a moment.');
+    const tokenBody = t.data as { token: string; maxSessionDurationSeconds?: number };
     const maxSeconds = tokenBody.maxSessionDurationSeconds ?? 300;
 
     await this.audio.start({

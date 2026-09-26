@@ -23,8 +23,8 @@ import { RateLimiter, clientKey } from './ratelimit.ts';
 import { EventLog, publicEvent } from './logs.ts';
 import { getCatalog, cacheStats, invalidate } from './catalog.ts';
 import type { Catalog } from './catalog.ts';
-import { McpError, callTool, pool } from './mcp.ts';
-import { SsrfError } from './ssrf.ts';
+import { callTool, pool } from './mcp.ts';
+import { UPSTREAM_FAILED, explainFailure, requireServerUrl } from './errors.ts';
 import { CircuitBreaker, makeShaper, newShaperStats } from './shaper.ts';
 import { PRESETS, presetFor } from './presets.ts';
 import { writeStarters } from './starters.ts';
@@ -70,23 +70,13 @@ function phasePayload(phase: Phase) {
   };
 }
 
-function errorStatus(err: unknown): number {
-  if (err instanceof SsrfError) return err.code === 'timeout' ? 504 : 400;
-  if (err instanceof McpError) {
-    if (err.classification === 'auth_required') return 502;
-    if (err.classification === 'unreachable') return 502;
-    return 502;
-  }
-  return 500;
-}
-
-function errorBody(err: unknown): { error: string; code: string } {
-  if (err instanceof SsrfError) return { error: err.message, code: err.code };
-  if (err instanceof McpError) return { error: err.detail, code: err.classification };
-  return { error: err instanceof Error ? err.message : 'Unknown error', code: 'internal' };
-}
-
 // ------------------------------------------------------------------ routes
+
+// Even a bug answers in JSON, so the page can always read what went wrong.
+app.onError((err, c) => {
+  const f = explainFailure(err);
+  return c.json(f.body, f.status);
+});
 
 app.get('/api/health', (c) => c.json({ ok: true, at: new Date().toISOString() }));
 
@@ -125,14 +115,14 @@ app.get('/api/token', async (c) => {
   try {
     const res = await fetch(url, { headers: { authorization: `Bearer ${config.assemblyAiKey}` } });
     if (!res.ok) {
-      const detail = await res.text();
+      await res.body?.cancel().catch(() => {});
       log.record('token.error', { status: res.status, ms: Date.now() - started });
       // The upstream body could name the key; never pass it through verbatim.
-      return c.json({ error: `The token service answered ${res.status}.`, code: 'token_upstream' }, 502);
+      return c.json({ error: `AssemblyAI's token service answered ${res.status}. Try again in a minute.`, code: 'token_upstream', kind: 'server_error' }, UPSTREAM_FAILED);
     }
     const body = (await res.json()) as { token?: string };
     if (typeof body.token !== 'string' || body.token === '') {
-      return c.json({ error: 'The token service returned no token.', code: 'token_upstream' }, 502);
+      return c.json({ error: "AssemblyAI's token service returned no token. Try again in a minute.", code: 'token_upstream', kind: 'server_error' }, UPSTREAM_FAILED);
     }
     counters.tokens++;
     log.record('token.minted', {
@@ -148,7 +138,7 @@ app.get('/api/token', async (c) => {
     });
   } catch (err) {
     log.record('token.error', { ms: Date.now() - started, detail: String(err) });
-    return c.json({ error: 'Could not reach the token service.', code: 'token_unreachable' }, 502);
+    return c.json({ error: "Couldn't reach AssemblyAI's token service. Try again in a minute.", code: 'token_unreachable', kind: 'unreachable' }, UPSTREAM_FAILED);
   }
 });
 
@@ -163,10 +153,14 @@ app.post('/api/mcp/connect', async (c) => {
   if (typeof body.url !== 'string' || body.url.trim() === '') {
     return c.json({ error: 'Send a url.', code: 'bad_request' }, 400);
   }
-  const url = body.url.trim();
+  const input = body.url.trim();
   const started = Date.now();
+  let url = input;
+  let notes: string[] = [];
 
   try {
+    // What was typed becomes what was meant; the SSRF guard then vets that.
+    ({ url, notes } = requireServerUrl(input));
     const { catalog, cached } = await getCatalog(url, { force: body.force === true });
     const phase = initialPhase(plannerInput(catalog));
     // The API validates none of this, so our own guard is the only one there is.
@@ -191,6 +185,8 @@ app.post('/api/mcp/connect', async (c) => {
     const gateByName = new Map(gate.map((g) => [g.voiceName, g]));
     return c.json({
       url,
+      input,
+      notes,
       cached,
       transport: catalog.transport,
       server: catalog.server ?? null,
@@ -213,8 +209,9 @@ app.post('/api/mcp/connect', async (c) => {
       gate: { tools: gate, server: new URL(url).host },
     });
   } catch (err) {
-    log.record('mcp.connect.failed', { url, ms: Date.now() - started, ok: false, ...errorBody(err) });
-    return c.json(errorBody(err), errorStatus(err) as 400);
+    const f = explainFailure(err);
+    log.record('mcp.connect.failed', { url, ms: Date.now() - started, ok: false, code: f.body.code, kind: f.body.kind, error: f.body.detail ?? f.body.error });
+    return c.json(f.body, f.status);
   }
 });
 
@@ -233,10 +230,10 @@ app.post('/api/mcp/starters', async (c) => {
     return c.json({ error: 'Send a JSON body.', code: 'bad_request' }, 400);
   }
   if (typeof body.url !== 'string' || body.url.trim() === '') return c.json({ error: 'Send a url.', code: 'bad_request' }, 400);
-  const url = body.url.trim();
-  const hit = startersCache.get(url);
-  if (hit && hit.expires > Date.now()) return c.json({ ...hit.starters, cached: true });
   try {
+    const { url } = requireServerUrl(body.url);
+    const hit = startersCache.get(url);
+    if (hit && hit.expires > Date.now()) return c.json({ ...hit.starters, cached: true });
     const { catalog } = await getCatalog(url);
     const starters = await writeStarters(catalog, { breaker });
     log.record('starters', { url, source: starters.source, ms: starters.ms, reason: starters.reason, count: starters.questions.length });
@@ -247,8 +244,8 @@ app.post('/api/mcp/starters', async (c) => {
     }
     return c.json({ ...starters, cached: false });
   } catch (err) {
-    const status = err instanceof SsrfError ? 400 : 502;
-    return c.json(errorBody(err), status);
+    const f = explainFailure(err);
+    return c.json(f.body, f.status);
   }
 });
 
@@ -263,7 +260,7 @@ app.post('/api/mcp/find-tools', async (c) => {
     return c.json({ error: 'Send a url and a query.', code: 'bad_request' }, 400);
   }
   try {
-    const { catalog } = await getCatalog(body.url.trim());
+    const { catalog } = await getCatalog(requireServerUrl(body.url).url);
     // The caller's last final transcript, so values they spoke ride across the
     // phase change. Capped: it is user speech, not a place to post a novel.
     const lastUserTurn = typeof body.lastUserTurn === 'string' ? body.lastUserTurn.slice(0, 2000) : undefined;
@@ -280,7 +277,8 @@ app.post('/api/mcp/find-tools', async (c) => {
       carried: outcome.carried,
     });
   } catch (err) {
-    return c.json(errorBody(err), errorStatus(err) as 400);
+    const f = explainFailure(err);
+    return c.json(f.body, f.status);
   }
 });
 
@@ -295,7 +293,13 @@ app.post('/api/mcp/call', async (c) => {
   if (typeof body.url !== 'string' || typeof body.tool !== 'string') {
     return c.json({ error: 'Send a url and a tool.', code: 'bad_request' }, 400);
   }
-  const url = body.url.trim();
+  let url: string;
+  try {
+    url = requireServerUrl(body.url).url;
+  } catch (err) {
+    const f = explainFailure(err);
+    return c.json(f.body, f.status);
+  }
   const voiceName = body.tool;
   const rawArgs = (body.arguments ?? {}) as Record<string, unknown>;
   const started = Date.now();
@@ -364,14 +368,18 @@ app.post('/api/mcp/call', async (c) => {
     });
   } catch (err) {
     counters.toolFailures++;
-    const detail = errorBody(err);
-    log.record('tool.call.failed', { url, voiceName, ms: Date.now() - started, ok: false, ...detail });
+    const f = explainFailure(err);
+    log.record('tool.call.failed', { url, voiceName, ms: Date.now() - started, ok: false, code: f.body.code, kind: f.body.kind, error: f.body.detail ?? f.body.error });
     // A failed tool call is a conversational event, not an HTTP failure: the
-    // agent needs a `tool.result` it can speak, or the turn just stalls.
+    // agent needs a `tool.result` it can speak, or the turn just stalls. It gets
+    // the same plain sentence the page shows, never an upstream body.
     return c.json({
-      result: JSON.stringify({ error: `${detail.code}: ${detail.error}` }),
-      spoken: `That call failed: ${detail.error}`,
+      result: JSON.stringify({ error: f.body.error }),
+      spoken: f.body.error,
+      raw: f.body.detail,
       isError: true,
+      code: f.body.code,
+      kind: f.body.kind,
       shaped: false,
       method: 'error',
       totalMs: Date.now() - started,

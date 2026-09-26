@@ -120,6 +120,18 @@ test('a redirect is refused rather than followed', () => {
   }
 });
 
+test('a refused redirect names where it pointed, so the person can paste that instead', () => {
+  assert.throws(
+    () => enforceResponsePolicy(res(307, null, { location: '/mcp/' }), 'tools.example'),
+    (e: unknown) => e instanceof SsrfError && e.code === 'redirect_refused' && e.message.includes('redirects to https://tools.example/mcp/'),
+  );
+  // No Location: still refused, just not named.
+  assert.throws(
+    () => enforceResponsePolicy(res(302, null), 'tools.example'),
+    (e: unknown) => e instanceof SsrfError && e.code === 'redirect_refused' && !e.message.includes('redirects to'),
+  );
+});
+
 test('a normal response passes the policy unchanged', async () => {
   const out = enforceResponsePolicy(res(200, 'hello', { 'content-type': 'text/plain' }), 'example.com');
   assert.equal(out.status, 200);

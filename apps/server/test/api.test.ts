@@ -53,19 +53,44 @@ test('a bad body on connect is refused before any network call', async () => {
   }
 });
 
-test('connect refuses a URL the SSRF guard blocks, with a code the UI can use', async () => {
+test('connect refuses a URL the normaliser or the SSRF guard blocks, with a code the UI can use', async () => {
   const cases: Array<[string, string]> = [
-    ['http://example.com/mcp', 'bad_scheme'],
+    ['ftp://example.com/mcp', 'bad_scheme'],
+    ['javascript:alert(1)', 'bad_scheme'],
+    ['file:///etc/passwd', 'bad_scheme'],
     ['https://127.0.0.1/mcp', 'blocked_address'],
+    ['https://[::1]/mcp', 'blocked_address'],
     ['https://169.254.169.254/mcp', 'blocked_address'],
+    // Switched to https by the normaliser, then refused by the guard: the order is the point.
+    ['http://127.0.0.1/mcp', 'blocked_address'],
     ['https://user:pw@example.com/mcp', 'has_credentials'],
+    ['mcp.goji.agency@127.0.0.1', 'has_credentials'],
     ['not-a-url', 'not_a_url'],
   ];
   for (const [url, code] of cases) {
     const r = await post('/api/mcp/connect', { url });
     assert.equal(r.status, 400, `${url} should be 400`);
-    assert.equal((await r.json()).code, code, `${url} should report ${code}`);
+    const body = await r.json();
+    assert.equal(body.code, code, `${url} should report ${code}`);
+    assert.ok(typeof body.error === 'string' && body.error.length > 10, `${url} needs a sentence`);
   }
+});
+
+test('the call route refuses a bad URL as a request error, and never with a gateway status', async () => {
+  const r = await post('/api/mcp/call', { url: 'javascript:alert(1)', tool: 'x' });
+  assert.equal(r.status, 400);
+  assert.equal((await r.json()).code, 'bad_scheme');
+});
+
+test('a token-service failure is a 424 in JSON, never a 502 Cloudflare would rewrite', async () => {
+  // AGENTS_API is a closed local port here, so the upstream fetch fails at once.
+  // A fresh client address, so the limit test below keeps its own budget.
+  const r = await get('/api/token', { 'cf-connecting-ip': '198.51.100.9' });
+  assert.equal(r.status, 424);
+  assert.match(r.headers.get('content-type') ?? '', /application\/json/);
+  const body = await r.json();
+  assert.equal(body.code, 'token_unreachable');
+  assert.match(body.error, /token service/);
 });
 
 test('find-tools and call both validate their bodies', async () => {
@@ -112,7 +137,7 @@ test('the token route enforces its limit rather than minting forever', async () 
       sawLimit = true;
       break;
     }
-    assert.ok([200, 502].includes(r.status), `unexpected ${r.status}`);
+    assert.ok([200, 424].includes(r.status), `unexpected ${r.status}`);
   }
   assert.equal(sawLimit, true, 'the limit must engage within 9 attempts of a 6/hour budget');
 });

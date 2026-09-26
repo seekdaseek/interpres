@@ -257,9 +257,15 @@ function capBody(body: ReadableStream<Uint8Array> | null, max: number): Readable
  */
 export function enforceResponsePolicy(res: Response, host: string): Response {
   if (res.status >= 300 && res.status < 400) {
-    // A redirect would send the next request somewhere we never vetted.
+    // A redirect would send the next request somewhere we never vetted. Where it
+    // pointed is only reported, so the person can paste it and have it vetted.
     void res.body?.cancel().catch(() => {});
-    throw new SsrfError('redirect_refused', `${host} answered ${res.status}; redirects are not followed.`);
+    let to = '';
+    try {
+      const loc = res.headers.get('location');
+      if (loc) to = ` and redirects to ${new URL(loc, `https://${host}/`).href}`;
+    } catch { /* an unparseable Location is just not named */ }
+    throw new SsrfError('redirect_refused', `${host} answered ${res.status}${to}; interpres does not follow redirects.`);
   }
 
   const declaredHeader = res.headers.get('content-length');

@@ -30,13 +30,14 @@
           AssemblyAI's Voice Agent API, which has no MCP support of its own.
         </p>
 
-        <form class="connect" id="connect-form" autocomplete="off">
+        <form class="connect" id="connect-form" autocomplete="off" novalidate>
           <label class="sr" for="url">MCP server URL</label>
-          <input id="url" name="url" type="url" inputmode="url" spellcheck="false"
-                 placeholder="https://example.com/mcp" required />
+          <input id="url" name="url" type="text" inputmode="url" autocapitalize="off" autocorrect="off"
+                 spellcheck="false" placeholder="mcp.example.com/mcp" />
           <button type="submit" id="connect-btn" class="btn">Connect</button>
         </form>
-        <p class="error" id="connect-error" role="alert" hidden></p>
+        <p class="url-hint" id="url-hint" aria-live="polite" hidden></p>
+        <div class="error" id="connect-error" role="alert" hidden></div>
         <div class="presets" id="presets" aria-label="Try a public server"></div>
         <button type="button" class="replay-btn" id="replay-btn">No microphone? Watch a real session</button>
       </section>
