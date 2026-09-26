@@ -1353,3 +1353,19 @@ This does not affect sweep A's `ok` count: `ok` means `initialize` and
 failures are being probed again with the fix (`--recheck-classes
 auth_required,unreachable,protocol_error --min-gap-minutes 0`, sweep.ts's new
 option). The corrected split goes in the task 1 results.
+
+---
+
+## 2026-09-26 - the public demo's daily cap, set where it can be seen
+
+The brief gives the token route a per-IP limit (6 an hour) and "a global daily
+cap" with no number. The code default was 400. At the 300 s session cap and
+$4.50/hr, one session costs at most $0.375, so 400 a day could spend $150 - the
+whole credit - in one UTC day.
+
+`ops/ecosystem.config.cjs` now sets `RATE_GLOBAL_DAY=100`, a worst case of
+$37.50 a day. Typical use is far lower: 49 sessions so far averaged 38 s, about
+$0.05 each. `MAX_SESSION_SECONDS` and `RATE_PER_IP_HOUR` are set there too, so
+all three are visible in one place. The windows are fixed (UTC hour, UTC day)
+and in memory, so a `pm2 delete` + `start` resets them. The number is Sergiu's
+call at CHECKPOINT C.

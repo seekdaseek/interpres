@@ -29,6 +29,13 @@ module.exports = {
         // 127.0.0.1 only: the box has no host firewall.
         HOST: '127.0.0.1',
         PORT: '3031',
+        // The public demo's spend guard. A session is capped at 300 s, which at
+        // $4.50/hr is $0.375, so the worst case is 100 x $0.375 = $37.50 per
+        // UTC day (the code default of 400 would allow $150, the whole credit).
+        // In-memory: a delete + start resets the day's count.
+        MAX_SESSION_SECONDS: '300',
+        RATE_PER_IP_HOUR: '6',
+        RATE_GLOBAL_DAY: '100',
       },
       max_memory_restart: '300M',
       autorestart: true,
