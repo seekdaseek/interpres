@@ -1,0 +1,189 @@
+{
+  "at": "2026-09-26T09:50:19.523Z",
+  "results": [
+    {
+      "url": "https://www.assemblyai.com/docs/mcp",
+      "server": {
+        "name": "AssemblyAI",
+        "version": "1.0.0"
+      },
+      "sessionId": "sess_e0416fefcb5b48d189ab62aa1645ba76",
+      "catalogSize": 3,
+      "turns": [
+        {
+          "ask": "What audio format does the Voice Agent API expect?",
+          "agentReply": "The Voice Agent API accepts audio formats such as audio slash pcm at twenty-four kilohertz, or audio slash pcmu and audio slash pcma at eight kilohertz for telephony.",
+          "toolCalls": [
+            {
+              "callId": "chatcmpl-tool-80406c489e784e4c",
+              "name": "search_assembly_ai",
+              "arguments": {
+                "query": "What audio format does the Voice Agent API expect?"
+              },
+              "mcpName": "search_assembly_ai",
+              "normalisersApplied": [],
+              "rawChars": 55074,
+              "spokenChars": 197,
+              "spoken": "The Voice Agent API expects audio formats like audio/pcm at 24 kHz or audio/pcmu and audio/pcma at 8 kHz for telephony. You can set the input and output encoding when creating or updating an agent.",
+              "shapeMethod": "llm",
+              "isError": false,
+              "mcpMs": 1378,
+              "totalMs": 2324
+            }
+          ],
+          "phaseChanges": [],
+          "ms": 15790
+        },
+        {
+          "ask": "How many tools can an agent have per phase?",
+          "agentReply": "The documentation does not specify a maximum number of tools an agent can have per phase, but it does recommend using progressive tool reveal to add tools only after each successful result.",
+          "toolCalls": [
+            {
+              "callId": "chatcmpl-tool-9129778337012042",
+              "name": "search_assembly_ai",
+              "arguments": {
+                "query": "How many tools can an agent have per phase?"
+              },
+              "mcpName": "search_assembly_ai",
+              "normalisersApplied": [],
+              "rawChars": 19460,
+              "spokenChars": 184,
+              "spoken": "The documentation does not state a specific number of tools an agent can have per phase, but it recommends using progressive tool reveal to add tools only after each successful result.",
+              "shapeMethod": "llm",
+              "isError": false,
+              "mcpMs": 1294,
+              "totalMs": 2144
+            }
+          ],
+          "phaseChanges": [],
+          "ms": 14549
+        }
+      ],
+      "events": {
+        "session.updated": 1,
+        "session.ready": 1,
+        "reply.started": 4,
+        "tool.call": 2,
+        "reply.done": 4,
+        "reply.audio": 2205,
+        "transcript.agent.delta": 60,
+        "transcript.agent": 2,
+        "session.ended": 1
+      },
+      "ok": true,
+      "failures": []
+    },
+    {
+      "url": "https://afg.ai/mcp",
+      "server": {
+        "name": "afg",
+        "version": "0.1.0",
+        "title": "AFG: Agent Fulfillment Guarantee (sandbox, test money only)"
+      },
+      "sessionId": "sess_4cf175fc117b4fd085894ce23c43be7e",
+      "catalogSize": 15,
+      "turns": [
+        {
+          "ask": "What is this service?",
+          "agentReply": "AFG, or Agent Fulfillment Guarantee, is a sandbox marketplace where AI agents hire other AI agents for verified outcomes using test money.",
+          "toolCalls": [],
+          "phaseChanges": [],
+          "ms": 9593
+        },
+        {
+          "ask": "I want to check the reputation of a wallet.",
+          "agentReply": "I can help with that. Which wallet address would you like me to check?",
+          "toolCalls": [],
+          "phaseChanges": [],
+          "ms": 5099
+        }
+      ],
+      "events": {
+        "session.updated": 1,
+        "session.ready": 1,
+        "reply.started": 2,
+        "reply.audio": 1240,
+        "transcript.agent.delta": 36,
+        "transcript.agent": 2,
+        "reply.done": 2,
+        "session.ended": 1
+      },
+      "ok": true,
+      "failures": []
+    },
+    {
+      "url": "https://advisorsai.ai/mcp",
+      "server": {
+        "name": "advisors-ai-service-navigator",
+        "version": "2026-08-21.5",
+        "title": "Advisors AI Service Navigator"
+      },
+      "sessionId": "sess_8c9aaf3c67c6496f94b43b297ed4023f",
+      "catalogSize": 5,
+      "turns": [
+        {
+          "ask": "What services do you have?",
+          "agentReply": "We offer five services. These include Agent Governance Audit, Your share of AI answers, Decision Signal Engine, Independent Store Assistant, and AI Readiness and Blind-Spot Audit.",
+          "toolCalls": [
+            {
+              "callId": "chatcmpl-tool-8b6bafe29408b9e9",
+              "name": "advisors_catalog_list_services",
+              "arguments": {
+                "language": "en"
+              },
+              "mcpName": "advisors_catalog_list_services",
+              "normalisersApplied": [],
+              "rawChars": 5450,
+              "spokenChars": 163,
+              "spoken": "We offer five services: Agent Governance Audit, Your share of AI answers, Decision Signal Engine, Independent Store Assistant, and AI Readiness & Blind-Spot Audit.",
+              "shapeMethod": "llm",
+              "isError": false,
+              "mcpMs": 623,
+              "totalMs": 1377
+            }
+          ],
+          "phaseChanges": [],
+          "ms": 15038
+        },
+        {
+          "ask": "I need an audit trail for my agents - what fits?",
+          "agentReply": "Based on what you need, I recommend our Agent Governance Audit. We can review your documents to see what your agents can actually do, identify potential risks, and then create a set of rules and an application plan for you.",
+          "toolCalls": [
+            {
+              "callId": "chatcmpl-tool-b829eab0d33b7c51",
+              "name": "advisors_catalog_match_service",
+              "arguments": {
+                "language": "en",
+                "need": "audit trail for my agents"
+              },
+              "mcpName": "advisors_catalog_match_service",
+              "normalisersApplied": [],
+              "rawChars": 3440,
+              "spokenChars": 559,
+              "spoken": "summary If you have AI programs acting on your behalf (agents), we examine from your documents what each one can really do and where the risk is, then write the rules that stop it and an application plan — without operating or installing anything on your side; the local implementation bundle, if you order it, is yours to download and run.. for whom Teams running agents or AI automation that need either a risk-and-guardrail audit or a governed local team they can run, test, and roll back themselves.. scoring method bounded deterministic keyword evidence.",
+              "shapeMethod": "llm_failed_local",
+              "isError": false,
+              "mcpMs": 628,
+              "totalMs": 2143
+            }
+          ],
+          "phaseChanges": [],
+          "ms": 16081
+        }
+      ],
+      "events": {
+        "session.updated": 1,
+        "session.ready": 1,
+        "reply.started": 4,
+        "tool.call": 2,
+        "reply.done": 4,
+        "reply.audio": 2353,
+        "transcript.agent.delta": 66,
+        "transcript.agent": 2,
+        "session.ended": 1
+      },
+      "ok": true,
+      "failures": []
+    }
+  ]
+}

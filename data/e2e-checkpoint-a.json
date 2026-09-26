@@ -1,0 +1,230 @@
+{
+  "at": "2026-09-26T09:54:00.572Z",
+  "results": [
+    {
+      "url": "https://www.assemblyai.com/docs/mcp",
+      "server": {
+        "name": "AssemblyAI",
+        "version": "1.0.0"
+      },
+      "sessionId": "sess_2d0a2ac965374eabace6c4cdda42d1d7",
+      "catalogSize": 3,
+      "turns": [
+        {
+          "ask": "What audio format does the Voice Agent API expect?",
+          "agentReply": "The Voice Agent API expects audio chunks to be in base64 encoding. It supports eighteen input languages, including English, Spanish, and German, and six output languages.",
+          "toolCalls": [
+            {
+              "callId": "chatcmpl-tool-ac2f6d74e5ecf872",
+              "name": "search_assembly_ai",
+              "arguments": {
+                "query": "Voice Agent API supported audio formats"
+              },
+              "mcpName": "search_assembly_ai",
+              "normalisersApplied": [],
+              "rawChars": 22807,
+              "spokenChars": 214,
+              "spoken": "The Voice Agent API expects audio chunks in base64 encoding. It supports 18 input languages including English, Spanish, and German, and 6 output languages: English, Italian, Spanish, German, Portuguese, and French.",
+              "shapeMethod": "llm",
+              "isError": false,
+              "mcpMs": 1307,
+              "totalMs": 2194
+            }
+          ],
+          "phaseChanges": [],
+          "ms": 14609
+        },
+        {
+          "ask": "How many tools can an agent have per phase?",
+          "agentReply": "The documentation does not give a specific limit for how many tools an agent can have per phase. However, it does recommend keeping the tool set small for each phase to improve selection accuracy.",
+          "toolCalls": [
+            {
+              "callId": "chatcmpl-tool-ac54ad546c339a43",
+              "name": "search_assembly_ai",
+              "arguments": {
+                "query": "how many tools can an agent have per phase"
+              },
+              "mcpName": "search_assembly_ai",
+              "normalisersApplied": [],
+              "rawChars": 19460,
+              "spokenChars": 174,
+              "spoken": "The documentation does not state a specific number of tools an agent can have per phase, but it recommends keeping the per-phase tool set smaller to raise selection accuracy.",
+              "shapeMethod": "llm",
+              "isError": false,
+              "mcpMs": 1301,
+              "totalMs": 2126
+            }
+          ],
+          "phaseChanges": [],
+          "ms": 14429
+        }
+      ],
+      "events": {
+        "session.updated": 1,
+        "session.ready": 1,
+        "reply.started": 4,
+        "tool.call": 2,
+        "reply.done": 4,
+        "reply.audio": 2081,
+        "transcript.agent.delta": 60,
+        "transcript.agent": 2,
+        "session.ended": 1
+      },
+      "ok": true,
+      "failures": []
+    },
+    {
+      "url": "https://afg.ai/mcp",
+      "server": {
+        "name": "afg",
+        "version": "0.1.0",
+        "title": "AFG: Agent Fulfillment Guarantee (sandbox, test money only)"
+      },
+      "sessionId": "sess_06c5d355662c4b2ba5946a95935d19e5",
+      "catalogSize": 15,
+      "turns": [
+        {
+          "ask": "Look up the official job flow and the limits from the service itself.",
+          "agentReply": "AFG is a sandbox marketplace where AI agents hire other AI agents to achieve verified outcomes, without humans in the loop.",
+          "toolCalls": [
+            {
+              "callId": "chatcmpl-tool-ba8ec51694fc9f18",
+              "name": "find_tools",
+              "arguments": {
+                "query": "official job flow and limits"
+              },
+              "spoken": "afg_about, afg_get_job, afg_post_job, afg_fund, afg_appeal, afg_dispute, afg_sign_contract, afg_submit, afg_prepare_signed_request",
+              "shapeMethod": "phase_change",
+              "totalMs": 34
+            },
+            {
+              "callId": "chatcmpl-tool-b1be10c1861de02d",
+              "name": "afg_about",
+              "arguments": {},
+              "mcpName": "afg_about",
+              "normalisersApplied": [],
+              "rawChars": 2524,
+              "spokenChars": 188,
+              "spoken": "name AFG (Agent Fulfillment Guarantee). what A sandbox marketplace where AI agents hire AI agents for verified outcomes. No humans in the loop.. 3 afg_post_job (buyer or provider) - DRAFT.",
+              "shapeMethod": "llm_failed_local",
+              "isError": false,
+              "mcpMs": 1196,
+              "totalMs": 2735
+            }
+          ],
+          "phaseChanges": [
+            "find_tools(\"official job flow and limits\") -> find_tools, afg_about, afg_get_job, afg_post_job, afg_fund, afg_appeal, afg_dispute, afg_sign_contract, afg_submit, afg_prepare_signed_request"
+          ],
+          "ms": 13603
+        },
+        {
+          "ask": "What is the reputation of wallet 0x0000000000000000000000000000000000000001?",
+          "agentReply": "I can check the reputation for any wallet address to see their history as a provider or buyer. Just let me know which address you're interested in.",
+          "toolCalls": [
+            {
+              "callId": "chatcmpl-tool-a002fcc59e3e18e8",
+              "name": "find_tools",
+              "arguments": {
+                "query": "get reputation for a wallet address"
+              },
+              "spoken": "afg_get_reputation, afg_get_job, afg_sign_contract, afg_create_wallet, afg_discard_wallet, afg_post_job, afg_fund, afg_upload_artifact, afg_appeal",
+              "shapeMethod": "phase_change",
+              "totalMs": 4
+            }
+          ],
+          "phaseChanges": [
+            "find_tools(\"get reputation for a wallet address\") -> find_tools, afg_get_reputation, afg_get_job, afg_sign_contract, afg_create_wallet, afg_discard_wallet, afg_post_job, afg_fund, afg_upload_artifact, afg_appeal"
+          ],
+          "ms": 9968
+        }
+      ],
+      "events": {
+        "session.updated": 3,
+        "session.ready": 1,
+        "reply.started": 5,
+        "tool.call": 3,
+        "reply.done": 5,
+        "reply.audio": 1464,
+        "transcript.agent.delta": 48,
+        "transcript.agent": 2,
+        "session.ended": 1
+      },
+      "ok": true,
+      "failures": []
+    },
+    {
+      "url": "https://advisorsai.ai/mcp",
+      "server": {
+        "name": "advisors-ai-service-navigator",
+        "version": "2026-08-21.5",
+        "title": "Advisors AI Service Navigator"
+      },
+      "sessionId": "sess_6f5d5ea0c2e6488b8b1946fe4bf9b305",
+      "catalogSize": 5,
+      "turns": [
+        {
+          "ask": "What services do you have?",
+          "agentReply": "We offer five services, including Agent Governance Audit, Your share of AI answers, Decision Signal Engine, Independent Store Assistant, and AI Readiness and Blind-Spot Audit.",
+          "toolCalls": [
+            {
+              "callId": "chatcmpl-tool-b2b985c1c7caf15c",
+              "name": "advisors_catalog_list_services",
+              "arguments": {
+                "language": "en"
+              },
+              "mcpName": "advisors_catalog_list_services",
+              "normalisersApplied": [],
+              "rawChars": 5450,
+              "spokenChars": 163,
+              "spoken": "We offer five services: Agent Governance Audit, Your share of AI answers, Decision Signal Engine, Independent Store Assistant, and AI Readiness & Blind-Spot Audit.",
+              "shapeMethod": "llm",
+              "isError": false,
+              "mcpMs": 770,
+              "totalMs": 1508
+            }
+          ],
+          "phaseChanges": [],
+          "ms": 14239
+        },
+        {
+          "ask": "I need an audit trail for my agents - what fits?",
+          "agentReply": "It sounds like the Agent Governance Audit would be a good fit. It costs four hundred and fifty dollars and you'll receive a report within ten business days.",
+          "toolCalls": [
+            {
+              "callId": "chatcmpl-tool-902c68783d97a5d3",
+              "name": "advisors_catalog_match_service",
+              "arguments": {
+                "language": "en",
+                "need": "audit trail for agents"
+              },
+              "mcpName": "advisors_catalog_match_service",
+              "normalisersApplied": [],
+              "rawChars": 3440,
+              "spokenChars": 145,
+              "spoken": "The service that fits your need for an audit trail is the Agent Governance Audit, which costs $450 and delivers a report within 10 business days.",
+              "shapeMethod": "llm",
+              "isError": false,
+              "mcpMs": 636,
+              "totalMs": 1652
+            }
+          ],
+          "phaseChanges": [],
+          "ms": 11830
+        }
+      ],
+      "events": {
+        "session.updated": 1,
+        "session.ready": 1,
+        "reply.started": 4,
+        "tool.call": 2,
+        "reply.done": 4,
+        "reply.audio": 1912,
+        "transcript.agent.delta": 53,
+        "transcript.agent": 2,
+        "session.ended": 1
+      },
+      "ok": true,
+      "failures": []
+    }
+  ]
+}

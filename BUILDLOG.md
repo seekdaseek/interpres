@@ -453,3 +453,108 @@ $ npm test
 
 **Still UNTESTED:** the WebSocket. No `session.ready`, no `tool.call` from a real
 agent. Step 4 is the test.
+
+---
+
+## 2026-09-26 - step 4: `scripts/e2e.ts`, the loop proved over the wire
+
+Opens a real Voice Agent session, registers a real MCP server's converted tools,
+injects a user turn as text, and waits for a spoken answer that uses the tool
+output. It takes the browser's path exactly - mint a token, connect with
+`?token=` - rather than the `Authorization` header a Node client could use, so
+what passes here is what the demo does.
+
+### Three findings, each from a failed run
+
+**1. My turn-completion logic ended the turn before the result was sent.**
+First run: `tool.call` fired, then `reply.done` arrived while the tool was still
+running, and the turn resolved with `AGENT: (nothing)`. The docs describe exactly
+this ("Your tool may return *after* `reply.done` already fired. Call
+`flushIfIdle()` from the `tool.call` handler"). Rewritten around two pieces of
+state - `inFlight` for running handlers, `awaitingAnswer` for whether a
+`tool.result` has gone out - with the flag read **before** the flush, since the
+flush is what sets it. Both orderings now work: tool finishes before
+`reply.done`, and tool finishes after.
+
+**2. `conversation.message` alone does not steer tool arguments.** Asked "How
+many tools can an agent have per phase?", the agent called
+`search_assembly_ai({"query":"What is AssemblyAI?"})` - a query it invented. Two
+runs confirmed it. The Aug 26 changelog says tool calls "infer argument values
+only from user turns and tool results", and an injected `conversation.message`
+does not appear to count. Passing the question as `reply.create.instructions` as
+well fixed it immediately:
+
+```
+TOOL.CALL search_assembly_ai({"query":"How many tools can an agent have per phase?"})
+```
+
+This is a property of the **headless harness**, not of the product: in the
+browser the person speaks and `transcript.user` is the user turn. Recorded
+because anyone testing a Voice Agent from a script will hit it.
+
+**3. Server `instructions` in the system prompt suppress tool calls.** The first
+full run made **zero** tool calls against afg: asked "What is this service?", the
+agent answered from the server's own `instructions`, which the prompt builder
+puts in the system prompt. Good grounding, but it gives the agent an easy way to
+skip the tool. The preset questions were rewritten to need a tool, and to need a
+**hidden** one, which is what proves `find_tools`.
+
+### find_tools, over the wire
+
+`afg.ai` has 15 tools, so the opening phase is `find_tools` plus 9 and
+`afg_about` is hidden. Asked for the official flow:
+
+```
+TOOL.CALL find_tools({"query":"official job flow and limits"})
+-> session.update
+PHASE -> find_tools, afg_about, afg_get_job, afg_post_job, afg_fund, afg_appeal,
+         afg_dispute, afg_sign_contract, afg_submit, afg_prepare_signed_request
+TOOL.CALL afg_about({})
+RESULT  afg_about: 2524 chars raw -> 188 spoken [llm_failed_local] in 1196ms
+AGENT: AFG is a sandbox marketplace where AI agents hire other AI agents to
+       achieve verified outcomes, without humans in the loop.
+```
+
+The agent called a tool it could not reach one turn earlier. That is the whole
+idea of the project, happening on a live session.
+
+### Full run - CHECKPOINT A evidence
+
+`node --env-file=.env scripts/e2e.ts --out data/e2e-checkpoint-a.json`
+
+```
+ok   https://www.assemblyai.com/docs/mcp
+     session_id=sess_2d0a2ac965374eabace6c4cdda42d1d7 turns=2 tool_calls=2 replies=2
+ok   https://afg.ai/mcp
+     session_id=sess_06c5d355662c4b2ba5946a95935d19e5 turns=2 tool_calls=3 replies=2
+ok   https://advisorsai.ai/mcp
+     session_id=sess_6f5d5ea0c2e6488b8b1946fe4bf9b305 turns=2 tool_calls=2 replies=2
+
+tool calls: 7/7 succeeded
+```
+
+Three MCP servers, three live sessions, 7 tool calls, 6 of 6 turns answered.
+Shaping split 5 `llm` / 2 `llm_failed_local`, and both local results still
+produced a clean spoken answer. MCP call latency 0.6-1.4 s; turn latency
+10-22 s, most of it the agent's own reasoning and speech.
+
+### One thing that did NOT work, stated plainly
+
+Asked "What is the reputation of wallet 0x0000...0001?", the agent called
+`find_tools`, had `afg_get_reputation` revealed, and then **asked the person for
+the address** instead of calling it - although the address was in the question:
+
+```
+TOOL.CALL find_tools({"query":"get reputation for a wallet address"})
+PHASE -> find_tools, afg_get_reputation, ...
+AGENT: I can check the reputation for any wallet address ... Just let me know
+       which address you're interested in.
+```
+
+It is the same root cause as finding 2: the address reached the session through
+`conversation.message` and `reply.create.instructions`, and after the `find_tools`
+round trip the agent no longer had it as a user turn to infer from. Conversational
+recovery, not a crash - and asking again is the right behaviour when it does not
+have the value. **UNTESTED** whether a spoken turn carries the argument through a
+phase change; that needs CHECKPOINT B with a microphone, where the value arrives
+as `transcript.user`. The e2e script cannot settle it.

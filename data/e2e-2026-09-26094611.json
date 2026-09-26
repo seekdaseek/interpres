@@ -1,0 +1,45 @@
+{
+  "at": "2026-09-26T09:46:11.717Z",
+  "results": [
+    {
+      "url": "https://www.assemblyai.com/docs/mcp",
+      "server": {
+        "name": "AssemblyAI",
+        "version": "1.0.0"
+      },
+      "sessionId": "sess_25c978efd9214a80982eb5fd7cd91010",
+      "catalogSize": 3,
+      "turns": [
+        {
+          "ask": "How many tools can an agent have per phase?",
+          "agentReply": "",
+          "toolCalls": [
+            {
+              "callId": "chatcmpl-tool-8e66a87f2d0abe19",
+              "name": "search_assembly_ai",
+              "arguments": {
+                "query": "how to use the transcription API"
+              },
+              "mcpName": "search_assembly_ai",
+              "normalisersApplied": []
+            }
+          ],
+          "phaseChanges": [],
+          "ms": 999
+        }
+      ],
+      "events": {
+        "session.updated": 1,
+        "session.ready": 1,
+        "reply.started": 1,
+        "tool.call": 1,
+        "reply.done": 1,
+        "session.ended": 1
+      },
+      "ok": false,
+      "failures": [
+        "no agent reply for: How many tools can an agent have per phase?"
+      ]
+    }
+  ]
+}

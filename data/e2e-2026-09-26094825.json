@@ -1,0 +1,53 @@
+{
+  "at": "2026-09-26T09:48:25.846Z",
+  "results": [
+    {
+      "url": "https://www.assemblyai.com/docs/mcp",
+      "server": {
+        "name": "AssemblyAI",
+        "version": "1.0.0"
+      },
+      "sessionId": "sess_140f408b2a034f0ca12dfbedc67a6eb8",
+      "catalogSize": 3,
+      "turns": [
+        {
+          "ask": "How many tools can an agent have per phase?",
+          "agentReply": "It is recommended to use smaller tool sets per phase to improve accuracy, rather than registering all tools upfront. After each successful tool use, you should update the session with the next phase's tools and corresponding system prompt.",
+          "toolCalls": [
+            {
+              "callId": "chatcmpl-tool-9cf1e6dc1ea43bd4",
+              "name": "search_assembly_ai",
+              "arguments": {
+                "query": "How many tools can an agent have per phase?"
+              },
+              "mcpName": "search_assembly_ai",
+              "normalisersApplied": [],
+              "rawChars": 19460,
+              "spokenChars": 329,
+              "spoken": "For multi-step workflows (lookup → estimate → commit), don't register all tools upfront. After each successful tool.result, send session.update adding the next phase's tools, and update system_prompt to match. Smaller per-phase tool sets also raise selection accuracy. Getting the agent to call your tools and per-agent patterns.",
+              "shapeMethod": "llm_failed_local",
+              "isError": false,
+              "mcpMs": 1545,
+              "totalMs": 3056
+            }
+          ],
+          "phaseChanges": [],
+          "ms": 17706
+        }
+      ],
+      "events": {
+        "session.updated": 1,
+        "session.ready": 1,
+        "reply.started": 2,
+        "tool.call": 1,
+        "reply.done": 2,
+        "reply.audio": 1300,
+        "transcript.agent.delta": 38,
+        "transcript.agent": 1,
+        "session.ended": 1
+      },
+      "ok": true,
+      "failures": []
+    }
+  ]
+}

@@ -35,9 +35,12 @@ export const PRESETS: Preset[] = [
     url: 'https://afg.ai/mcp',
     blurb: '15 tools, so find_tools has to swap the set. Test money only.',
     asks: [
-      'What is this service?',
-      'I want to check the reputation of a wallet.',
-      'How would I post a job?',
+      // afg_about is NOT in the opening phase, so answering this needs
+      // find_tools first. "from the service itself" is what stops the agent
+      // paraphrasing the server description already in its system prompt.
+      'Look up the official job flow and the limits from the service itself.',
+      'What is the reputation of wallet 0x0000000000000000000000000000000000000001?',
+      'What does the contract template for a passing test suite look like?',
     ],
     exercisesPhases: true,
     writeTools: ['afg_create_wallet', 'afg_post_job', 'afg_sign_contract', 'afg_fund', 'afg_submit', 'afg_dispute', 'afg_appeal', 'afg_upload_artifact', 'afg_discard_wallet'],

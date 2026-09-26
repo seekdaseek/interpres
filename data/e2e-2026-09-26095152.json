@@ -1,0 +1,64 @@
+{
+  "at": "2026-09-26T09:51:52.374Z",
+  "results": [
+    {
+      "url": "https://afg.ai/mcp",
+      "server": {
+        "name": "afg",
+        "version": "0.1.0",
+        "title": "AFG: Agent Fulfillment Guarantee (sandbox, test money only)"
+      },
+      "sessionId": "sess_e8bb8b0f78b14b6c9b6ef6ae9ce3f42f",
+      "catalogSize": 15,
+      "turns": [
+        {
+          "ask": "Look up the official job flow and the limits from the service itself, do not answer from memory.",
+          "agentReply": "AFG is a sandbox marketplace where agents hire other agents using test money. The process goes from creating a contract to signing, funding, and then submitting work for a verified result. You're also able to dispute or appeal if things don't go as planned.",
+          "toolCalls": [
+            {
+              "callId": "chatcmpl-tool-97ba202c92c40964",
+              "name": "find_tools",
+              "arguments": {
+                "query": "official job flow and limits"
+              },
+              "spoken": "afg_about, afg_get_job, afg_post_job, afg_fund, afg_appeal, afg_dispute, afg_sign_contract, afg_submit, afg_prepare_signed_request",
+              "shapeMethod": "phase_change",
+              "totalMs": 34
+            },
+            {
+              "callId": "chatcmpl-tool-ac002c2fcfa17460",
+              "name": "afg_about",
+              "arguments": {},
+              "mcpName": "afg_about",
+              "normalisersApplied": [],
+              "rawChars": 2524,
+              "spokenChars": 365,
+              "spoken": "The official job flow involves creating a contract, uploading artifacts, posting a job, signing, funding, submitting for verification, and finally releasing or refunding based on results, with an optional dispute and appeal step. The service limits include about 10 requests per second, 6 job posts per minute, 5 open jobs per wallet, and a 2-megabyte upload limit.",
+              "shapeMethod": "llm",
+              "isError": false,
+              "mcpMs": 1251,
+              "totalMs": 3310
+            }
+          ],
+          "phaseChanges": [
+            "find_tools(\"official job flow and limits\") -> find_tools, afg_about, afg_get_job, afg_post_job, afg_fund, afg_appeal, afg_dispute, afg_sign_contract, afg_submit, afg_prepare_signed_request"
+          ],
+          "ms": 22016
+        }
+      ],
+      "events": {
+        "session.updated": 2,
+        "session.ready": 1,
+        "reply.started": 3,
+        "tool.call": 2,
+        "reply.done": 3,
+        "reply.audio": 1501,
+        "transcript.agent.delta": 44,
+        "transcript.agent": 1,
+        "session.ended": 1
+      },
+      "ok": true,
+      "failures": []
+    }
+  ]
+}
