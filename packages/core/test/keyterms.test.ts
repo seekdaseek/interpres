@@ -88,7 +88,7 @@ const SERGIU_21 = [
 ];
 
 test('the bundled common-word list actually loads', () => {
-  assert.ok(COMMON_WORDS.size >= 500, `only ${COMMON_WORDS.size} words loaded`);
+  assert.ok(COMMON_WORDS.size >= 10_000, `only ${COMMON_WORDS.size} words loaded`);
   for (const w of ['check', 'site', 'match', 'link', 'order', 'service']) assert.ok(isCommonWord(w), `${w} must be common`);
   assert.ok(isCommonWord('services') && isCommonWord('signed') && isCommonWord('listing'), 'plurals and inflections');
   for (const w of ['navigator', 'advisors', 'AssemblyAI', 'speccheck', 'Ozempic']) assert.ok(!isCommonWord(w), `${w} must not be common`);
@@ -129,7 +129,8 @@ test('each drop rule, with a survivor next to it as the control', () => {
 
 test("brand tokens keep a server's own spelling", () => {
   assert.deepEqual(brandTokens('AssemblyAI'), ['AssemblyAI']);
-  assert.deepEqual(brandTokens('AFG: Agent Fulfillment Guarantee'), ['AFG', 'fulfillment', 'guarantee']);
+  // "guarantee" is #8,094 in English Wikipedia: common, so the recogniser needs no boost for it.
+  assert.deepEqual(brandTokens('AFG: Agent Fulfillment Guarantee'), ['AFG', 'fulfillment']);
   assert.deepEqual(brandTokens('Advisors AI Service Navigator'), ['advisors', 'navigator']);
 });
 
@@ -150,3 +151,18 @@ for (const fx of allFixtures()) {
     }
   });
 }
+
+test('the 10k list counts a word as written: "advisors" is rare even though "advisor" is common', () => {
+  assert.equal(isCommonWord('advisor'), true);
+  assert.equal(isCommonWord('advisors'), false, '#11,490: outside the 10,000');
+  assert.equal(isCommonWord('recommended'), true, 'a frequent inflection is in the list in its own right');
+  assert.equal(isCommonWord('series'), true);
+  assert.equal(isCommonWord('webhooks'), true, 'tool-name vocabulary still matches its plurals');
+});
+
+test('the Books preset loses "series" and "recommended"', () => {
+  const fx = loadFixture('most-recommended-books');
+  const kt = buildKeyterms(convertCatalog(fx.tools).converted, fx.initialize.serverInfo);
+  assert.ok(!kt.includes('series') && !kt.includes('recommended'), kt.join(', '));
+  assert.deepEqual(kt, ['recommenders']);
+});

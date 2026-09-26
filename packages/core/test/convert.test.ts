@@ -17,6 +17,27 @@ test('the fixtures are real captures, not hand-written', () => {
   }
 });
 
+
+/**
+ * The keywords used anywhere in a schema. Property names are not keywords: a
+ * tool whose argument is called "title" (a book's title) is fine, so a string
+ * search for "title" in the JSON would be a false alarm.
+ */
+function schemaKeywords(schema: unknown, out: Set<string>): Set<string> {
+  if (!schema || typeof schema !== 'object' || Array.isArray(schema)) return out;
+  for (const [k, v] of Object.entries(schema as Record<string, unknown>)) {
+    out.add(k);
+    if ((k === 'properties' || k === '$defs' || k === 'definitions' || k === 'patternProperties') && v && typeof v === 'object') {
+      for (const sub of Object.values(v as Record<string, unknown>)) schemaKeywords(sub, out);
+    } else if ((k === 'allOf' || k === 'anyOf' || k === 'oneOf' || k === 'prefixItems') && Array.isArray(v)) {
+      for (const sub of v) schemaKeywords(sub, out);
+    } else if (k === 'items' || k === 'additionalProperties' || k === 'not' || k === 'contains' || k === 'if' || k === 'then' || k === 'else') {
+      schemaKeywords(v, out);
+    }
+  }
+  return out;
+}
+
 for (const fx of allFixtures()) {
   test(`every tool converts: ${fx.name}`, () => {
     const { converted, failures, stats } = convertCatalog(fx.tools);
@@ -40,9 +61,10 @@ for (const fx of allFixtures()) {
 
   test(`nothing structural survives into the output: ${fx.name}`, () => {
     const { converted } = convertCatalog(fx.tools);
-    const blob = JSON.stringify(converted.map((c) => c.tool.parameters));
-    for (const banned of ['"$ref"', '"$defs"', '"definitions"', '"allOf"', '"anyOf"', '"oneOf"', '"$schema"', '"title"']) {
-      assert.ok(!blob.includes(banned), `${banned} must not reach the Voice Agent API`);
+    const used = new Set<string>();
+    for (const c of converted) schemaKeywords(c.tool.parameters, used);
+    for (const banned of ['$ref', '$defs', 'definitions', 'allOf', 'anyOf', 'oneOf', '$schema', 'title']) {
+      assert.ok(!used.has(banned), `${banned} must not reach the Voice Agent API`);
     }
   });
 
@@ -299,4 +321,12 @@ test("a pattern from the docs' good-values table is kept", () => {
   ]);
   assert.equal(stats.patternsKept, 1);
   assert.equal((converted[0]!.tool.parameters.properties!.phone as any).pattern, '\\+[1-9]\\d{1,14}');
+});
+
+test('a property named "title" survives conversion: it is an argument, not the keyword', () => {
+  const fx = loadFixture('most-recommended-books');
+  const { converted } = convertCatalog(fx.tools);
+  const summary = converted.find((c) => c.tool.name === 'get_summary')!;
+  assert.ok('title' in (summary.tool.parameters.properties as Record<string, unknown>), 'the book title argument must survive');
+  assert.ok(!schemaKeywords(summary.tool.parameters, new Set()).has('title'), 'and no title keyword may');
 });

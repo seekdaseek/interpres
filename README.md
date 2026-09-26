@@ -139,3 +139,9 @@ what is proven.
 ## License
 
 MIT — see `LICENSE`.
+
+The common-word list that keeps everyday words out of speech-to-text keyterms
+(`packages/core/src/english-10k.ts`) is the top 10,000 words of
+[IlyaSemenov/wikipedia-word-frequency](https://github.com/IlyaSemenov/wikipedia-word-frequency),
+MIT licence, Copyright (c) 2015 Ilya Semenov. The full notice is in
+`packages/core/THIRD_PARTY_LICENSES.md`.

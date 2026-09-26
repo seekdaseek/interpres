@@ -1688,3 +1688,59 @@ $ npm test                        ℹ tests 305  ℹ pass 305  ℹ fail 0
 $ sandbox-exec (deny outbound)    ℹ tests 305  ℹ pass 305  ℹ fail 0
 $ npm run typecheck               exit 0
 ```
+
+---
+
+## 2026-09-26 - D: a real common-word list, 10,000 words, MIT
+
+The 976-word list was hand-made, so it missed everyday words: the Books preset
+boosted `series` and `recommended`. The replacement is the top 10,000 letter-only
+words of `results/enwiki-2023-04-13.txt` from
+[IlyaSemenov/wikipedia-word-frequency](https://github.com/IlyaSemenov/wikipedia-word-frequency),
+pinned to commit `798ea9062d6e5aed1fa87deeeda1cd99d5b37903`.
+`scripts/common-words-build.ts` rebuilds it byte for byte, and the MIT notice is in
+`packages/core/THIRD_PARTY_LICENSES.md`, cited from the README.
+
+Licences checked before choosing:
+- `hermitdave/FrequencyWords`: MIT for code, but CC-BY-SA-4.0 for the lists
+  (share-alike, not permissive).
+- `first20hours/google-10000-english`: the LDC licence of the Google corpus, with
+  commercial use discouraged.
+- `rspeer/wordfreq`: CC-BY-SA data.
+- The Wikipedia list is MIT, with no separate licence on its results.
+
+**One rule changed with it.** A frequency list carries frequent inflections in
+their own right, so a word from it counts only as written. "advisor" is #4,269,
+but "advisors" is #11,490, and stripping the plural would have dropped the
+AdvisorsAI brand. The curated tool-name vocabulary (244 words: get, list,
+webhook, endpoint...) stays on top, in base forms, with its plural and
+inflection rules.
+
+Keyterms before and after, same fixtures (`buildKeyterms` over the full catalog):
+
+| server | before (976 words) | after (10,066) |
+|---|---|---|
+| AdvisorsAI | 7: store assistant, store audit, AI visibility, custom monitor, agent team, advisors, navigator | **7, identical** |
+| AFG | 15: ... provider, guarantee, fund, dispute, appeal, reputation ... | 9: schema valid, buyer, AFG, fulfillment, sandbox, speccheck, wallet, discard, artifact |
+| AssemblyAI docs | 3: AssemblyAI, filesystem, feedback | 2: AssemblyAI, filesystem |
+| Most Recommended Books | 4: recommended, recommendations, recommenders, series | **1: recommenders** |
+
+AFG loses six words that are in the top 10,000 (`guarantee` #8,094, `dispute`
+#3,501, `reputation` #2,875, `appeal` #2,324...). The docs' own rule is not to
+boost common words, and the recogniser knows them.
+
+**A test bug the new fixture found.** Books was captured as a fixture
+(`scripts/capture-fixture.ts`, 6 tools), and "nothing structural survives"
+failed on it: `"title" must not reach the Voice Agent API`. Two Books tools take
+an argument named `title` (a book's title). The test searched the serialised
+JSON for the string `"title"` and could not tell a property name from the
+keyword. The converter was right: it now walks schema keyword positions only,
+and a positive control asserts the `title` argument survives.
+
+Cost: the web bundle grows from 42.9 KB (16.5 KB gzip) to 118.4 KB (52.0 KB gzip).
+The browser needs the list for the paste box's keyterms.
+
+```
+$ npm test            ℹ tests 316  ℹ pass 316  ℹ fail 0
+$ npm run typecheck   exit 0
+```

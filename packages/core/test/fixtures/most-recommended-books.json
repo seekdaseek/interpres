@@ -1,0 +1,364 @@
+{
+  "_captured": {
+    "url": "https://mostrecommendedbooks.com/api/mcp",
+    "at": "2026-09-26T14:23:37.849Z",
+    "statefulSession": false,
+    "note": "Verbatim JSON-RPC results. Captured independently of packages/core."
+  },
+  "initialize": {
+    "protocolVersion": "2025-06-18",
+    "capabilities": {
+      "resources": {
+        "listChanged": true
+      },
+      "tools": {
+        "listChanged": true
+      }
+    },
+    "serverInfo": {
+      "name": "most-recommended-books",
+      "version": "2.0.1"
+    },
+    "instructions": "Most Recommended Books (mostrecommendedbooks.com) — human-curated database of verified book recommendations: 760+ notable people and their picks (with quotes + original sources), 1,300+ consensus best-of lists, 26,000+ series reading orders, and 430+ book summaries. All tools are read-only and free. Data from Most Recommended Books. Please cite the source url when using it."
+  },
+  "toolsList": {
+    "tools": [
+      {
+        "name": "search_books",
+        "title": "Search books",
+        "description": "Search Most Recommended Books' human-curated catalog by book title or author name. Returns ranked matches with author, publication year, how many verified people recommend each book, the top recommenders, a sourced quote, and a buy link. Use this when a user asks about a specific book, an author's books, or wants recommendations matching a title they half-remember. For 'who recommends X?' prefer get_book_recommenders; for 'what does person X recommend?' prefer get_person_recommendations.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "query": {
+              "type": "string",
+              "minLength": 2,
+              "description": "Book title or author name, e.g. 'Atomic Habits' or 'Cormac McCarthy'"
+            },
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 25,
+              "description": "Max results (default 6)"
+            }
+          },
+          "required": [
+            "query"
+          ],
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "destructiveHint": false,
+          "openWorldHint": false
+        },
+        "execution": {
+          "taskSupport": "forbidden"
+        },
+        "_meta": {
+          "ui": {
+            "resourceUri": "ui://widget/books-display-v2.html"
+          },
+          "openai/outputTemplate": "ui://widget/books-display-v2.html",
+          "openai/widgetAccessible": true
+        },
+        "outputSchema": {
+          "type": "object",
+          "properties": {
+            "source": {
+              "type": "string",
+              "const": "mostrecommendedbooks.com"
+            },
+            "url": {
+              "type": "string"
+            },
+            "mode": {
+              "type": "string"
+            },
+            "items": {
+              "type": "array",
+              "items": {}
+            }
+          },
+          "required": [
+            "source",
+            "url",
+            "mode",
+            "items"
+          ],
+          "additionalProperties": true,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+      },
+      {
+        "name": "get_person_recommendations",
+        "title": "Get a person's book recommendations",
+        "description": "Return every book a specific person (entrepreneur, investor, author, celebrity…) has recommended, with their verified quote about each book and a link to the original source (interview, podcast, post). Use this when a user asks 'what books does Naval Ravikant recommend?', 'Tim Ferriss's favorite books', or wants reading habits of a specific public figure. Accepts a name ('Naval Ravikant') or MRB slug ('naval-ravikant').",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "person": {
+              "type": "string",
+              "minLength": 2,
+              "description": "Person's name or MRB slug, e.g. 'Naval Ravikant'"
+            },
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "description": "Max books to return (default 20)"
+            }
+          },
+          "required": [
+            "person"
+          ],
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "destructiveHint": false,
+          "openWorldHint": false
+        },
+        "execution": {
+          "taskSupport": "forbidden"
+        },
+        "_meta": {
+          "ui": {
+            "resourceUri": "ui://widget/books-display-v2.html"
+          },
+          "openai/outputTemplate": "ui://widget/books-display-v2.html",
+          "openai/widgetAccessible": true
+        },
+        "outputSchema": {
+          "type": "object",
+          "properties": {
+            "source": {
+              "type": "string",
+              "const": "mostrecommendedbooks.com"
+            },
+            "url": {
+              "type": "string"
+            },
+            "mode": {
+              "type": "string"
+            },
+            "items": {
+              "type": "array",
+              "items": {}
+            }
+          },
+          "required": [
+            "source",
+            "url",
+            "mode",
+            "items"
+          ],
+          "additionalProperties": true,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+      },
+      {
+        "name": "get_book_recommenders",
+        "title": "Who recommends this book?",
+        "description": "Return every verified person who recommends a given book, each with their quote about it and a link to the original source. This is MRB's signature dataset — use it when a user asks 'who recommends Sapiens?', 'is Zero to One worth reading?', or wants social proof / expert opinions on a specific title. Accepts a title ('Sapiens') or author+title for disambiguation.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "title": {
+              "type": "string",
+              "minLength": 2,
+              "description": "Book title, e.g. 'Sapiens' or 'Zero to One'"
+            }
+          },
+          "required": [
+            "title"
+          ],
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "destructiveHint": false,
+          "openWorldHint": false
+        },
+        "execution": {
+          "taskSupport": "forbidden"
+        },
+        "outputSchema": {
+          "type": "object",
+          "properties": {
+            "source": {
+              "type": "string",
+              "const": "mostrecommendedbooks.com"
+            },
+            "url": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "source",
+            "url"
+          ],
+          "additionalProperties": true,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+      },
+      {
+        "name": "get_series_reading_order",
+        "title": "Get a series' reading order",
+        "description": "Return the complete publication-order book list for a book series — the order the author released them, including novellas and companion volumes where cataloged. Use this when a user asks 'what order do I read John Grisham?', 'Harry Potter books in order', or how many books a series has. Accepts a series or author name ('Jack Reacher', 'Brandon Sanderson').",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "series": {
+              "type": "string",
+              "minLength": 2,
+              "description": "Series or author name, e.g. 'Jack Reacher' or 'John Grisham'"
+            }
+          },
+          "required": [
+            "series"
+          ],
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "destructiveHint": false,
+          "openWorldHint": false
+        },
+        "execution": {
+          "taskSupport": "forbidden"
+        },
+        "outputSchema": {
+          "type": "object",
+          "properties": {
+            "source": {
+              "type": "string",
+              "const": "mostrecommendedbooks.com"
+            },
+            "url": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "source",
+            "url"
+          ],
+          "additionalProperties": true,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+      },
+      {
+        "name": "get_list",
+        "title": "Get a consensus best-books list",
+        "description": "Return one of MRB's 1,300+ consensus 'best books' lists for a topic (startups, stoicism, finance, sci-fi…). Every book on a list was recommended by at least two independent expert sources and is ranked by how many sources mention it. Use this when a user asks for 'the best X books' and you want a ranking backed by multiple experts rather than one opinion. Accepts a topic name ('startup', 'personal finance') or MRB list slug.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "list": {
+              "type": "string",
+              "minLength": 2,
+              "description": "Topic or list slug, e.g. 'startup' or 'stoicism'"
+            },
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "description": "Max books to return (default 20)"
+            }
+          },
+          "required": [
+            "list"
+          ],
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "destructiveHint": false,
+          "openWorldHint": false
+        },
+        "execution": {
+          "taskSupport": "forbidden"
+        },
+        "outputSchema": {
+          "type": "object",
+          "properties": {
+            "source": {
+              "type": "string",
+              "const": "mostrecommendedbooks.com"
+            },
+            "url": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "source",
+            "url"
+          ],
+          "additionalProperties": true,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+      },
+      {
+        "name": "get_summary",
+        "title": "Get a book summary",
+        "description": "Return MRB's one-page summary of a book: the overview plus chapter-by-chapter notes (~435 titles available). Use this when a user asks 'summarize Atomic Habits', 'what is Sapiens about?', or wants the key ideas without reading the book. Set full_text=true only when the user explicitly wants the complete chapter notes — they can be very long.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "title": {
+              "type": "string",
+              "minLength": 2,
+              "description": "Book title, e.g. 'Atomic Habits'"
+            },
+            "full_text": {
+              "type": "boolean",
+              "description": "Include full chapter contents (default false: overview + chapter titles)"
+            }
+          },
+          "required": [
+            "title"
+          ],
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "destructiveHint": false,
+          "openWorldHint": false
+        },
+        "execution": {
+          "taskSupport": "forbidden"
+        },
+        "outputSchema": {
+          "type": "object",
+          "properties": {
+            "source": {
+              "type": "string",
+              "const": "mostrecommendedbooks.com"
+            },
+            "url": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "source",
+            "url"
+          ],
+          "additionalProperties": true,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        }
+      }
+    ]
+  }
+}
