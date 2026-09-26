@@ -1,0 +1,408 @@
+{
+ "voices": {
+  "agent": "alba",
+  "narrator": "charles",
+  "caller": "michael"
+ },
+ "lines": {
+  "N2": {
+   "id": "N2",
+   "voice": "charles",
+   "text": "AssemblyAI lists its Voice Agent API at $4.50 an hour, and OpenAI Realtime at $18. Realtime can call MCP servers by itself. The Voice Agent API has no MCP tool type, so teams that switch for the price lose their MCP tools. interpres gives them back.",
+   "file": "video/voices/N2.wav",
+   "path": "greeting",
+   "parts": 1,
+   "attempts": [
+    {
+     "sessionIds": [
+      "sess_99f49d638c9c4f07aa21bd3ae60620c2"
+     ],
+     "ms": 19480,
+     "transcript": "AssemblyAI lists its Voice Agent API at $4.50 an hour, and OpenAI Realtime at $18. Realtime can call MCP servers by itself. The Voice Agent API has no MCP tool type, so teams that switch for the price lose their MCP tools. Interpreze gives them back.",
+     "speechModel": "universal-3-5-pro,universal-2",
+     "pass": false,
+     "firstDifference": {
+      "at": 45,
+      "expected": "interpres gives them back",
+      "heard": "interpreze gives them back"
+     },
+     "variantsUsed": [],
+     "recheck": {
+      "pass": true,
+      "variantsUsed": [
+       "interpreze -> interpres"
+      ]
+     }
+    },
+    {
+     "sessionIds": [
+      "sess_abb4f20a723e46feb6b4a18c383af5f2"
+     ],
+     "ms": 18360,
+     "transcript": "AssemblyAI lists its Voice Agent API at $4.50 an hour and OpenAI Realtime at $18. Realtime can call MCP servers by itself. The Voice Agent API has no MCP tool type, so teams that switch for the price lose their MCP tools. Enterprise gives them back.",
+     "speechModel": "universal-3-5-pro,universal-2",
+     "pass": false,
+     "firstDifference": {
+      "at": 45,
+      "expected": "interpres gives them back",
+      "heard": "enterprise gives them back"
+     },
+     "variantsUsed": [],
+     "recheck": {
+      "pass": false,
+      "variantsUsed": []
+     }
+    },
+    {
+     "sessionIds": [
+      "sess_832af9b7aeb74de8a7705276cd30c262"
+     ],
+     "ms": 19250,
+     "transcript": "AssemblyAI lists its Voice Agent API at $4.50 an hour and OpenAI Realtime at $18. Realtime can call MCP servers by itself. The Voice Agent API has no MCP tool type, so teams that switch for the price lose their MCP tools. Interpreze gives them back.",
+     "speechModel": "universal-3-5-pro,universal-2",
+     "pass": false,
+     "firstDifference": {
+      "at": 45,
+      "expected": "interpres gives them back",
+      "heard": "interpreze gives them back"
+     },
+     "variantsUsed": [],
+     "recheck": {
+      "pass": true,
+      "variantsUsed": [
+       "interpreze -> interpres"
+      ]
+     }
+    }
+   ],
+   "pass": true,
+   "checked": true,
+   "note": "re-checked with the listed proper-noun variants; the audio is try 3, unchanged"
+  },
+  "N1": {
+   "id": "N1",
+   "voice": "charles",
+   "text": "This is interpres. It connects AssemblyAI's Voice Agent API to public MCP servers. Type a website, press the mic, and its tools answer out loud.",
+   "file": "video/voices/N1.wav",
+   "path": "greeting",
+   "parts": 1,
+   "attempts": [
+    {
+     "sessionIds": [
+      "sess_386e3d1b8caa4f319509bbf090b8206e"
+     ],
+     "ms": 11230,
+     "transcript": "This is Interprez. It connects AssemblyAI's voice agent API to public MCP servers. Type a website, press the mic, and its tools answer out loud.",
+     "speechModel": "universal-3-5-pro,universal-2",
+     "pass": true,
+     "variantsUsed": [
+      "interprez -> interpres"
+     ]
+    }
+   ],
+   "pass": true,
+   "checked": true
+  },
+  "N3": {
+   "id": "N3",
+   "voice": "charles",
+   "text": "Here's a real website with an MCP server. interpres looks in the official MCP registry, finds the server, and turns each of its tools into a Voice Agent function tool.",
+   "file": "video/voices/N3.wav",
+   "path": "greeting",
+   "parts": 1,
+   "attempts": [
+    {
+     "sessionIds": [
+      "sess_7b89aad399e342c0b8d21ced348b913c"
+     ],
+     "ms": 10590,
+     "transcript": "Here's a real website with an MCP server: Interpreze looks in the official MCP registry, finds the server, and turns each of its tools into a voice agent function tool.",
+     "speechModel": "universal-3-5-pro,universal-2",
+     "pass": true,
+     "variantsUsed": [
+      "interpreze -> interpres"
+     ]
+    }
+   ],
+   "pass": true,
+   "checked": true
+  },
+  "N4": {
+   "id": "N4",
+   "voice": "charles",
+   "text": "That answer came from goji's own server, through a live tool call.",
+   "file": "video/voices/N4.wav",
+   "path": "greeting",
+   "parts": 1,
+   "attempts": [
+    {
+     "sessionIds": [
+      "sess_05d04df8826145de94c170728403fe27"
+     ],
+     "ms": 3940,
+     "transcript": "That answer came from Goji's own server, through a live tool call.",
+     "speechModel": "universal-3-5-pro,universal-2",
+     "pass": true,
+     "variantsUsed": []
+    }
+   ],
+   "pass": true,
+   "checked": true
+  },
+  "N5": {
+   "id": "N5",
+   "voice": "charles",
+   "text": "No website in mind? Search more than 11,000 public MCP servers right on the page. One click connects.",
+   "file": "video/voices/N5.wav",
+   "path": "greeting",
+   "parts": 1,
+   "attempts": [
+    {
+     "sessionIds": [
+      "sess_06ae7b1c46d94306853818b7150494ae"
+     ],
+     "ms": 7890,
+     "transcript": "No website in mind? Search more than 11,000 public MCP servers right on the page— one-click connects!",
+     "speechModel": "universal-3-5-pro,universal-2",
+     "pass": true,
+     "variantsUsed": []
+    }
+   ],
+   "pass": true,
+   "checked": true
+  },
+  "N6": {
+   "id": "N6",
+   "voice": "charles",
+   "text": "Many servers list more than ten tools. interpres shows the agent ten at a time, and one of them is find tools. Ask for something out of view, and interpres swaps the right tools in, mid-conversation.",
+   "file": "video/voices/N6.wav",
+   "path": "greeting",
+   "parts": 1,
+   "attempts": [
+    {
+     "sessionIds": [
+      "sess_39b20174ab784e91998ce218c92b255c"
+     ],
+     "ms": 12610,
+     "transcript": "Many servers list more than 10 tools. Interprez shows the agent 10 at a time, and one of them is find tools. Ask for something out of view, and Interprez swaps the right tools in mid-conversation.",
+     "speechModel": "universal-3-5-pro,universal-2",
+     "pass": true,
+     "variantsUsed": [
+      "interprez -> interpres",
+      "interprez -> interpres"
+     ]
+    }
+   ],
+   "pass": true,
+   "checked": true
+  },
+  "N7": {
+   "id": "N7",
+   "voice": "charles",
+   "text": "Speech gets identifiers wrong. In our tests, 0 of 9 spoken wallet addresses came through exact. So interpres never runs a tool on an identifier it only heard. Paste it, and the agent uses the exact text.",
+   "file": "video/voices/N7.wav",
+   "path": "greeting",
+   "parts": 1,
+   "attempts": [
+    {
+     "sessionIds": [
+      "sess_67509f3979984060bf6acbf00429e00c"
+     ],
+     "ms": 14280,
+     "transcript": "Speech gets identifiers wrong. In our tests, 0 of 9 spoken wallet addresses came through exact. So Interprez never runs a tool on an identifier it only heard. Paste it, and the agent uses the exact text.",
+     "speechModel": "universal-3-5-pro,universal-2",
+     "pass": true,
+     "variantsUsed": [
+      "interprez -> interpres"
+     ]
+    }
+   ],
+   "pass": true,
+   "checked": true
+  },
+  "N8": {
+   "id": "N8",
+   "voice": "charles",
+   "text": "A spoken address is held back. Nothing runs.",
+   "file": "video/voices/N8.wav",
+   "path": "greeting",
+   "parts": 1,
+   "attempts": [
+    {
+     "sessionIds": [
+      "sess_9a75962584874bff970b4b10b977f09c"
+     ],
+     "ms": 3160,
+     "transcript": "A spoken address is held back; nothing runs.",
+     "speechModel": "universal-3-5-pro,universal-2",
+     "pass": true,
+     "variantsUsed": []
+    }
+   ],
+   "pass": true,
+   "checked": true
+  },
+  "N9": {
+   "id": "N9",
+   "voice": "charles",
+   "text": "To check it isn't just these three, we probed every remote server in the official MCP registry. 12,012 answered without a login, listing more than 200,000 tools, and every tool converted.",
+   "file": "video/voices/N9.wav",
+   "path": "greeting",
+   "parts": 1,
+   "attempts": [
+    {
+     "sessionIds": [
+      "sess_bd9af3992cac44878a6929ffa414dc81"
+     ],
+     "ms": 12680,
+     "transcript": "To check it isn't just these 3, we probed every remote server in the official MCP registry. 12,012 answered without a login, listing more than 200,000 tools, and every tool converted.",
+     "speechModel": "universal-3-5-pro,universal-2",
+     "pass": true,
+     "variantsUsed": []
+    }
+   ],
+   "pass": true,
+   "checked": true
+  },
+  "N10": {
+   "id": "N10",
+   "voice": "charles",
+   "text": "Then we asked thirty of them one question each, out loud and untuned. Fourteen answered from live data. Median voice to voice was 2.6 seconds, and the whole run cost 60 cents.",
+   "file": "video/voices/N10.wav",
+   "path": "greeting",
+   "parts": 1,
+   "attempts": [
+    {
+     "sessionIds": [
+      "sess_6811d6554bea43eda3002a151435449c"
+     ],
+     "ms": 12140,
+     "transcript": "Then we asked 30 of them one question each, out loud and untuned. 14 answered from live data. Median voice-to-voice was 2.6 seconds, and the whole run cost 60 cents.",
+     "speechModel": "universal-3-5-pro,universal-2",
+     "pass": true,
+     "variantsUsed": []
+    }
+   ],
+   "pass": true,
+   "checked": true
+  },
+  "N11": {
+   "id": "N11",
+   "voice": "charles",
+   "text": "Along the way we found two places where the API behaves differently from its docs, and wrote both up with scripts that reproduce them.",
+   "file": "video/voices/N11.wav",
+   "path": "greeting",
+   "parts": 1,
+   "attempts": [
+    {
+     "sessionIds": [
+      "sess_c127c341a94b43d98538e55f443b5928"
+     ],
+     "ms": 7810,
+     "transcript": "Along the way, we found 2 places where the API behaves differently from its docs and wrote both up with scripts that reproduce them.",
+     "speechModel": "universal-3-5-pro,universal-2",
+     "pass": true,
+     "variantsUsed": []
+    }
+   ],
+   "pass": true,
+   "checked": true
+  },
+  "N12": {
+   "id": "N12",
+   "voice": "charles",
+   "text": "interpres is open source under MIT, and live now at the address on screen. Type a website, press the mic, and ask.",
+   "file": "video/voices/N12.wav",
+   "path": "greeting",
+   "parts": 1,
+   "attempts": [
+    {
+     "sessionIds": [
+      "sess_4ece2f31161147d08bbd6764352ed123"
+     ],
+     "ms": 7810,
+     "transcript": "Interprez is open source under MIT and live now at the address on screen. Type a website, press the mic, and ask.",
+     "speechModel": "universal-3-5-pro,universal-2",
+     "pass": true,
+     "variantsUsed": [
+      "interprez -> interpres"
+     ]
+    }
+   ],
+   "pass": true,
+   "checked": true
+  },
+  "Q1": {
+   "id": "Q1",
+   "voice": "michael",
+   "text": "What is SEO in plain English?",
+   "file": "video/voices/Q1.wav",
+   "path": "greeting",
+   "parts": 1,
+   "attempts": [
+    {
+     "sessionIds": [
+      "sess_13df9409149c48c184c265b4df1e1682"
+     ],
+     "ms": 2110,
+     "transcript": "What is EO in plain English?",
+     "speechModel": "universal-3-5-pro,universal-2",
+     "pass": false,
+     "firstDifference": {
+      "at": 2,
+      "expected": "seo in plain english",
+      "heard": "eo in plain english"
+     },
+     "variantsUsed": []
+    },
+    {
+     "sessionIds": [
+      "sess_7e56405549184f4cbd37886966ce5383"
+     ],
+     "ms": 2090,
+     "transcript": "What is CEO in plain English?",
+     "speechModel": "universal-3-5-pro,universal-2",
+     "pass": false,
+     "firstDifference": {
+      "at": 2,
+      "expected": "seo in plain english",
+      "heard": "ceo in plain english"
+     },
+     "variantsUsed": []
+    },
+    {
+     "sessionIds": [
+      "sess_3992a76d96ab4464bd9df45eaaa8ed4d"
+     ],
+     "ms": 2130,
+     "transcript": "What is IO in plain English?",
+     "speechModel": "universal-3-5-pro,universal-2",
+     "pass": false,
+     "firstDifference": {
+      "at": 2,
+      "expected": "seo in plain english",
+      "heard": "io in plain english"
+     },
+     "variantsUsed": []
+    },
+    {
+     "sessionIds": [
+      "sess_e9acf651d6374ccdb5a4c90e5eb371b1"
+     ],
+     "ms": 2290,
+     "transcript": "What is ACO in plain English?",
+     "speechModel": "universal-3-5-pro,universal-2",
+     "pass": false,
+     "firstDifference": {
+      "at": 2,
+      "expected": "seo in plain english",
+      "heard": "aco in plain english"
+     },
+     "variantsUsed": []
+    }
+   ],
+   "pass": false,
+   "checked": true
+  }
+ }
+}

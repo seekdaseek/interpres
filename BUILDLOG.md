@@ -2735,3 +2735,67 @@ README.md: identifiers-exact = 0 of 9, sweep-headline (16 lines), ...
 JUDGE_GUIDE.md: identifiers-exact = 0 of 9, sweep-headline (16 lines), ...
 $ npm test    ℹ tests 422  ℹ pass 422  ℹ fail 0
 ```
+
+---
+
+## 2026-09-26 - round F, F2: voices made, then stopped at Q1 as the brief requires
+
+**Inputs:**
+- `interpres-video-kit/SHA256SUMS`: all 29 files OK.
+- The slides' numbers were checked against the repo:
+  - gap: $18.00 and $4.50;
+  - registry: 22,217, 12,012 (54.1%), 7,347 hosts, 202,191 tools, 100.0%, 96.4%;
+  - spoken: 29, 17, 14, 2.6 s, $0.60;
+  - speed: 867/481, 806/311, 3,504/3,020, 14 of 14, 17.8 s;
+  - phases: 45.6%, 5,474, and 9 / 31 / 627.
+
+  Every one matches `docs/SWEEP.md`, `docs/VOICE-SWEEP.md`, the warm A/B, and the execmode and ended
+  data.
+- There is no `interpres-voice/` folder, so the caller is scripted.
+
+**Voices** (`scripts/video/config.ts`, one value each):
+- The agent uses `alba`, read from `apps/web/src/voice.ts`.
+- So the narrator is `charles` and the caller is `michael`.
+
+**Path: the greeting.** `scripts/video/voices.ts` opens one Voice Agent session per line with the API
+key from this Mac, sets `output.voice`, puts the exact line in `greeting`, and saves the greeting's
+`reply.audio`.
+- N2, the longest line at 19.3 s, was spoken as one greeting, word for word. So the fallback through
+  `conversation.message` was never needed, and no line had to be split.
+- Every clip is transcribed with AssemblyAI's default model, which the API names
+  `universal-3-5-pro` (it lists `universal-2` too).
+- The words must match after case, punctuation and number format (`scripts/video/stt.ts`).
+- Proper nouns may differ only as listed:
+  - `interpres` may be heard as `interpress`, `interprez` or `interpreze`;
+  - `assemblyai` as `assembly ai`;
+  - `openai` as `open ai`.
+
+  Used: `interprez` and `interpreze`.
+
+**Narration, N1-N12 (`charles`):** all 12 pass.
+- 11 passed on the first try.
+- N2 had 3 tries (`sess_99f49d63...`, `sess_abb4f20a...`, `sess_832af9b7...`). The only difference
+  each time was the name: "Interpreze" (tries 1 and 3) and "enterprise" (try 2). After `interpreze`
+  was listed, tries 1 and 3 pass. The saved audio is try 3. "enterprise" is not a listed variant, so
+  try 2 stays a fail.
+- Every session ID and transcript is in `data/video/voices.json`.
+
+**Caller, Q1 (`michael`), "What is SEO in plain English?": failed on all 4 tries**, the first and 3
+retries:
+
+| try | session | heard |
+| --- | --- | --- |
+| 1 | `sess_13df9409149c48c184c265b4df1e1682` | "What is EO in plain English?" |
+| 2 | `sess_7e56405549184f4cbd37886966ce5383` | "What is CEO in plain English?" |
+| 3 | `sess_3992a76d96ab4464bd9df45eaaa8ed4d` | "What is IO in plain English?" |
+| 4 | `sess_e9acf651d6374ccdb5a4c90e5eb371b1` | "What is ACO in plain English?" |
+
+- This is not the checker being fussy. Played into the live session in scene A, the Voice Agent's own
+  speech-to-text would face the same audio, and scene A requires "Q1 is heard as said".
+- The first run allowed only 3 tries in total. The brief allows the first plus 3 retries, so the
+  loop was fixed to 4, and the one remaining retry was made.
+- **Per the brief: F2 stops here and the line is reported.** No other voice was tried, and nothing
+  was captured or rendered. Q2-Q5 were not made. The clips stay local in `video/voices/`, which
+  `.gitignore` excludes along with `video/out/`, `video/captures/` and `video/cache/`.
+
+Voice Agent sessions for this: 17 (13 narration, 4 Q1).

@@ -23,3 +23,10 @@ data/raw/
 data/sweep-*.json.gz
 !data/sweep-*-summary.json.gz
 data/sweep-*-summary.json
+
+# demo video: captures, voice clips and renders stay local; logs and
+# transcripts are committed under data/video/
+video/out/
+video/captures/
+video/voices/
+video/cache/
