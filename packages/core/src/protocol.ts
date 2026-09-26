@@ -156,8 +156,13 @@ export class AgentProtocol {
     this.hooks.onReplyDone?.(status);
     // Read before the flush, because the flush is what sets it.
     const wasAwaiting = this.awaitingAnswer;
-    this.flushIfIdle();
+    const flushed = this.flushIfIdle();
     if (this.inFlight > 0 || this.pending.length > 0) return;   // a tool is still running
+    // Results went out just now, so an answer is coming - even if an earlier
+    // flush had set awaitingAnswer. Measured: with warm MCP connections a chained
+    // call finished before its reply's reply.done, and the turn was declared
+    // over while the agent was about to speak.
+    if (flushed) return;
     if (wasAwaiting) {
       // Results went out earlier, so this reply was the answer.
       this.awaitingAnswer = false;
@@ -168,8 +173,9 @@ export class AgentProtocol {
     this.hooks.onTurnIdle?.();
   }
 
-  private flushIfIdle(): void {
-    if (this.lastEvent !== 'reply.done' || this.pending.length === 0) return;
+  /** Send whatever results are waiting, if the agent is between replies. True if any went out. */
+  private flushIfIdle(): boolean {
+    if (this.lastEvent !== 'reply.done' || this.pending.length === 0) return false;
     const ids: string[] = [];
     for (const p of this.pending) {
       this.sendFn({ type: 'tool.result', call_id: p.call_id, result: p.result });
@@ -178,5 +184,6 @@ export class AgentProtocol {
     this.pending.length = 0;
     this.awaitingAnswer = true;
     this.hooks.onResultsSent?.(ids);
+    return true;
   }
 }

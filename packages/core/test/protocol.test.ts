@@ -186,3 +186,25 @@ test('a result dropped by the epoch check is reported through onDropped', async 
   await new Promise((r) => setImmediate(r));
   assert.deepEqual(dropped, ['slow_tool']);
 });
+
+test('a chained call whose result is ready before its reply ends does not end the turn', async () => {
+  // Measured with warm MCP connections: the second call finished before the reply
+  // that asked for it was done, and the turn was declared over while the agent
+  // was about to answer (Session History showed the answer arriving after it).
+  const h = harness();
+  h.ev('reply.started');
+  h.ev('tool.call', { call_id: 'c1', name: 'search', arguments: {} });
+  h.ev('reply.done', { status: 'completed' });
+  h.releases.get('c1')!({ result: '"r1"' });
+  await h.tick();                                    // first result out: an answer is expected
+  h.ev('reply.started');
+  h.ev('tool.call', { call_id: 'c2', name: 'read', arguments: {} });   // it chains instead of answering
+  h.releases.get('c2')!({ result: '"r2"' });
+  await h.tick();                                    // ready before this reply ends
+  h.ev('reply.done', { status: 'completed' });       // so c2 goes out now
+  assert.equal(results(h.sent).length, 2);
+  assert.ok(!h.log.includes('IDLE'), 'the answer to c2 has not been spoken');
+  h.ev('reply.started');
+  h.ev('reply.done', { status: 'completed' });       // the answer
+  assert.equal(h.log.filter((l) => l === 'IDLE').length, 1);
+});

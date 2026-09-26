@@ -1744,3 +1744,28 @@ The browser needs the list for the paste box's keyterms.
 $ npm test            ℹ tests 316  ℹ pass 316  ℹ fail 0
 $ npm run typecheck   exit 0
 ```
+
+---
+
+## 2026-09-26 - protocol: a flush at reply.done means an answer is coming
+
+Found by task 4's first warm run: two presets "failed" with no agent reply. Session
+History showed both answers did arrive; the harness had ended the turn first.
+
+- Recipes, `sess_4079c02369eb46539b8f45f4e42b9fed`: the answer came at +7.8 s, but
+  the harness closed the turn at 6.3 s.
+- Docs, `sess_cb24b8f4fa8b4e4e9934bc664d886d24`: after 5 chained calls, the answer
+  began at +14.9 s. The next scripted question interrupted it.
+
+**The race is in `AgentProtocol.onReplyDone`.** When the agent chains a second
+call and that call's result is ready *before* the reply that asked for it ends,
+the handler flushes the result and then took the "results went out earlier"
+branch. That declared the turn idle, although the flush it had just made means
+an answer is next. Slow tools hid it: their results arrived after `reply.done`.
+`flushIfIdle` now reports whether it sent anything, and a flush at `reply.done`
+always waits for the answer.
+
+The browser does not use `onTurnIdle` (the idle clock reads reply events
+directly), so only the proof harness mis-ended turns. A new protocol test, "a
+chained call whose result is ready before its reply ends does not end the turn",
+fails without the fix (12/13) and passes with it (13/13).
