@@ -1,0 +1,16 @@
+# secrets
+.env*
+
+# deps & build
+node_modules/
+dist/
+build/
+*.tsbuildinfo
+
+# logs & scratch
+*.log
+logs/
+data/raw/
+
+# os
+.DS_Store
