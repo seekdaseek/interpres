@@ -1968,3 +1968,68 @@ npm notice total files: 40
 
 Not published: Sergiu publishes it himself (npm login with web 2FA), from
 `build/npm/interpres` after `node scripts/npm-pack.ts`.
+
+---
+
+## 2026-09-26 - task 6: the spoken sweep
+
+`scripts/voice-sweep.ts` takes, from the registry sweep, the first 30 servers in
+registry order that listed their tools without auth, declare no auth, and have at
+least one read-only tool. Nothing is picked by hand. They span 26 distinct hosts.
+
+Read-only is `isReadOnlyTool` (gate.ts): `readOnlyHint: true`, or no readOnlyHint
+and not a write by task 2's classifier. An explicit `readOnlyHint: false` is taken
+at its word.
+
+For each server:
+- connect afresh;
+- take the first starter question from task 5;
+- speak it with `say` (Samantha) into a real Voice Agent session whose catalog is
+  filtered to the read-only tools (`readOnlyOnly` in the harness);
+- cap the session at 90 s through the token's `max_session_duration_seconds`.
+
+Sessions run sequentially, stop before spend passes $5, and send no auth.
+
+**The first run was stopped after 7 servers** (log kept,
+`data/raw/voice-sweep-run1-stopped.log`). It measured my own starters, not the
+product.
+- Templates phrased as yes/no questions got literal answers: asked "Can you
+  estimate reach?", the agent says "I can certainly do that" and calls nothing.
+  Templates are now requests ("List services.").
+- The Gateway's 429s gave templates to 5 of the first 6 servers.
+- A description containing "e.g." produced "Can you read a text record (e.g?".
+  The sentence splitter now skips abbreviations and drops an unclosed aside.
+- The script now writes every starter first. When rate-limited it waits out the
+  60 s breaker and retries, up to three tries, with templates still the fallback.
+  Then it runs the sessions.
+
+**The run (15:03-15:27 UTC):** `docs/VOICE-SWEEP.md`, `data/voice-sweep-2026-09-26.json`.
+
+| | count |
+| --- | ---: |
+| servers attempted | 30 |
+| connected | 30 |
+| starter from the LLM Gateway / from templates | 29 / 1 |
+| voice sessions run | 29 |
+| session failed to open (the API's own session.error) | 1 |
+| a tool was called | 17 |
+| MCP call succeeded / tool answered with an error / held by the gate | 14 / 3 / 0 |
+| the agent answered out loud | 29 |
+| median voice-to-voice, answered turns | 2597 ms |
+| session time, and its cost at $4.50/hr | 482 s, $0.60 |
+
+
+The one session that did not open was server 14 (agenticfabricationnetwork.ai):
+the Voice Agent API answered `session.error internal_error` "Internal service
+error" before `session.ready`, so it has no `session_id`. The page says so on that
+row.
+- Of the 12 sessions with no tool call, most were the agent asking for what it
+  needed: a draft ID, a name, a location, an address.
+- The 3 tool errors were each server's own answer: a lookup that found nothing,
+  and two tools that wanted a key (one offered a two-cent payment instead).
+- Every `session_id` is on the page, so Session History can prove each one.
+  `--render` rebuilds the page from the saved JSON without running anything.
+
+```
+$ npm test    ℹ tests 337  ℹ pass 337  ℹ fail 0
+```

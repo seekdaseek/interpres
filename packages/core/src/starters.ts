@@ -20,9 +20,14 @@ export type StarterTool = {
 };
 
 function firstSentence(text: string): string {
-  const t = text.replace(/\s+/g, ' ').trim();
+  // "e.g." and "i.e." do not end a sentence (seen in the spoken sweep:
+  // "Can you read a text record (e.g?").
+  const t = text.replace(/\s+/g, ' ').trim().replace(/\b(e\.g|i\.e|etc|vs)\./gi, '$1․');
   const stop = t.search(/[.!?](\s|$)/);
-  return stop > 0 ? t.slice(0, stop) : t;
+  const sentence = (stop > 0 ? t.slice(0, stop) : t).replace(/․/g, '.');
+  // An aside that is never closed runs to the end: drop it.
+  const open = sentence.lastIndexOf('(');
+  return open > sentence.lastIndexOf(')') ? sentence.slice(0, open).trim() : sentence;
 }
 
 /** The catalog's read-only tools, with the first sentence of each description. */
@@ -83,6 +88,16 @@ const THIRD_PERSON: Record<string, string> = {
 };
 const IMPERATIVE = new Set([...Object.values(THIRD_PERSON), 'search', 'find', 'list', 'get', 'show', 'look']);
 
+/**
+ * A request, not a yes/no question. Measured in the first spoken-sweep run:
+ * asked "Can you estimate reach?", the agent answers "I can certainly do that"
+ * and calls nothing.
+ */
+function request(words: string[]): string {
+  const text = words.join(' ');
+  return `${text.charAt(0).toUpperCase()}${text.slice(1)}.`;
+}
+
 function fromDescription(t: StarterTool): string | null {
   // Without asides, and up to the first clause break, it stays sayable.
   const clause = t.description.replace(/\s*\([^)]*\)/g, '').split(/[,:;—–]| - /)[0]!.trim();
@@ -91,15 +106,15 @@ function fromDescription(t: StarterTool): string | null {
   const first = words[0]!.toLowerCase();
   const verb = THIRD_PERSON[first] ?? (IMPERATIVE.has(first) ? first : null);
   if (verb === null) return null;
-  const q = `Can you ${[verb, ...words.slice(1)].join(' ')}?`;
+  const q = request([verb, ...words.slice(1)]);
   return usableStarter(q) ? q : null;
 }
 
-/** "catalog_list_services" -> "Can you list services?": the name, from its first verb on. */
+/** "catalog_list_services" -> "List services.": the name, from its first verb on. */
 function fromName(t: StarterTool): string | null {
   const at = t.words.findIndex((w) => IMPERATIVE.has(w));
   if (at < 0 || at === t.words.length - 1) return null;
-  const q = `Can you ${t.words.slice(at).join(' ')}?`;
+  const q = request(t.words.slice(at));
   return usableStarter(q) ? q : null;
 }
 

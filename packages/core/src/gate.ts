@@ -149,6 +149,17 @@ export function classifyWrite(tool: Pick<McpTool, 'name' | 'annotations'>, share
   return { write: false, reason: first ? `name starts with "${first}", not a write verb` : 'no name tokens' };
 }
 
+/**
+ * Read-only for the spoken sweep's purposes: `readOnlyHint: true`, or no
+ * readOnlyHint at all and not a write by the rules above. A tool that declares
+ * `readOnlyHint: false` is taken at its word.
+ */
+export function isReadOnlyTool(tool: Pick<McpTool, 'name' | 'annotations'>, sharedPrefix = 0): boolean {
+  if (tool.annotations?.readOnlyHint === true) return true;
+  if (tool.annotations?.readOnlyHint !== undefined) return false;
+  return !classifyWrite(tool, sharedPrefix).write;
+}
+
 // ---------------------------------------------------------------- patterns
 
 /** Original `pattern` constraints by dotted path, read before conversion drops any. */

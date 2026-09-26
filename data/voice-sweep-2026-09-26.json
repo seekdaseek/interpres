@@ -1,0 +1,715 @@
+{
+ "startedAt": "2026-09-26T15:03:22.545Z",
+ "finishedAt": "2026-09-26T15:27:04.964Z",
+ "source": "data/sweep-2026-09-26T1148Z.json.gz",
+ "limit": 30,
+ "sessionCapSeconds": 90,
+ "budgetUsd": 5,
+ "spentSeconds": 482,
+ "rows": [
+  {
+   "order": 1,
+   "name": "ac.tandem/docs-mcp",
+   "url": "https://tandem.ac/mcp",
+   "toolsTotal": 13,
+   "readOnlyTools": 13,
+   "connect": "ok",
+   "starter": {
+    "source": "gateway",
+    "question": "How do I install Tandem on my server?",
+    "ms": 796,
+    "attempts": 1
+   },
+   "sessionId": "sess_3ccd4590dc7a475cae2cc713a8223091",
+   "heard": "How do I install Tandem on my server?",
+   "toolCalled": "answer_how_to",
+   "toolArgs": {
+    "audience": "server_admin",
+    "task": "install Tandem on a server"
+   },
+   "mcp": "ok",
+   "answer": "The best way to start is by installing the official CLI, engine, and TUI binaries using npm. You can find the step-by-step instructions on the installation page at docs dot tandem dot ac slash installation.",
+   "voiceToVoiceMs": 3522,
+   "failures": [],
+   "seconds": 20.6
+  },
+  {
+   "order": 2,
+   "name": "ad.inside/inside-ads",
+   "url": "https://app.inside.ad/api/mcp",
+   "toolsTotal": 3,
+   "readOnlyTools": 2,
+   "connect": "ok",
+   "starter": {
+    "source": "gateway",
+    "question": "What is the status of my campaign draft?",
+    "ms": 343,
+    "attempts": 1
+   },
+   "sessionId": "sess_ced62d66116a498597be1f9643d9c469",
+   "heard": "What is the status of my campaign draft?",
+   "toolCalled": null,
+   "mcp": "none",
+   "answer": "I can check that for you, but I'll need the draft ID. Do you have it handy or did you paste it in the box?",
+   "voiceToVoiceMs": 1317,
+   "failures": [],
+   "seconds": 11.2
+  },
+  {
+   "order": 3,
+   "name": "ag.hood/name-service",
+   "url": "https://www.hood.ag/api/mcp",
+   "toolsTotal": 5,
+   "readOnlyTools": 5,
+   "connect": "ok",
+   "starter": {
+    "source": "gateway",
+    "question": "What address does my hood name point to?",
+    "ms": 764,
+    "attempts": 2
+   },
+   "sessionId": "sess_0f4813b71c9a4bbaa24f25c04679f721",
+   "heard": "What address does my hood name point to?",
+   "toolCalled": null,
+   "mcp": "none",
+   "answer": "I can look that up for you. What is your hood name?",
+   "voiceToVoiceMs": 1809,
+   "failures": [],
+   "seconds": 9.5
+  },
+  {
+   "order": 4,
+   "name": "agency.goji/goji",
+   "url": "https://mcp.goji.agency/mcp",
+   "toolsTotal": 9,
+   "readOnlyTools": 8,
+   "connect": "ok",
+   "starter": {
+    "source": "gateway",
+    "question": "What is SEO in plain English?",
+    "ms": 357,
+    "attempts": 1
+   },
+   "sessionId": "sess_cc23fd40e3e04ca0be74999e9e68ed5b",
+   "heard": "What is SEO in plain English?",
+   "toolCalled": "goji_explain_term",
+   "toolArgs": {
+    "term": "SEO"
+   },
+   "mcp": "ok",
+   "answer": "SEO is the work of making your website the result search engines choose to show. You do this by creating content that answers what people are searching for, building a site that is easy for engines to read, and establishing a reputation that other sites back up. You can read more about it at goji dot agency.",
+   "voiceToVoiceMs": 3967,
+   "failures": [],
+   "seconds": 23.4
+  },
+  {
+   "order": 5,
+   "name": "agency.ottobot/business-contact-finder",
+   "url": "https://business-contact-finder-mcp.ottobot2025.workers.dev/mcp",
+   "toolsTotal": 1,
+   "readOnlyTools": 1,
+   "connect": "ok",
+   "starter": {
+    "source": "gateway",
+    "question": "How do I contact the business at example.com?",
+    "ms": 756,
+    "attempts": 2
+   },
+   "sessionId": "sess_0d1b556eb8914c81ab1d928c1f0d4369",
+   "heard": "How do I contact the business at example.com?",
+   "toolCalled": "check_contact_path",
+   "toolArgs": {
+    "url": "https://example.com"
+   },
+   "mcp": "ok",
+   "answer": "I'm sorry, I couldn't determine how to contact them because their contact form appears to be built with JavaScript, which I can't access.",
+   "voiceToVoiceMs": 4298,
+   "failures": [],
+   "seconds": 16.7
+  },
+  {
+   "order": 6,
+   "name": "agency.ottobot/contractor-license-changes",
+   "url": "https://license-changes-mcp.ottobot2025.workers.dev/mcp",
+   "toolsTotal": 2,
+   "readOnlyTools": 2,
+   "connect": "ok",
+   "starter": {
+    "source": "gateway",
+    "question": "Did my contractor license change recently?",
+    "ms": 354,
+    "attempts": 1
+   },
+   "sessionId": "sess_4ea9af2c3f824ad99ee0654f1baeb208",
+   "heard": "Did my contractor license change recently?",
+   "toolCalled": null,
+   "mcp": "none",
+   "answer": "I can check that for you. Please paste the license number and the state into the box.",
+   "voiceToVoiceMs": 1783,
+   "failures": [],
+   "seconds": 11.1
+  },
+  {
+   "order": 7,
+   "name": "agency.ottobot/licensed-house-painters",
+   "url": "https://house-painters-mcp.ottobot2025.workers.dev/mcp",
+   "toolsTotal": 3,
+   "readOnlyTools": 2,
+   "connect": "ok",
+   "starter": {
+    "source": "gateway",
+    "question": "Find licensed house painters in Los Angeles",
+    "ms": 740,
+    "attempts": 2
+   },
+   "sessionId": "sess_affdeee87cc1468095de2c39766aaca0",
+   "heard": "Find licensed house painters in Los Angeles.",
+   "toolCalled": "search_painters",
+   "toolArgs": {
+    "city": "Los Angeles",
+    "state": "CA"
+   },
+   "mcp": "ok",
+   "answer": "I found a few licensed painters in Los Angeles, including 19346 Painting, 38th Parallel LLC, and 3M Painting Services. Would you like more details on any of them?",
+   "voiceToVoiceMs": 3951,
+   "failures": [],
+   "seconds": 21.2
+  },
+  {
+   "order": 8,
+   "name": "ai.adoraads/beauty",
+   "url": "https://mcp.adoraads.ai/beauty",
+   "toolsTotal": 6,
+   "readOnlyTools": 5,
+   "connect": "ok",
+   "starter": {
+    "source": "gateway",
+    "question": "What sponsored beauty products are available?",
+    "ms": 379,
+    "attempts": 1
+   },
+   "sessionId": "sess_dfbc837097ad430792fe521c9708011c",
+   "heard": "What sponsored beauty products are available?",
+   "toolCalled": null,
+   "mcp": "none",
+   "answer": "I can certainly help you find some sponsored beauty products. To get started, could you tell me what kind of products you are looking for, like a specific category or a skin concern you want to address?",
+   "voiceToVoiceMs": 1334,
+   "failures": [],
+   "seconds": 15.9
+  },
+  {
+   "order": 9,
+   "name": "ai.advisorsai/service-navigator",
+   "url": "https://advisorsai.ai/mcp",
+   "toolsTotal": 5,
+   "readOnlyTools": 5,
+   "connect": "ok",
+   "starter": {
+    "source": "gateway",
+    "question": "What services do you offer?",
+    "ms": 801,
+    "attempts": 2
+   },
+   "sessionId": "sess_b014c2cff7e740789313aca525dd27a5",
+   "heard": "What services do you offer?",
+   "toolCalled": "advisors_catalog_list_services",
+   "toolArgs": {
+    "language": "en"
+   },
+   "mcp": "ok",
+   "answer": "We offer five main services, including Agent Governance Audits, measuring your share of AI answers, and our Decision Signal Engine. I can also tell you more about our Store Assistant or Store Audit services if you are interested.",
+   "voiceToVoiceMs": 2685,
+   "failures": [],
+   "seconds": 19.4
+  },
+  {
+   "order": 10,
+   "name": "ai.advisorsai/store-readiness",
+   "url": "https://advisorsai.ai/store-readiness-mcp",
+   "toolsTotal": 1,
+   "readOnlyTools": 1,
+   "connect": "ok",
+   "starter": {
+    "source": "gateway",
+    "question": "Can you check the readiness of this store page?",
+    "ms": 384,
+    "attempts": 1
+   },
+   "sessionId": "sess_f8950109e8bf47eabef70cb945caca6b",
+   "heard": "Can you check the readiness of this store page?",
+   "toolCalled": null,
+   "mcp": "none",
+   "answer": "I can certainly help with that. Please paste the URL in the box under the Talk button so I can run the check.",
+   "voiceToVoiceMs": 1238,
+   "failures": [],
+   "seconds": 12.2
+  },
+  {
+   "order": 11,
+   "name": "ai.afg/afg",
+   "url": "https://afg.ai/mcp",
+   "toolsTotal": 15,
+   "readOnlyTools": 6,
+   "connect": "ok",
+   "starter": {
+    "source": "gateway",
+    "question": "What is the Agent Fulfillment Guarantee?",
+    "ms": 771,
+    "attempts": 2
+   },
+   "sessionId": "sess_b825eb3ec2ae4a9fbaf8b7ea4943b2f8",
+   "heard": "What is the Agent Fulfillment Guarantee?",
+   "toolCalled": "afg_about",
+   "toolArgs": {},
+   "mcp": "ok",
+   "answer": "The Agent Fulfillment Guarantee is a sandbox marketplace where AI agents hire other AI agents for verified outcomes. It uses a machine-checkable contract to decide whether escrowed test tokens are released to a provider or refunded to a buyer, all without humans in the loop. Just a reminder, it uses test money only.",
+   "voiceToVoiceMs": 4584,
+   "failures": [],
+   "seconds": 26.9
+  },
+  {
+   "order": 12,
+   "name": "ai.afmr/discovery",
+   "url": "https://afmr.ai/mcp",
+   "toolsTotal": 4,
+   "readOnlyTools": 4,
+   "connect": "ok",
+   "starter": {
+    "source": "gateway",
+    "question": "What are the AFMR failure modes?",
+    "ms": 327,
+    "attempts": 1
+   },
+   "sessionId": "sess_a29b8e7cb6e64e7e9c61ca8601995db8",
+   "heard": "What are the AFMR failure modes?",
+   "toolCalled": "lookup_failure_mode",
+   "toolArgs": {
+    "query": "*"
+   },
+   "mcp": "error",
+   "answer": "I couldn't find a list of all failure modes with that search. Could you please tell me a specific failure mode name or an ID, like AFMR-F zero one zero?",
+   "voiceToVoiceMs": 2597,
+   "failures": [],
+   "seconds": 16.1
+  },
+  {
+   "order": 13,
+   "name": "ai.agentberg/agentberg",
+   "url": "https://agentberg.ai/mcp",
+   "toolsTotal": 11,
+   "readOnlyTools": 7,
+   "connect": "ok",
+   "starter": {
+    "source": "gateway",
+    "question": "What is my current reputation score?",
+    "ms": 779,
+    "attempts": 2
+   },
+   "sessionId": "sess_5b7e2202413d40cfa9f1cbc77e1375b0",
+   "heard": "What is my current reputation score?",
+   "toolCalled": "get_agent_status",
+   "toolArgs": {
+    "agent_id": "unknown"
+   },
+   "mcp": "ok",
+   "answer": "You don't have a reputation score yet. You'll need to publish a finding first, but there are six hundred sixty-three unrated findings in your active regime that you can rate to earn reputation.",
+   "voiceToVoiceMs": 3173,
+   "failures": [],
+   "seconds": 17.4
+  },
+  {
+   "order": 14,
+   "name": "ai.agenticfabricationnetwork/ufp",
+   "url": "https://agenticfabricationnetwork.ai/mcp",
+   "toolsTotal": 13,
+   "readOnlyTools": 10,
+   "connect": "ok",
+   "starter": {
+    "source": "gateway",
+    "question": "What is the price to 3D print my design?",
+    "ms": 392,
+    "attempts": 1
+   },
+   "failures": [
+    "Internal service error"
+   ],
+   "seconds": 11.6
+  },
+  {
+   "order": 15,
+   "name": "ai.agenticterminal/directory",
+   "url": "https://mcp.agenticterminal.ai/mcp",
+   "toolsTotal": 6,
+   "readOnlyTools": 6,
+   "connect": "ok",
+   "starter": {
+    "source": "gateway",
+    "question": "What merchants accept cash in my area?",
+    "ms": 764,
+    "attempts": 2
+   },
+   "sessionId": "sess_d8fcef82946f4ba2961584fae24638b8",
+   "heard": "What merchants accept cash in my area?",
+   "toolCalled": null,
+   "mcp": "none",
+   "answer": "I don't have access to your location. If you can tell me your city or zip code, I can search for merchants that way.",
+   "voiceToVoiceMs": 1773,
+   "failures": [],
+   "seconds": 13.2
+  },
+  {
+   "order": 16,
+   "name": "ai.agentlookups/counterscript",
+   "url": "https://rx.agentlookups.ai/mcp",
+   "toolsTotal": 1,
+   "readOnlyTools": 1,
+   "connect": "ok",
+   "starter": {
+    "source": "gateway",
+    "question": "What is the fair price for Tylenol?",
+    "ms": 384,
+    "attempts": 1
+   },
+   "sessionId": "sess_8807b70805a946c0bc7ceac1361a56e4",
+   "heard": "What is the fair price for Tylenol?",
+   "toolCalled": "drug_price",
+   "toolArgs": {
+    "query": "Tylenol"
+   },
+   "mcp": "ok",
+   "answer": "I couldn't find a price match for Tylenol in the database. This doesn't mean there isn't a fair price, but Tylenol is a brand name, and the system works better with the generic name, acetaminophen.",
+   "voiceToVoiceMs": 3308,
+   "failures": [],
+   "seconds": 19.1
+  },
+  {
+   "order": 17,
+   "name": "ai.agentlookups/greenlight",
+   "url": "https://solar.agentlookups.ai/mcp",
+   "toolsTotal": 2,
+   "readOnlyTools": 2,
+   "connect": "ok",
+   "starter": {
+    "source": "gateway",
+    "question": "What is the solar law status for California?",
+    "ms": 837,
+    "attempts": 2
+   },
+   "sessionId": "sess_2a76e2cf57e347699549567ed95e718f",
+   "heard": "What is the solar law status for California?",
+   "toolCalled": "solar_law",
+   "toolArgs": {
+    "state": "CA"
+   },
+   "mcp": "ok",
+   "answer": "California is not currently in the GreenLight registry, so I don't have any information on its balcony solar laws.",
+   "voiceToVoiceMs": 3846,
+   "failures": [],
+   "seconds": 14.7
+  },
+  {
+   "order": 18,
+   "name": "ai.agentlookups/groundtruth",
+   "url": "https://env.agentlookups.ai/mcp",
+   "toolsTotal": 3,
+   "readOnlyTools": 3,
+   "connect": "ok",
+   "starter": {
+    "source": "template",
+    "question": "What can you do?",
+    "reason": "unusable_output",
+    "ms": 413,
+    "attempts": 1
+   },
+   "sessionId": "sess_07a934c2d719424ab217afcd8ec78e2c",
+   "heard": "What can you do?",
+   "toolCalled": null,
+   "mcp": "none",
+   "answer": "I can check for federal environmental records like Superfund sites and toxic release facilities near a US location. I can also look up drinking water violation summaries and provide due diligence scores for things like school quality and air quality.",
+   "voiceToVoiceMs": 1359,
+   "failures": [],
+   "seconds": 18.9
+  },
+  {
+   "order": 19,
+   "name": "ai.agentlookups/overassessed",
+   "url": "https://overassessed.agentlookups.ai/mcp",
+   "toolsTotal": 1,
+   "readOnlyTools": 1,
+   "connect": "ok",
+   "starter": {
+    "source": "gateway",
+    "question": "Is my Maryland property assessment fair?",
+    "ms": 812,
+    "attempts": 2
+   },
+   "sessionId": "sess_8d0b6aba45c248008d9eda66b73f2fbc",
+   "heard": "Is my Maryland property assessment fair?",
+   "toolCalled": null,
+   "mcp": "none",
+   "answer": "I can check that for you, but I'll need an address and a zip code to get started. Please paste the address into the box or tell me what it is.",
+   "voiceToVoiceMs": 1356,
+   "failures": [],
+   "seconds": 14
+  },
+  {
+   "order": 20,
+   "name": "ai.agentlookups/plumbline",
+   "url": "https://contractors.agentlookups.ai/mcp",
+   "toolsTotal": 1,
+   "readOnlyTools": 1,
+   "connect": "ok",
+   "starter": {
+    "source": "gateway",
+    "question": "Is this contractor licensed in my state?",
+    "ms": 357,
+    "attempts": 1
+   },
+   "sessionId": "sess_d23b5a8f49704f1aa4fd2e89423903fb",
+   "heard": "Is this contractor licensed in my state?",
+   "toolCalled": null,
+   "mcp": "none",
+   "answer": "I can check that for you. Please tell me the name of the contractor or their license number, and which state you are in.",
+   "voiceToVoiceMs": 1262,
+   "failures": [],
+   "seconds": 12.6
+  },
+  {
+   "order": 21,
+   "name": "ai.agentrapay/agentra",
+   "url": "https://api.agentrapay.ai/mcp",
+   "toolsTotal": 6,
+   "readOnlyTools": 2,
+   "connect": "ok",
+   "starter": {
+    "source": "gateway",
+    "question": "What is my current trust score?",
+    "ms": 816,
+    "attempts": 2
+   },
+   "sessionId": "sess_04fd5b31faf14b18b74666b23474a023",
+   "heard": "What is my current trust score?",
+   "toolCalled": "agentra_get_wallet",
+   "toolArgs": {
+    "agent_id": "me"
+   },
+   "mcp": "ok",
+   "answer": "Your current trust score is 65.",
+   "voiceToVoiceMs": 3540,
+   "failures": [],
+   "seconds": 11.1
+  },
+  {
+   "order": 22,
+   "name": "ai.agentroam/agentroam",
+   "url": "https://agentroam.ai/api/mcp",
+   "toolsTotal": 11,
+   "readOnlyTools": 8,
+   "connect": "ok",
+   "starter": {
+    "source": "gateway",
+    "question": "What travel gift cards are available for Airbnb?",
+    "ms": 381,
+    "attempts": 1
+   },
+   "sessionId": "sess_45bae9e4038f4ae9b72ca58f9cef6550",
+   "heard": "What travel gift cards are available for Airbnb?",
+   "toolCalled": "search_products",
+   "toolArgs": {
+    "query": "Airbnb"
+   },
+   "mcp": "ok",
+   "answer": "You can get Airbnb gift cards for amounts between fifty and five hundred dollars.",
+   "voiceToVoiceMs": 5438,
+   "failures": [],
+   "seconds": 15.8
+  },
+  {
+   "order": 23,
+   "name": "ai.ai-akari/agent-trust-receipt",
+   "url": "https://ai-akari.ai/mcp-trust",
+   "toolsTotal": 2,
+   "readOnlyTools": 1,
+   "connect": "ok",
+   "starter": {
+    "source": "gateway",
+    "question": "Can I check the AI trust receipt?",
+    "ms": 771,
+    "attempts": 2
+   },
+   "sessionId": "sess_ca0f6b1194404730962ff641530485e4",
+   "heard": "Can I check the AI trust receipt?",
+   "toolCalled": "get_agent_trust_receipt",
+   "toolArgs": {},
+   "mcp": "ok",
+   "answer": "Yes, the trust receipt for the AIﾉアカリ☆ Result Receipt Auditor shows it has multi-provider conformance verified with development attestation. It is also externally healthy with a passed A two A S D K conformance.",
+   "voiceToVoiceMs": 8306,
+   "failures": [],
+   "seconds": 27.7
+  },
+  {
+   "order": 24,
+   "name": "ai.ai-akari/one-minute-akari",
+   "url": "https://ai-akari.ai/mcp",
+   "toolsTotal": 4,
+   "readOnlyTools": 2,
+   "connect": "ok",
+   "starter": {
+    "source": "gateway",
+    "question": "What can I do in one minute?",
+    "ms": 339,
+    "attempts": 1
+   },
+   "sessionId": "sess_24cf57974b9441b5bd0f7bcfd2af50a6",
+   "heard": "What can I do in 1 minute?",
+   "toolCalled": null,
+   "mcp": "none",
+   "answer": "I am sorry, I am having trouble running that function right now. I will try to look into it for you.",
+   "voiceToVoiceMs": 2211,
+   "failures": [],
+   "seconds": 11.5
+  },
+  {
+   "order": 25,
+   "name": "ai.ai-portal/ai-portal",
+   "url": "https://www.ai-portal.ai/mcp",
+   "toolsTotal": 4,
+   "readOnlyTools": 4,
+   "connect": "ok",
+   "starter": {
+    "source": "gateway",
+    "question": "When did the latest AI model ship?",
+    "ms": 799,
+    "attempts": 2
+   },
+   "sessionId": "sess_2fcfff2d3988436f9c898e5fee69f01f",
+   "heard": "When did the latest AI model ship?",
+   "toolCalled": "list_releases",
+   "toolArgs": {
+    "limit": 1
+   },
+   "mcp": "ok",
+   "answer": "The latest model is GPT-6 Astra from OpenAI, which shipped on September third, twenty twenty-six.",
+   "voiceToVoiceMs": 4508,
+   "failures": [],
+   "seconds": 16
+  },
+  {
+   "order": 26,
+   "name": "ai.aient/mcp",
+   "url": "https://aient.ai/mcp",
+   "toolsTotal": 2,
+   "readOnlyTools": 2,
+   "connect": "ok",
+   "starter": {
+    "source": "gateway",
+    "question": "Create an Aient account with my email",
+    "ms": 374,
+    "attempts": 1
+   },
+   "sessionId": "sess_2b0845e7a12c451ab3ebe84e4d7a8029",
+   "heard": "Create an Aient account with my email.",
+   "toolCalled": null,
+   "mcp": "none",
+   "answer": "I can help with that. What email address should I use to create your account?",
+   "voiceToVoiceMs": 1786,
+   "failures": [],
+   "seconds": 10.6
+  },
+  {
+   "order": 27,
+   "name": "ai.airshelf/catalog",
+   "url": "https://mcp.airshelf.ai/mcp",
+   "toolsTotal": 8,
+   "readOnlyTools": 6,
+   "connect": "ok",
+   "starter": {
+    "source": "gateway",
+    "question": "What are the best laptops for data science?",
+    "ms": 999,
+    "attempts": 2
+   },
+   "sessionId": "sess_37ec90c9eaad42a0bf4c66d3a91fdf51",
+   "heard": "What are the best laptops for data science?",
+   "toolCalled": null,
+   "mcp": "none",
+   "answer": "I can help you source hardware, but I don't have a catalog for consumer laptops. I specialize in professional equipment like printers, mechanical keyboards, and industrial automation.",
+   "voiceToVoiceMs": 1366,
+   "failures": [],
+   "seconds": 17.8
+  },
+  {
+   "order": 28,
+   "name": "ai.aislabs/cve",
+   "url": "https://api.aislabs.ai/cve/mcp",
+   "toolsTotal": 4,
+   "readOnlyTools": 4,
+   "connect": "ok",
+   "starter": {
+    "source": "gateway",
+    "question": "What are the top CVEs today?",
+    "ms": 330,
+    "attempts": 1
+   },
+   "sessionId": "sess_580aa6618fe04ac79bde5c77b9fd9c88",
+   "heard": "What are the top cves today?",
+   "toolCalled": "top_cves_today",
+   "toolArgs": {},
+   "mcp": "error",
+   "answer": "I'm sorry, I can't access that list right now because it requires a small payment of two cents or an AIS Gateway key. Would you like to see the free brief teaser instead?",
+   "voiceToVoiceMs": 3191,
+   "failures": [
+    "tool top_cves_today threw: auth_required: MCP error -32002: Payment required: $0.02 via x402 — GET /v1/brief/today at https://api.aislabs.ai (any x402 client pays automatically) — OR unlock every tool with an AIS Gateway key: https://aislabs.ai/gateway (add it to your MCP config as an Authorization: Bearer header). Docs: https://aislabs.ai/llms.txt"
+   ],
+   "seconds": 16.4
+  },
+  {
+   "order": 29,
+   "name": "ai.aislabs/gateway",
+   "url": "https://api.aislabs.ai/mcp",
+   "toolsTotal": 3,
+   "readOnlyTools": 3,
+   "connect": "ok",
+   "starter": {
+    "source": "gateway",
+    "question": "What buildings are available?",
+    "ms": 775,
+    "attempts": 2
+   },
+   "sessionId": "sess_923c2cd1e31c4fbaa74104d51d5cbc2f",
+   "heard": "What buildings are available?",
+   "toolCalled": "list_buildings",
+   "toolArgs": {},
+   "mcp": "ok",
+   "answer": "There are two buildings available. First is ais-cve, which handles daily CVE prioritization, and second is ais-recorder, which provides the Agent Flight Recorder.",
+   "voiceToVoiceMs": 2337,
+   "failures": [],
+   "seconds": 15.8
+  },
+  {
+   "order": 30,
+   "name": "ai.aislabs/recorder",
+   "url": "https://api.aislabs.ai/recorder/mcp",
+   "toolsTotal": 5,
+   "readOnlyTools": 3,
+   "connect": "ok",
+   "starter": {
+    "source": "gateway",
+    "question": "Is my monitor still alive?",
+    "ms": 321,
+    "attempts": 1
+   },
+   "sessionId": "sess_1eff2f44fe8e4f19b08fe4a27a5dc64e",
+   "heard": "Is my monitor still alive?",
+   "toolCalled": "fleet_status",
+   "toolArgs": {},
+   "mcp": "error",
+   "answer": "I am unable to check your monitor because I do not have the required access key. Please paste the Gateway key into the box and I will try again.",
+   "voiceToVoiceMs": 2026,
+   "failures": [
+    "tool fleet_status threw: auth_required: MCP error -32002: fleet_status needs a Gateway key (Authorization: Bearer ais_k_…) — https://aislabs.ai/gateway"
+   ],
+   "seconds": 13.2
+  }
+ ]
+}

@@ -8,6 +8,7 @@ import {
   AgentProtocol, applyNormalisers, assertPhaseValid, buildNameMap, convertCatalog,
   handleFindTools, initialPhase, phaseSessionUpdate, shapeResult, FIND_TOOLS_NAME,
   ToolGate, gateTools, USE_PASTED_TEXT_NAME, pastedTextResult, pasteKeyterms, mergeKeyterms,
+  isReadOnlyTool, sharedPrefixTokens,
 } from '@interpres/core';
 import type { GateDecision } from '@interpres/core';
 import { createHash } from 'node:crypto';
@@ -41,8 +42,11 @@ export type Catalog = {
   stats: { toolsIn: number; toolsConverted: number };
 };
 
-export async function loadCatalog(url: string): Promise<Catalog> {
-  const connection = await probeServer(url);
+export async function loadCatalog(url: string, opts: { readOnlyOnly?: boolean } = {}): Promise<Catalog> {
+  const probed = await probeServer(url);
+  // The spoken sweep exposes read-only tools only: nothing it asks can change state.
+  const shared = sharedPrefixTokens(probed.tools.map((t) => t.name));
+  const connection = opts.readOnlyOnly ? { ...probed, tools: probed.tools.filter((t) => isReadOnlyTool(t, shared)) } : probed;
   const conversion = convertCatalog(connection.tools, { reserved: [FIND_TOOLS_NAME] });
   return {
     url,
@@ -135,6 +139,10 @@ export type OpenOptions = {
    * than hoping the agent chooses to call find_tools on an earlier turn.
    */
   startPhaseQuery?: string;
+  /** Expose only the server's read-only tools (the spoken sweep). */
+  readOnlyOnly?: boolean;
+  /** The session cap asked of the token endpoint; the API accepts 60-10800. */
+  maxSessionSeconds?: number;
 };
 
 /** One Voice Agent session bound to one MCP server's catalog. */
@@ -236,8 +244,8 @@ export class LiveSession {
   }
 
   static async open(url: string, opts: OpenOptions = {}): Promise<LiveSession> {
-    const catalog = await loadCatalog(url);
-    const token = await mintToken();
+    const catalog = await loadCatalog(url, { readOnlyOnly: opts.readOnlyOnly });
+    const token = await mintToken(opts.maxSessionSeconds);
     const ws = new WebSocket(`${WS_URL}?token=${encodeURIComponent(token)}`);
     const session = new LiveSession(catalog, ws, opts);
     await session.connect();

@@ -4,7 +4,7 @@ import { createHash } from 'node:crypto';
 import {
   findIdentifiers, isIdentifierShaped, identifierKind, collapseSpelled, appearsVerbatim,
   classifyWrite, sharedPrefixTokens, gateTools, ToolGate, callKey, isAffirmative, groupInFours,
-  pastedTextResult, CONFIRM_WINDOW_MS,
+  pastedTextResult, CONFIRM_WINDOW_MS, isReadOnlyTool,
 } from '../src/gate.ts';
 import { AgentProtocol } from '../src/protocol.ts';
 import type { ExecResult, ToolCall } from '../src/protocol.ts';
@@ -257,4 +257,12 @@ test('a tool that echoes its argument does not launder a misheard value', () => 
   // But a value the tool produced on its own - not in the arguments - still counts.
   gate.recordToolResult(JSON.stringify({ job_id: 'job_9c1e7a3b5d2f40e86b1a' }), { category: 'x' });
   assert.equal(gate.check('afg_get_job', { job_id: 'job_9c1e7a3b5d2f40e86b1a' }, 0).action, 'execute');
+});
+
+test('read-only for the spoken sweep: the hint when there is one, the classifier when there is not', () => {
+  assert.equal(isReadOnlyTool({ name: 'delete_thing', annotations: { readOnlyHint: true } }), true, 'the hint wins');
+  assert.equal(isReadOnlyTool({ name: 'get_thing', annotations: { readOnlyHint: false } }), false, 'an explicit false is taken at its word');
+  assert.equal(isReadOnlyTool({ name: 'get_thing' }), true, 'unannotated, and a read verb');
+  assert.equal(isReadOnlyTool({ name: 'send_payment' }), false, 'unannotated, and a write verb');
+  assert.equal(isReadOnlyTool({ name: 'lookup', annotations: { destructiveHint: true } }), false);
 });

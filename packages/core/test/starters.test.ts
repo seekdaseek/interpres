@@ -31,11 +31,16 @@ test('a starter is short and needs no spelling out', () => {
 
 test('templates come from the descriptions, then from the names', () => {
   assert.deepEqual(templateStarters(readOnlyTools(loadFixture('most-recommended-books').tools)), [
-    "Can you search Most Recommended Books' human-curated catalog by book title or author name?",
-    'Can you return every book a specific person has recommended?',
-    'Can you return every verified person who recommends a given book?',
+    "Search Most Recommended Books' human-curated catalog by book title or author name.",
+    'Return every book a specific person has recommended.',
+    'Return every verified person who recommends a given book.',
   ]);
   // AdvisorsAI's descriptions address the agent ("Use when..."), so the names speak instead.
-  assert.deepEqual(templateStarters(readOnlyTools(loadFixture('advisorsai-service-navigator').tools)), ['Can you list services?', 'Can you get service?', 'Can you match service?']);
+  assert.deepEqual(templateStarters(readOnlyTools(loadFixture('advisorsai-service-navigator').tools)), ['List services.', 'Get service.', 'Match service.']);
   assert.deepEqual(templateStarters([]), ['What can you do?']);
+});
+
+test('"e.g." does not end the sentence a template is built from', () => {
+  const tools = readOnlyTools([{ name: 'read_text', description: 'Read a text record (e.g. avatar, url) for a name. Needs a name.', inputSchema: { type: 'object' } }]);
+  assert.deepEqual(templateStarters(tools), ['Read a text record for a name.']);
 });
