@@ -11,26 +11,81 @@
  */
 import type { ConvertedTool, JsonSchema, McpServerInfo } from './types.ts';
 import { humanise } from './convert.ts';
+import { isCommonWord } from './common-words.ts';
 
 export const KEYTERMS_MAX = 100;
 export const TRANSCRIPTION_PROMPT_MAX = 1750;
-
-/**
- * Words too common to be worth biasing. Boosting "the" costs one of our 100
- * slots and buys nothing.
- */
-const STOPWORDS = new Set([
-  'a', 'an', 'and', 'any', 'are', 'as', 'at', 'be', 'by', 'call', 'can', 'do', 'for', 'from',
-  'get', 'has', 'have', 'in', 'is', 'it', 'its', 'list', 'new', 'no', 'not', 'of', 'on', 'one',
-  'or', 'set', 'that', 'the', 'this', 'to', 'up', 'use', 'used', 'with', 'you', 'your', 'all',
-  'via', 'per', 'out', 'if', 'when', 'what', 'which', 'only', 'more', 'than', 'then', 'into',
-]);
 
 /** Does this look like an identifier rather than prose? */
 export function isIdentifierLike(s: string): boolean {
   if (s.length < 2 || s.length > 40) return false;
   if (/\s/.test(s)) return false;
   return /\d/.test(s) || /[A-Z]/.test(s) || /[_\-.:/]/.test(s);
+}
+
+/** Written the way speech-to-text writes them. */
+const ACRONYMS = new Set([
+  'ai', 'api', 'mcp', 'url', 'id', 'ui', 'ux', 'sdk', 'llm', 'sql', 'pdf', 'csv', 'json', 'html', 'http', 'ios', 'gpu',
+  'cpu', 'nft', 'dao', 'evm', 'sol', 'btc', 'eth', 'usdc', 'usd', 'eu', 'uk', 'faq', 'crm', 'seo', 'sms', 'otp', 'kyc',
+  'rag', 'tts', 'stt', 'afg', 'b2b', 'b2c', 'iot', 'cli', 'ssh', 'dns', 'vpn', 'ocr', 'etl', 'kpi', 'roi', 'sla', 'erp',
+]);
+
+/** The docs: "Each individual keyterm string must be 50 characters or less" - longer ones are ignored. */
+export const KEYTERM_MAX_CHARS = 50;
+/** The docs: "Don't add whole sentences or phrases." A product name of up to three words is kept. */
+export const KEYTERM_MAX_WORDS = 3;
+
+const URLISH = /^[a-z][a-z0-9+.-]*:\/\/|^www\./i;
+const EMAILISH = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const PLACEHOLDER_HOST = /\bexample\.(com|org|net)\b/i;
+const HEXISH = /^(0x)?[0-9a-f]{12,}$/i;
+const BASE58ISH = /^[1-9A-HJ-NP-Za-km-z]{24,}$/;
+
+/**
+ * One raw term -> the form speech-to-text would write, or null to drop it.
+ *
+ * Dropped: URLs and placeholder hosts, emails, dotted or slashed IDs, hex and
+ * base58 strings, anything of two characters or fewer, single common English
+ * words, phrases over three words, and anything over 50 characters. A slug of
+ * alphabetic parts is spelled out: `store-assistant` -> `store assistant`,
+ * `ai-visibility` -> `AI visibility`.
+ */
+export function speechForm(raw: string): string | null {
+  const t = raw.trim();
+  if (t === '' || URLISH.test(t) || EMAILISH.test(t) || PLACEHOLDER_HOST.test(t)) return null;
+  if (/[/\\]/.test(t) || t.includes('.')) return null;           // dotted or slashed IDs
+  if (HEXISH.test(t) || (BASE58ISH.test(t) && /\d/.test(t))) return null;
+
+  let form = t;
+  const parts = t.split(/[-_]+/);
+  if (parts.length > 1 && parts.every((p) => /^[A-Za-z]+$/.test(p))) {
+    form = parts.map((p) => (ACRONYMS.has(p.toLowerCase()) ? p.toUpperCase() : p.toLowerCase())).join(' ');
+  }
+  const words = form.split(/\s+/);
+  if (words.length > KEYTERM_MAX_WORDS || form.length > KEYTERM_MAX_CHARS) return null;
+  if (words.length === 1) {
+    if (form.length <= 2) return null;
+    if (isCommonWord(form)) return null;
+  } else if (words.every((w) => w.length <= 2)) {
+    return null;
+  }
+  return form;
+}
+
+/**
+ * Brand-like tokens from a server's own name, kept verbatim: `AssemblyAI`,
+ * `AFG`, `Advisors`. Splitting `AssemblyAI` into "assembly" and "ai" throws
+ * away the one spelling the docs themselves use as their keyterm example.
+ */
+export function brandTokens(label: string | undefined): string[] {
+  if (!label) return [];
+  const out: string[] = [];
+  for (const tok of label.split(/[^A-Za-z0-9]+/)) {
+    if (tok.length < 3) continue;
+    const brandish = /[a-z][A-Z]/.test(tok) || /^[A-Z0-9]{3,}$/.test(tok);
+    if (brandish || !isCommonWord(tok)) out.push(brandish ? tok : tok.toLowerCase());
+  }
+  return out;
 }
 
 function collectFromSchema(
@@ -56,46 +111,39 @@ function collectFromSchema(
 
 /**
  * Keyterms for the tools currently visible, in priority order:
- *   1. enum values - the caller says these literally
- *   2. identifier-like examples
+ *   1. enum values - product names and fixed choices the caller says literally
+ *   2. brand tokens from the server's name and title
  *   3. distinctive words from the tool names
- *   4. distinctive words from the server's name and title
+ *   4. short codes from `examples`
  *
- * Deduped case-insensitively, first spelling wins, capped at `max`.
+ * Every candidate goes through `speechForm`; the result is deduped
+ * case-insensitively, first spelling wins, and capped at `max`.
  */
 export function buildKeyterms(
   tools: ConvertedTool[],
   server: McpServerInfo | undefined,
   max: number = KEYTERMS_MAX,
 ): string[] {
-  // Enum values first, then identifier-like examples. An enum value that also
-  // looks like an identifier (`code_fix_test_suite_pass`) is still an enum, so
-  // the two buckets are filled from the two collectors, not re-sorted by shape.
   const enumSet: string[] = [];
   const exampleSet: string[] = [];
   for (const t of tools) {
     collectFromSchema(t.tool.parameters, enumSet, 0, 'enum');
     collectFromSchema(t.tool.parameters, exampleSet, 0, 'examples');
   }
-
+  const brands = [...brandTokens(server?.title), ...brandTokens(server?.name)];
   const nameWords: string[] = [];
-  for (const t of tools) {
-    for (const w of humanise(t.report.mcpName).split(' ')) {
-      if (w.length >= 3 && !STOPWORDS.has(w)) nameWords.push(w);
-    }
-  }
-  const serverWords: string[] = [];
-  for (const raw of [server?.title, server?.name].filter((x): x is string => typeof x === 'string')) {
-    for (const w of humanise(raw).split(' ')) {
-      if (w.length >= 3 && !STOPWORDS.has(w)) serverWords.push(w);
-    }
-  }
+  for (const t of tools) for (const w of humanise(t.report.mcpName).split(' ')) nameWords.push(w);
 
   const out: string[] = [];
   const seen = new Set<string>();
-  for (const term of [...enumSet, ...exampleSet, ...nameWords, ...serverWords]) {
+  const brandKeys = brands.map((b) => b.toLowerCase());
+  for (const raw of [...enumSet, ...brands, ...nameWords, ...exampleSet]) {
+    const term = speechForm(raw);
+    if (term === null) continue;
     const key = term.toLowerCase();
-    if (key === '' || seen.has(key)) continue;
+    if (seen.has(key)) continue;
+    // A fragment of a kept brand adds nothing: "assembly" once "AssemblyAI" is in.
+    if (!term.includes(' ') && brandKeys.some((b) => b !== key && b.includes(key))) continue;
     seen.add(key);
     out.push(term);
     if (out.length >= max) break;

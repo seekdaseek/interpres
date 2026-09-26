@@ -971,3 +971,50 @@ through onDropped".
 
 The speaker-echo question stays with 0a above: this test proves the protocol
 path, not acoustic echo cancellation.
+
+### 0c. Keyterm quality: 21 junk-laden terms to 7
+
+Sergiu's key-terms pane for AdvisorsAI showed 21 terms, several useless or worse:
+`https://example.com`, `ar`, `en`, `store-audit.first-audit`, and plain English
+(`check`, `site`, `match`, `link`, `order`, `service`, `services`). The docs agree
+they should not be there: "Don't add common English words. Each entry boosts that
+string, and adding common words at the same weight as your rare terms dilutes the
+boost." Re-reading the streaming keyterm page added two limits the builder never
+enforced: **each keyterm must be 50 characters or less - longer ones are silently
+ignored** - and "Don't add whole sentences or phrases."
+
+`speechForm()` in `packages/core/src/keyterms.ts` now decides every candidate:
+
+- dropped: URLs, placeholder hosts (`example.com/.org/.net`), emails, dotted or
+  slashed IDs, hex and base58 strings, anything of 2 characters or fewer, a
+  single common English word (or its plural/inflection), phrases over 3 words,
+  anything over 50 characters;
+- slugs of alphabetic parts are written as speech-to-text writes them:
+  `store-assistant` -> `store assistant`, `ai-visibility` -> `AI visibility`;
+- brand tokens from the server's own name are kept verbatim. The old builder
+  split `AssemblyAI` into `assembly` + `ai` - destroying the exact string the docs
+  use as their keyterm example - and a lowercase fragment of a kept brand is no
+  longer repeated.
+
+The common-word list is bundled in `packages/core/src/common-words.ts`: 976 words,
+the most frequent English plus everyday tool-name vocabulary. A test asserts it
+actually loads (>= 500 words), that Sergiu's junk words are in it, and that
+`navigator`, `advisors`, `AssemblyAI`, `speccheck` and `Ozempic` are not.
+
+Before and after, same catalogs:
+
+| server | before | after |
+|---|---|---|
+| AdvisorsAI | 21 | **7**: store assistant, store audit, AI visibility, custom monitor, agent team, advisors, navigator |
+| AssemblyAI docs | 7 | **3**: AssemblyAI, filesystem, feedback |
+| AFG | 24 | **9**: schema valid, AFG, fulfillment, guarantee, sandbox, reputation, dispute, appeal, wallet |
+
+Every junk term Sergiu listed is gone; the server name (`advisors`, `navigator`)
+and all five product names survive. Sergiu's 21 terms are frozen in
+`keyterms.test.ts` as the fixture, and every fixture's keyterms are checked
+against the documented limits (<= 50 chars, <= 3 words, no URL or path).
+
+```
+$ node --test packages/core/test/keyterms.test.ts    ℹ tests 20  ℹ pass 20
+$ npm test                                            ℹ tests 272 ℹ pass 272
+```

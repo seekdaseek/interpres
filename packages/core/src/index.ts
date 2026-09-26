@@ -4,6 +4,7 @@ export * from './jsonschema.ts';
 export * from './spoken.ts';
 export * from './convert.ts';
 export * from './keyterms.ts';
+export * from './common-words.ts';
 export * from './rank.ts';
 export * from './prompt.ts';
 export * from './phases.ts';
