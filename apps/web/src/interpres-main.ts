@@ -281,6 +281,13 @@ const ui: VoiceUi = {
   keyterms(all, yours) {
     renderKeyterms(all, yours);
   },
+  idle(secondsLeft) {
+    const el = $('idle');
+    el.hidden = secondsLeft === null;
+    if (secondsLeft === null) return;
+    el.textContent = `No one is speaking: this session ends in ${secondsLeft} s. Say anything to keep going.`;
+    el.classList.toggle('soon', secondsLeft <= 10);
+  },
 };
 
 async function toggleTalk(): Promise<void> {

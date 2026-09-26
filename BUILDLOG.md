@@ -1576,3 +1576,48 @@ mic plus a text turn injected over the page's own socket), `sess_63429153cebc43f
   total, and the card stayed on `paste`.
 - At 375 px with the card up: scrollWidth 375, card right edge 359, 0 overflowing
   elements. Console errors: none.
+
+---
+
+## 2026-09-26 - B: a session nobody talks in ends after 60 s
+
+**Why:** idle open tabs, not conversations, are what reach the 300 s worst case.
+The docs say a Voice Agent session "is billed on the total time the WebSocket
+connection stays open" (billing-and-pricing, "Voice Agent API billing").
+
+**No API setting:** the docs, read today through AssemblyAI's own docs MCP
+server, have no inactivity setting.
+- `session-configuration.mdx` has no timeout, duration or seconds field (grep
+  exit 1).
+- A grep of the whole `/voice-agents` tree for "inactiv" or "idle" finds only a
+  code comment and a testing tip.
+- The documented clean teardown is `session.end`, which `stop()` already sent.
+
+So it is client-side. `IdleClock` (packages/core/src/idle.ts) is pure, with the
+clock passed in:
+- It counts only while nobody is speaking and nothing is pending.
+- `input.speech.started` holds it until `input.speech.stopped`.
+- `reply.started` holds it until `reply.done`.
+- Each running tool holds it.
+
+The page shows "No one is speaking: this session ends in N s. Say anything to keep
+going." under the Talk button. It turns red at 10 s, and at 0 the page sends
+`session.end`.
+
+```
+$ node --test packages/core/test/idle.test.ts   ℹ tests 4  ℹ pass 4
+```
+
+Measured on one session: local dev server, Books preset, a truly silent synthetic
+mic, `sess_9898e7c3a9b147818592423f236050b0`:
+
+```
+session.ready @759 ms   greeting reply.done @5746 ms
+countdown visible: "ends in 60 s" @6003 ms ... "ends in 1 s" @65002 ms
+session.end sent @65762 ms  = 60,016 ms after the greeting ended
+session.ended @65953 ms, socket closed @66629 ms; page: "Session ended: no one spoke for 60 s."
+Session History: status=completed duration=65.924277s close=client_end
+console errors: none
+```
+
+An idle tab now costs 65.9 s ($0.082 at $4.50/hr) instead of up to 300 s ($0.375).

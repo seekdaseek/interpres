@@ -3,7 +3,7 @@
  * tool-call protocol from `@interpres/core` - the same `AgentProtocol` class the
  * proof scripts drive.
  */
-import { AgentProtocol, ToolGate, USE_PASTED_TEXT_NAME, pastedTextResult, pasteKeyterms, mergeKeyterms } from '@interpres/core';
+import { AgentProtocol, IdleClock, IDLE_LIMIT_MS, ToolGate, USE_PASTED_TEXT_NAME, pastedTextResult, pasteKeyterms, mergeKeyterms } from '@interpres/core';
 import type { ExecResult, GateDecision, GateTool, ServerEvent, ToolCall } from '@interpres/core';
 import { AudioEngine, fromBase64, toBase64 } from './audio.ts';
 
@@ -60,6 +60,8 @@ export type VoiceUi = {
   gateReleased(call: ToolCall): void;
   /** Keyterms now in effect, and which of them came from the person's paste box. */
   keyterms(all: string[], yours: string[]): void;
+  /** Seconds until the session ends for lack of speech, or null while someone is talking or a tool runs. */
+  idle(secondsLeft: number | null): void;
 };
 
 export type ConnectPayload = {
@@ -93,6 +95,10 @@ export class VoiceSession {
   private lastUserTurn = '';
   private closed = false;
   private endTimer?: ReturnType<typeof setTimeout>;
+  private idle?: IdleClock;
+  private idleTick?: ReturnType<typeof setInterval>;
+  private userSpeaking = false;
+  private agentReplying = false;
   private readonly gate: ToolGate;
   private readonly getPaste: () => string;
   private phaseKeyterms: string[];
@@ -157,7 +163,7 @@ export class VoiceSession {
     this.ws = ws;
     this.protocol = new AgentProtocol(
       (msg) => { if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(msg)); },
-      (call) => this.execute(call),
+      (call) => this.executeHeld(call),
       {
         onToolCall: (call) => { this.ui.toolStart(call); this.ui.status('tool', call.name); },
         onToolDone: (call, exec, ms) => this.ui.toolDone(call, (exec.meta ?? { spoken: '' }) as ToolOutcome, ms),
@@ -192,6 +198,9 @@ export class VoiceSession {
           this.ui.status('listening');
           // Leave before the server's hard cap, so the goodbye is ours.
           this.endTimer = setTimeout(() => void this.stop('time limit'), maxSeconds * 1000 - 1500);
+          // An open tab nobody talks in bills to the cap; end it after a minute of silence.
+          this.idle = new IdleClock(Date.now());
+          this.idleTick = setInterval(() => this.tickIdle(), 250);
           resolve();
         }
         if (msg.type === 'session.error' && !this.ready) reject(new Error(`${String(msg.code)}: ${String(msg.message)}`));
@@ -208,13 +217,18 @@ export class VoiceSession {
   private onEvent(msg: ServerEvent): void {
     switch (msg.type) {
       case 'input.speech.started':
+        if (!this.userSpeaking) { this.userSpeaking = true; this.idle?.hold('user'); }
         // Barge-in: stop the agent mid-word. The server decides whether it was a
         // real interruption and says so with reply.done status "interrupted".
         this.audio.flush();
         this.ui.status('hearing');
         break;
       case 'input.speech.stopped':
+        if (this.userSpeaking) { this.userSpeaking = false; this.idle?.release('user', Date.now()); }
         this.ui.status('thinking');
+        break;
+      case 'reply.started':
+        if (!this.agentReplying) { this.agentReplying = true; this.idle?.hold('agent'); }
         break;
       case 'transcript.user.delta':
         // The full transcript so far, not an increment: replace, never append.
@@ -237,6 +251,7 @@ export class VoiceSession {
         break;
       case 'reply.done':
         if (msg.status === 'interrupted') this.audio.flush();
+        if (this.agentReplying) { this.agentReplying = false; this.idle?.release('agent', Date.now()); }
         break;
       case 'session.ended':
         void this.stop('session ended');
@@ -254,6 +269,23 @@ export class VoiceSession {
    * use_pasted_text reads the page; find_tools runs the phase planner on the
    * server; every other tool passes the gate first, then calls the MCP server.
    */
+  /** A running tool is not idleness. */
+  private async executeHeld(call: ToolCall): Promise<ExecResult> {
+    this.idle?.hold('tool');
+    try {
+      return await this.execute(call);
+    } finally {
+      this.idle?.release('tool', Date.now());
+    }
+  }
+
+  private tickIdle(): void {
+    if (!this.idle || this.closed) return;
+    const left = this.idle.remainingMs(Date.now());
+    this.ui.idle(left === null ? null : Math.ceil(left / 1000));
+    if (left === 0) void this.stop(`no one spoke for ${IDLE_LIMIT_MS / 1000} s`);
+  }
+
   private async execute(call: ToolCall): Promise<ExecResult> {
     if (call.name === USE_PASTED_TEXT_NAME) {
       const text = this.getPaste();
@@ -299,6 +331,8 @@ export class VoiceSession {
     if (this.closed) return;
     this.closed = true;
     if (this.endTimer) clearTimeout(this.endTimer);
+    if (this.idleTick) clearInterval(this.idleTick);
+    this.ui.idle(null);
     try {
       // session.end stops billing at once; just closing the socket leaves the
       // session resumable - and billable - for 30 seconds.

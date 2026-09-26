@@ -20,6 +20,6 @@ COPYFILE_DISABLE=1 tar --no-mac-metadata --no-xattrs -C apps/web -cf - dist \
 ssh -o BatchMode=yes solwatch 'cd /opt/interpres \
   && { cmp -s package-lock.json .deployed-lock || { npm ci --omit=dev --no-audit --no-fund > /dev/null && cp package-lock.json .deployed-lock; }; } \
   && pm2 delete interpres > /dev/null && pm2 start ops/ecosystem.config.cjs --only interpres > /dev/null && pm2 save > /dev/null \
-  && for i in $(seq 1 30); do curl -fsS -o /dev/null http://127.0.0.1:3031/api/health && break; sleep 0.5; done \
+  && for i in $(seq 1 30); do curl -fsS -o /dev/null http://127.0.0.1:3031/api/health 2>/dev/null && break; sleep 0.5; done \
   && curl -sS -o /dev/null -w "%{http_code} /api/health on 127.0.0.1:3031\n" http://127.0.0.1:3031/api/health'
 echo "shipped $(git rev-parse --short HEAD)"

@@ -116,6 +116,8 @@ button { font: inherit; color: inherit; }
 .btn.ghost:hover { border-color: var(--muted); background: var(--surface-2); }
 
 /* ------------------------------------------------------------ confirm card */
+.idle { margin-top: 6px; font: 12.5px/1.4 var(--mono); color: var(--muted); }
+.idle.soon { color: var(--danger); }
 .gate-card { margin: -6px 0 18px; padding: 16px 18px; border-radius: var(--radius); border: 1px solid var(--line-2); border-left: 4px solid var(--tool); background: linear-gradient(180deg, var(--surface-2), var(--surface)); }
 .gate-card[data-kind='paste'] { border-left-color: var(--phase); }
 .gate-card[data-kind='invalid'] { border-left-color: var(--danger); }
