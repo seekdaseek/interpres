@@ -58,14 +58,14 @@ test('the shaper is used when supplied, and told what was asked', async () => {
 test('a shaper that throws must not leave the agent silent', async () => {
   const shaper: Shaper = async () => { throw new Error('gateway down'); };
   const r = await shapeResult('t', text('{"a":1,"b":2}'), { shaper });
-  assert.equal(r.method, 'llm_failed_truncated');
+  assert.equal(r.method, 'llm_failed_local');
   assert.ok(r.spoken.length > 0, 'something must be said');
   assert.ok(!r.spoken.includes('{'));
 });
 
 test('a shaper that returns nothing falls back rather than saying nothing', async () => {
   const r = await shapeResult('t', text('{"a":1}'), { shaper: async () => '   ' });
-  assert.equal(r.method, 'llm_failed_truncated');
+  assert.equal(r.method, 'llm_failed_local');
   assert.ok(r.spoken.length > 0);
 });
 

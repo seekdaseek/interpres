@@ -10,6 +10,8 @@
  * module is unit-testable without a network.
  */
 
+import { extractiveSummary } from './extract.ts';
+
 export type McpContentBlock = {
   type: string;
   text?: string;
@@ -47,7 +49,7 @@ export type ShapeResult = {
   /** The untouched text, for the UI's raw pane. */
   raw: string;
   shaped: boolean;
-  /** `strip`, `passthrough`, `llm`, `llm_failed_truncated`, `truncated`. */
+  /** `empty`, `passthrough`, `truncated`, `llm`, `llm_failed_local`, `local`. */
   method: string;
   isError: boolean;
   rawChars: number;
@@ -169,12 +171,30 @@ export async function shapeResult(
       // Fall through to the local path. A voice turn is in flight; a thrown
       // error here would leave the agent silent until its tool timeout.
     }
-    const spoken = truncateSpoken(stripStructure(raw), maxChars);
-    return { ...base, result: JSON.stringify({ result: spoken }), spoken, shaped: true, method: 'llm_failed_truncated', spokenChars: spoken.length };
+    const spoken = localShape(raw, opts.question, maxChars);
+    return { ...base, result: JSON.stringify({ result: spoken }), spoken, shaped: true, method: 'llm_failed_local', spokenChars: spoken.length };
   }
 
-  const spoken = truncateSpoken(stripStructure(raw), maxChars);
-  return { ...base, result: JSON.stringify({ result: spoken }), spoken, shaped: true, method: 'truncated', spokenChars: spoken.length };
+  const spoken = localShape(raw, opts.question, maxChars);
+  return { ...base, result: JSON.stringify({ result: spoken }), spoken, shaped: true, method: 'local', spokenChars: spoken.length };
+}
+
+/**
+ * The local shaping path, used whenever the LLM Gateway is unavailable - which
+ * on this account is most of the time, since it answers 429 under any load.
+ * JSON is flattened to words first, then the extractive summariser picks the
+ * sentences that answer the question.
+ */
+export function localShape(raw: string, question: string | undefined, maxChars: number): string {
+  const flattened = looksJson(raw) ? stripStructure(raw) : raw;
+  const extracted = extractiveSummary(flattened, question, maxChars);
+  if (extracted.text.trim() !== '') return truncateSpoken(extracted.text, maxChars);
+  return truncateSpoken(stripStructure(raw), maxChars);
+}
+
+function looksJson(text: string): boolean {
+  const t = text.trim();
+  return /^[[{]/.test(t) && /[\]}]$/.test(t);
 }
 
 /**

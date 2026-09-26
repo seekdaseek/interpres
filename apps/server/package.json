@@ -1,0 +1,11 @@
+{
+  "name": "@interpres/server",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.ts",
+  "license": "MIT",
+  "dependencies": {
+    "@interpres/core": "*"
+  }
+}

@@ -291,3 +291,165 @@ fixture into an easy one (`>= 7` refs and `>= 25` nullables in afg).
 **UNTESTED at this point:** everything over the wire. No `session.ready` has been
 observed and no `tool.call` has ever arrived. `scripts/e2e.ts` in step 4 is the
 test that proves it; CHECKPOINT A is where that evidence goes.
+
+---
+
+## 2026-09-26 - step 3: `apps/server`
+
+Hono on `@hono/node-server`, bound to `127.0.0.1`. Routes: `/api/health`,
+`/api/presets`, `/api/token`, `/api/mcp/connect`, `/api/mcp/find-tools`,
+`/api/mcp/call`, `/api/status`, plus the web app from the same origin.
+
+### The SSRF guard closes DNS rebinding, not just the first lookup
+
+Resolving a hostname, approving it, and then calling `fetch()` leaves the name
+free to resolve again - to `169.254.169.254`, say - on the request itself.
+Undici's `connect.lookup` hook takes the verified addresses and nothing else,
+while TLS still sees the real hostname, so certificate validation is untouched.
+Proved before relying on it:
+
+```
+$ # pin to a deliberately wrong public IP
+PINNED-FETCH status 403 | lookup hook saw hostname: example.com
+$ # pin to the addresses we actually resolved and verified
+resolved example.com -> 2606:4700:10::6814:179a, ..., 104.20.23.154
+pinned to verified IPs -> status 200 bytes 559
+```
+
+The 403 is Cloudflare answering at the wrong IP for that Host, which is the
+point: the socket went where we sent it and TLS still matched the name.
+
+Rules enforced: https only, no credentials in the URL, every resolved address
+publicly routable (one bad answer among many disqualifies the host - that mix is
+the rebinding setup), redirects refused, 10 s timeout, 512 KB cap applied as a
+streaming counter so a chunked response with no `content-length` cannot slip by.
+The guard is passed to the MCP SDK as its `fetch`, so it covers every request
+either transport makes rather than only the first.
+
+21 tests, including known-positive controls (`8.8.8.8`, real resolved
+addresses), boundary addresses either side of each blocked range
+(`172.15.255.255` allowed / `172.16.0.1` blocked), and metadata by every
+spelling: `169.254.169.254`, `::ffff:169.254.169.254`, `::ffff:a9fe:a9fe`.
+
+### Node's type-stripping has a real constraint, and tsc now enforces it
+
+`node --test` failed with `ERR_UNSUPPORTED_TYPESCRIPT_SYNTAX: TypeScript
+parameter property is not supported in strip-only mode` on
+`constructor(readonly code: SsrfCode, ...)`. Field written out longhand, and
+`erasableSyntaxOnly: true` added to tsconfig so `tsc` rejects this whole class
+(parameter properties, enums, namespaces) instead of the test runner finding it.
+
+### Rate limiting is keyed on something a client cannot forge
+
+Per-IP-per-hour and a global daily cap, checked global-first so a caller with
+allowance left is told the real reason. Keyed on `cf-connecting-ip` (set by
+Cloudflare, and this service is only reachable through the tunnel) or the
+socket's own peer address. `X-Forwarded-For`, `X-Real-IP` and `True-Client-IP`
+are all ignored; a test rotates a forged `X-Forwarded-For` three times and
+confirms all three charge the same socket.
+
+### The LLM Gateway cannot be the primary path, and the numbers say why
+
+Two measured constraints, both found by running it rather than assuming:
+
+1. **This account can reach one model out of about forty.** `gemini-2.5-flash-lite`,
+   which the brief's plan implied, answers
+   `400 {"errors":["Your account does not have access to this LLM Gateway model"]}`.
+   So does every other id tried - Gemini, Claude, GPT, DeepSeek, Nemotron,
+   gpt-oss, gemma. The one that works is `qwen3.5-4b-32k-fast`, the model
+   AssemblyAI serves itself. Text in, one sentence out, no tools needed.
+
+2. **It is rate-limited hard.** Six shaping calls in sequence:
+   `llm, llm, 429, 429, 429, 429` -
+   `429 {"message":"too many requests for this action"}`. A demo whose answers
+   degrade into read-aloud markdown two times in three is not a demo.
+
+So the design inverted: **the local path is the product and the LLM refines it.**
+`packages/core/src/extract.ts` is a deterministic extractive summariser - it
+strips what has no spoken form (URLs, markdown, table rules, the
+`Title:`/`Link:`/`Page:`/`Content:` labels search-style MCP servers wrap each
+record in), splits into sentences, scores them by overlap with the caller's
+question plus rarity and position, and speaks back at most four **in document
+order**. Extractive, not abstractive: every sentence it says appears in the tool
+output, which is the same guarantee the anti-fabrication clause asks of the
+agent. Plus one 700 ms retry on 429, which converts some of them.
+
+Before, on a 43,689-character docs result:
+
+> Title: Encodings Link: https://assemblyai.com/docs/voice-agents/... Page:
+> voice-agents/audio-format Content: ## Encodings Encoding Sample rate Bit depth
+> `audio/pcm` 24,000 Hz 16-bit signed integer (little-endian) ...
+
+After, no network involved:
+
+> Both default to audio/pcm at 24 kHz. Change it for telephony, where 8 kHz
+> G.711 matches the phone network and avoids resampling.
+
+And on "what happens if I change the greeting mid-session", again locally:
+
+> When you configure an agent inline via session.update, the greeting is
+> immutable after session.ready. Set it on your first session.update; trying to
+> change it mid-session returns immutable_field. The greeting is spoken once at
+> session start.
+
+Two bugs the tests found in that module:
+
+- A greedy `\s*` in the metadata-label regex consumed the newline the *next*
+  label needed, so `Link:` was stripped and `Page:` right after it was not.
+  Replaced the captured prefix with a lookbehind.
+- One failure was counted twice, because `stats.failures++` sat at each throw
+  site *and* in the catch. `/api/status` read 2 failures from 1. Counted in one
+  place now, and `lastError` is surfaced so a silent fallback stays diagnosable -
+  which is the only reason the 429 was found at all rather than guessed at.
+
+### Live verification
+
+```
+$ node apps/server/src/index.ts --env-file=.env
+interpres listening on http://127.0.0.1:3030
+  token: 120s window, 300s max session
+  limits: 6/IP/hour, 400/day global
+
+$ POST /api/mcp/connect {"url":"https://www.assemblyai.com/docs/mcp"}
+transport: streamable-http | server: AssemblyAI | tools: 3 | cached: false
+greeting: Connected to AssemblyAI, with 3 tools available. What would you like to do?
+phase: search_assembly_ai, query_docs_filesystem_assembly_ai, submit_feedback | findTools: false
+keyterms: 7 | transcription_prompt: 1036 chars
+write tools flagged: submit_feedback
+
+$ POST /api/mcp/call  (five calls in sequence)
+[llm]              raw=24265 spoken=114 3616ms
+[llm]              raw=19988 spoken=136 1725ms
+[llm_failed_local] raw=16437 spoken=243 2395ms
+[llm_failed_local] raw=21372 spoken=312 2397ms
+[llm_failed_local] raw=30939 spoken=265 2367ms
+shaper: {calls:5, failures:3, retries:3, avgMs:911, lastError:"llm gateway 429..."}
+```
+
+Every one of the five produced a speakable answer. The MCP client was also
+verified against four live servers, and a real `tools/call` came back in 1.28 s:
+
+```
+ok   https://www.assemblyai.com/docs/mcp      streamable-http  AssemblyAI v1.0.0   3 tools
+ok   https://afg.ai/mcp                       streamable-http  afg v0.1.0         15 tools
+ok   https://advisorsai.ai/mcp                streamable-http  advisors-ai...      5 tools
+ok   https://agentberg.ai/mcp                 streamable-http  agentberg v1.30.0  11 tools
+FAIL https://127.0.0.1/mcp                    blocked_address
+FAIL http://example.com/mcp                   bad_scheme
+tools/call search_assembly_ai -> 23142 bytes in 1276ms
+```
+
+A failed tool call returns HTTP 200 with an error-shaped `tool.result`, not an
+HTTP error: the agent needs something it can speak, or the turn simply stalls.
+An unknown tool name gets told to call `find_tools`, which is the recovery the
+docs recommend.
+
+```
+$ npm test
+ℹ tests 204
+ℹ pass 204
+ℹ fail 0
+```
+
+**Still UNTESTED:** the WebSocket. No `session.ready`, no `tool.call` from a real
+agent. Step 4 is the test.

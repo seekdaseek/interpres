@@ -8,3 +8,4 @@ export * from './rank.ts';
 export * from './prompt.ts';
 export * from './phases.ts';
 export * from './shape.ts';
+export * from './extract.ts';

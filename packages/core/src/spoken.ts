@@ -208,3 +208,70 @@ export function applyNormaliser(id: NormaliserId, value: unknown): unknown {
 export function droppedPatternHint(pattern: string): string {
   return `Expected shape: ${pattern} - may be spoken with spaces between digits; spaces are removed before use.`;
 }
+
+/**
+ * Apply a tool's recorded normalisers to the arguments the agent produced,
+ * on the way to `tools/call`.
+ *
+ * This is the other half of dropping a `pattern`: the API is no longer
+ * rejecting a spoken-out card number, so we strip the spaces ourselves, exactly
+ * as the docs prescribe ("Then strip non-digits in your tool handler before you
+ * use the value"). Paths are dotted, with `[]` for every element of an array.
+ */
+export function applyNormalisers(
+  args: Record<string, unknown>,
+  normalisers: ReadonlyArray<{ path: string; normaliser: NormaliserId }>,
+): { args: Record<string, unknown>; applied: string[] } {
+  if (normalisers.length === 0) return { args, applied: [] };
+  // Copied, so a caller's object is never mutated under it.
+  const out = structuredClone(args);
+  const applied: string[] = [];
+
+  for (const { path, normaliser } of normalisers) {
+    const segments = path.split('.');
+    const touched = walk(out, segments, 0, (value) => {
+      const next = applyNormaliser(normaliser, value);
+      return { value: next, changed: next !== value };
+    });
+    if (touched) applied.push(`${path}:${normaliser}`);
+  }
+  return { args: out, applied };
+}
+
+function walk(
+  node: unknown,
+  segments: string[],
+  index: number,
+  fn: (value: unknown) => { value: unknown; changed: boolean },
+): boolean {
+  const raw = segments[index];
+  if (raw === undefined) return false;
+  const isArray = raw.endsWith('[]');
+  const key = isArray ? raw.slice(0, -2) : raw;
+  if (node === null || typeof node !== 'object') return false;
+  const holder = node as Record<string, unknown>;
+  if (!(key in holder)) return false;
+  const last = index === segments.length - 1;
+
+  if (isArray) {
+    const arr = holder[key];
+    if (!Array.isArray(arr)) return false;
+    let changed = false;
+    for (let i = 0; i < arr.length; i++) {
+      if (last) {
+        const r = fn(arr[i]);
+        if (r.changed) { arr[i] = r.value; changed = true; }
+      } else if (walk(arr[i], segments, index + 1, fn)) {
+        changed = true;
+      }
+    }
+    return changed;
+  }
+
+  if (last) {
+    const r = fn(holder[key]);
+    if (r.changed) { holder[key] = r.value; return true; }
+    return false;
+  }
+  return walk(holder[key], segments, index + 1, fn);
+}

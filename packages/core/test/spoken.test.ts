@@ -8,6 +8,7 @@ import {
   longestDigitRun,
   spokenVariants,
   applyNormaliser,
+  applyNormalisers,
 } from '../src/spoken.ts';
 
 /**
@@ -149,4 +150,52 @@ test('the threshold sits between a well-known shape and an account number', () =
   // to DIGIT_RUN_RISK_THRESHOLD cannot pass unnoticed.
   assert.equal(judgePattern(String.raw`\d{9}`).kept, true, '9 in a row is still a known shape');
   assert.equal(judgePattern(String.raw`\d{10}`).kept, false, '10 in a row is account territory');
+});
+
+test('normalisers reach the argument they were recorded against', () => {
+  const { args, applied } = applyNormalisers(
+    { card_number: '4 2 4 2 4 2 4 2 4 2 4 2 4 2 4 2', note: 'leave me alone' },
+    [{ path: 'card_number', normaliser: 'strip_non_digits' }],
+  );
+  assert.equal(args.card_number, '4242424242424242');
+  assert.equal(args.note, 'leave me alone');
+  assert.deepEqual(applied, ['card_number:strip_non_digits']);
+});
+
+test('a nested and an array path both normalise', () => {
+  const { args } = applyNormalisers(
+    { payment: { card: '4 2 4 2 4 2 4 2 4 2 4 2 4 2 4 2' }, codes: ['1 2 3', '4 5 6'] },
+    [
+      { path: 'payment.card', normaliser: 'strip_non_digits' },
+      { path: 'codes[]', normaliser: 'strip_non_digits' },
+    ],
+  );
+  assert.equal((args.payment as any).card, '4242424242424242');
+  assert.deepEqual(args.codes, ['123', '456']);
+});
+
+test('the caller-owned arguments object is never mutated', () => {
+  const original = { card: '1 2 3 4 5 6 7 8 9 0' };
+  const { args } = applyNormalisers(original, [{ path: 'card', normaliser: 'strip_non_digits' }]);
+  assert.equal(original.card, '1 2 3 4 5 6 7 8 9 0');
+  assert.equal(args.card, '1234567890');
+});
+
+test('a path that is absent, or a value of the wrong type, is skipped quietly', () => {
+  const { args, applied } = applyNormalisers({ other: 1 }, [{ path: 'missing', normaliser: 'strip_non_digits' }]);
+  assert.deepEqual(args, { other: 1 });
+  assert.deepEqual(applied, []);
+  const n = applyNormalisers({ card: 42 }, [{ path: 'card', normaliser: 'strip_non_digits' }]);
+  assert.equal(n.args.card, 42, 'a number is left as it is');
+  assert.deepEqual(n.applied, []);
+});
+
+test('no normalisers means the very same object back', () => {
+  const args = { a: 1 };
+  assert.equal(applyNormalisers(args, []).args, args);
+});
+
+test('a value already tidy is not reported as changed', () => {
+  const { applied } = applyNormalisers({ card: '4242424242424242' }, [{ path: 'card', normaliser: 'strip_non_digits' }]);
+  assert.deepEqual(applied, [], 'nothing changed, so nothing is reported');
 });
