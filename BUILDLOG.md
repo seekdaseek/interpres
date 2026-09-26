@@ -2843,3 +2843,117 @@ its own card validator.
 ```
 $ npm test    ℹ tests 422  ℹ pass 422  ℹ fail 0
 ```
+
+## 2026-09-27 - round F2: F2a caller gate passes in michael; F2b stopped at N10
+
+Brief: `interpres-brief-F2.md`. Order: F2a, then F2b, then F2c, then the rest from F2.3.
+
+**F2a: each caller clip is judged in a live session.**
+- **The gate:** `scripts/video/caller-gate.ts`.
+  - It streams each clip at real-time pace into a Voice Agent session opened in this process with
+    the API key, the way `e2e-audio` does.
+  - Setup follows the page for that scene: `LiveSession.open(url, { asPage: true })` sends
+    `voice.ts start()`'s `session.update`, with system prompt, tools, merged keyterms,
+    transcription prompt, greeting and formats.
+  - The greeting plays out before the caller speaks.
+  - Scene C runs Q3, then pastes the sample address the way `notePaste` does (`setPaste`), then
+    runs Q4.
+- **Setup comparison:** each opening setup was compared with the page's, built from the public
+  site's `/api/mcp/connect`. Scene C's swapped phase was compared with the public site's
+  `/api/mcp/find-tools` for the same query and last user turn. **All the same.**
+- **Pass rule:** two sessions in a row hear the clip exactly (`matchWords`), at most 4 sessions per
+  scene.
+- **The sample address adds 0 keyterms.** `pasteKeyterms` skips identifiers by design ("never a hex
+  or base58 string"), so the page pushes the phase's own keyterms, and so did the gate.
+- **Q1:** the only michael clip of Q1 on disk is try 4. Each pre-recorded try overwrote
+  `video/voices/Q1.wav`. It passed, so the caller stays `michael`.
+
+| clip | voice | clip sha256 | session 1 | session 2 | live gate | pre-recorded (information) |
+| --- | --- | --- | --- | --- | --- | --- |
+| Q1 | michael | 0ee22445f196… | `sess_ae801f4f6b194061bd4aede51052aa77` exact | `sess_5f57e08b6c6648069278a2ae11cc6b59` exact | PASS | differs 4 of 4 (EO, CEO, IO, ACO) |
+| Q2 | michael | c6df75b263c3… | `sess_54840003d8744c42a97478194b08d8e5` exact | `sess_ec890fad34ba45eebbebde6d293601b8` exact | PASS | match |
+| Q3 | michael | 23c4977f5f8d… | `sess_150e5f7a28754416ba75cf4d1b82a730` exact | `sess_95be7ff9c2c746a2a50df842e93caed0` exact | PASS | match |
+| Q4 | michael | 82bce38c71f5… | `sess_150e5f7a28754416ba75cf4d1b82a730` exact | `sess_95be7ff9c2c746a2a50df842e93caed0` exact | PASS | match |
+
+```
+session sess_ae801f4f6b194061bd4aede51052aa77: 10 tools, 6 keyterms, setup 00f52a79a48e, same as the public site
+  Q1 heard "What is SEO in plain English?" -> EXACT; v2v 5016 ms; calls goji_explain_term
+  Q3 heard "I want to run a spec check on a job contract." -> EXACT; v2v 2434 ms; calls find_tools
+  paste: 0 keyterms from the sample address, 6 in effect; phase is the swapped one, same as the public site
+  Q4 heard "Check the reputation of the wallet I pasted." -> EXACT; v2v 6250 ms; calls use_pasted_text, find_tools, afg_get_reputation
+```
+
+**Seen in both scene C sessions:**
+- `afg_get_reputation` is not in the phase Q3's `find_tools` swaps in.
+- Q4 therefore calls `use_pasted_text`, then a second `find_tools`, then `afg_get_reputation` with
+  exactly the pasted value.
+- So scene C2 will show a second swap card.
+
+**Caller clips Q2 to Q5**, made in michael by the greeting path:
+
+| clip | session | length |
+| --- | --- | ---: |
+| Q2 | `sess_e50f219ba48b4dcbb9ceae6ef2c26fef` | 1,960 ms |
+| Q3 | `sess_23fb8a1d01f5470a912dcd688f5470d4` | 2,690 ms |
+| Q4 | `sess_ca7ed482e9294680ada53eb949f23536` | 2,730 ms |
+| Q5 | `sess_156d76e4c73742a6afca5a053d303f29` | 14,490 ms |
+
+- Q5 is not checked word for word.
+- `voices.ts` now keeps the pre-recorded result for Q1 to Q4 as information, and never retries them.
+
+**F2b, the numbers:**
+- **RAN:** `scripts/spoken-identifiers.ts` now writes "Misheard and reached a server: 5." into
+  `docs/IDENTIFIERS.md`. `config.ts` reads RAN from there.
+  - Exact is still 0 of 9.
+  - docs-quote leaves README and JUDGE_GUIDE unchanged.
+- **Medians:** `scripts/video/medians.ts` reproduces the two known numbers from the data files first:
+  - the sweep's all-answers median, 2,597 ms;
+  - the warm suite's 3,020 ms.
+
+```
+spoken sweep, turns that called a tool: 17, median voice-to-voice 3540 ms
+spoken sweep, all answered turns (the 2.6 s; never compared): 29, median 2597 ms
+warm spoken suite: 11 turns, median voice-to-voice 3020 ms
+```
+
+- **N10's numbers** trace to `docs/VOICE-SWEEP.md`'s counts table: 30 attempted, 29 sessions run,
+  29 answered out loud, a median of 2,597 ms over answered turns, 14 MCP calls succeeded, and
+  $0.60.
+
+**F2b, N7:** remade in charles. It **passed on try 2**.
+
+| try | session | length | verdict |
+| --- | --- | ---: | --- |
+| 1 | `sess_b1cee791708b4229b80e61cb0b3f1831` | 17,780 ms | FAIL: heard "interprete". Not in the proper-noun list, so not accepted. |
+| 2 | `sess_e116b4adba234c9d94cf41100d8bd9c9` | 17,800 ms | PASS |
+
+**F2b, N10: STOPPED, as F2.2 requires.** All four tries failed at the same word.
+- The script says "Every one answered out loud", meaning each of the 29.
+- `universal-3-5-pro` wrote "Everyone" every time. Everything else in the line matched.
+- The two spellings sound the same. The check forgives only case, punctuation and number format,
+  so this is a fail.
+
+| try | session | length |
+| --- | --- | ---: |
+| 1 | `sess_36e5660bff2b482eab6cc28dea496490` | 15,890 ms |
+| 2 | `sess_5b30d86ffc724f8faf7d5c796f9dc54f` | 15,010 ms |
+| 3 | `sess_366ccc55607c4ab59372f1a36d5b3cd7` | 15,220 ms |
+| 4 | `sess_09fa578cb1144d28803586b6fc7a44fb` | 15,580 ms |
+
+```
+Last transcript: Then we gave 30 of them one spoken question each, untuned. 29 sessions ran. Everyone answered out loud, at a median of 2.6 seconds, and 14 answered from live data. The whole run cost 60 cents.
+```
+
+**F2c:** `SHA256SUMS` re-checked at 20:46Z: 29 of 29 OK. The template is not filled yet, because F2
+stopped.
+
+**Voice Agent usage** (`scripts/usage.ts`, Session History): 173 sessions, all `completed`, 83.3
+min, $6.25, 4.16% of the $150 credit.
+- That is 17 sessions since CHECKPOINT F. Sixteen are this round's: 6 gate, 4 caller clips, 2 for
+  N7 and 4 for N10.
+- One is not mine: `sess_a5ba0e6e7f7648ceb26cc31b751f1e08`, at 20:44Z for 147 s. It matches
+  Sergiu's check on the public site at 23:45 EEST.
+
+```
+$ npm test    ℹ tests 422  ℹ pass 422  ℹ fail 0
+```

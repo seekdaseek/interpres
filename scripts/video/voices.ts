@@ -5,16 +5,20 @@
  * judges): the voice is set, the exact line goes in `greeting`, and the
  * greeting's `reply.audio` (PCM16, 24 kHz) is saved before the session ends.
  *
- * Each clip is then transcribed with AssemblyAI and must match its line word
- * for word, after case, punctuation and number format (scripts/video/stt.ts).
- * Three tries per line; after that the run stops. Q5, the spoken address, is
- * the only clip not checked word for word.
+ * Each narration clip is then transcribed with AssemblyAI and must match its
+ * line word for word, after case, punctuation and number format
+ * (scripts/video/stt.ts): the first try and three retries, then the run stops.
+ *
+ * Caller clips Q1-Q4 are judged where they are heard, in a live session set up
+ * as the page sets up that scene (scripts/video/caller-gate.ts). Their
+ * pre-recorded transcript is kept as information and never retried. Q5, the
+ * spoken address, is not checked word for word.
  *
  *   node --env-file=.env scripts/video/voices.ts [--only N1,Q1] [--force]
  */
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { mintToken, WS_URL } from '../lib/session.ts';
-import { PROPER_NOUN_VARIANTS, VOICES, callerLines, narration } from './config.ts';
+import { PROPER_NOUN_VARIANTS, VOICES, callerLines, callerSay, narration } from './config.ts';
 import { matchWords, transcribeFile } from './stt.ts';
 
 export const VOICE_DIR = 'video/voices';
@@ -81,27 +85,36 @@ export function sentences(text: string): string[] {
   return text.match(/[^.!?]+[.!?]+(\s|$)/g)?.map((s) => s.trim()) ?? [text];
 }
 
+/** strict: narration, must match; info: caller Q1-Q4, recorded only; none: Q5. */
+type Check = 'strict' | 'info' | 'none';
+
 type Entry = {
   id: string; voice: string; text: string; file: string; path: string; parts: number;
+  /** What the voice was given, when it differs from `text` (the caption). */
+  say?: string;
   attempts: Array<{ sessionIds: string[]; ms: number; transcript?: string; speechModel?: string | null; pass?: boolean; firstDifference?: unknown; variantsUsed?: string[] }>;
-  pass: boolean; checked: boolean;
+  /** strict: the clip matched. info and none: the clip was made. */
+  pass: boolean; checked: boolean | Check;
 };
 
 /** The first try plus up to three retries, counted across runs for the same line and voice. */
 export const MAX_TRIES = 4;
 
-async function makeLine(id: string, text: string, voice: string, check: boolean, previous?: Entry): Promise<Entry> {
-  const entry: Entry = { id, voice, text, file: `${VOICE_DIR}/${id}.wav`, path: 'greeting', parts: 1, attempts: previous && previous.text === text && previous.voice === voice ? previous.attempts : [], pass: false, checked: check };
-  for (let attempt = entry.attempts.length + 1; attempt <= MAX_TRIES; attempt++) {
+async function makeLine(id: string, text: string, voice: string, check: Check, previous?: Entry, say = text): Promise<Entry> {
+  const same = previous !== undefined && previous.text === text && previous.voice === voice && (previous.say ?? previous.text) === say;
+  const entry: Entry = { id, voice, text, ...(say !== text ? { say } : {}), file: `${VOICE_DIR}/${id}.wav`, path: 'greeting', parts: 1, attempts: same ? previous.attempts : [], pass: false, checked: check };
+  // A caller clip is made once; its pre-recorded result is information, not a retry trigger.
+  const tries = check === 'strict' ? MAX_TRIES : entry.attempts.length + 1;
+  for (let attempt = entry.attempts.length + 1; attempt <= tries; attempt++) {
     let pcm: Buffer;
     const sessionIds: string[] = [];
     try {
-      const r = await speakAsGreeting(text, voice);
+      const r = await speakAsGreeting(say, voice);
       sessionIds.push(r.sessionId);
       pcm = r.pcm;
     } catch (err) {
       // Too long for one greeting: say it a sentence at a time, joined by 250 ms of silence.
-      const parts = sentences(text);
+      const parts = sentences(say);
       if (parts.length < 2) throw err;
       console.log(`  ${id}: one greeting failed (${err instanceof Error ? err.message : err}); splitting into ${parts.length} sentences`);
       const pieces: Buffer[] = [];
@@ -116,7 +129,7 @@ async function makeLine(id: string, text: string, voice: string, check: boolean,
     }
     writeFileSync(entry.file, wav(pcm));
     const ms = Math.round((pcm.length / 2 / RATE) * 1000);
-    if (!check) {
+    if (check === 'none') {
       entry.attempts.push({ sessionIds, ms });
       entry.pass = true;
       return entry;
@@ -124,8 +137,9 @@ async function makeLine(id: string, text: string, voice: string, check: boolean,
     const t = await transcribeFile(entry.file);
     const m = matchWords(text, t.text, PROPER_NOUN_VARIANTS);
     entry.attempts.push({ sessionIds, ms, transcript: t.text, speechModel: t.speechModel, pass: m.ok, firstDifference: m.firstDifference, variantsUsed: m.variantsUsed });
-    console.log(`  ${id} try ${attempt}: ${m.ok ? 'PASS' : 'FAIL'} ${ms} ms, ${sessionIds.join('+')}${m.ok ? '' : ` | at word ${m.firstDifference?.at}: script "${m.firstDifference?.expected}" heard "${m.firstDifference?.heard}"`}`);
-    if (m.ok) { entry.pass = true; return entry; }
+    const verdict = check === 'info' ? `pre-recorded ${m.ok ? 'match' : 'differs'} (information only)` : m.ok ? 'PASS' : 'FAIL';
+    console.log(`  ${id} try ${attempt}: ${verdict} ${ms} ms, ${sessionIds.join('+')}${m.ok ? '' : ` | at word ${m.firstDifference?.at}: script "${m.firstDifference?.expected}" heard "${m.firstDifference?.heard}"`}`);
+    if (check === 'info' || m.ok) { entry.pass = true; return entry; }
   }
   return entry;
 }
@@ -136,16 +150,18 @@ if (isMain) {
   const force = process.argv.includes('--force');
   mkdirSync(VOICE_DIR, { recursive: true });
   const manifest: Record<string, Entry> = existsSync(MANIFEST) ? JSON.parse(readFileSync(MANIFEST, 'utf8')).lines : {};
-  const jobs: Array<[string, string, string, boolean]> = [
-    ...Object.entries(narration()).map(([id, text]) => [id, text, VOICES.narrator, true] as [string, string, string, boolean]),
-    ...Object.entries(callerLines()).map(([id, text]) => [id, text, VOICES.caller, id !== 'Q5'] as [string, string, string, boolean]),
+  const jobs: Array<[string, string, string, Check, string]> = [
+    ...Object.entries(narration()).map(([id, text]) => [id, text, VOICES.narrator, 'strict', text] as [string, string, string, Check, string]),
+    ...Object.entries(callerLines()).map(([id, text]) => [id, text, VOICES.caller, id === 'Q5' ? 'none' : 'info', callerSay(id, text)] as [string, string, string, Check, string]),
   ];
   console.log(`voices: agent ${VOICES.agent}, narrator ${VOICES.narrator}, caller ${VOICES.caller}`);
-  for (const [id, text, voice, check] of jobs) {
+  for (const [id, text, voice, check, say] of jobs) {
     if (only && !only.has(id)) continue;
     const prev = manifest[id];
-    if (!force && prev?.pass && prev.text === text && prev.voice === voice && existsSync(prev.file)) { console.log(`  ${id}: kept (passed before)`); continue; }
-    const e = await makeLine(id, text, voice, check, prev);
+    const same = prev !== undefined && prev.text === text && prev.voice === voice && (prev.say ?? prev.text) === say && existsSync(prev.file);
+    // A caller clip made before, whatever its pre-recorded result, is kept: the live gate judges it.
+    if (!force && same && (prev.pass || check === 'info')) { console.log(`  ${id}: kept (made before${check === 'info' ? '; judged by the live gate' : ', passed'})`); continue; }
+    const e = await makeLine(id, text, voice, check, prev, say);
     manifest[id] = e;
     writeFileSync(MANIFEST, `${JSON.stringify({ voices: VOICES, lines: manifest }, null, 1)}\n`);
     if (!e.pass) {

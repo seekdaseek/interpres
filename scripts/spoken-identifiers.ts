@@ -159,6 +159,8 @@ export function report(r = recount()): string {
     '',
     `Exact: ${r.exact} of ${r.total}.`,
     '',
+    `Misheard and reached a server: ${misheardRan}.`,
+    '',
     '| source | session | spoken | heard | exact | ran |',
     '| --- | --- | --- | --- | --- | --- |',
     ...rows,

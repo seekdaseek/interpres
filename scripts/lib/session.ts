@@ -8,7 +8,7 @@ import {
   AgentProtocol, applyNormalisers, assertPhaseValid, buildNameMap, convertCatalog,
   handleFindTools, initialPhase, phaseSessionUpdate, shapeResult, FIND_TOOLS_NAME,
   ToolGate, gateTools, USE_PASTED_TEXT_NAME, pastedTextResult, pasteKeyterms, mergeKeyterms,
-  isReadOnlyTool, sharedPrefixTokens,
+  isReadOnlyTool, sharedPrefixTokens, buildGreeting,
 } from '@interpres/core';
 import type { GateDecision } from '@interpres/core';
 import { createHash } from 'node:crypto';
@@ -150,11 +150,18 @@ export type OpenOptions = {
    * straight to AssemblyAI, exactly as the page sends it.
    */
   api?: string;
+  /**
+   * Open with the page's own `session.update` (apps/web/src/voice.ts start()):
+   * the server's greeting and `input.format` as well as the phase. Off, the
+   * session listens first with no greeting, as every proof script always has.
+   */
+  asPage?: boolean;
 };
 
 /** What `/api/mcp/connect` returns, as far as a session needs it. */
 type RemoteConnect = {
   url: string;
+  greeting?: string;
   server: { name?: string; version?: string; title?: string } | null;
   instructions: string | null;
   stats: { toolsIn: number; toolsConverted: number };
@@ -194,7 +201,12 @@ export class LiveSession {
   private readonly refine: boolean;
   readonly gate: ToolGate;
   paste: string;
-  readonly yourKeyterms: string[];
+  yourKeyterms: string[];
+  /** The current phase's own keyterms, before the paste box's are merged in. */
+  phaseKeyterms: string[];
+  /** The opening `session.update`, exactly as sent. */
+  sentSetup: Record<string, unknown> = {};
+  private readonly asPage: boolean;
   /** Every gate decision that stopped a call, in order. */
   readonly gateLog: Array<{ tool: string; action: GateDecision['action']; trigger?: string; heard?: string; at: number }> = [];
   /** MCP tools/call requests actually made, by tool - the thing the gate must keep at zero. */
@@ -239,6 +251,8 @@ export class LiveSession {
         ? handleFindTools(catalog.planner, opts.startPhaseQuery, { carry: false }).phase
         : initialPhase(catalog.planner);
     if (!remote) assertPhaseValid(this.phase);
+    this.phaseKeyterms = this.phase.keyterms;
+    this.asPage = opts.asPage ?? false;
     this.shaper = makeShaper({ stats: this.shaperStats, breaker: this.breaker });
     this.refine = config.shaperRefine;
     this.protocol = new AgentProtocol(
@@ -401,16 +415,24 @@ export class LiveSession {
         if (this.sessionId === '') reject(new Error(`socket closed before session.ready (code ${(ev as CloseEvent).code})`));
       });
     });
-    // No greeting: "omit it to listen first", which keeps the event flow clean.
-    this.send({
-      type: 'session.update',
-      session: {
+    const input = { keyterms: mergeKeyterms(this.phaseKeyterms, this.yourKeyterms), transcription_prompt: this.phase.transcriptionPrompt };
+    // By default no greeting: "omit it to listen first", which keeps the event
+    // flow clean. `asPage` sends what the page sends, greeting and all.
+    this.sentSetup = this.asPage
+      ? {
         system_prompt: this.phase.systemPrompt,
         tools: this.phase.tools,
-        input: { keyterms: mergeKeyterms(this.phase.keyterms, this.yourKeyterms), transcription_prompt: this.phase.transcriptionPrompt },
+        greeting: this.remote?.connect.greeting ?? buildGreeting(this.catalog.planner.server, this.catalog.planner.catalog.length),
+        input: { ...input, format: { encoding: 'audio/pcm' } },
         output: { voice: VOICE, format: { encoding: 'audio/pcm' } },
-      },
-    });
+      }
+      : {
+        system_prompt: this.phase.systemPrompt,
+        tools: this.phase.tools,
+        input,
+        output: { voice: VOICE, format: { encoding: 'audio/pcm' } },
+      };
+    this.send({ type: 'session.update', session: this.sentSetup });
     await ready;
   }
 
@@ -431,6 +453,7 @@ export class LiveSession {
       const r = await postRemote<{ phase: RemoteConnect['phase']; toolResult: string; carried: string[]; available: string[] }>(
         this.remote.api, '/api/mcp/find-tools', { url: this.catalog.url, query, lastUserTurn: this.lastUserTranscript },
       );
+      this.phaseKeyterms = r.phase.keyterms;
       const keyterms = mergeKeyterms(r.phase.keyterms, this.yourKeyterms);
       this.phase = { ...r.phase, keyterms, visible: [] } as unknown as Phase;
       const session = { ...r.phase.sessionUpdate.session, input: { ...(r.phase.sessionUpdate.session.input as Record<string, unknown>), keyterms } };
@@ -450,6 +473,7 @@ export class LiveSession {
       const outcome = handleFindTools(this.catalog.planner, query, { lastUserTurn: this.lastUserTranscript, carry: this.carry });
       assertPhaseValid(outcome.phase);
       // The person's own terms ride across every phase change.
+      this.phaseKeyterms = outcome.phase.keyterms;
       outcome.phase.keyterms = mergeKeyterms(outcome.phase.keyterms, this.yourKeyterms);
       this.phase = outcome.phase;
       const upd = phaseSessionUpdate(outcome.phase);
@@ -539,6 +563,22 @@ export class LiveSession {
       if (record) { record.isError = true; record.spoken = detail; record.readyAt = Date.now(); }
       return { result: JSON.stringify({ error: detail }) };
     }
+  }
+
+  /**
+   * The paste box changed mid-session, as the page's `notePaste` handles it:
+   * the text becomes a source the gate accepts, and its word parts join the
+   * current phase's keyterms, pushed at once ("takes effect on the next
+   * utterance"). Returns the merged keyterms that were sent.
+   */
+  setPaste(text: string): string[] {
+    this.paste = text;
+    if (text.trim() !== '') this.gate.recordPaste(text);
+    this.yourKeyterms = pasteKeyterms(text);
+    const merged = mergeKeyterms(this.phaseKeyterms, this.yourKeyterms);
+    this.phase = { ...this.phase, keyterms: merged };
+    this.send({ type: 'session.update', session: { input: { keyterms: merged } } });
+    return merged;
   }
 
   beginTurn(said: string): TurnRecord {

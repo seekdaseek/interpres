@@ -15,22 +15,36 @@ export function agentVoice(): string {
 }
 
 const agent = agentVoice();
+
+/**
+ * The caller's voice, as one value. Round F2a: michael first; george if no
+ * michael clip of Q1 is heard as said in a live session.
+ */
+export const CALLER_VOICE = 'michael';
+if (CALLER_VOICE === agent) throw new Error(`the caller cannot share the agent's voice (${agent})`);
+
 export const VOICES = {
   agent,
   narrator: agent === 'charles' ? 'paul' : 'charles',
-  caller: agent === 'michael' ? 'george' : 'michael',
+  caller: CALLER_VOICE,
 } as const;
 
-/** The identifier count, from F1's generated page: "Exact: N of M." */
-export function identifierCount(): { exact: number; total: number } {
-  const m = readFileSync('docs/IDENTIFIERS.md', 'utf8').match(/^Exact: (\d+) of (\d+)\.$/m);
-  if (!m) throw new Error('docs/IDENTIFIERS.md: no "Exact: N of M." line; run scripts/spoken-identifiers.ts');
-  return { exact: Number(m[1]), total: Number(m[2]) };
+/**
+ * The identifier count, from F1's generated page: "Exact: N of M." and
+ * "Misheard and reached a server: R." (the runs where a misheard value reached
+ * an MCP server, all from before the gate).
+ */
+export function identifierCount(): { exact: number; total: number; ran: number } {
+  const page = readFileSync('docs/IDENTIFIERS.md', 'utf8');
+  const m = page.match(/^Exact: (\d+) of (\d+)\.$/m);
+  const r = page.match(/^Misheard and reached a server: (\d+)\.$/m);
+  if (!m || !r) throw new Error('docs/IDENTIFIERS.md: no "Exact: N of M." or "Misheard and reached a server: R." line; run scripts/spoken-identifiers.ts');
+  return { exact: Number(m[1]), total: Number(m[2]), ran: Number(r[1]) };
 }
 
-/** The script as written; N7's {EXACT} and {TOTAL} come from F1's count, as digits like every other number. */
+/** The script as written; N7's {EXACT}, {TOTAL} and {RAN} come from F1's count, as digits. */
 export function narration(): Record<string, string> {
-  const { exact: EXACT, total: TOTAL } = identifierCount();
+  const { exact: EXACT, total: TOTAL, ran: RAN } = identifierCount();
   return {
     N1: "This is interpres. It connects AssemblyAI's Voice Agent API to public MCP servers. Type a website, press the mic, and its tools answer out loud.",
     N2: "AssemblyAI lists its Voice Agent API at $4.50 an hour, and OpenAI Realtime at $18. Realtime can call MCP servers by itself. The Voice Agent API has no MCP tool type, so teams that switch for the price lose their MCP tools. interpres gives them back.",
@@ -38,10 +52,10 @@ export function narration(): Record<string, string> {
     N4: "That answer came from goji's own server, through a live tool call.",
     N5: 'No website in mind? Search more than 11,000 public MCP servers right on the page. One click connects.',
     N6: 'Many servers list more than ten tools. interpres shows the agent ten at a time, and one of them is find tools. Ask for something out of view, and interpres swaps the right tools in, mid-conversation.',
-    N7: `Speech gets identifiers wrong. In our tests, ${EXACT} of ${TOTAL} spoken wallet addresses came through exact. So interpres never runs a tool on an identifier it only heard. Paste it, and the agent uses the exact text.`,
+    N7: `Speech gets identifiers wrong. In our tests, ${EXACT} of ${TOTAL} spoken wallet addresses came through exact, and before the gate, ${RAN} wrong ones reached the server. So interpres never runs a tool on an identifier it only heard. Paste it, and the agent uses the exact text.`,
     N8: 'A spoken address is held back. Nothing runs.',
     N9: "To check it isn't just these three, we probed every remote server in the official MCP registry. 12,012 answered without a login, listing more than 200,000 tools, and every tool converted.",
-    N10: 'Then we asked thirty of them one question each, out loud and untuned. Fourteen answered from live data. Median voice to voice was 2.6 seconds, and the whole run cost 60 cents.',
+    N10: 'Then we gave thirty of them one spoken question each, untuned. Twenty-nine sessions ran. Every one answered out loud, at a median of 2.6 seconds, and fourteen answered from live data. The whole run cost 60 cents.',
     N11: 'Along the way we found two places where the API behaves differently from its docs, and wrote both up with scripts that reproduce them.',
     N12: 'interpres is open source under MIT, and live now at the address on screen. Type a website, press the mic, and ask.',
   };
@@ -58,6 +72,15 @@ export function callerLines(): Record<string, string> {
     Q5: clips['afg-spoken-address']!,
   };
 }
+
+/**
+ * What the caller's voice is sent, where it differs from the caption. Empty
+ * unless F2a's third step is reached ("S. E. O." spoken, "SEO" captioned).
+ */
+export const CALLER_SAY: Record<string, string> = {};
+
+/** The text a caller line's voice is given. */
+export const callerSay = (id: string, caption: string): string => CALLER_SAY[id] ?? caption;
 
 /**
  * Proper nouns speech-to-text may spell differently, and nothing else. A

@@ -4,6 +4,8 @@ Every recorded attempt to speak a wallet address, from every source in `data/`, 
 
 Exact: 0 of 9.
 
+Misheard and reached a server: 5.
+
 | source | session | spoken | heard | exact | ran |
 | --- | --- | --- | --- | --- | --- |
 | e2e-audio-afg-baseline.json | `sess_2d559d4f8c5f4a54a19704b7f5902895` | `0x00000000…000001` (42) | `0x00000000…000000` (695) | no | nothing ran |

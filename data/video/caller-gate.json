@@ -1,0 +1,545 @@
+{
+ "rule": "A clip passes when two live sessions in a row hear it exactly (matchWords: case, punctuation and number format forgiven). Sessions are opened in-process with the API key and set up with the page's own session.update for that scene; at most four sessions per run.",
+ "runs": [
+  {
+   "scene": "A",
+   "url": "https://mcp.goji.agency/mcp",
+   "at": "2026-09-26T20:57:49.481Z",
+   "max": 4,
+   "clips": {
+    "Q1": {
+     "voice": "michael",
+     "file": "video/voices/Q1.wav",
+     "sha256": "0ee22445f1969b19ae4d9b8e61a70b0b4d5cee791291545ff2928012697e5aa5",
+     "ms": 2290,
+     "caption": "What is SEO in plain English?",
+     "say": "What is SEO in plain English?"
+    }
+   },
+   "sessions": [
+    {
+     "sessionId": "sess_ae801f4f6b194061bd4aede51052aa77",
+     "at": "2026-09-26T20:57:50.880Z",
+     "greeting": {
+      "text": "Connected to goji, with 9 tools available. What would you like to do?",
+      "audioMs": 4440
+     },
+     "setup": {
+      "sha256": "00f52a79a48e8186cf43d94c3ff44829ba24c0b48c557bba9aa8e866c7cf7fb7",
+      "tools": [
+       "use_pasted_text",
+       "goji_search",
+       "goji_explain_term",
+       "goji_browse_glossary",
+       "goji_get_service",
+       "goji_answer_faq",
+       "goji_guide_contents",
+       "goji_read_guide_chapter",
+       "goji_read_guide",
+       "goji_start_enquiry"
+      ],
+      "keyterms": 6,
+      "publicMatch": true
+     },
+     "heard": [
+      {
+       "clip": "Q1",
+       "heard": "What is SEO in plain English?",
+       "exact": true,
+       "variantsUsed": [],
+       "counted": true,
+       "voiceToVoiceMs": 5016,
+       "agentReply": "SEO, or Search Engine Optimisation, is the work of making your website the result that search engines choose to show. This is done through content that answers what people are looking for, making your site easy for engines to read, and building a reputation that other sites back up. You can read more about it at goji dot agency slash glossary.",
+       "calls": [
+        {
+         "name": "goji_explain_term",
+         "arguments": {
+          "term": "SEO"
+         },
+         "method": "truncated",
+         "isError": false
+        }
+       ]
+      }
+     ],
+     "mcpRequests": [
+      {
+       "tool": "goji_explain_term",
+       "argsSha256": {
+        "term": "6bc4718fbb156bc98fcbf1ed7a0d6abeb78a47343083c5e37155709422c5d3ee"
+       }
+      }
+     ],
+     "failures": []
+    },
+    {
+     "sessionId": "sess_5f57e08b6c6648069278a2ae11cc6b59",
+     "at": "2026-09-26T20:58:24.695Z",
+     "greeting": {
+      "text": "Connected to goji, with 9 tools available. What would you like to do?",
+      "audioMs": 4600
+     },
+     "setup": {
+      "sha256": "00f52a79a48e8186cf43d94c3ff44829ba24c0b48c557bba9aa8e866c7cf7fb7",
+      "tools": [
+       "use_pasted_text",
+       "goji_search",
+       "goji_explain_term",
+       "goji_browse_glossary",
+       "goji_get_service",
+       "goji_answer_faq",
+       "goji_guide_contents",
+       "goji_read_guide_chapter",
+       "goji_read_guide",
+       "goji_start_enquiry"
+      ],
+      "keyterms": 6,
+      "publicMatch": true
+     },
+     "heard": [
+      {
+       "clip": "Q1",
+       "heard": "What is SEO in plain English?",
+       "exact": true,
+       "variantsUsed": [],
+       "counted": true,
+       "voiceToVoiceMs": 4391,
+       "agentReply": "SEO is the work of making your website the result that search engines choose to show. It involves creating content that answers what people are searching for, making sure your site is easy for engines to read, and building a reputation that other sites back up. You can read more about it at goji dot agency slash glossary slash seo.",
+       "calls": [
+        {
+         "name": "goji_explain_term",
+         "arguments": {
+          "term": "SEO"
+         },
+         "method": "truncated",
+         "isError": false
+        }
+       ]
+      }
+     ],
+     "mcpRequests": [
+      {
+       "tool": "goji_explain_term",
+       "argsSha256": {
+        "term": "6bc4718fbb156bc98fcbf1ed7a0d6abeb78a47343083c5e37155709422c5d3ee"
+       }
+      }
+     ],
+     "failures": []
+    }
+   ],
+   "verdicts": {
+    "Q1": "pass"
+   }
+  },
+  {
+   "scene": "B",
+   "url": "https://mostrecommendedbooks.com/api/mcp",
+   "at": "2026-09-26T20:59:58.164Z",
+   "max": 4,
+   "clips": {
+    "Q2": {
+     "voice": "michael",
+     "file": "video/voices/Q2.wav",
+     "sha256": "c6df75b263c388e8fcc62e208483f83b752365d5df531b3949b5ec8ecaf7932a",
+     "ms": 1960,
+     "caption": "Who recommends Sapiens?",
+     "say": "Who recommends Sapiens?"
+    }
+   },
+   "sessions": [
+    {
+     "sessionId": "sess_54840003d8744c42a97478194b08d8e5",
+     "at": "2026-09-26T21:00:00.113Z",
+     "greeting": {
+      "text": "Connected to most-recommended-books, with 6 tools available. What would you like to do?",
+      "audioMs": 5480
+     },
+     "setup": {
+      "sha256": "7d8c950b605659e3a2af4cde761ad47670f52a2ac2171c3e547d98a30e7977c5",
+      "tools": [
+       "use_pasted_text",
+       "search_books",
+       "get_person_recommendations",
+       "get_book_recommenders",
+       "get_series_reading_order",
+       "get_list",
+       "get_summary"
+      ],
+      "keyterms": 1,
+      "publicMatch": true
+     },
+     "heard": [
+      {
+       "clip": "Q2",
+       "heard": "Who recommends Sapiens?",
+       "exact": true,
+       "variantsUsed": [],
+       "counted": true,
+       "voiceToVoiceMs": 4989,
+       "agentReply": "Thirty-two verified people recommend Sapiens, including Joe Rogan and Lex Fridman.",
+       "calls": [
+        {
+         "name": "get_book_recommenders",
+         "arguments": {
+          "title": "Sapiens"
+         },
+         "method": "local",
+         "isError": false
+        }
+       ]
+      }
+     ],
+     "mcpRequests": [
+      {
+       "tool": "get_book_recommenders",
+       "argsSha256": {
+        "title": "de5b3fb877ba2f149bc225052f449045e22935eb4d28e883fe33370ec981078f"
+       }
+      }
+     ],
+     "failures": []
+    },
+    {
+     "sessionId": "sess_ec890fad34ba45eebbebde6d293601b8",
+     "at": "2026-09-26T21:00:20.923Z",
+     "greeting": {
+      "text": "Connected to most-recommended-books, with 6 tools available. What would you like to do?",
+      "audioMs": 5360
+     },
+     "setup": {
+      "sha256": "7d8c950b605659e3a2af4cde761ad47670f52a2ac2171c3e547d98a30e7977c5",
+      "tools": [
+       "use_pasted_text",
+       "search_books",
+       "get_person_recommendations",
+       "get_book_recommenders",
+       "get_series_reading_order",
+       "get_list",
+       "get_summary"
+      ],
+      "keyterms": 1,
+      "publicMatch": true
+     },
+     "heard": [
+      {
+       "clip": "Q2",
+       "heard": "Who recommends Sapiens?",
+       "exact": true,
+       "variantsUsed": [],
+       "counted": true,
+       "voiceToVoiceMs": 4477,
+       "agentReply": "Sapiens is recommended by thirty-two verified people, including Joe Rogan and Lex Fridman.",
+       "calls": [
+        {
+         "name": "get_book_recommenders",
+         "arguments": {
+          "title": "Sapiens"
+         },
+         "method": "local",
+         "isError": false
+        }
+       ]
+      }
+     ],
+     "mcpRequests": [
+      {
+       "tool": "get_book_recommenders",
+       "argsSha256": {
+        "title": "de5b3fb877ba2f149bc225052f449045e22935eb4d28e883fe33370ec981078f"
+       }
+      }
+     ],
+     "failures": []
+    }
+   ],
+   "verdicts": {
+    "Q2": "pass"
+   }
+  },
+  {
+   "scene": "C",
+   "url": "https://afg.ai/mcp",
+   "at": "2026-09-26T21:00:45.706Z",
+   "max": 4,
+   "clips": {
+    "Q3": {
+     "voice": "michael",
+     "file": "video/voices/Q3.wav",
+     "sha256": "23c4977f5f8defc80a72776b8c7bbcc3e8f2c77d4dec10c8f8540f86142e7174",
+     "ms": 2690,
+     "caption": "I want to run a spec check on a job contract.",
+     "say": "I want to run a spec check on a job contract."
+    },
+    "Q4": {
+     "voice": "michael",
+     "file": "video/voices/Q4.wav",
+     "sha256": "82bce38c71f5127e08451ebe1207bd0198abe4069791d690890adf01000ce53f",
+     "ms": 2730,
+     "caption": "Check the reputation of the wallet I pasted.",
+     "say": "Check the reputation of the wallet I pasted."
+    }
+   },
+   "sessions": [
+    {
+     "sessionId": "sess_150e5f7a28754416ba75cf4d1b82a730",
+     "at": "2026-09-26T21:00:47.958Z",
+     "greeting": {
+      "text": "Connected to AFG: Agent Fulfillment Guarantee (sandbox, test money only), with 15 tools available. What would you like to do?",
+      "audioMs": 8280
+     },
+     "setup": {
+      "sha256": "a50620e0662d75d62ef188f1ee11af4ffe5139003de4ea592ae7fe6d54fdb85d",
+      "tools": [
+       "find_tools",
+       "use_pasted_text",
+       "afg_get_reputation",
+       "afg_dispute",
+       "afg_prepare_signed_request",
+       "afg_sign_contract",
+       "afg_appeal",
+       "afg_contract_template",
+       "afg_submit",
+       "afg_create_wallet"
+      ],
+      "keyterms": 5,
+      "publicMatch": true
+     },
+     "heard": [
+      {
+       "clip": "Q3",
+       "heard": "I want to run a spec check on a job contract.",
+       "exact": true,
+       "variantsUsed": [],
+       "counted": true,
+       "voiceToVoiceMs": 2434,
+       "agentReply": "I can do that. Please provide the job contract you want me to check.",
+       "calls": [
+        {
+         "name": "find_tools",
+         "arguments": {
+          "query": "run a spec check on a job contract"
+         },
+         "method": "phase_change",
+         "phaseAfter": [
+          "find_tools",
+          "use_pasted_text",
+          "afg_post_job",
+          "afg_speccheck",
+          "afg_dispute",
+          "afg_sign_contract",
+          "afg_submit",
+          "afg_contract_template",
+          "afg_get_job",
+          "afg_prepare_signed_request"
+         ]
+        }
+       ]
+      },
+      {
+       "clip": "Q4",
+       "heard": "Check the reputation of the wallet I pasted.",
+       "exact": true,
+       "variantsUsed": [],
+       "counted": true,
+       "voiceToVoiceMs": 6250,
+       "agentReply": "That wallet has no recorded job history, with zero jobs completed or disputed as either a provider or a buyer.",
+       "calls": [
+        {
+         "name": "use_pasted_text",
+         "arguments": {},
+         "method": "paste"
+        },
+        {
+         "name": "find_tools",
+         "arguments": {
+          "query": "get reputation of a wallet address"
+         },
+         "method": "phase_change",
+         "phaseAfter": [
+          "find_tools",
+          "use_pasted_text",
+          "afg_get_reputation",
+          "afg_get_job",
+          "afg_sign_contract",
+          "afg_create_wallet",
+          "afg_discard_wallet",
+          "afg_post_job",
+          "afg_fund",
+          "afg_upload_artifact"
+         ]
+        },
+        {
+         "name": "afg_get_reputation",
+         "arguments": {
+          "address": "0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed"
+         },
+         "method": "local",
+         "isError": false
+        }
+       ]
+      }
+     ],
+     "mcpRequests": [
+      {
+       "tool": "afg_get_reputation",
+       "argsSha256": {
+        "address": "e066de5176c4f671c4d01441f2c9a6d8dcb4098b770f90b96f5bb2ce21b925cc"
+       }
+      }
+     ],
+     "failures": [],
+     "afterFindTools": {
+      "query": "run a spec check on a job contract",
+      "tools": [
+       "find_tools",
+       "use_pasted_text",
+       "afg_post_job",
+       "afg_speccheck",
+       "afg_dispute",
+       "afg_sign_contract",
+       "afg_submit",
+       "afg_contract_template",
+       "afg_get_job",
+       "afg_prepare_signed_request"
+      ],
+      "publicMatch": true,
+      "pasteKeyterms": [],
+      "keytermsAfterPaste": 6
+     }
+    },
+    {
+     "sessionId": "sess_95be7ff9c2c746a2a50df842e93caed0",
+     "at": "2026-09-26T21:01:29.284Z",
+     "greeting": {
+      "text": "Connected to AFG: Agent Fulfillment Guarantee (sandbox, test money only), with 15 tools available. What would you like to do?",
+      "audioMs": 8840
+     },
+     "setup": {
+      "sha256": "a50620e0662d75d62ef188f1ee11af4ffe5139003de4ea592ae7fe6d54fdb85d",
+      "tools": [
+       "find_tools",
+       "use_pasted_text",
+       "afg_get_reputation",
+       "afg_dispute",
+       "afg_prepare_signed_request",
+       "afg_sign_contract",
+       "afg_appeal",
+       "afg_contract_template",
+       "afg_submit",
+       "afg_create_wallet"
+      ],
+      "keyterms": 5,
+      "publicMatch": true
+     },
+     "heard": [
+      {
+       "clip": "Q3",
+       "heard": "I want to run a spec check on a job contract.",
+       "exact": true,
+       "variantsUsed": [],
+       "counted": true,
+       "voiceToVoiceMs": 2465,
+       "agentReply": "I can help you with that. Please provide the job contract you want me to check.",
+       "calls": [
+        {
+         "name": "find_tools",
+         "arguments": {
+          "query": "run a spec check on a job contract"
+         },
+         "method": "phase_change",
+         "phaseAfter": [
+          "find_tools",
+          "use_pasted_text",
+          "afg_post_job",
+          "afg_speccheck",
+          "afg_dispute",
+          "afg_sign_contract",
+          "afg_submit",
+          "afg_contract_template",
+          "afg_get_job",
+          "afg_prepare_signed_request"
+         ]
+        }
+       ]
+      },
+      {
+       "clip": "Q4",
+       "heard": "Check the reputation of the wallet I pasted.",
+       "exact": true,
+       "variantsUsed": [],
+       "counted": true,
+       "voiceToVoiceMs": 6285,
+       "agentReply": "That wallet has no recorded job outcomes yet, with zero jobs completed as either a provider or a buyer.",
+       "calls": [
+        {
+         "name": "use_pasted_text",
+         "arguments": {},
+         "method": "paste"
+        },
+        {
+         "name": "find_tools",
+         "arguments": {
+          "query": "check the reputation of a wallet address"
+         },
+         "method": "phase_change",
+         "phaseAfter": [
+          "find_tools",
+          "use_pasted_text",
+          "afg_get_reputation",
+          "afg_dispute",
+          "afg_post_job",
+          "afg_create_wallet",
+          "afg_submit",
+          "afg_discard_wallet",
+          "afg_speccheck",
+          "afg_get_job"
+         ]
+        },
+        {
+         "name": "afg_get_reputation",
+         "arguments": {
+          "address": "0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed"
+         },
+         "method": "local",
+         "isError": false
+        }
+       ]
+      }
+     ],
+     "mcpRequests": [
+      {
+       "tool": "afg_get_reputation",
+       "argsSha256": {
+        "address": "e066de5176c4f671c4d01441f2c9a6d8dcb4098b770f90b96f5bb2ce21b925cc"
+       }
+      }
+     ],
+     "failures": [],
+     "afterFindTools": {
+      "query": "run a spec check on a job contract",
+      "tools": [
+       "find_tools",
+       "use_pasted_text",
+       "afg_post_job",
+       "afg_speccheck",
+       "afg_dispute",
+       "afg_sign_contract",
+       "afg_submit",
+       "afg_contract_template",
+       "afg_get_job",
+       "afg_prepare_signed_request"
+      ],
+      "publicMatch": true,
+      "pasteKeyterms": [],
+      "keytermsAfterPaste": 6
+     }
+    }
+   ],
+   "verdicts": {
+    "Q3": "pass",
+    "Q4": "pass"
+   }
+  }
+ ]
+}

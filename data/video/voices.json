@@ -199,17 +199,32 @@
   "N7": {
    "id": "N7",
    "voice": "charles",
-   "text": "Speech gets identifiers wrong. In our tests, 0 of 9 spoken wallet addresses came through exact. So interpres never runs a tool on an identifier it only heard. Paste it, and the agent uses the exact text.",
+   "text": "Speech gets identifiers wrong. In our tests, 0 of 9 spoken wallet addresses came through exact, and before the gate, 5 wrong ones reached the server. So interpres never runs a tool on an identifier it only heard. Paste it, and the agent uses the exact text.",
    "file": "video/voices/N7.wav",
    "path": "greeting",
    "parts": 1,
    "attempts": [
     {
      "sessionIds": [
-      "sess_67509f3979984060bf6acbf00429e00c"
+      "sess_b1cee791708b4229b80e61cb0b3f1831"
      ],
-     "ms": 14280,
-     "transcript": "Speech gets identifiers wrong. In our tests, 0 of 9 spoken wallet addresses came through exact. So Interprez never runs a tool on an identifier it only heard. Paste it, and the agent uses the exact text.",
+     "ms": 17780,
+     "transcript": "Speech gets identifiers wrong. In our tests, 0 of 9 spoken wallet addresses came through exact, and before the gate, 5 wrong ones reached the server. So Interprete never runs a tool on an identifier it only heard. Paste it, and the agent uses the exact text.",
+     "speechModel": "universal-3-5-pro,universal-2",
+     "pass": false,
+     "firstDifference": {
+      "at": 27,
+      "expected": "interpres never runs a",
+      "heard": "interprete never runs a"
+     },
+     "variantsUsed": []
+    },
+    {
+     "sessionIds": [
+      "sess_e116b4adba234c9d94cf41100d8bd9c9"
+     ],
+     "ms": 17800,
+     "transcript": "Speech gets identifiers wrong. In our tests, 0 of 9 spoken wallet addresses came through exact, and before the gate, 5 wrong ones reached the server. So Interprez never runs a tool on an identifier it only heard— paste it, and the agent uses the exact text.",
      "speechModel": "universal-3-5-pro,universal-2",
      "pass": true,
      "variantsUsed": [
@@ -218,7 +233,7 @@
     }
    ],
    "pass": true,
-   "checked": true
+   "checked": "strict"
   },
   "N8": {
    "id": "N8",
@@ -267,24 +282,74 @@
   "N10": {
    "id": "N10",
    "voice": "charles",
-   "text": "Then we asked thirty of them one question each, out loud and untuned. Fourteen answered from live data. Median voice to voice was 2.6 seconds, and the whole run cost 60 cents.",
+   "text": "Then we gave thirty of them one spoken question each, untuned. Twenty-nine sessions ran. Every one answered out loud, at a median of 2.6 seconds, and fourteen answered from live data. The whole run cost 60 cents.",
    "file": "video/voices/N10.wav",
    "path": "greeting",
    "parts": 1,
    "attempts": [
     {
      "sessionIds": [
-      "sess_6811d6554bea43eda3002a151435449c"
+      "sess_36e5660bff2b482eab6cc28dea496490"
      ],
-     "ms": 12140,
-     "transcript": "Then we asked 30 of them one question each, out loud and untuned. 14 answered from live data. Median voice-to-voice was 2.6 seconds, and the whole run cost 60 cents.",
+     "ms": 15890,
+     "transcript": "Then we gave 30 of them one spoken question each, untuned. 29 sessions ran. Everyone answered out loud at a median of 2.6 seconds, and 14 answered from live data. The whole run cost 60 cents.",
      "speechModel": "universal-3-5-pro,universal-2",
-     "pass": true,
+     "pass": false,
+     "firstDifference": {
+      "at": 15,
+      "expected": "every one answered out",
+      "heard": "everyone answered out loud"
+     },
+     "variantsUsed": []
+    },
+    {
+     "sessionIds": [
+      "sess_5b30d86ffc724f8faf7d5c796f9dc54f"
+     ],
+     "ms": 15010,
+     "transcript": "Then we gave 30 of them one spoken question each, untuned. 29 sessions ran. Everyone answered out loud, at a median of 2.6 seconds, and 14 answered from live data. The whole run cost 60 cents.",
+     "speechModel": "universal-3-5-pro,universal-2",
+     "pass": false,
+     "firstDifference": {
+      "at": 15,
+      "expected": "every one answered out",
+      "heard": "everyone answered out loud"
+     },
+     "variantsUsed": []
+    },
+    {
+     "sessionIds": [
+      "sess_366ccc55607c4ab59372f1a36d5b3cd7"
+     ],
+     "ms": 15220,
+     "transcript": "Then we gave 30 of them one spoken question each, untuned. 29 sessions ran. Everyone answered out loud, at a median of 2.6 seconds, and 14 answered from live data. The whole run cost 60 cents.",
+     "speechModel": "universal-3-5-pro,universal-2",
+     "pass": false,
+     "firstDifference": {
+      "at": 15,
+      "expected": "every one answered out",
+      "heard": "everyone answered out loud"
+     },
+     "variantsUsed": []
+    },
+    {
+     "sessionIds": [
+      "sess_09fa578cb1144d28803586b6fc7a44fb"
+     ],
+     "ms": 15580,
+     "transcript": "Then we gave 30 of them one spoken question each, untuned. 29 sessions ran. Everyone answered out loud, at a median of 2.6 seconds, and 14 answered from live data. The whole run cost 60 cents.",
+     "speechModel": "universal-3-5-pro,universal-2",
+     "pass": false,
+     "firstDifference": {
+      "at": 15,
+      "expected": "every one answered out",
+      "heard": "everyone answered out loud"
+     },
      "variantsUsed": []
     }
    ],
-   "pass": true,
-   "checked": true
+   "pass": false,
+   "checked": "strict"
   },
   "N11": {
    "id": "N11",
@@ -401,8 +466,93 @@
      "variantsUsed": []
     }
    ],
-   "pass": false,
-   "checked": true
+   "pass": true,
+   "checked": "info",
+   "note": "Pre-recorded check, information only since round F2a: 4 tries all differ on SEO. Each try overwrote the file, so the clip on disk is try 4 (sess_e9acf651d6374ccdb5a4c90e5eb371b1). Judged by the live gate instead: data/video/caller-gate.json."
+  },
+  "Q2": {
+   "id": "Q2",
+   "voice": "michael",
+   "text": "Who recommends Sapiens?",
+   "file": "video/voices/Q2.wav",
+   "path": "greeting",
+   "parts": 1,
+   "attempts": [
+    {
+     "sessionIds": [
+      "sess_e50f219ba48b4dcbb9ceae6ef2c26fef"
+     ],
+     "ms": 1960,
+     "transcript": "Who recommends Sapiens?",
+     "speechModel": "universal-3-5-pro,universal-2",
+     "pass": true,
+     "variantsUsed": []
+    }
+   ],
+   "pass": true,
+   "checked": "info"
+  },
+  "Q3": {
+   "id": "Q3",
+   "voice": "michael",
+   "text": "I want to run a spec check on a job contract.",
+   "file": "video/voices/Q3.wav",
+   "path": "greeting",
+   "parts": 1,
+   "attempts": [
+    {
+     "sessionIds": [
+      "sess_23fb8a1d01f5470a912dcd688f5470d4"
+     ],
+     "ms": 2690,
+     "transcript": "I want to run a spec check on a job contract.",
+     "speechModel": "universal-3-5-pro,universal-2",
+     "pass": true,
+     "variantsUsed": []
+    }
+   ],
+   "pass": true,
+   "checked": "info"
+  },
+  "Q4": {
+   "id": "Q4",
+   "voice": "michael",
+   "text": "Check the reputation of the wallet I pasted.",
+   "file": "video/voices/Q4.wav",
+   "path": "greeting",
+   "parts": 1,
+   "attempts": [
+    {
+     "sessionIds": [
+      "sess_ca7ed482e9294680ada53eb949f23536"
+     ],
+     "ms": 2730,
+     "transcript": "Check the reputation of the wallet I pasted.",
+     "speechModel": "universal-3-5-pro,universal-2",
+     "pass": true,
+     "variantsUsed": []
+    }
+   ],
+   "pass": true,
+   "checked": "info"
+  },
+  "Q5": {
+   "id": "Q5",
+   "voice": "michael",
+   "text": "What is the reputation of wallet 0 x 5 a a e b 6 0 5 3 f 3 e 9 4 c 9 b 9 a 0 9 f 3 3 6 6 9 4 3 5 e 7 e f 1 b e a e d?",
+   "file": "video/voices/Q5.wav",
+   "path": "greeting",
+   "parts": 1,
+   "attempts": [
+    {
+     "sessionIds": [
+      "sess_156d76e4c73742a6afca5a053d303f29"
+     ],
+     "ms": 14490
+    }
+   ],
+   "pass": true,
+   "checked": "none"
   }
  }
 }
