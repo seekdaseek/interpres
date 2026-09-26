@@ -1929,3 +1929,42 @@ Both pages were re-read through AssemblyAI's docs MCP server.
 ```
 $ npm test    ℹ tests 336  ℹ pass 336  ℹ fail 0
 ```
+
+---
+
+## 2026-09-26 - task 8: packages/core as `interpres` on npm, dry run only
+
+`npm view interpres` still answers 404, so the name is free.
+
+**It ships compiled JavaScript.** Node strips TypeScript types only outside
+`node_modules`, so the `.ts` sources this monorepo runs directly would not load
+for anyone who installed them.
+- `packages/core/tsconfig.npm.json` compiles `src` with
+  `rewriteRelativeImportExtensions`: 31 `./x.js` specifiers in the output, 0
+  `.ts`.
+- It builds with `types: []`, which proves core needs no Node types: it runs in
+  the browser too.
+- `scripts/npm-pack.ts` stages `build/npm/interpres/` (gitignored): `dist/`, a
+  package.json named `interpres` (ESM, `exports` with types), the core README
+  with its usage example, `LICENSE` and `THIRD_PARTY_LICENSES.md`.
+- It then **imports the compiled JS with no TypeScript anywhere** and runs AFG's
+  fixture through it: 15 tools converted, the first phase shows 10, and
+  find_tools reveals 10.
+- Last, `npm pack --dry-run`.
+
+**One size fix on the way.** TypeScript inferred the whole 80 KB word string as a
+literal type, so `english-10k.d.ts` was 81 KB. The generator now declares it
+`: string`: regenerated, one changed line, 499 B. The package went from
+131.2 kB to 93.8 kB.
+
+```
+npm notice name: interpres
+npm notice version: 0.1.0
+npm notice filename: interpres-0.1.0.tgz
+npm notice package size: 93.8 kB
+npm notice unpacked size: 247.1 kB
+npm notice total files: 40
+```
+
+Not published: Sergiu publishes it himself (npm login with web 2FA), from
+`build/npm/interpres` after `node scripts/npm-pack.ts`.
