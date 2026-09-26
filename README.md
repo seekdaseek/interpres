@@ -156,29 +156,40 @@ and returns at most four of them in document order. Every sentence it speaks
 appears in the tool output; it cannot invent a fact.
 
 **Speech never waits on the LLM Gateway.** Gateway refinement is off unless
-`SHAPER_REFINE=on`, because it was measured and found to cost audible silence:
-across 20 tool-calling turns of real speech, the agent never spoke a transition
-phrase before calling a tool (0 of 20), so the time between `tool.call` and the
-result is silence the caller hears. With refinement on, the Gateway added
-582-1,133 ms of it to every call it refined, and median voice-to-voice rose from
-4,476 ms to 5,208 ms. When switched on, it still cannot fail a turn: the local
-answer is computed first, the Gateway gets a hard 1.5 s to replace it, and a
-circuit breaker skips it for 60 s after any `429`.
+`SHAPER_REFINE=on`, because it was measured and found to cost audible silence.
+The agent almost never speaks before a tool result, so the time between
+`tool.call` and the result is silence the caller hears, and refinement adds to
+it ([docs/REFINE.md](docs/REFINE.md), recounted from the committed runs):
 
-**Which Gateway models this account can reach** (measured 2026-09-26, Free plan
-with hackathon credits):
+<!-- quote:refine-ab -->
+| | refinement off | refinement on |
+| --- | ---: | ---: |
+| tool-calling turns | 6 | 6 |
+| calls the Gateway refined | 0 | 4 |
+| Gateway time per refined call | - | 775 ms to 857 ms |
+| median voice-to-voice | 4,016 ms | 4,678 ms |
+| every spoken run: tool-calling turns with any audio before the tool result | 1 of 72 | |
+| every spoken run: Gateway time per refined call | | 775 ms to 1,133 ms (12 calls) |
+<!-- /quote:refine-ab -->
 
+When switched on, it still cannot fail a turn: the local answer is computed
+first, the Gateway gets a hard 1.5 s to replace it, and a circuit breaker skips
+it for 60 s after any `429`.
+
+**Which Gateway models this account can reach** (Free plan with hackathon
+credits; [docs/GATEWAY.md](docs/GATEWAY.md), measured by `scripts/gateway-models.ts`):
+
+<!-- quote:gateway-models -->
 | model id | result |
-|---|---|
-| `qwen3.5-4b-32k-fast` | **200 - used for refinement** |
-| `gemini-2.5-flash`, `gemini-3.8-flash` | 400 "Your account does not have access to this LLM Gateway model" |
-| `claude-haiku-4-5-20251001` | 400, same |
-| `gpt-5-nano`, `gpt-oss-20b` | 400, same |
-| `gemma-4-31b`, `nemotron-nano-9b-v2`, `deepseek-v4.1-flash` | 400, same |
+| --- | --- |
+| `qwen3.5-4b-32k-fast` | 200 |
+| `gemini-2.5-flash`, `gemini-3.8-flash`, `claude-haiku-4-5-20251001`, `gpt-5-nano`, `gpt-oss-20b`, `gemma-4-31b`, `nemotron-nano-9b-v2`, `deepseek-v4.1-flash` | 400 "Your account does not have access to this LLM Gateway model" |
+| `qwen3.5-4b-32k-fast`, six calls in a row | 6 of 6 answered 429 |
+<!-- /quote:gateway-models -->
 
-`qwen3.5-4b-32k-fast` is the model AssemblyAI serves itself. It is also
-rate-limited hard on this plan: 4 of 6 sequential calls returned
-`429 "too many requests for this action"`, which is why the breaker exists.
+`qwen3.5-4b-32k-fast`, the model AssemblyAI serves itself, is the one used for
+refinement and starter questions. It is also rate-limited hard on this plan (the
+last row), which is why the breaker exists.
 Set `SHAPER_REFINE=on` to use it, and `SHAPER_MODEL` to use another model on an
 account that can reach one.
 
@@ -295,6 +306,9 @@ server. Two behaviours differ from it, and both reproduce with
 - Session History agrees: the turns that call a tool have no reply start and no
   time to first audio.
 - A prompt line asking for a phrase changed nothing either (6 of 6 turns silent).
+- Over every spoken run in `data/`, the count is in the table under "Result
+  shaping" above: one warm A/B turn (`sess_42dfe7cdb5a34219ac99836d02468a42`)
+  did speak before calling `search_assembly_ai`.
 
 So a tool call is silence the caller hears; warm connections (above) are what
 shorten it. To reproduce, run `node --env-file=.env scripts/e2e-audio.ts` and read

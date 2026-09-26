@@ -2513,3 +2513,76 @@ snapshot before and after: 45 rows each time, one line different (the interpres 
 | this round's five QA sessions | 5 | 429.2 s | $0.54 |
 
 Cost is computed at the published $4.50/hr. Every QA session closed by `client_end`.
+
+---
+
+## 2026-09-26 - round E, §5: rules and submission check
+
+Report only, except where a check failed.
+
+**lablab requirements:**
+- **Built on AssemblyAI:** the Voice Agent API, the LLM Gateway and Session History.
+- **Commit window:** the first commit is `2914c43`, 2026-09-26T11:43:40+03:00, inside Sep 1-30.
+  There are 44 commits, all by `seekdaseek <ochinimus@gmail.com>`, and the contributors list shows
+  seekdaseek only. All of them are on Sep 26 so far; the brief wants them spread through Sep 30.
+- **MIT and public:** `LICENSE` has the same words as the SPDX MIT text. GitHub detects it as
+  `{"key":"mit","name":"MIT License"}`, and the repo is `PUBLIC`. An earlier `--jq` read "none" only
+  because it asked for a field that object does not have.
+- **Live URL:** https://interpres.ochinimus.app answers 200.
+- **Video (5 minutes, 300 MB at most):** not recorded yet. Sergiu records it after this round.
+- **Cover and slides:** `docs/cover.png` is 1920x1080, so 16:9. There is no slides PDF yet, and none
+  is tracked.
+
+**Numbers: two README claims did not trace, and were fixed.**
+
+These trace to data:
+- the three quoted tables;
+- the warm A/B (`scripts/warm-ab.ts` reproduces 867/481, 806/311 and 3,504/3,020 ms over 11 turns
+  each way);
+- "0 of 7" (`scripts/spoken-identifiers.ts`);
+- the four address failure modes (693 zeros in `e2e-audio-afg-baseline.json`; 40, 44 and 42
+  characters in the afg nocarry/phase files);
+- 14 of 14 (`e2e-audio-execmode.json`);
+- 446 chunks, 17.8 s and 18.3 (`e2e-audio-ended.json`);
+- 6 of 6 (`e2e-audio-phrase.json`);
+- 3/3 against 0/3 (`e2e-audio-ochinimus-ab.json`);
+- 20-50 KB: the data holds raw results from 20,000 to 55,074 characters.
+
+The rest of the prose numbers are code constants.
+
+1. **The Gateway-refinement figures did not trace.** The README said "582-1,133 ms" and "4,476 ms to
+   5,208 ms" over "20 tool-calling turns (0 of 20)". Recounted from the committed runs:
+   - the one like-for-like pair (`refine-off` / `refine-on`, the same six questions) gives 4,016 ms
+     against 4,678 ms, with 775-857 ms per refined call;
+   - no file holds 582 ms;
+   - across every spoken run, 1 of 72 tool-calling turns did have audio before the result
+     (`sess_42dfe7cd...`, warm A/B), so "never" was also too strong.
+
+   `scripts/refine-report.ts` now writes `docs/REFINE.md` from the data, and the README quotes its
+   table (`refine-ab`) instead of typed figures. The `config.ts` comment that repeated them now
+   points there.
+2. **The Gateway model table and "4 of 6 sequential calls returned 429"** existed only in an earlier
+   BUILDLOG entry, measured with curl.
+   - Re-measured with `scripts/gateway-models.ts` into `data/gateway-models-2026-09-26.json` and
+     `docs/GATEWAY.md` (19:13:32Z): `qwen3.5-4b-32k-fast` 200; the other eight 400 "Your account
+     does not have access to this LLM Gateway model"; six calls in a row, 6 of 6 answered 429. The
+     README quotes the table (`gateway-models`).
+   - The first run read the generic `message` ("invalid request body") instead of
+     `metadata.errors[0]`; fixed before the recorded run.
+   - The run just before the recorded one had tripped qwen's rate limit, so its access probe itself
+     answered 429. It waited until qwen answered 200 again (about 30 s).
+3. **The count behind "every recorded run ... 0 times out of 7" (JUDGE_GUIDE) is the e2e-audio runs.**
+   This round's two browser QA runs also misheard the address (`0x5AEB...B8ED`). Not changed: the
+   figure traces to its script, and the new runs agree with it.
+
+**npm:**
+- `npm whoami` answers `E401 Unauthorized`: not logged in.
+- `npm view interpres` answers 404, so the name is free.
+- `node scripts/npm-pack.ts` exits 0: "smoke: 15 tools converted; first phase shows 10; find_tools
+  reveals 10", and `npm pack --dry-run` gives `interpres-0.1.0.tgz`, 42 files, 96.1 kB (the URL
+  normaliser added 2 files).
+- Not published.
+
+```
+$ npm test    ℹ tests 377  ℹ pass 377  ℹ fail 0
+```

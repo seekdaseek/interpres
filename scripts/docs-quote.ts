@@ -8,6 +8,8 @@
  *   sweep-headline      docs/SWEEP.md, "## Headline"
  *   voice-sweep-counts  docs/VOICE-SWEEP.md, "## Counts"
  *   proof-summary       docs/PROOF.md, the table at the top
+ *   refine-ab           docs/REFINE.md, the table at the top
+ *   gateway-models      docs/GATEWAY.md, the table at the top
  *
  *   node scripts/docs-quote.ts
  */
@@ -40,6 +42,8 @@ async function main(): Promise<void> {
     'sweep-headline': tableAfter(await readFile('docs/SWEEP.md', 'utf8'), '## Headline'),
     'voice-sweep-counts': tableAfter(await readFile('docs/VOICE-SWEEP.md', 'utf8'), '## Counts'),
     'proof-summary': tableAfter(await readFile('docs/PROOF.md', 'utf8'), null),
+    'refine-ab': tableAfter(await readFile('docs/REFINE.md', 'utf8'), null),
+    'gateway-models': tableAfter(await readFile('docs/GATEWAY.md', 'utf8'), null),
   };
   for (const file of ['README.md', 'JUDGE_GUIDE.md']) {
     let doc = await readFile(file, 'utf8');

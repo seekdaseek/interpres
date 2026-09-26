@@ -29,12 +29,12 @@ export const config = {
   /**
    * Gateway refinement, OFF unless SHAPER_REFINE=on.
    *
-   * Measured 2026-09-26 over 20 tool-calling turns of real speech: the agent
-   * never spoke a transition phrase before a tool call (0 of 20), so every
-   * millisecond between tool.call and tool.result is silence the caller hears.
-   * With refinement on, the Gateway added 582-1133 ms of it per shaped call and
-   * moved median voice-to-voice from 4476 ms to 5208 ms. Off, speech never waits
-   * on the Gateway at all. The breaker and the 1.5 s deadline still apply when on.
+   * Measured Sep 26 and recounted from the committed runs in docs/REFINE.md:
+   * the agent almost never speaks before a tool result, so every millisecond
+   * between tool.call and tool.result is silence the caller hears, and with the
+   * same six questions refinement added Gateway time to each call it refined
+   * and raised median voice-to-voice. Off, speech never waits on the Gateway at
+   * all. The breaker and the 1.5 s deadline still apply when on.
    */
   shaperRefine: process.env.SHAPER_REFINE === 'on',
 
