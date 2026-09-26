@@ -37,7 +37,9 @@ module.exports = {
         RATE_PER_IP_HOUR: '6',
         RATE_GLOBAL_DAY: '100',
       },
-      max_memory_restart: '300M',
+      // About 1 GB is free on the box: a leak here must never starve the
+      // protected services, so PM2 recycles this process first.
+      max_memory_restart: '250M',
       autorestart: true,
       time: true,
     },

@@ -1455,3 +1455,13 @@ the same SWEEP.md and a byte-identical CSV.
 
 A per-server Markdown table was tried first: 7,686 rows, 728 KB, unreadable. The
 CSV replaces it, and SWEEP.md says so.
+
+---
+
+## 2026-09-26 - CHECKPOINT C go: the ecosystem gets a tighter memory cap
+
+Sergiu's go approved the dedicated tunnel, the 100/day cap and port 3031, and
+asked for `max_memory_restart: '250M'` on `interpres`. The box has about 1 GB
+free (999 MB available, 1,717 of 2,047 MB swap in use at 13:46 UTC per his
+solwatch check), so a leak here must be recycled before it can starve the
+protected services. Committed before shipping, so HEAD is what runs.
