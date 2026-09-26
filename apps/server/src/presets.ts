@@ -71,6 +71,7 @@ export const PRESETS: Preset[] = [
     asks: [
       'What books does Bill Gates recommend?',
       'What is the reading order for the Dune series?',
+      'Who recommends Sapiens?',
     ],
   },
   {

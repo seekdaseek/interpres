@@ -2033,3 +2033,42 @@ row.
 ```
 $ npm test    ℹ tests 337  ℹ pass 337  ℹ fail 0
 ```
+
+---
+
+## 2026-09-26 - step 10: the judge-facing docs
+
+- **`JUDGE_GUIDE.md`**, a five-minute path:
+  - open the live URL, click Most Recommended Books, and ask its three tested
+    questions while watching the tool timeline;
+  - try the paste gate on AFG;
+  - read the three measured tables;
+  - run it locally, including the one-line spoken proof.
+  - The third Books question, "Who recommends Sapiens?", was proved spoken
+    before it went in: `sess_89290181f71448059d126d36bdd5b446`,
+    `get_book_recommenders`, 4,435 ms voice-to-voice, "Sapiens is recommended by
+    thirty-two verified people, including Joe Rogan and Lex Fridman."
+- **README restructured:**
+  - the live URL;
+  - a mermaid diagram of the three hops (token, Voice Agent WebSocket, gated MCP
+    calls through the server);
+  - "AssemblyAI features used", "The numbers", "Limits and security", "Run it";
+  - the measured sections kept. The paragraph about a spoken "yes" confirming the
+    last four characters was removed, because D4 made it untrue.
+- **`docs/PROOF.md`** from `scripts/proof.ts`: every `session_id` in `data/*.json`
+  (93), read back from Session History. The success row is labelled as what it
+  is: `is_error` flags only what the agent received as an error, and interpres
+  returns a tool's own error as a speakable result.
+
+**No figure is retyped.** `scripts/docs-quote.ts` copies the SWEEP.md headline,
+the VOICE-SWEEP.md counts and the PROOF.md summary between markers in both
+documents.
+- Its first version reported success and filled nothing: the regex ate the
+  newline it then required, and the check looked only for the markers. It now
+  uses a function replacer, because the tables hold `$4.50` and `$0.60`, and it
+  verifies each block landed.
+- A diff shows all six quoted tables are identical to their sources.
+
+```
+$ npm test    ℹ tests 337  ℹ pass 337  ℹ fail 0
+```

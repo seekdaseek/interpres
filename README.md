@@ -1,7 +1,12 @@
 # interpres
 
-**Make any MCP server talkable.** Paste a remote MCP server URL, press Talk, and
-AssemblyAI's Voice Agent API calls that server's tools live.
+**Make any MCP server talkable.** Paste a remote MCP server's URL, press Talk, and
+AssemblyAI's Voice Agent API calls that server's tools live, out loud.
+
+- **Live:** <https://interpres.ochinimus.app>
+- **Judges:** [JUDGE_GUIDE.md](JUDGE_GUIDE.md), a five-minute path through it.
+- No microphone? The page has "Watch a real session": a recorded conversation,
+  replayed with its transcript and tool calls appearing at their real times.
 
 ## Why
 
@@ -13,6 +18,106 @@ $18.00/hr) and never mentions MCP, so every team that migrates silently loses
 its MCP tools.
 
 interpres is the missing adapter.
+
+## How it works
+
+```mermaid
+flowchart LR
+  page["Browser page<br/>gate, paste box, idle clock"]
+  server["interpres server<br/>127.0.0.1, behind a Cloudflare tunnel"]
+  va["AssemblyAI Voice Agent API"]
+  gw["AssemblyAI LLM Gateway"]
+  mcp["Any remote MCP server<br/>no auth"]
+  page -->|"GET /api/token"| server
+  page <-->|"speech, tool.call, tool.result, session.update"| va
+  page -->|"/api/mcp/connect, /api/mcp/call"| server
+  server -->|"SSRF-guarded, one warm client per session"| mcp
+  server -->|"starter questions"| gw
+```
+
+1. **Connect.** The server asks the MCP server for its tools once (`initialize` and
+   `tools/list`) and converts every tool into a Voice Agent function tool. It
+   plans the first phase: at most 10 tools, with `find_tools` to swap in the rest.
+   The LLM Gateway writes three starter questions for the page.
+2. **Talk.** The browser opens the Voice Agent WebSocket with a temporary token.
+   The API key never leaves the server. Speech goes in, and tool calls come back.
+3. **Call.** Every tool call passes the gate in the browser, then goes to
+   `/api/mcp/call`. The server calls the MCP tool on a warm client through the
+   SSRF guard and shapes the result into at most 600 characters of speech. The
+   browser returns it as `tool.result`.
+
+## AssemblyAI features used
+
+- **Voice Agent API:**
+  - a WebSocket session with PCM16 audio at 24 kHz;
+  - client-side function tools, with `execution_mode` set on every tool;
+  - `session.update` mid-session, to swap tools, keyterms and prompt;
+  - `input.keyterms`, built from the catalog and from what the person pastes;
+  - the greeting, barge-in (`reply.done` with status `interrupted`) and `session.end`;
+  - temporary tokens, with `expires_in_seconds` and `max_session_duration_seconds`.
+- **Session History:** turn timelines and recordings, read back for
+  `docs/PROOF.md`, the spoken sweep and the replay.
+- **LLM Gateway** (`qwen3.5-4b-32k-fast`): starter questions at connect time.
+  Result refinement is also available, and off by default.
+
+## The numbers
+
+Copied verbatim from the generated pages by `scripts/docs-quote.ts`, never retyped.
+
+**The registry sweep** ([docs/SWEEP.md](docs/SWEEP.md)): every server in the official MCP
+registry with a remote, probed without auth.
+
+<!-- quote:sweep-headline -->
+|  | count |
+| --- | ---: |
+| Registry entries (every version) | 119,873 |
+| Unique servers (latest version each) | 36,251 |
+| With a streamable-http or sse remote: probed | 22,217 |
+| Distinct hosts probed | 14,675 |
+| `ok`: listed its tools without auth | 12,012 (54.1%) |
+| ... on distinct hosts | 7,347 |
+| `ok` with at least one tool | 12,006 |
+| `ok` with more than 10 tools (find_tools engages) | 5,474 (45.6%) |
+| Tools per `ok` server: median / 90th percentile / max | 9 / 31 / 627 |
+| `ok` by transport | streamable-http 11,969, sse 43 |
+| Tools listed by `ok` servers | 202,191 |
+| Tools converted to Voice Agent function tools | 202,191 (100.0%) |
+| Converted tools carrying spoken-format hints | 36,059 (17.8%) |
+| `ok` again at the recheck | 11,578 of 12,012 (96.4%); 99.5% without the host that rate-limited the sweep |
+<!-- /quote:sweep-headline -->
+
+**The spoken sweep** ([docs/VOICE-SWEEP.md](docs/VOICE-SWEEP.md)): the first 30 no-auth
+servers with a read-only tool, in registry order, each asked a question out loud.
+
+<!-- quote:voice-sweep-counts -->
+| | count |
+| --- | ---: |
+| servers attempted | 30 |
+| connected | 30 |
+| starter from the LLM Gateway / from templates | 29 / 1 |
+| voice sessions run | 29 |
+| session failed to open (the API's own session.error) | 1 |
+| a tool was called | 17 |
+| MCP call succeeded / tool answered with an error / held by the gate | 14 / 3 / 0 |
+| the agent answered out loud | 29 |
+| median voice-to-voice, answered turns | 2597 ms |
+| session time, and its cost at $4.50/hr | 482 s, $0.60 |
+<!-- /quote:voice-sweep-counts -->
+
+**Session History** ([docs/PROOF.md](docs/PROOF.md)): every recorded session, read back
+from AssemblyAI.
+
+<!-- quote:proof-summary -->
+| | |
+| --- | ---: |
+| sessions | 93 |
+| tool calls | 136 |
+| tool calls answered with no error flag (Session History `is_error`) | 136 of 136 (100.0%) |
+| median tool latency | 936 ms (n=135) |
+| median time to first audio | 881 ms (n=14 turns that report it) |
+| session time | 2307 s |
+| cost, computed from the published $4.50/hr (not read from a bill) | $2.88 |
+<!-- /quote:proof-summary -->
 
 ## Result shaping, and the LLM Gateway
 
@@ -52,6 +157,13 @@ rate-limited hard on this plan: 4 of 6 sequential calls returned
 `429 "too many requests for this action"`, which is why the breaker exists.
 Set `SHAPER_REFINE=on` to use it, and `SHAPER_MODEL` to use another model on an
 account that can reach one.
+
+**Where the Gateway does run by default is off the speech path: starter
+questions.** At connect time it writes three questions a person could say to the
+server, from its read-only tools only. They appear as "Try asking" chips, marked
+with their source. When the breaker is open, or on a 429, a timeout or unusable
+output, templates built from the tools' own descriptions stand in, and the page
+says so.
 
 ## Warm MCP connections
 
@@ -139,11 +251,6 @@ word parts also become keyterms, which fixes names: "check ochinimus dot app"
 was transcribed correctly 3 times out of 3 with the pasted keyterm, and 0 out of 3
 without it (heard as "aginimus").
 
-One limit, measured: a spoken "yes" after hearing only the last four characters
-does not verify the middle. The confirmed spoken address above still carried its
-`c8e` -> `cad` error, because the last four were right. Read the value on the
-card - or paste it.
-
 ## Measured against the docs
 
 AssemblyAI's documentation was re-read on 2026-09-26 through its own docs MCP
@@ -181,22 +288,63 @@ To reproduce, run `node --env-file=.env scripts/e2e-audio.ts --preset <url> --sa
 "<question>"`: every result now keeps the server's `session.ended` verbatim, under
 `ended`. Take `transcript.user` as the proof that audio arrived.
 
-## Tests
+## Limits and security
+
+- **No-auth servers only.** interpres never sends a credential to an MCP server,
+  and the AssemblyAI key stays on the server: the browser gets a temporary token.
+- **The SSRF guard** covers every request either MCP transport makes:
+  - https only;
+  - every resolved address must be publicly routable, and the socket is pinned
+    to those addresses;
+  - redirects are refused;
+  - a 10 s timeout and a 512 KB response cap;
+  - warm hosts are verified again every 30 s.
+- **Spend:**
+  - 6 sessions per IP per hour and 100 per UTC day;
+  - 300 s per session;
+  - a session ends after 60 s in which nobody speaks.
+  - When the cap is hit, the page plays the recorded session instead of an error.
+- **Nothing misheard runs:** see "Identifiers and state-changing tools" above.
+  Digit-only identifiers are not gated yet.
+- **Privacy:** logs hold tool names and timings, never an IP address. The public
+  status endpoint shows hosts, never full URLs or what anyone said.
+- **Measured limits:**
+  - a tool call is silence the caller hears (see "Measured against the docs");
+  - the LLM Gateway rate-limits this account, and templates stand in;
+  - a phase shows at most 10 tools.
+
+## Run it
 
 ```bash
-npm test            # 290 tests, no network needed: runs offline
-npm run test:live   # 6 more that reach www.assemblyai.com and afg.ai
+npm ci && npm run build
 ```
 
-`npm test` is hermetic: it passes inside a macOS sandbox that denies all
-outbound network (`sandbox-exec -p '(version 1)(allow default)(deny network-outbound)' npm test`),
-where the live suite fails 6 of 6.
+```bash
+npm run dev:local
+```
 
-## Status
+The second command serves the app at <http://localhost:3030>. First put
+`ASSEMBLYAI_API_KEY=...` in a `.env` file at the repo root; it never reaches the
+browser.
 
-Under construction for the lablab.ai AssemblyAI Voice Agent Hackathon
-(submissions close Wed Sep 30 2026). See `BUILDLOG.md` for what is built and
-what is proven.
+```bash
+npm test
+```
+
+`npm test` runs every unit and protocol test with no network. It passes in a macOS
+sandbox that denies all outbound traffic except to localhost:
+`sandbox-exec -p '(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip "localhost:*"))' npm test`.
+`npm run test:live` adds the tests that reach real servers.
+
+```bash
+node --env-file=.env scripts/e2e-audio.ts --preset https://mostrecommendedbooks.com/api/mcp --say "Who recommends Sapiens?"
+```
+
+That is the main proof path: real speech from macOS `say`, streamed into a live
+session.
+
+The package in `packages/core` is staged for npm as `interpres` by
+`node scripts/npm-pack.ts`.
 
 ## License
 
