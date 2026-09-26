@@ -278,11 +278,11 @@ export class VoiceSession {
       };
     }
     // Nothing misheard gets executed: an identifier that did not come from the
-    // keyboard or a tool, or an unconfirmed state change, stops here.
+    // keyboard or a tool waits for a paste, and an unconfirmed state change for a yes.
     const decision = this.gate.check(call.name, call.arguments, Date.now());
     if (decision.action !== 'execute') {
       this.ui.gateHeld(call, decision);
-      return { result: decision.result, meta: { spoken: decision.card.say, method: `held: ${decision.action === 'confirm' ? decision.trigger : 'invalid'}` } };
+      return { result: decision.result, meta: { spoken: decision.card.say, method: `held: ${decision.action === 'confirm' ? 'changes state' : decision.action}` } };
     }
     if (decision.confirmed) this.ui.gateReleased(call);
     const r = await postJson<ToolOutcome & { result: string }>('/api/mcp/call', {

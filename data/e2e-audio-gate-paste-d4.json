@@ -1,0 +1,87 @@
+{
+  "at": "2026-09-26T14:01:22.858Z",
+  "case": "gate-paste",
+  "sessionId": "sess_5ddb040c77e24c3181d6d7cb60799b10",
+  "pastedSha": "e066de5176c4f671c4d01441f2c9a6d8dcb4098b770f90b96f5bb2ce21b925cc",
+  "assertions": {
+    "usedPasteTool": true,
+    "reachedTheTool": true,
+    "sha256Matches": true,
+    "serverEchoedTheExactValue": true,
+    "notGated": true
+  },
+  "mcpRequests": [
+    {
+      "tool": "afg_get_reputation",
+      "args": {
+        "address": "0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed"
+      },
+      "sha256": {
+        "address": "e066de5176c4f671c4d01441f2c9a6d8dcb4098b770f90b96f5bb2ce21b925cc"
+      },
+      "at": 1790431292505
+    }
+  ],
+  "turns": [
+    {
+      "said": "Check the reputation of the wallet I pasted.",
+      "heard": [
+        "Check the reputation of the wallet I pasted."
+      ],
+      "calls": [
+        {
+          "callId": "chatcmpl-tool-b676ae4448908ee6",
+          "name": "use_pasted_text",
+          "arguments": {},
+          "callAt": 1790431291371,
+          "transitionReply": 0,
+          "method": "paste",
+          "readyAt": 1790431291372,
+          "spoken": "pasted 42 chars",
+          "sentAt": 1790431291635,
+          "answerReply": 1,
+          "transitionDoneAt": 1790431291635,
+          "agentWaitMs": 0,
+          "transitionAudioMs": 0,
+          "silenceOnUsMs": 264
+        },
+        {
+          "callId": "chatcmpl-tool-b2867df7dc34abb3",
+          "name": "afg_get_reputation",
+          "arguments": {
+            "address": "0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed"
+          },
+          "callAt": 1790431292502,
+          "transitionReply": 1,
+          "mcpName": "afg_get_reputation",
+          "normalisersApplied": [],
+          "rawChars": 1527,
+          "spokenChars": 256,
+          "spoken": "basis AFG job outcomes (MVP: mock ledger, test tokens, no real value). settled AFG jobs by wallet, as provider and as buyer. refund outcomes, and how each was reached (auto, mediator, panel, timeout). disputes and appeals, and whose favor they resolved in.",
+          "method": "local",
+          "refine": "no_shaper",
+          "refineMs": 0,
+          "mcpMs": 1873,
+          "isError": false,
+          "readyAt": 1790431294387,
+          "execMs": 1885,
+          "sentAt": 1790431294388,
+          "answerReply": 2,
+          "transitionDoneAt": 1790431292794,
+          "agentWaitMs": 1594,
+          "transitionAudioMs": 0,
+          "silenceOnUsMs": 1886
+        }
+      ],
+      "agentReply": "That wallet currently has no reputation because it has zero completed jobs, both as a provider and as a buyer.",
+      "interrupted": false,
+      "startedAt": 1790431287132,
+      "speechEndAt": 1790431289613,
+      "firstAudioAt": 1790431295138,
+      "voiceToVoiceMs": 5525,
+      "idleAt": 1790431301365,
+      "ms": 14233,
+      "timeToAnswerMs": 5525
+    }
+  ]
+}

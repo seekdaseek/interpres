@@ -1,5 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
 import {
   findIdentifiers, isIdentifierShaped, identifierKind, collapseSpelled, appearsVerbatim,
   classifyWrite, sharedPrefixTokens, gateTools, ToolGate, callKey, isAffirmative, groupInFours,
@@ -130,23 +131,41 @@ function rig() {
   return { gate, call, get requests() { return requests; }, cards, results, advance: (ms: number) => { now += ms; }, get now() { return now; } };
 }
 
-test('a spoken identifier is gated with zero requests; an identical repeat after yes makes exactly one', async () => {
+test('D4: a spoken identifier needs a paste, "yes, that\'s right" releases nothing, and the paste runs exactly once', async () => {
   const r = rig();
+  // The measured mishearing: said ...6c0e9b...5c8e..., heard ...6ce09b...5cad...
   const heard = { address: '0x3f9a1c7e5b2d8f4a6ce09b3d7f1a5cad2b4d6f09' };
   await r.call('c1', 'afg_get_reputation', heard);
-  assert.equal(r.requests, 0, 'gated: no MCP request');
+  assert.equal(r.requests, 0, 'held: no MCP request');
   const body = JSON.parse(r.results[0]!);
-  assert.equal(body.status, 'needs_confirmation');
+  assert.equal(body.status, 'needs_paste');
   assert.equal(body.heard, heard.address);
-  assert.match(body.say, /ending in 6 F 0 9/);
+  assert.match(body.say, /may have misheard/);
 
   r.advance(5000);
   r.gate.recordUserTurn("yes, that's right", r.now);
   await r.call('c2', 'afg_get_reputation', heard);
-  assert.equal(r.requests, 1, 'confirmed identical repeat: exactly one request');
+  assert.equal(r.requests, 0, 'a spoken yes releases nothing: still 0 requests');
+  assert.deepEqual(r.cards, ['paste', 'paste']);
 
-  await r.call('c3', 'afg_get_reputation', heard);
-  assert.equal(r.requests, 1, 'the confirmation is spent: a further repeat is gated again');
+  // The paste path: the value itself, exactly one request, byte-identical.
+  const said = '0x3f9a1c7e5b2d8f4a6c0e9b3d7f1a5c8e2b4d6f09';
+  r.gate.recordPaste(said);
+  await r.call('c3', 'afg_get_reputation', { address: said });
+  assert.equal(r.requests, 1, 'the pasted value runs, once');
+  const sha = (x: string) => createHash('sha256').update(x).digest('hex');
+  assert.equal(sha(JSON.parse(r.results[2]!).echoed.address), sha(said));
+});
+
+test('Trigger A applies first: a state change carrying a spoken identifier needs a paste, even after yes', async () => {
+  const r = rig();
+  const args = { job_id: 'job 7', recipient: '0x3f9a1c7e5b2d8f4a6ce09b3d7f1a5cad2b4d6f09' };
+  await r.call('c1', 'afg_fund', args);
+  assert.equal(JSON.parse(r.results[0]!).status, 'needs_paste');
+  r.gate.recordUserTurn('yes, go ahead', r.now);
+  await r.call('c2', 'afg_fund', args);
+  assert.equal(r.requests, 0);
+  assert.deepEqual(r.cards, ['paste', 'paste']);
 });
 
 test('a changed repeat is gated again, even after a yes', async () => {
@@ -155,19 +174,19 @@ test('a changed repeat is gated again, even after a yes', async () => {
   r.gate.recordUserTurn('yes', r.now);
   await r.call('c2', 'afg_get_reputation', { address: '0x3f9a1c7e5b2d8f4a6c0e9b3d7f1a5c8e2b4d6f09' });
   assert.equal(r.requests, 0);
-  assert.deepEqual(r.cards, ['confirm', 'confirm']);
+  assert.deepEqual(r.cards, ['paste', 'paste']);
 });
 
-test('a no, or a yes outside the window, does not release the call', async () => {
+test('a no, or a yes outside the window, does not release a state change', async () => {
   const r = rig();
-  const args = { address: '0x3f9a1c7e5b2d8f4a6ce09b3d7f1a5cad2b4d6f09' };
-  await r.call('c1', 'afg_get_reputation', args);
+  const args = { job_id: 'job 7' };
+  await r.call('c1', 'afg_fund', args);
   r.gate.recordUserTurn("no, that's wrong", r.now);
-  await r.call('c2', 'afg_get_reputation', args);
+  await r.call('c2', 'afg_fund', args);
   assert.equal(r.requests, 0, 'a no is not a yes');
   r.advance(CONFIRM_WINDOW_MS + 1000);
   r.gate.recordUserTurn('yes', r.now);
-  await r.call('c3', 'afg_get_reputation', args);
+  await r.call('c3', 'afg_fund', args);
   assert.equal(r.requests, 0, 'a yes after the 120 s window confirms nothing');
 });
 
@@ -234,7 +253,7 @@ test('a tool that echoes its argument does not launder a misheard value', () => 
   const gate = new ToolGate(AFG_TOOLS(), 'afg.ai');
   const heard = { address: '0x3f9a1c7e5b2d8f4a6ce09b3d7f1a5cad2b4d6f09' };
   gate.recordToolResult(JSON.stringify({ address: heard.address.toUpperCase(), jobs: 0 }), heard);
-  assert.equal(gate.check('afg_get_reputation', heard, 0).action, 'confirm', 'the echo is not evidence');
+  assert.equal(gate.check('afg_get_reputation', heard, 0).action, 'paste', 'the echo is not evidence');
   // But a value the tool produced on its own - not in the arguments - still counts.
   gate.recordToolResult(JSON.stringify({ job_id: 'job_9c1e7a3b5d2f40e86b1a' }), { category: 'x' });
   assert.equal(gate.check('afg_get_job', { job_id: 'job_9c1e7a3b5d2f40e86b1a' }, 0).action, 'execute');

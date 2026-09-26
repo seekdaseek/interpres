@@ -8,12 +8,17 @@
  * check hex by ear - so the rule is voice for intent, keyboard for identifiers,
  * and a gate in front of every MCP request.
  *
- * Two triggers, one mechanism:
+ * Two triggers, and neither makes an MCP request:
  *   A. an identifier-shaped argument that did not come from the keyboard (the
- *      paste box) or from an earlier tool result in this session
- *   B. a tool that changes state
- * Either one returns `needs_confirmation` and makes no MCP request. An identical
- * repeat within 120 s, after the person says yes, executes exactly once.
+ *      paste box) or from an earlier tool result in this session. It returns
+ *      `needs_paste`, and nothing said aloud gets past it (decision D4). Measured:
+ *      a spoken "yes, that's right" confirmed an address whose middle was
+ *      misheard (5c8e -> 5cad) while its last four characters were right.
+ *   B. a tool that changes state. It returns `needs_confirmation`, and an
+ *      identical repeat within 120 s, after the person says yes, executes
+ *      exactly once.
+ * A is checked first, so a state-changing call carrying a spoken identifier
+ * needs a paste, not a yes.
  *
  * Everything here is pure: no I/O, and the clock is passed in.
  */
@@ -200,25 +205,19 @@ type Pending = { key: string; gatedAt: number; confirmedAt?: number };
 /** What the UI shows for a held call. */
 export type GateCard = { tool: string; server?: string; value?: string; grouped?: string; what?: string; say: string };
 
+/** Every held decision carries a JSON string for tool.result; no MCP request was made. */
 export type GateDecision =
   | { action: 'execute'; key: string; confirmed: boolean }
-  | {
-      action: 'confirm';
-      trigger: 'identifier' | 'write';
-      key: string;
-      /** JSON string for tool.result. No MCP request was made. */
-      result: string;
-      card: GateCard;
-    }
+  /** Trigger A: an identifier from speech. Only a paste gets past it. */
+  | { action: 'paste'; key: string; result: string; card: GateCard }
+  /** Trigger B: a state change, released by a spoken yes. */
+  | { action: 'confirm'; trigger: 'write'; key: string; result: string; card: GateCard }
+  /** Trigger A, and the value also fails the server's own pattern. */
   | { action: 'invalid'; key: string; result: string; card: GateCard };
 
 /** Group a value in fours for reading: 0x3f 9a1c 7e5b ... */
 export function groupInFours(value: string): string {
   return (value.match(/.{1,4}/g) ?? [value]).join(' ');
-}
-
-function spell(s: string): string {
-  return s.toUpperCase().split('').join(' ');
 }
 
 /** Stable key: same tool and same arguments, identifiers normalised. */
@@ -308,18 +307,11 @@ export class ToolGate {
     const key = callKey(voiceName, args);
     for (const [k, p] of this.pending) if (now - p.gatedAt > CONFIRM_WINDOW_MS) this.pending.delete(k);
 
-    const pend = this.pending.get(key);
-    if (pend && pend.confirmedAt !== undefined && now - pend.gatedAt <= CONFIRM_WINDOW_MS) {
-      // Confirmed identical repeat: runs exactly once, then the confirmation is spent.
-      this.pending.delete(key);
-      this.executedAfterConfirm++;
-      return { action: 'execute', key, confirmed: true };
-    }
-
     const tool = this.tools.get(voiceName);
     const haystack = this.provenance.join('\n');
 
-    // Trigger A: identifiers that did not come from the keyboard or a tool.
+    // Trigger A, first and unconditionally: an identifier that did not come from
+    // the keyboard or a tool never runs, whatever was said before or after it.
     for (const { path, value } of stringsAt(args, '')) {
       for (const hit of findIdentifiers(value)) {
         if (appearsVerbatim(hit, haystack)) continue;
@@ -337,23 +329,31 @@ export class ToolGate {
             };
           }
         }
-        this.pending.set(key, { key, gatedAt: now });
-        const say = `I heard a value ending in ${spell(hit.raw.slice(-4))}. Check it on screen: say yes if it is right, or paste the correct one.`;
+        // No pending entry: there is no voice path past this, so a yes has nothing to release.
+        const say = 'I may have misheard that value. Please paste it into the box under the Talk button, and I will use exactly what you paste.';
         return {
-          action: 'confirm',
-          trigger: 'identifier',
+          action: 'paste',
           key,
           result: JSON.stringify({
-            status: 'needs_confirmation',
+            status: 'needs_paste',
             reason: 'identifier_from_speech',
             argument: path,
             heard: hit.raw,
             say,
-            instruction: 'Say the line in "say". Only if the person then says yes, call the same tool again with exactly the same arguments. If they paste a value, call use_pasted_text instead.',
+            instruction: 'Say the line in "say". Never call a tool with this value from speech, even if the person says it is right. Once they have pasted it, call use_pasted_text and use exactly the text it returns.',
           }),
           card: { tool: voiceName, value: hit.raw, grouped: groupInFours(hit.raw), say },
         };
       }
+    }
+
+    // A confirmed identical repeat of a held state change runs exactly once,
+    // then the confirmation is spent.
+    const pend = this.pending.get(key);
+    if (pend && pend.confirmedAt !== undefined && now - pend.gatedAt <= CONFIRM_WINDOW_MS) {
+      this.pending.delete(key);
+      this.executedAfterConfirm++;
+      return { action: 'execute', key, confirmed: true };
     }
 
     // Trigger B: tools that change state.

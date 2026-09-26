@@ -57,37 +57,53 @@ account that can reach one.
 
 **Voice for intent, keyboard for identifiers, and nothing misheard gets executed.**
 
-Speech-to-text cannot carry a long identifier. Measured with real speech through
-the Voice Agent API, it fails in three distinct ways:
+Speech-to-text cannot carry a long identifier. In every recorded run, a spoken
+identifier came through exact **0 times out of 7**. `node scripts/spoken-identifiers.ts`
+recounts that from `data/`. It fails in four ways:
 
-1. **A repetition loop.** `0x` followed by 39 zeros and a `1` came back as roughly
-   900 zeros, with no `1`.
-2. **Merged doubled letters.** `5 a a e b` became `5aeb`, and `b e a e d` became `bead`:
-   38 characters where 40 were said, and the server rejected it.
-3. **A valid-looking wrong value.** `... 6 c 0 e 9 b ... 5 c 8 e ...` became
-   `... 6ce09b ... 5cad ...`: still 40 hex characters, a *different* address, and the
-   server answered confidently about a wallet nobody asked for.
+1. **A repetition loop.** `0x` followed by 39 zeros and a `1` came back as `0x`
+   followed by 693 zeros, with no `1`.
+2. **Lost characters.** Doubled letters merge: `5 a a e b` became `5aeb`, so the
+   value was 40 characters where 42 were said. A single one vanishes too: `3 f 9 a 1 c`
+   became `3f91c`.
+3. **Inserted characters.** `... 6 c 0 e 9 b ... 5 c 8 e ...` became
+   `... 6ce0e9b ... 5cade ...`, 44 characters.
+4. **A valid-looking wrong value.** The same address came back as
+   `... 6ce09b ... 5cad ...`. That is still 42 characters, but a *different* address,
+   and the server answered confidently about a wallet nobody asked for.
 
 Names fail too: in a live test "ochinimus.app" was heard as "okinimus.app".
 
 So a gate sits in front of every MCP request, in the browser and in both proof
 scripts:
 
-- **An identifier-shaped argument** - `0x` + 16 or more hex, 24+ hex or base58 mixing
-  digits and letters, a UUID, or 16+ characters without spaces holding at least 3
-  digits and 3 letters - runs only if it appears verbatim in the paste box or in an
-  earlier tool result (hex compared case-insensitively, base58 exactly). A result
-  that merely echoes back the argument it was sent does not count. Otherwise no
-  request is made: the agent gets `needs_confirmation`, says the last four
-  characters, and the page shows the full heard value in large type, grouped in
-  fours. If the server's own schema has a `pattern` for that argument and the value
-  fails it, the answer is `invalid`: paste it.
-- **A tool that changes state** - `destructiveHint`, or not `readOnlyHint` and a
-  name whose first word (after any prefix every tool shares) is a write verb such as
-  create, send, transfer or sign - is held the same way, and the line names what it
-  will do and on which server.
-- **An identical repeat within 120 s, after the person says yes, runs exactly once.**
-  A changed repeat is held again.
+- **An identifier-shaped argument must come from the keyboard.** That means `0x`
+  plus 16 or more hex characters, 24+ hex or base58 characters mixing digits and
+  letters, a UUID, or 16+ characters without spaces holding at least 3 digits and 3
+  letters.
+  - It runs only if it appears verbatim in the paste box or in an earlier tool
+    result. Hex is compared case-insensitively, base58 exactly. A result that only
+    echoes the argument it was sent does not count.
+  - Otherwise no request is made. The agent gets `needs_paste`, says it may have
+    misheard, and asks for a paste. The page shows the heard value in large type,
+    grouped in fours, and puts the cursor in the paste box.
+  - **There is no voice path past this: not even "yes, that's right".** That
+    sentence once confirmed an address whose middle was misheard (`5c8e` became
+    `5cad`) while its last four characters were right, and the wrong value ran
+    (`sess_c7ecda9ca1ca4a3f8eebfb18378bd139`). The same test now makes 0 MCP calls
+    after the yes (`sess_2762c5ea28bc4b1f99dbe0a3c2b8fe4f`). The paste path makes
+    exactly 1, and the sha256 of the pasted value matches the one the server received
+    (`sess_5ddb040c77e24c3181d6d7cb60799b10`).
+  - If the server's own schema has a `pattern` for that argument and the value
+    fails it, the answer is `invalid`: paste it.
+- **A tool that changes state needs a spoken yes.** That is `destructiveHint`, or
+  no `readOnlyHint` and a name whose first word (after any prefix every tool shares)
+  is a write verb such as create, send, transfer or sign.
+  - It is held with `needs_confirmation`, and the line names what it will do and on
+    which server.
+  - An identical repeat within 120 s, after the person says yes, runs exactly once.
+    A changed repeat is held again.
+  - If its arguments carry a spoken identifier, the identifier rule applies first.
 - Digit-only strings are **not** treated as identifiers yet: card numbers, phone
   numbers and order numbers pass through. That is the next thing to add.
 

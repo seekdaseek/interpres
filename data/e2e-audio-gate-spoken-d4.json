@@ -1,0 +1,73 @@
+{
+  "at": "2026-09-26T14:00:33.597Z",
+  "case": "gate-spoken",
+  "sessionId": "sess_2762c5ea28bc4b1f99dbe0a3c2b8fe4f",
+  "assertions": {
+    "turn1NeedsPaste": true,
+    "turn1ZeroMcpCalls": true,
+    "turn2StillZeroAfterYes": true
+  },
+  "gateLog": [
+    {
+      "tool": "afg_get_reputation",
+      "action": "paste",
+      "trigger": "identifier",
+      "heard": "0x3f91c7e5b2d8f4a6c0e9b3d7f1a5c8e2b4d6f09",
+      "at": 1790431253733
+    }
+  ],
+  "mcpRequests": [],
+  "turns": [
+    {
+      "said": "What is the reputation of wallet 0 x 3 f 9 a 1 c 7 e 5 b 2 d 8 f 4 a 6 c 0 e 9 b 3 d 7 f 1 a 5 c 8 e 2 b 4 d 6 f 0 9?",
+      "heard": [
+        "What is the reputation of wallet 0x3f91c7e5b2d8f4a6c0e9b3d7f1a5c8e2b4d6f09?"
+      ],
+      "calls": [
+        {
+          "callId": "chatcmpl-tool-bc534334df49641a",
+          "name": "afg_get_reputation",
+          "arguments": {
+            "address": "0x3f91c7e5b2d8f4a6c0e9b3d7f1a5c8e2b4d6f09"
+          },
+          "callAt": 1790431253728,
+          "transitionReply": 0,
+          "method": "gate_paste",
+          "readyAt": 1790431253733,
+          "spoken": "I may have misheard that value. Please paste it into the box under the Talk button, and I will use exactly what you paste.",
+          "execMs": 3,
+          "sentAt": 1790431254033,
+          "answerReply": 1,
+          "transitionDoneAt": 1790431254032,
+          "agentWaitMs": 1,
+          "transitionAudioMs": 0,
+          "silenceOnUsMs": 305
+        }
+      ],
+      "agentReply": "I may have misheard that value. Please paste it into the box under the Talk button, and I will use exactly what you paste.",
+      "interrupted": false,
+      "startedAt": 1790431239406,
+      "speechEndAt": 1790431250966,
+      "firstAudioAt": 1790431254837,
+      "voiceToVoiceMs": 3871,
+      "idleAt": 1790431262043,
+      "ms": 22637,
+      "timeToAnswerMs": 3871
+    },
+    {
+      "said": "Yes, that's right.",
+      "heard": [
+        "Yes, that's right."
+      ],
+      "calls": [],
+      "agentReply": "Please paste the address into the box under the Talk button so I can use it.",
+      "interrupted": false,
+      "startedAt": 1790431262807,
+      "speechEndAt": 1790431264126,
+      "firstAudioAt": 1790431266853,
+      "voiceToVoiceMs": 2727,
+      "idleAt": 1790431271012,
+      "ms": 8205
+    }
+  ]
+}

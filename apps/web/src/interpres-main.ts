@@ -105,12 +105,12 @@ function showGate(call: ToolCall, d: Exclude<GateDecision, { action: 'execute' }
   if (gateHideTimer) clearTimeout(gateHideTimer);
   const card = $('gate-card');
   card.hidden = false;
-  card.dataset.kind = d.action === 'invalid' ? 'invalid' : d.trigger;
+  card.dataset.kind = d.action === 'confirm' ? 'write' : d.action;
   $('gate-kind').textContent =
     d.action === 'invalid' ? 'Wrong format - paste it instead'
-      : d.trigger === 'identifier' ? 'Heard from speech - check it'
+      : d.action === 'paste' ? 'Heard from speech, may be wrong - paste it to run'
         : 'Changes something - confirm first';
-  $('gate-tool').textContent = d.action === 'confirm' && d.trigger === 'write' && d.card.server ? `${call.name} on ${d.card.server}` : call.name;
+  $('gate-tool').textContent = d.action === 'confirm' && d.card.server ? `${call.name} on ${d.card.server}` : call.name;
   const value = $('gate-value');
   value.hidden = !d.card.value;
   value.textContent = d.card.value ? groupInFours(d.card.value) : '';
@@ -118,6 +118,12 @@ function showGate(call: ToolCall, d: Exclude<GateDecision, { action: 'execute' }
   what.hidden = !d.card.what;
   what.textContent = d.card.what ?? '';
   $('gate-say').textContent = d.card.say;
+  // A spoken identifier can only get through the paste box, so take the person there.
+  if (d.action !== 'confirm') {
+    const box = $('paste') as HTMLInputElement;
+    box.focus();
+    box.scrollIntoView({ block: 'center', behavior: 'smooth' });
+  }
   // A held call is released only within 120 s; the card should not outlive that.
   gateHideTimer = setTimeout(() => { card.hidden = true; }, 120_000);
 }
@@ -264,7 +270,8 @@ const ui: VoiceUi = {
     if (li) {
       li.classList.remove('pending');
       li.classList.add('held');
-      li.querySelector('.call-meta')!.textContent = decision.action === 'invalid' ? 'held: wrong format' : `held: ${decision.trigger === 'identifier' ? 'heard, not pasted' : 'changes state'}`;
+      li.querySelector('.call-meta')!.textContent =
+        decision.action === 'invalid' ? 'held: wrong format' : decision.action === 'paste' ? 'held: heard, needs a paste' : 'held: changes state';
       li.append(h('p', { class: 'call-spoken' }, decision.card.say));
     }
   },

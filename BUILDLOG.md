@@ -1510,3 +1510,69 @@ step 6  from the VPS and from the Mac, identical:
 
 UNTESTED: a spoken session through the public URL, which needs a microphone.
 That is Sergiu's device test, on his phone and on the Mac.
+
+---
+
+## 2026-09-26 - A: identifiers heard by speech are never executed (decision D4)
+
+The spoken gate test at task 2 showed the limit. A spoken "yes, that's right"
+confirmed an address whose middle was misheard (`5c8e` became `5cad`) while its
+last four characters were right, and the wrong value ran
+(`sess_c7ecda9ca1ca4a3f8eebfb18378bd139`).
+
+**Trigger A** now returns `{"status":"needs_paste", ...}` and never creates a
+pending entry, so there is nothing a yes can release.
+- It is checked first, so a state change whose arguments carry a spoken
+  identifier needs a paste too.
+- The card says "Heard from speech, may be wrong - paste it to run", shows the
+  heard value grouped in fours, and focuses the paste box.
+- The prompt tells the agent never to retry that value.
+
+**Trigger B** is unchanged: a spoken yes still releases a state change, once,
+within 120 s.
+
+```
+$ node --test packages/core/test/gate.test.ts                ℹ tests 23  ℹ pass 23
+  ✔ D4: a spoken identifier needs a paste, "yes, that's right" releases nothing, and the paste runs exactly once
+  ✔ Trigger A applies first: a state change carrying a spoken identifier needs a paste, even after yes
+$ npm test                                                  ℹ tests 300  ℹ pass 300  ℹ fail 0
+```
+
+Real speech (`e2e-audio`, new output files so the old evidence stays):
+
+```
+--case gate-spoken  sess_2762c5ea28bc4b1f99dbe0a3c2b8fe4f  (data/e2e-audio-gate-spoken-d4.json)
+  HEARD  "What is the reputation of wallet 0x3f91c7e5b2d8f4a6c0e9b3d7f1a5c8e2b4d6f09?"   (a new mishearing: the "a" after 3f9 lost)
+  GATE paste: I may have misheard that value. Please paste it into the box under the Talk button...
+  SAY "Yes, that's right."  ->  AGENT: "Please paste the address into the box under the Talk button so I can use it."
+  MCP requests: after turn 1 = 0, after turn 2 = 0
+  PASS turn1NeedsPaste   PASS turn1ZeroMcpCalls   PASS turn2StillZeroAfterYes
+--case gate-paste   sess_5ddb040c77e24c3181d6d7cb60799b10  (data/e2e-audio-gate-paste-d4.json)
+  use_pasted_text -> afg_get_reputation({"address":"0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed"}); afg_get_reputation requests: 1
+  pasted sha256 = sent sha256 = e066de5176c4f671c4d01441f2c9a6d8dcb4098b770f90b96f5bb2ce21b925cc
+```
+
+`scripts/spoken-identifiers.ts` recounts every spoken identifier in
+`data/e2e-audio-*.json`: **0 of 7 came through exact**. Five misheard values
+reached a server:
+- four in step 6's runs, made before the gate existed (afg-natural, afg-nocarry,
+  afg-phase-carry, afg-phase-nocarry);
+- one through the spoken confirmation (gate-spoken).
+
+It found one detection bug while being written. It first matched sent values by
+their first six characters, which missed the `5aaeb` -> `5aeb` merge. It now takes
+the one identifier each session sent.
+
+The README section "Identifiers and state-changing tools" now quotes that count
+and lists four failure modes. The dropped single character is new today.
+
+Browser (local dev server, AFG preset; test-only instrumentation: silent synthetic
+mic plus a text turn injected over the page's own socket), `sess_63429153cebc43f196befdb04203605d`:
+- Asked about wallet `0x3f9a...5cad2b4d6f09`. The agent called `afg_get_reputation`.
+  The card showed kind `paste`, "Heard from speech, may be wrong - paste it to run",
+  and the value `0x3f 9a1c 7e5b 2d8f 4a6c e09b 3d7f 1a5c ad2b 4d6f 09`. Focus was
+  on the paste box. 0 `/api/mcp/call` requests.
+- Then "Yes, that's right.": still 0 `/api/mcp/call` requests, one `tool.call` in
+  total, and the card stayed on `paste`.
+- At 375 px with the card up: scrollWidth 375, card right edge 359, 0 overflowing
+  elements. Console errors: none.

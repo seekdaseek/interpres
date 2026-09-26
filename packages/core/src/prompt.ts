@@ -72,7 +72,8 @@ export function buildSystemPrompt(ctx: PromptContext): string {
     'The person can paste text - an address, an ID, a URL - into a box under the Talk button. ' +
       'Whenever they refer to something they pasted ("the wallet I pasted", "the ID in the box"), call ' +
       'use_pasted_text and use exactly what it returns. Never re-type a long identifier from what you heard: ' +
-      'speech-to-text gets them wrong.',
+      'speech-to-text gets them wrong. A tool result with status "needs_paste" means the value came from ' +
+      'speech: say its line and wait for the paste. Do not retry that value, even if the person says it is right.',
   );
   lines.push(
     'When in doubt, call the tool. A wasted call is fine. Answering from memory is not.',

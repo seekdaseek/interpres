@@ -389,11 +389,12 @@ async function runGateCases(which: string, args: Args): Promise<void> {
   if (which === 'gate-spoken') {
     const r = await runScripted({ url: 'https://afg.ai/mcp', turns: [{ say: SPOKEN_ADDRESS }, { say: "Yes, that's right." }] }, args);
     const rep = r.session.mcpRequests.filter((m) => m.tool === 'afg_get_reputation');
-    const gated = r.session.gateLog.filter((g) => g.tool === 'afg_get_reputation' && g.action === 'confirm');
+    const held = r.session.gateLog.filter((g) => g.tool === 'afg_get_reputation' && g.action === 'paste');
+    // Decision D4: a spoken identifier is never executed, even after "yes".
     const a = {
-      turn1Gated: gated.length >= 1 && gated[0]!.trigger === 'identifier',
+      turn1NeedsPaste: held.length >= 1 && held[0]!.trigger === 'identifier',
       turn1ZeroMcpCalls: (r.mcpAfterTurn[0] ?? -1) === 0,
-      turn2ExactlyOne: rep.length === 1 && (r.mcpAfterTurn[1] ?? 0) - (r.mcpAfterTurn[0] ?? 0) === 1,
+      turn2StillZeroAfterYes: rep.length === 0 && (r.mcpAfterTurn[1] ?? -1) === 0,
     };
     console.log(`\n${'#'.repeat(78)}\nGATE, SPOKEN  session_id=${r.session.sessionId}`);
     console.log(`  heard turn 1   : ${JSON.stringify(r.turns[0]?.heard)}`);

@@ -382,13 +382,13 @@ export class LiveSession {
       this.failures.push(`agent called unknown tool ${call.name}`);
       return { result: JSON.stringify({ error: `There is no tool called ${call.name}. Call find_tools to see what exists.` }) };
     }
-    // The gate, before any MCP request: a misheard identifier or an unconfirmed
-    // state change gets a needs_confirmation result and no request at all.
+    // The gate, before any MCP request: an identifier from speech gets needs_paste,
+    // an unconfirmed state change needs_confirmation, and neither makes a request.
     const decision = this.gate.check(call.name, call.arguments, Date.now());
     if (decision.action !== 'execute') {
-      this.gateLog.push({ tool: call.name, action: decision.action, trigger: decision.action === 'confirm' ? decision.trigger : 'pattern', heard: decision.card.value, at: Date.now() });
+      this.gateLog.push({ tool: call.name, action: decision.action, trigger: decision.action === 'confirm' ? 'write' : decision.action === 'paste' ? 'identifier' : 'pattern', heard: decision.card.value, at: Date.now() });
       if (record) { record.method = `gate_${decision.action}`; record.readyAt = Date.now(); record.spoken = decision.card.say; record.execMs = record.readyAt - started; }
-      this.log(`  GATE ${decision.action}${decision.action === 'confirm' ? ` (${decision.trigger})` : ''}: ${decision.card.say}`);
+      this.log(`  GATE ${decision.action}: ${decision.card.say}`);
       return { result: decision.result };
     }
     const entry = this.catalog.byVoiceName.get(call.name);
