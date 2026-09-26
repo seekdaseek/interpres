@@ -52,6 +52,7 @@ button { font: inherit; color: inherit; }
 /* ------------------------------------------------------------------ hero */
 .hero h1 { font: 400 clamp(38px, 6vw, 60px)/1.02 var(--serif); margin: 0 0 14px; letter-spacing: -0.01em; }
 .lede { color: var(--muted); max-width: 62ch; margin: 0 0 26px; font-size: 16px; }
+.plain { color: var(--text); max-width: 62ch; margin: 0 0 10px; font-size: 17px; line-height: 1.5; }
 
 .connect { display: flex; gap: 8px; background: var(--surface); border: 1px solid var(--line); border-radius: 999px; padding: 6px; max-width: 760px; }
 .connect:focus-within { border-color: var(--voice); box-shadow: 0 0 0 4px var(--voice-dim); }

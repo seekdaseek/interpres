@@ -631,10 +631,13 @@ async function runSearch(q: string): Promise<void> {
 
 async function main(): Promise<void> {
   const { presets, registryCount } = await loadPresets();
-  // N is the server's index count, shown only once it has arrived.
+  // N is the server's index count, shown only once it has arrived. The plain
+  // line rounds it down to the hundred, so "over" stays true.
   if (registryCount !== null) {
     $('registry-count').textContent = registryCount.toLocaleString('en-US');
     $('registry').hidden = false;
+    $('plain-n').textContent = (Math.floor(registryCount / 100) * 100).toLocaleString('en-US');
+    $('plain').hidden = false;
   }
   $('search').addEventListener('input', onSearchInput);
   const box = $('presets');

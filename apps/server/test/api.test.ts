@@ -197,6 +197,27 @@ test('the replay recording is served as audio/mp4, with byte ranges', async (t) 
   assert.equal(part.headers.get('content-length'), '100');
 });
 
+test('the share card: og.png is a 1200x630 PNG, and the page names it by absolute URL', async (t) => {
+  const { existsSync } = await import('node:fs');
+  if (!existsSync('apps/web/dist/og.png')) { t.skip('web app not built'); return; }
+  const img = await get('/og.png');
+  assert.equal(img.status, 200);
+  assert.equal(img.headers.get('content-type'), 'image/png');
+  const bytes = new Uint8Array(await img.arrayBuffer());
+  // PNG signature, then the IHDR width and height, big-endian.
+  assert.deepEqual([...bytes.slice(1, 4)], [0x50, 0x4e, 0x47]);
+  const view = new DataView(bytes.buffer);
+  assert.deepEqual([view.getUint32(16), view.getUint32(20)], [1200, 630]);
+  const html = await (await get('/')).text();
+  for (const tag of [
+    '<meta property="og:title" content="interpres - talk to any MCP server"',
+    '<meta property="og:url" content="https://interpres.ochinimus.app/"',
+    '<meta property="og:image" content="https://interpres.ochinimus.app/og.png"',
+    '<meta name="twitter:card" content="summary_large_image"',
+  ]) assert.ok(html.includes(tag), tag);
+  assert.match(html, /<meta property="og:description" content="[^"]{40,}"/);
+});
+
 test('the page always revalidates, and a hashed asset is cached for good', async (t) => {
   const { readdirSync, existsSync } = await import('node:fs');
   const dir = 'apps/web/dist/assets';

@@ -3,7 +3,7 @@
 interpres makes any remote MCP server talkable through AssemblyAI's Voice Agent
 API. This is the fastest way to see that it works, and where the proof lives.
 
-## 1. Talk to it (3 minutes)
+## 1. Talk to it (2 minutes)
 
 1. Open **<https://interpres.ochinimus.app>** in Chrome, Brave, Edge or Safari, with a
    microphone.
@@ -20,7 +20,22 @@ No microphone at hand? Press **"No microphone? Watch a real session"**. It repla
 a recorded session: the caller is a synthetic macOS `say` voice, and the transcript
 and tool calls appear at their real times, with the `session_id` shown.
 
-## 2. Try the safety gate (1 minute)
+## 2. Type a website, or search (1 minute)
+
+1. **Type a website.** Clear the box, type `goji.agency`, and press **Connect**.
+   interpres finds `https://mcp.goji.agency/mcp` in the official MCP registry,
+   connects, and says where it found it under the box. Press **Talk** and ask:
+   - "What is SEO in plain English?"
+
+   That question was asked out loud in the spoken sweep, and goji answered it
+   through `goji_explain_term` (`sess_cc23fd40e3e04ca0be74999e9e68ed5b`, in
+   [docs/VOICE-SWEEP.md](docs/VOICE-SWEEP.md)).
+2. **Search.** Under the presets, type `books` into "Or search ... public MCP
+   servers". Most Recommended Books comes first, and one click connects it.
+   A website with nothing on it, like `example.com`, lists every address that was
+   tried.
+
+## 3. Try the safety gate (1 minute)
 
 1. Click **AFG marketplace (sandbox)**, press **Copy sample address**, and paste it
    into "Paste an address or ID".
@@ -31,7 +46,7 @@ and tool calls appear at their real times, with the `session_id` shown.
    "yes, that's right". In every recorded run, a spoken identifier came through
    exact 0 times out of 7.
 
-## 3. Check the numbers (1 minute)
+## 4. Check the numbers (1 minute)
 
 All of these are generated from measured data, not typed by hand.
 

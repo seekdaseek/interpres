@@ -543,6 +543,14 @@ if (existsSync(`${WEB_DIST}/${WEB_ENTRY}`)) {
     return res;
   };
   app.get('/', entry);
+  // The share-card image, at the fixed absolute URL the og:image tag names.
+  // Without this route the catch-all below would answer it with the page.
+  const serveOg = serveStatic({ path: `${WEB_DIST}/og.png` });
+  app.get('/og.png', async (c, next) => {
+    const res = await serveOg(c, next);
+    if (res && res.status === 200) res.headers.set('Cache-Control', 'public, max-age=3600');
+    return res ?? c.notFound();
+  });
   // The replay's recording. Hono's MIME table has no .m4a, and Safari will not
   // play audio served as application/octet-stream. Registered first, so it wraps
   // the static handler and fixes the header on the way out.

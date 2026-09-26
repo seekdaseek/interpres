@@ -1,9 +1,12 @@
 # interpres
 
-**Make any MCP server talkable.** Paste a remote MCP server's URL, press Talk, and
-AssemblyAI's Voice Agent API calls that server's tools live, out loud.
+![interpres: talk to any MCP server. An MCP bridge for AssemblyAI's Voice Agent API.](docs/cover.png)
 
-- **Live:** <https://interpres.ochinimus.app>
+**Make any MCP server talkable.** Type a website or paste a remote MCP server's URL,
+press Talk, and AssemblyAI's Voice Agent API calls that server's tools live, out loud.
+
+- **Try it:** [interpres.ochinimus.app](https://interpres.ochinimus.app). Type
+  `goji.agency` into the box, or search the registry for `books`.
 - **Judges:** [JUDGE_GUIDE.md](JUDGE_GUIDE.md), a five-minute path through it.
 - No microphone? The page has "Watch a real session": a recorded conversation,
   replayed with its transcript and tool calls appearing at their real times.
@@ -33,18 +36,36 @@ flowchart LR
   mcp["Any remote MCP server<br/>no auth"]
   page -->|"GET /api/token"| server
   page <-->|"speech, tool.call, tool.result, session.update"| va
-  page -->|"/api/mcp/connect, /api/mcp/call"| server
-  server -->|"SSRF-guarded, one warm client per session"| mcp
+  page -->|"/api/mcp/connect, /api/mcp/call, /api/registry/search"| server
+  server -->|"SSRF-guarded: discovery probes, and one warm client per session"| mcp
   server -->|"starter questions"| gw
 ```
 
-1. **Connect.** The server asks the MCP server for its tools once (`initialize` and
+1. **Find.** What is typed goes through one normaliser, shared by the page and
+   the server (no scheme gets `https://`, `http://` is switched, quotes and
+   brackets go, credentials are refused). A bare domain, or a URL that answers
+   but not as MCP, goes to discovery:
+   - First the registry index: every server that listed its tools without a
+     login at the Sep 26 recheck (`docs/SWEEP.md`), kept in memory. It matches a
+     remote on the domain or one of its subdomains, or a registry name that
+     starts with the domain reversed (`goji.agency` is `agency.goji/...`).
+   - Then probes of `/mcp`, `/sse` and `mcp.<domain>/mcp`, 5 s each, through the
+     SSRF guard. A probe is `initialize` and `tools/list`, never a tool call.
+   - One answer connects, and the page says where it came from. Several give a
+     pick list of at most five, with their tool counts. None gives every URL
+     that was tried.
+
+   The same index backs the search box under the presets. It ranks on name,
+   host, title and description, and returns twelve servers at most, two per
+   host, so the few hosts that serve thousands of registry entries cannot fill
+   a page.
+2. **Connect.** The server asks the MCP server for its tools once (`initialize` and
    `tools/list`) and converts every tool into a Voice Agent function tool. It
    plans the first phase: at most 10 tools, with `find_tools` to swap in the rest.
    The LLM Gateway writes three starter questions for the page.
-2. **Talk.** The browser opens the Voice Agent WebSocket with a temporary token.
+3. **Talk.** The browser opens the Voice Agent WebSocket with a temporary token.
    The API key never leaves the server. Speech goes in, and tool calls come back.
-3. **Call.** Every tool call passes the gate in the browser, then goes to
+4. **Call.** Every tool call passes the gate in the browser, then goes to
    `/api/mcp/call`. The server calls the MCP tool on a warm client through the
    SSRF guard and shapes the result into at most 600 characters of speech. The
    browser returns it as `tool.result`.
@@ -302,6 +323,12 @@ To reproduce, run `node --env-file=.env scripts/e2e-audio.ts --preset <url> --sa
   - redirects are refused;
   - a 10 s timeout and a 512 KB response cap;
   - warm hosts are verified again every 30 s.
+- **Errors reach the page as JSON.** No route answers 502, 503 or 504: Cloudflare
+  replaces those bodies with its own HTML page. An upstream failure is a 424
+  with one plain sentence and a next step, and the page turns any body that is
+  not JSON into a sentence with its status, never a parser error.
+- **Fetching strangers' URLs is rate-limited:** per IP and hour, 120 connects,
+  120 searches and 20 website discoveries.
 - **Spend:**
   - 6 sessions per IP per hour and 100 per UTC day;
   - 300 s per session;

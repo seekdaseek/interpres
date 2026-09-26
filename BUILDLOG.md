@@ -2372,3 +2372,65 @@ deploy):
   wide, and the widest element ends at 359 px.
 - One tap on Most Recommended Books connected (v2.0.1, 6 tools) and scrolled the server card to the
   top of the screen.
+
+---
+
+## 2026-09-26 - round E, P2: how it looks when shared, and a plain line for judges
+
+**The share image, `apps/web/public/og.png`:**
+- **Source:** `/Users/ochinimus/Desktop/interpres-cover.png`. sips reads it as a 1920x1080 RGB PNG
+  with no alpha.
+- **How it was made:** `magick ... -crop 1920x1008+0+0 +repage -resize 1200x630 -strip`. That drops
+  72 px from the bottom only (the cover's empty band) and keeps the green bar along the top, then
+  scales by exactly 0.625. The result is 1200x630, 157,572 bytes.
+- **Pixel checks:**
+
+  | pixel | og.png | source |
+  | --- | --- | --- |
+  | top (bar) | `srgb(110,230,183)` | `srgb(110,231,183)` |
+  | middle-left | `srgb(11,13,16)` | `srgb(11,13,16)` |
+  | bottom-right | `srgb(11,13,16)` | - |
+
+  The page background is `#0b0d10`, which is `srgb(11,13,16)`.
+- **`docs/cover.png`** is the source file, byte-identical (`cmp`), at the top of the README.
+
+**Tags** in `apps/web/interpres-index.html`:
+- `og:type`, `og:site_name`, `og:title`, `og:description`, `og:url`, and `og:image` with its type,
+  width, height and alt;
+- `twitter:card` = `summary_large_image`, plus the Twitter title, description and image;
+- a canonical link.
+
+Every URL is absolute (`https://interpres.ochinimus.app/og.png`). The server has a `/og.png` route,
+because the catch-all would otherwise answer it with the page. It serves `image/png` with a one-hour
+cache.
+
+**The plain line under the headline:** "MCP servers are how AI apps reach tools and data. Over N public
+ones answer without a login."
+- N is the index count from `/api/presets` rounded down to the hundred, so "over" stays true. It
+  shows 11,500 for 11,572. The line stays hidden until the count arrives, so no number in it is
+  typed.
+- The lede now starts "Type a website or paste a remote MCP server's URL".
+
+**README:**
+- The cover is at the top.
+- A **Try it:** line has the bare domain, `goji.agency` and `books`.
+- "How it works" gains step 1, **Find**: the normaliser, registry-then-probes discovery, the pick
+  list, and the search box's ranking and two-per-host cap.
+- "Limits and security" gains the 424 rule and the per-IP limits.
+
+**JUDGE_GUIDE:**
+- New §2 "Type a website, or search". It uses `goji.agency` with "What is SEO in plain English?",
+  which was asked out loud in the spoken sweep: `sess_cc23fd40e3e04ca0be74999e9e68ed5b`,
+  `goji_explain_term`, answered. It also uses `books` in the search box.
+- "Talk to it" is now 2 minutes, so the guide still adds up to five.
+
+**No number was retyped:**
+- `node scripts/docs-quote.ts` refilled all three blocks in both files.
+- `git diff` shows 0 changed table lines (`grep -c '^[-+]|'`). The same count on a control line
+  gives 1.
+
+```
+$ npm test    ℹ tests 377  ℹ pass 377  ℹ fail 0
+```
+The new test checks that `/og.png` is `image/png` with a 1200x630 IHDR, and that the built page names
+it by absolute URL.
