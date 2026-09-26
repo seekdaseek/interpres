@@ -45,7 +45,12 @@ export const config = {
     catalogCacheEntries: num('CATALOG_CACHE_ENTRIES', 200),
   },
 
-  logPath: process.env.LOG_PATH ?? 'data/events.jsonl',
+  /**
+   * Where the event log goes. In production it lives under `data/raw/`, which
+   * .gitignore excludes, so a production log can never be committed - not even
+   * by an `add -A` run on the box. `data/events.jsonl` is the dev log only.
+   */
+  logPath: process.env.LOG_PATH ?? (process.env.NODE_ENV === 'production' ? 'data/raw/events.jsonl' : 'data/events.jsonl'),
 } as const;
 
 export function assertConfigured(): void {

@@ -72,7 +72,7 @@ Sources used, in order of authority:
 
 3. **`reply.audio` carries `data`, not `audio`.** `input.audio` uses `{"audio": "<base64>"}`; `reply.audio` uses `{"data": "<base64>"}`. The brief flagged this as "confirm the payload field names" — confirmed, the names differ by direction.
 
-4. **The brief's first demo target is deprecated and past its shutdown date.** `https://mcp.assemblyai.com/docs` answers `initialize` 200 with no auth, but all 4 of its tool descriptions begin:
+4. **The brief's first demo target is deprecated and past its shutdown date.** The legacy docs MCP endpoint the brief named (on AssemblyAI's `mcp.` subdomain; deliberately not linked here, so nobody copies it) answers `initialize` 200 with no auth, but all 4 of its tool descriptions begin:
    `[DEPRECATED — moved to https://www.assemblyai.com/docs/mcp, fully disabled July 16, 2026. Content here is kept in sync for now, but reconnect to the new MCP server before shutdown.]`
    Today is 2026-09-26 — that date passed 10 weeks ago and the server is living on borrowed time.
    The live replacement `https://www.assemblyai.com/docs/mcp` serves `serverInfo {name: "AssemblyAI", version: "1.0.0"}`, carries an `instructions` string, and has **0** tools mentioning deprecation.
@@ -116,7 +116,7 @@ $ POST https://www.assemblyai.com/docs/mcp  (initialize, no auth)
    tools/list → 3 tools: search_assembly_ai, query_docs_filesystem_assembly_ai (3405-char description),
    submit_feedback (a WRITE tool — the sweep must never call tools, and presets should flag it)
 
-$ POST https://mcp.assemblyai.com/docs  (the brief's target)
+$ POST <legacy docs MCP endpoint named in the brief>
 200 — 4 tools, ALL deprecated per difference 4 above
 
 $ curl -s 'https://registry.modelcontextprotocol.io/v0/servers?limit=3'
@@ -558,3 +558,58 @@ recovery, not a crash - and asking again is the right behaviour when it does not
 have the value. **UNTESTED** whether a spoken turn carries the argument through a
 phase change; that needs CHECKPOINT B with a microphone, where the value arrives
 as `transcript.user`. The e2e script cannot settle it.
+
+---
+
+## 2026-09-26 - CHECKPOINT A decisions, applied
+
+Sergiu's review of CHECKPOINT A set four decisions. Each is applied below with
+the output that proves it.
+
+### 1. The legacy docs endpoint is gone from the tree
+
+Preset #1 was already `https://www.assemblyai.com/docs/mcp`; the only remaining
+mentions of the legacy endpoint were two lines of this log. They now describe it
+without naming it, so the reasoning survives and nobody can copy the URL.
+
+```
+$ grep -c 'www.assemblyai.com/docs/mcp' BUILDLOG.md      # control: the grep works
+8
+$ grep -rIn '<legacy host>' . | grep -v node_modules
+(no output) -> 0 references in the working tree
+```
+
+Git history still contains the two old lines. Rewriting public history was not
+asked for, and would cost more than it saves.
+
+### 4. Production logs cannot reach the repo, and no IP is ever logged
+
+- `LOG_PATH` defaults to `data/raw/events.jsonl` when `NODE_ENV=production`, and
+  to `data/events.jsonl` (the dev log) otherwise. `data/raw/` is gitignored:
+  ```
+  $ git check-ignore -v data/raw/events.jsonl
+  .gitignore:13:data/raw/	data/raw/events.jsonl
+  $ git check-ignore -v data/events.jsonl        # control: must NOT be ignored
+  (exit 1) -> control ok
+  ```
+- No call site ever logged the client address, but "never" deserved enforcement
+  rather than convention: an SSRF refusal says *"resolves to 10.0.0.5"*, and that
+  message was going straight into `mcp.connect.failed`. `scrub()` now redacts
+  every IPv4 and IPv6 literal at any depth, and drops keys that can only hold a
+  client address (`ip`, `clientKey`, `remoteAddress`, ...) outright.
+- The IPv6 matcher needs a `::` or the full eight groups. Without that rule,
+  clock times like `09:32:34` read as addresses; a test pins that they survive,
+  along with UUIDs and version strings.
+- One ordering bug found by the tests: `clientKey` matched the secret-key rule
+  first (it contains "Key") and was redacted to a length instead of dropped.
+  The address never reached the file either way, but dropping is the stronger
+  guarantee, so the drop rule now runs first.
+- An API test sends `/api/token` with `cf-connecting-ip: 198.51.100.77` and then
+  asserts the address is in neither `/api/status` nor the log file, **after**
+  asserting the file is non-empty, so a log that was never written cannot pass.
+
+```
+$ node --test apps/server/test/logs.test.ts apps/server/test/api.test.ts
+ℹ tests 19
+ℹ pass 19
+```

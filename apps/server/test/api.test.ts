@@ -150,3 +150,15 @@ test('find-tools on a catalog over the limit reveals a bounded set', async () =>
   assert.equal(typeof body.toolResult, 'string');
   assert.doesNotThrow(() => JSON.parse(body.toolResult));
 });
+
+test('a client address is never written to the event log', async () => {
+  // Drive the token route with a Cloudflare client IP, which the limiter keys on.
+  const clientIp = '198.51.100.77';
+  await get('/api/token', { 'cf-connecting-ip': clientIp });
+  const status = await (await get('/api/status')).text();
+  assert.ok(!status.includes(clientIp), 'the in-memory tail must not hold it');
+  const { readFile } = await import('node:fs/promises');
+  const file = await readFile(process.env.LOG_PATH!, 'utf8').catch(() => '');
+  assert.ok(file.length > 0, 'the log must have been written, or this proves nothing');
+  assert.ok(!file.includes(clientIp), 'the file must not hold it');
+});
