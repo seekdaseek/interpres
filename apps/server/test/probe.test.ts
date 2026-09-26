@@ -1,6 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { describeError, worthFallingBack, classifyError, McpError } from '../src/mcp.ts';
+import { describeError, worthFallingBack, classifyError, httpStatus, McpError } from '../src/mcp.ts';
+import { StreamableHTTPError } from '@modelcontextprotocol/sdk/client/streamableHttp.js';
 import { SsrfError } from '../src/ssrf.ts';
 import { reasonFor } from '../../../scripts/sweep.ts';
 
@@ -53,4 +54,45 @@ test('McpError carries its classification and detail', () => {
   const e = new McpError('auth_required', 'HTTP 401');
   assert.equal(e.classification, 'auth_required');
   assert.equal(e.detail, 'HTTP 401');
+});
+
+// The SDK's real error shape: status on `code`, only the body in the message.
+const sdkErr = (status: number, body: string) => new StreamableHTTPError(status, `Error POSTing to endpoint: ${body}`);
+
+test('the SDK status survives describeError; a -1 "not MCP" code adds nothing', () => {
+  assert.match(describeError(sdkErr(403, '<html>')), /\[HTTP 403\]$/);
+  assert.equal(httpStatus(describeError(sdkErr(503, ''))), 503);
+  assert.equal(httpStatus(describeError(new StreamableHTTPError(-1, 'Unexpected content type: text/html'))), null);
+});
+
+test('numbers inside a response body never decide the class (seen in the Sep 26 sweep)', () => {
+  const css = sdkErr(400, '<html><style>h1{font-weight:500;margin:401px}</style></html>');
+  assert.equal(classifyError(css).classification, 'protocol_error', 'a 400 whose body holds 500 and 401 is still a 400');
+  assert.equal(reasonFor('protocol_error', describeError(css)), 'http_400');
+  const challenge = sdkErr(403, '<!DOCTYPE html><title>Just a moment...</title><style>b{font-weight:500}</style>');
+  assert.equal(classifyError(challenge).classification, 'auth_required');
+  assert.equal(reasonFor('auth_required', describeError(challenge)), 'http_403');
+  const down = sdkErr(503, '<title>Azure Container App - Unavailable</title>');
+  assert.equal(classifyError(down).classification, 'unreachable');
+  assert.equal(reasonFor('unreachable', describeError(down)), 'http_5xx');
+  const empty = sdkErr(404, '');
+  assert.equal(classifyError(empty).classification, 'unreachable');
+  assert.equal(reasonFor('unreachable', describeError(empty)), 'http_404');
+});
+
+test('an auth wall sent with the wrong status is still an auth wall; a payment wall counts as one', () => {
+  for (const body of ['{"message":"Unauthenticated."}', '{"error":"Missing Authorization header"}', 'no bearer token']) {
+    assert.equal(classifyError(sdkErr(400, body)).classification, 'auth_required', body);
+  }
+  const pay = sdkErr(402, '{"x402Version":1}');
+  assert.equal(classifyError(pay).classification, 'auth_required');
+  assert.equal(reasonFor('auth_required', describeError(pay)), 'http_402');
+  assert.equal(classifyError(sdkErr(429, 'slow down')).classification, 'unreachable');
+});
+
+test('an SSE-only server still gets its fallback under the real SDK error format', () => {
+  assert.equal(worthFallingBack(sdkErr(405, '')), true);
+  assert.equal(worthFallingBack(sdkErr(404, 'Not Found')), true);
+  assert.equal(worthFallingBack(new StreamableHTTPError(-1, 'Unexpected content type: text/html')), true);
+  assert.equal(worthFallingBack(sdkErr(401, '')), false);
 });

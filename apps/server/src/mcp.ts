@@ -60,7 +60,10 @@ export function describeError(err: unknown): string {
   for (let depth = 0; depth < 4 && cur !== undefined && cur !== null; depth++) {
     if (cur instanceof Error) {
       const code = (cur as { code?: unknown }).code;
-      parts.push(typeof code === 'string' && !cur.message.includes(code) ? `${cur.message} [${code}]` : cur.message);
+      // The SDK's transport errors put the HTTP status on `code` as a number and
+      // only the response body in the message, so without this the status is lost.
+      if (typeof code === 'number' && code >= 100 && code <= 599) parts.push(`${cur.message} [HTTP ${code}]`);
+      else parts.push(typeof code === 'string' && !cur.message.includes(code) ? `${cur.message} [${code}]` : cur.message);
       cur = (cur as { cause?: unknown }).cause;
     } else {
       parts.push(String(cur));
@@ -70,20 +73,38 @@ export function describeError(err: unknown): string {
   return parts.filter(Boolean).join(' <- ');
 }
 
+/** The HTTP status an error carried: the `[HTTP nnn]` describeError adds, or an explicit "HTTP nnn". */
+export function httpStatus(detail: string): number | null {
+  const m = detail.match(/\[HTTP (\d{3})\]/) ?? detail.match(/\bHTTP (\d{3})\b/);
+  return m ? Number(m[1]) : null;
+}
+
+/** Words an auth wall uses, whatever status it was sent with. */
+const AUTH_WORDS = /unauthori[sz]ed|unauthenticated|forbidden|invalid.token|api.key|authentication|authorization|bearer/i;
+
+/**
+ * Classifies on the status first. After that only words decide, never a bare
+ * number: the message holds the response body, and `font-weight: 500` in a
+ * challenge page is not a 5xx. Measured in the Sep 26 sweep, where bare numbers
+ * produced codes like http_120 and http_348.
+ */
 export function classifyError(err: unknown): { classification: string; detail: string } {
   if (err instanceof SsrfError) return { classification: err.code, detail: err.message };
   const message = describeError(err);
-  if (/\b(401|403)\b|unauthor|forbidden|invalid.token|api.key|authentication/i.test(message)) {
-    return { classification: 'auth_required', detail: message };
-  }
-  if (/\b(404|405|410)\b|not found|method not allowed/i.test(message)) {
+  const status = httpStatus(message);
+  // 402 is a payment wall: like auth, it needs something interpres never sends.
+  if (status === 401 || status === 402 || status === 403) return { classification: 'auth_required', detail: message };
+  if (status === 404 || status === 405 || status === 408 || status === 410 || status === 429 || (status !== null && status >= 500)) {
     return { classification: 'unreachable', detail: message };
   }
-  if (/\b(5\d\d)\b|bad gateway|service unavailable|gateway timeout/i.test(message)) {
-    return { classification: 'unreachable', detail: message };
-  }
-  if (/timeout|timed out|abort|ENOTFOUND|ECONNREFUSED|ECONNRESET|EAI_AGAIN|fetch failed|socket/i.test(message)) {
-    return { classification: 'unreachable', detail: message };
+  if (AUTH_WORDS.test(message)) return { classification: 'auth_required', detail: message };
+  if (status === null) {
+    if (/not found|method not allowed|bad gateway|service unavailable|gateway timeout/i.test(message)) {
+      return { classification: 'unreachable', detail: message };
+    }
+    if (/timeout|timed out|abort|ENOTFOUND|ECONNREFUSED|ECONNRESET|EAI_AGAIN|fetch failed|socket/i.test(message)) {
+      return { classification: 'unreachable', detail: message };
+    }
   }
   return { classification: 'protocol_error', detail: message };
 }

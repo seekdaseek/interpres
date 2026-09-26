@@ -1310,3 +1310,46 @@ UNTESTED:
   deploy step is a scratch boot on the box.
 - `ingress validate` for interpres.yml. There is no cloudflared on this Mac; it
   runs on the box before anything goes live.
+
+---
+
+## 2026-09-26 - the error classifier read numbers out of response bodies
+
+Sweep A's failure reasons included `http_100`, `http_120`, `http_222` and
+`http_348`, which are not real statuses. The cause: the MCP SDK's
+`StreamableHTTPError` keeps the HTTP status on `.code`, a number, and puts only
+the response body in the message (`Streamable HTTP error: Error POSTing to
+endpoint: <body>`). `describeError` appended string codes only, so the status
+was lost. `classifyError` and the sweep's `reasonFor` then matched bare numbers
+anywhere in the text.
+
+- A challenge page styled with `font-weight:500` counted as a 5xx.
+- An empty-bodied 401 had no words to match, so it became a protocol error.
+
+The old tests passed because they used a message format the SDK never produces
+(`"Error POSTing to endpoint (HTTP 401): ..."`). On the new test's 400 whose CSS
+holds 500, the old code returns `unreachable` / `http_500`.
+
+**Fix:**
+- `describeError` keeps a numeric code as `[HTTP nnn]`.
+- `httpStatus()` reads it back.
+- The status decides first: 401/402/403 is `auth_required`, with 402 counted as
+  a payment wall because interpres never pays. 404/405/408/410/429 and 5xx are
+  `unreachable`.
+- After that only words decide, never a bare number.
+- `reasonFor` uses the same recorded status.
+- SSE fallback is unchanged: a real 405 still falls back (new test).
+
+New tests use the SDK's own error class. The SDK layer is otherwise untouched.
+
+```
+$ node --test apps/server/test/probe.test.ts   ℹ tests 10  ℹ pass 10
+$ npm test                                      ℹ tests 299 ℹ pass 299 ℹ fail 0
+$ npm run typecheck                             exit 0
+```
+
+This does not affect sweep A's `ok` count: `ok` means `initialize` and
+`tools/list` completed, and that path never runs the classifier. A's 10,205
+failures are being probed again with the fix (`--recheck-classes
+auth_required,unreachable,protocol_error --min-gap-minutes 0`, sweep.ts's new
+option). The corrected split goes in the task 1 results.

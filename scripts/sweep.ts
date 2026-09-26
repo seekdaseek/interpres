@@ -14,17 +14,17 @@ import { gunzipSync, gzipSync } from 'node:zlib';
 import { dirname } from 'node:path';
 import { convertCatalog, FIND_TOOLS_NAME } from '@interpres/core';
 import type { CatalogStats, ConversionFailure, McpTool } from '@interpres/core';
-import { McpError, probeServer } from '../apps/server/src/mcp.ts';
+import { McpError, httpStatus, probeServer } from '../apps/server/src/mcp.ts';
 import { SsrfError } from '../apps/server/src/ssrf.ts';
 
 export const UA = 'interpres-sweep/0.1 (+https://github.com/seekdaseek/interpres)';
 const REGISTRY = 'https://registry.modelcontextprotocol.io/v0/servers';
 const PER_HOST = 2;
 
-type Args = { concurrency: number; timeoutMs: number; limit?: number; out?: string; recheck?: string; minGapMinutes: number };
+type Args = { concurrency: number; timeoutMs: number; limit?: number; out?: string; recheck?: string; recheckClasses: string[]; minGapMinutes: number };
 
 function parseArgs(argv: string[]): Args {
-  const a: Args = { concurrency: 8, timeoutMs: 8000, minGapMinutes: 60 };
+  const a: Args = { concurrency: 8, timeoutMs: 8000, recheckClasses: ['ok'], minGapMinutes: 60 };
   for (let i = 0; i < argv.length; i++) {
     const k = argv[i];
     const v = argv[i + 1];
@@ -34,6 +34,9 @@ function parseArgs(argv: string[]): Args {
     else if (k === '--out') { a.out = v; i++; }
     else if (k === '--recheck') { a.recheck = v; i++; }
     else if (k === '--min-gap-minutes') { a.minGapMinutes = Number(v); i++; }
+    // Which earlier classes to probe again. Default ok (the stability recheck);
+    // the failure classes re-measure a split, e.g. after a classifier fix.
+    else if (k === '--recheck-classes') { a.recheckClasses = (v ?? '').split(',').filter(Boolean); i++; }
   }
   return a;
 }
@@ -161,27 +164,21 @@ export type ServerResult = Candidate & {
 export function reasonFor(cls: ProbeClass, detail: string, ssrfCode?: string): string {
   if (ssrfCode) return `ssrf_${ssrfCode}`;
   const d = detail;
-  const status = d.match(/\b(?:HTTP |status code \(|\()?([1-5]\d\d)\b/);
-  if (cls === 'auth_required') {
-    if (/\b401\b/.test(d)) return 'http_401';
-    if (/\b403\b/.test(d)) return 'http_403';
-    return 'unauthorized';
-  }
+  // The recorded status only - never a bare number, which may sit in a body.
+  const status = httpStatus(d);
+  if (cls === 'auth_required') return status !== null ? `http_${status}` : 'auth_words';
+  if (status !== null) return status >= 500 ? 'http_5xx' : `http_${status}`;
   if (/ENOTFOUND|EAI_AGAIN|getaddrinfo/i.test(d)) return 'dns';
   if (/ECONNREFUSED/i.test(d)) return 'refused';
   if (/ECONNRESET|socket hang up|other side closed/i.test(d)) return 'reset';
   if (/EHOSTUNREACH|ENETUNREACH/i.test(d)) return 'host_unreachable';
   if (/certificate|CERT_|TLS|SSL|self.signed/i.test(d)) return 'tls';
   if (/timeout|timed out|aborted/i.test(d)) return 'timeout';
-  if (status) {
-    const code = Number(status[1]);
-    if (code >= 500) return 'http_5xx';
-    return `http_${code}`;
-  }
   if (cls === 'protocol_error') {
     if (/-32601|method not found/i.test(d)) return 'jsonrpc_method_not_found';
+    if (/protocol version is not supported/i.test(d)) return 'protocol_version';
     if (/-32\d{3}/.test(d)) return 'jsonrpc_error';
-    if (/content-type|text\/html|unexpected token|is not valid JSON|parse/i.test(d)) return 'not_mcp_response';
+    if (/content.type|text\/html|unexpected token|is not valid JSON|parse/i.test(d)) return 'not_mcp_response';
     return 'protocol_other';
   }
   if (/fetch failed/i.test(d)) return 'fetch_failed';
@@ -352,10 +349,10 @@ if (isMain) {
     // no sooner than --min-gap-minutes after its own earlier probe.
     const prev = await readSweep(args.recheck);
     recheckOf = args.recheck;
-    const okPrev = prev.servers.filter((r) => r.class === 'ok');
+    const okPrev = prev.servers.filter((r) => args.recheckClasses.includes(r.class));
     for (const r of okPrev) notBefore.set(r.name, Date.parse(r.probedAt) + args.minGapMinutes * 60_000);
     reg = { entries: 0, unique: 0, candidates: okPrev.map(({ name, title, description, version, status, remotes, declaresAuth, websiteUrl, repositoryUrl }) => ({ name, title, description, version, status, remotes, declaresAuth, websiteUrl, repositoryUrl })) };
-    console.log(`recheck of ${args.recheck}: ${reg.candidates.length} servers that were ok, each at least ${args.minGapMinutes} min after its first probe`);
+    console.log(`recheck of ${args.recheck}: ${reg.candidates.length} servers that were ${args.recheckClasses.join("/")}, each at least ${args.minGapMinutes} min after its first probe`);
   } else {
     reg = await collect();
     console.log(`registry: ${reg.entries} entries, ${reg.unique} unique servers, ${reg.candidates.length} with streamable-http/sse remotes (${Math.round((Date.now() - t0) / 1000)} s)`);
@@ -389,6 +386,7 @@ if (isMain) {
       limit: args.limit ?? null,
       recheckOf,
       minGapMinutes: recheckOf ? args.minGapMinutes : null,
+      recheckClasses: recheckOf ? args.recheckClasses : null,
       registry: { entries: reg.entries, uniqueServers: reg.unique, withRemotes: reg.candidates.length },
       distinctHosts: perHost.size,
       method: 'initialize + tools/list only, through the product probeServer and SSRF guard; no tool is ever called',
