@@ -147,3 +147,18 @@ test('the replay recording is served as audio/mp4, with byte ranges', async (t) 
   assert.equal(part.headers.get('content-type'), 'audio/mp4');
   assert.equal(part.headers.get('content-length'), '100');
 });
+
+test('the page always revalidates, and a hashed asset is cached for good', async (t) => {
+  const { readdirSync, existsSync } = await import('node:fs');
+  const dir = 'apps/web/dist/assets';
+  const js = existsSync(dir) ? readdirSync(dir).find((f) => f.endsWith('.js')) : undefined;
+  if (!js) { t.skip('web app not built'); return; }
+  const page = await get('/');
+  assert.equal(page.status, 200);
+  assert.equal(page.headers.get('cache-control'), 'no-cache', 'or a redeploy leaves returning visitors on a dead page');
+  const asset = await get(`/assets/${js}`);
+  assert.match(asset.headers.get('cache-control') ?? '', /immutable/);
+  const gone = await get('/assets/interpres-index-deleted.js');
+  assert.equal(gone.status, 404);
+  assert.equal(gone.headers.get('cache-control'), null, 'a 404 must not be cached as immutable');
+});

@@ -368,7 +368,15 @@ const WEB_DIST = 'apps/web/dist';
 /** Per-app prefixed entry rather than index.html: many apps share the box. */
 const WEB_ENTRY = 'interpres-index.html';
 if (existsSync(`${WEB_DIST}/${WEB_ENTRY}`)) {
-  const entry = serveStatic({ path: `${WEB_DIST}/${WEB_ENTRY}` });
+  const serveEntry = serveStatic({ path: `${WEB_DIST}/${WEB_ENTRY}` });
+  // The page always revalidates. Without this a browser caches it by heuristic,
+  // and after a redeploy a returning visitor gets old HTML asking for bundles
+  // that no longer exist (seen locally after a rebuild: two 404s, a dead page).
+  const entry: typeof serveEntry = async (c, next) => {
+    const res = await serveEntry(c, next);
+    if (res) res.headers.set('Cache-Control', 'no-cache');
+    return res;
+  };
   app.get('/', entry);
   // The replay's recording. Hono's MIME table has no .m4a, and Safari will not
   // play audio served as application/octet-stream. Registered first, so it wraps
@@ -376,6 +384,8 @@ if (existsSync(`${WEB_DIST}/${WEB_ENTRY}`)) {
   app.use('/assets/*', async (c, next) => {
     await next();
     if (c.req.path.endsWith('.m4a')) c.header('Content-Type', 'audio/mp4');
+    // Hashed names never change content, so a found asset can be kept for good.
+    if (c.res.status === 200 || c.res.status === 206) c.header('Cache-Control', 'public, max-age=31536000, immutable');
   });
   app.use('/assets/*', serveStatic({ root: WEB_DIST }));
   // A missing hashed asset is a 404, not the app: after a redeploy, a stale page

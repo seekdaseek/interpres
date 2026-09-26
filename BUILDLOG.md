@@ -1834,3 +1834,22 @@ The first call in a session gains too, because the catalog probe at session
 start has already warmed the host's connection. The gain is over the 200 ms bar,
 so this stays. Measured from the Mac; the demo server's round trips to these
 hosts differ.
+
+---
+
+## 2026-09-26 - the page revalidates; hashed assets cache for good
+
+Found while checking task 5 in the browser. The page came back from the local
+server without the new starters row, although `curl` showed the new HTML. The
+browser had cached the entry by heuristic: it had `last-modified` and no
+`Cache-Control`. On the next load it asked for a bundle the rebuild had deleted:
+two 404s and a dead page. In production every redeploy replaces the build, so a
+judge coming back would hit exactly this.
+- The entry (`/` and every app URL) now carries `Cache-Control: no-cache`, so it
+  always revalidates.
+- A found hashed asset carries `public, max-age=31536000, immutable`.
+- A 404 gets neither.
+
+```
+✔ the page always revalidates, and a hashed asset is cached for good
+```
