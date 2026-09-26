@@ -4,7 +4,7 @@
  * the shaper's own: a 429 is the account's, whichever feature earned it.
  */
 import type { StarterTool } from '@interpres/core';
-import { STARTER_SYSTEM_PROMPT, buildStarterPrompt, parseStarters, readOnlyTools, templateStarters } from '@interpres/core';
+import { STARTER_SYSTEM_PROMPT, buildStarterPrompt, parseStarters, starterTools, templateStarters } from '@interpres/core';
 import type { Catalog } from './catalog.ts';
 import type { CircuitBreaker } from './shaper.ts';
 import { config } from './config.ts';
@@ -21,16 +21,21 @@ export type Starters = {
   reason?: string;
 };
 
-export function catalogTools(catalog: Catalog): StarterTool[] {
-  return readOnlyTools(catalog.conversion.converted.map((c) => c.source).filter((s): s is NonNullable<typeof s> => s !== undefined));
+/**
+ * The tools starters are written from: read-only, and free when at least three
+ * are (see core's starterTools). `paidNames` are the MCP names that have
+ * already answered with a payment request.
+ */
+export function catalogTools(catalog: Catalog, paidNames: Iterable<string> = []): StarterTool[] {
+  return starterTools(catalog.conversion.converted.map((c) => c.source).filter((s): s is NonNullable<typeof s> => s !== undefined), { paidNames });
 }
 
 export async function writeStarters(
   catalog: Catalog,
-  opts: { breaker: CircuitBreaker; apiKey?: string; fetchImpl?: typeof fetch; timeoutMs?: number },
+  opts: { breaker: CircuitBreaker; apiKey?: string; fetchImpl?: typeof fetch; timeoutMs?: number; paidNames?: Iterable<string> },
 ): Promise<Starters> {
   const started = Date.now();
-  const tools = catalogTools(catalog);
+  const tools = catalogTools(catalog, opts.paidNames);
   const template = (reason: string): Starters => ({ source: 'template', questions: templateStarters(tools), ms: Date.now() - started, reason });
   if (tools.length === 0) return template('no_read_only_tools');
   if (opts.breaker.isOpen()) return template('breaker_open');

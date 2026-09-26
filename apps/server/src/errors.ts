@@ -18,7 +18,7 @@ import { McpError, httpStatus } from './mcp.ts';
 export const UPSTREAM_FAILED = 424;
 
 export type FailureKind =
-  | 'input' | 'blocked' | 'auth' | 'not_mcp' | 'unreachable' | 'busy' | 'server_error'
+  | 'input' | 'blocked' | 'auth' | 'paid' | 'not_mcp' | 'unreachable' | 'busy' | 'server_error'
   | 'redirect' | 'too_large' | 'internal';
 
 export type FailureBody = {
@@ -35,6 +35,8 @@ export type Failure = { status: 400 | 424 | 500; body: FailureBody };
 
 export const MESSAGES = {
   auth: 'This server needs a login. interpres only connects to servers that need none, and never sends credentials.',
+  /** A 402 before any tool is listed: the whole server is paid. A paid tool gets core's paidSentence. */
+  paidServer: "This server charges for every request over x402, even to list its tools. interpres doesn't pay, so try another server.",
   notMcp: 'That address answered, but not as an MCP server. MCP endpoints usually end in /mcp or /sse.',
   unreachable: "Couldn't reach it. Check the address and try again.",
   busy: 'That server is turning requests away right now. Try again in a minute.',
@@ -65,9 +67,11 @@ export function requireServerUrl(raw: unknown): { url: string; notes: string[] }
 
 /** An MCP failure's kind: the classification first, then the HTTP status it carried. */
 export function mcpKind(classification: string, detail: string): FailureKind {
+  const status = httpStatus(detail);
+  // 402 is classified with auth walls (it needs something interpres never sends), but says "pay".
+  if (status === 402) return 'paid';
   if (classification === 'auth_required') return 'auth';
   if (classification === 'protocol_error') return 'not_mcp';
-  const status = httpStatus(detail);
   if (status === 404 || status === 405 || status === 410) return 'not_mcp';
   if (status === 429) return 'busy';
   if (status !== null && status >= 500) return 'server_error';
@@ -98,6 +102,7 @@ export function explainFailure(err: unknown): Failure {
     const status = httpStatus(err.detail);
     const error =
       kind === 'auth' ? MESSAGES.auth
+        : kind === 'paid' ? MESSAGES.paidServer
         : kind === 'not_mcp' ? MESSAGES.notMcp
           : kind === 'busy' ? MESSAGES.busy
             : kind === 'server_error' ? MESSAGES.serverError(status ?? 500)

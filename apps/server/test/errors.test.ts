@@ -25,6 +25,13 @@ test('upstream MCP failures are 424 with one plain sentence per class', () => {
   }
 });
 
+test('a 402 before any tool is listed says the server is paid, not that it needs a login', () => {
+  const f = explainFailure(new McpError('auth_required', 'Payment Required [HTTP 402]'));
+  assert.deepEqual([f.status, f.body.kind, f.body.error], [UPSTREAM_FAILED, 'paid', MESSAGES.paidServer]);
+  // The control: a 401 is still a login wall.
+  assert.equal(explainFailure(new McpError('auth_required', 'Unauthorized [HTTP 401]')).body.kind, 'auth');
+});
+
 test('an upstream body never becomes the sentence: it is kept, clipped, as detail', () => {
   const html = `Streamable HTTP error: Error POSTing to endpoint: <!doctype html>${'<p>x</p>'.repeat(200)}`;
   const f = explainFailure(new McpError('protocol_error', html));

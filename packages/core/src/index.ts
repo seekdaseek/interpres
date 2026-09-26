@@ -16,3 +16,4 @@ export * from './gate.ts';
 export * from './idle.ts';
 export * from './starters.ts';
 export * from './url.ts';
+export * from './paid.ts';

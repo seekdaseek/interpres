@@ -1,0 +1,55 @@
+{
+ "_captured": {
+  "url": "https://x402.ochinimus.app/mcp",
+  "tool": "get_exit_quote",
+  "arguments": {
+   "symbol": "cbBTC"
+  },
+  "at": "2026-09-26T20:08:12.318Z"
+ },
+ "result": {
+  "content": [
+   {
+    "type": "text",
+    "text": "{\"x402Version\":2,\"error\":\"Payment required to access this tool\",\"resource\":{\"url\":\"mcp://tool/get_exit_quote\",\"description\":\"EXIT LIQUIDITY on seized collateral: what a liquidator ACTUALLY realises selling a Kamino reserve into live routing, versus the oracle price the protocol marks it at. Returns max_exitable_usd (largest clip whose liquidator margin is still positive, found by bisection, with its resolution width), the exitable fraction, the conservative bound at the 2% penalty floor, and for the nearest clip…\",\"mimeType\":\"application/json\",\"serviceName\":\"AgentFeed\",\"iconUrl\":\"https://x402.ochinimus.app/icon.png\"},\"accepts\":[{\"scheme\":\"exact\",\"network\":\"solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp\",\"amount\":\"20000\",\"asset\":\"EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v\",\"payTo\":\"4a8o45skRPcyjAdyR8yES215Swvh8uTpZD6KLarhxCJ7\",\"maxTimeoutSeconds\":300,\"extra\":{\"feePayer\":\"Hc3sdEAsCGQcpgfivywog9uwtk8gUBUZgsxdME1EJy88\"}},{\"scheme\":\"exact\",\"network\":\"eip155:8453\",\"amount\":\"20000\",\"asset\":\"0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913\",\"payTo\":\"0x22DB3A9686EE5261e7Bf3ed4f91277232E8076e6\",\"maxTimeoutSeconds\":300,\"extra\":{\"name\":\"USD Coin\",\"version\":\"2\"}}]}"
+   }
+  ],
+  "structuredContent": {
+   "x402Version": 2,
+   "error": "Payment required to access this tool",
+   "resource": {
+    "url": "mcp://tool/get_exit_quote",
+    "description": "EXIT LIQUIDITY on seized collateral: what a liquidator ACTUALLY realises selling a Kamino reserve into live routing, versus the oracle price the protocol marks it at. Returns max_exitable_usd (largest clip whose liquidator margin is still positive, found by bisection, with its resolution width), the exitable fraction, the conservative bound at the 2% penalty floor, and for the nearest clip…",
+    "mimeType": "application/json",
+    "serviceName": "AgentFeed",
+    "iconUrl": "https://x402.ochinimus.app/icon.png"
+   },
+   "accepts": [
+    {
+     "scheme": "exact",
+     "network": "solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp",
+     "amount": "20000",
+     "asset": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+     "payTo": "4a8o45skRPcyjAdyR8yES215Swvh8uTpZD6KLarhxCJ7",
+     "maxTimeoutSeconds": 300,
+     "extra": {
+      "feePayer": "Hc3sdEAsCGQcpgfivywog9uwtk8gUBUZgsxdME1EJy88"
+     }
+    },
+    {
+     "scheme": "exact",
+     "network": "eip155:8453",
+     "amount": "20000",
+     "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+     "payTo": "0x22DB3A9686EE5261e7Bf3ed4f91277232E8076e6",
+     "maxTimeoutSeconds": 300,
+     "extra": {
+      "name": "USD Coin",
+      "version": "2"
+     }
+    }
+   ]
+  },
+  "isError": true
+ }
+}

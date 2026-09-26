@@ -7,6 +7,7 @@
  * Only read-only tools feed either one: a starter must never suggest a change.
  */
 import { classifyWrite, findIdentifiers, nameTokens, sharedPrefixTokens } from './gate.ts';
+import { isPaidDescription } from './paid.ts';
 import type { McpTool } from './types.ts';
 
 export const STARTER_COUNT = 3;
@@ -32,10 +33,24 @@ function firstSentence(text: string): string {
 
 /** The catalog's read-only tools, with the first sentence of each description. */
 export function readOnlyTools(tools: McpTool[]): StarterTool[] {
+  return starterTools(tools, { freeFirst: false });
+}
+
+/**
+ * The tools starter questions are written from: the read-only ones, and of
+ * those only the free ones when there are at least STARTER_COUNT of them, so a
+ * paid server's starters can be answered. A tool is paid when its own full
+ * description states a per-call USDC price or names x402 (the converted
+ * description can be cut short before the price), or when it has already
+ * answered with a payment request (`paidNames`).
+ */
+export function starterTools(tools: McpTool[], opts: { freeFirst?: boolean; paidNames?: Iterable<string> } = {}): StarterTool[] {
   const shared = sharedPrefixTokens(tools.map((t) => t.name));
-  return tools
-    .filter((t) => !classifyWrite(t, shared).write)
-    .map((t) => ({ name: t.name, description: firstSentence(t.description ?? t.title ?? ''), words: nameTokens(t.name).slice(shared) }));
+  const readOnly = tools.filter((t) => !classifyWrite(t, shared).write);
+  const paidNames = new Set(opts.paidNames ?? []);
+  const free = readOnly.filter((t) => !paidNames.has(t.name) && !isPaidDescription(t.description));
+  const chosen = opts.freeFirst !== false && free.length >= STARTER_COUNT ? free : readOnly;
+  return chosen.map((t) => ({ name: t.name, description: firstSentence(t.description ?? t.title ?? ''), words: nameTokens(t.name).slice(shared) }));
 }
 
 export const STARTER_SYSTEM_PROMPT = [

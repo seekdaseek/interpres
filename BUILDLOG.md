@@ -2586,3 +2586,76 @@ The rest of the prose numbers are code constants.
 ```
 $ npm test    ℹ tests 377  ℹ pass 377  ℹ fail 0
 ```
+
+---
+
+## 2026-09-26 - round F, F0: paid tools say they are paid
+
+**Found on the public site (Sergiu, 23:00 EEST).** Typing `ochinimus.app` finds AgentFeed in the
+official registry: `https://x402.ochinimus.app/mcp`, 59 tools. Its paid tools answer with x402, and
+the page and the agent got the raw JSON.
+
+**Before, measured here:**
+- `data/f0-starters-before.json`, 20:04Z. The connect is 200, 872 ms, "Found in the official MCP
+  registry". The Gateway's starters were "What is the current liquidation pulse?", "Show me the top
+  liquidation leaders." and "What is the cascade forecast for Solana?", all written from a list that
+  included the paid tools.
+- `data/f0-e2e-before.json`, `sess_e16cdfa61c704fb0b00202d0fbbabffd`, through the public API:
+  - "What is the crypto fear and greed index right now?" ran `find_tools` then `get_fear_greed`, and
+    the answer was "seventy four ... greed". That already worked.
+  - "What is the live SOL price right now?" ran `find_tools` then `get_sol_price`, which came back
+    `isError`, method `truncated`, and its spoken text was the x402 JSON cut to 321 characters
+    (`{"x402Version":2,"error":"Payment required to access this tool",...`). The agent paraphrased the
+    price this time, but it was handed JSON.
+
+**The real shape** (`packages/core/test/results/*.json`, captured from AgentFeed):
+- A paid tool returns `isError: true`, with the x402 v2 object both as its text part and as
+  `structuredContent`.
+- `accepts` has two entries, Solana USDC and Base USDC, each with `amount` in atomic units: 1000 for
+  `get_sol_price`, 20000 for `get_exit_quote`.
+- The paid tools' own descriptions end "Costs N USDC per call (x402, USDC on Solana or Base)."
+
+**The change** (`packages/core/src/paid.ts`):
+- `detectPaymentRequired` looks for `x402Version` with a payment error or an `accepts` list, in
+  `structuredContent` or in a text part (also when cut short), or an HTTP 402.
+- `priceFromAccepts` reads v2 `amount` or v1 `maxAmountRequired`, with decimals from a known USDC mint
+  or `extra.decimals`.
+- `priceFromDescription` reads "Costs N USDC per call" or "$N per call".
+- `paidSentence` gives "That tool is paid: 0.001 USDC per call over x402. interpres doesn't pay for
+  tools, so try a free one.", and leaves the price out when neither source has it.
+
+**How the server uses it:**
+- `/api/mcp/call` answers a paid tool with that sentence as the agent's `tool.result` and the page's
+  spoken line. It sets method `paid, x402` for the timeline, and passes no raw x402 object.
+- A thrown HTTP 402 on a call gets the same sentence.
+- A 402 before any tool is listed is now its own kind, `paid`: "This server charges for every request
+  over x402, even to list its tools...". It used to be the login sentence.
+- Tools that answered with a payment request are remembered per server URL.
+
+**Starters:**
+- `starterTools` writes starters from free read-only tools when there are at least three.
+- Paid means the tool's own full description states a USDC price or names x402, or it already asked
+  for payment.
+- The **full** description is used, not the converted one. `get_exit_quote`'s price sits past the
+  converter's 1,024-character cut, which is why counting on the converted descriptions gave 51 paid
+  tools. The tools' own descriptions give 52.
+
+**One bug caught by a test:** the Solana USDC mint typed from memory had an extra letter
+(`...wEGGGkZ...`). The real-result test still passed, because the Base entry matched. The isolated
+`priceFromAccepts` test failed. The set now holds only the two mints copied from the captured results.
+
+**Nothing else changes.** `scripts/phase1-golden.ts` wrote the opening phase of the six presets and
+goji (from fixtures, three captured today) before the change. `packages/core/test/phase1.test.ts`
+recomputes it after, identical, and a control shows it would notice a reordered phase.
+
+**README:** one line under the limits.
+
+**Local proof** (dev server):
+- `get_sol_price` gives `method "paid, x402"`, `price "0.001 USDC"`, the sentence above, and no raw.
+- `get_fear_greed` gives its normal result.
+- The starters were "What is the current crypto fear and greed index?", "What is the last
+  liquidation for Bitcoin?" and "How much does the liquidation forecast cost?".
+
+```
+$ npm test    ℹ tests 422  ℹ pass 422  ℹ fail 0
+```

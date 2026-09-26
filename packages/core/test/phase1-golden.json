@@ -1,0 +1,151 @@
+[
+ {
+  "fixture": "assemblyai-docs-mcp",
+  "url": "https://www.assemblyai.com/docs/mcp",
+  "tools": [
+   "use_pasted_text",
+   "search_assembly_ai",
+   "query_docs_filesystem_assembly_ai",
+   "submit_feedback"
+  ],
+  "hasFindTools": false,
+  "reason": "catalog fits in one phase",
+  "keyterms": [
+   "AssemblyAI",
+   "filesystem"
+  ],
+  "sessionUpdateSha256": "9751c57bcc710681ee90c3a2410ebede03508e4a08ecd93e5dcff9426245245b"
+ },
+ {
+  "fixture": "afg-marketplace",
+  "url": "https://afg.ai/mcp",
+  "tools": [
+   "find_tools",
+   "use_pasted_text",
+   "afg_get_reputation",
+   "afg_dispute",
+   "afg_prepare_signed_request",
+   "afg_sign_contract",
+   "afg_appeal",
+   "afg_contract_template",
+   "afg_submit",
+   "afg_create_wallet"
+  ],
+  "hasFindTools": true,
+  "reason": "catalog of 15 exceeds the 10-tool limit",
+  "keyterms": [
+   "schema valid",
+   "AFG",
+   "fulfillment",
+   "sandbox",
+   "wallet"
+  ],
+  "sessionUpdateSha256": "5151e9d3c018dbeee5681778f2bd76f0736f010dad433bcdec0a379cb3f93a11"
+ },
+ {
+  "fixture": "advisorsai-service-navigator",
+  "url": "https://advisorsai.ai/mcp",
+  "tools": [
+   "use_pasted_text",
+   "advisors_catalog_list_services",
+   "advisors_catalog_get_service",
+   "advisors_catalog_match_service",
+   "advisors_site_check_basics",
+   "advisors_order_prepare_link"
+  ],
+  "hasFindTools": false,
+  "reason": "catalog fits in one phase",
+  "keyterms": [
+   "store assistant",
+   "store audit",
+   "AI visibility",
+   "custom monitor",
+   "agent team",
+   "advisors",
+   "navigator"
+  ],
+  "sessionUpdateSha256": "0c9cd92e055404416df108ea5b1c5aac11f5d2e674393ae889e353788f853057"
+ },
+ {
+  "fixture": "most-recommended-books",
+  "url": "https://mostrecommendedbooks.com/api/mcp",
+  "tools": [
+   "use_pasted_text",
+   "search_books",
+   "get_person_recommendations",
+   "get_book_recommenders",
+   "get_series_reading_order",
+   "get_list",
+   "get_summary"
+  ],
+  "hasFindTools": false,
+  "reason": "catalog fits in one phase",
+  "keyterms": [
+   "recommenders"
+  ],
+  "sessionUpdateSha256": "653f914d4fa85b86dc991936320c9093fba6b939e4704f94eb323e11a6c132aa"
+ },
+ {
+  "fixture": "recipes-daily",
+  "url": "https://recipes-daily.com/mcp",
+  "tools": [
+   "use_pasted_text",
+   "search_recipes",
+   "find_recipes_by_ingredients",
+   "show_recipes"
+  ],
+  "hasFindTools": false,
+  "reason": "catalog fits in one phase",
+  "keyterms": [
+   "recipes"
+  ],
+  "sessionUpdateSha256": "e6a90040b0cdf11ce6bb2dbf1c2ba97f690de105880e21a014c2162489fdeabf"
+ },
+ {
+  "fixture": "weather-datakoot",
+  "url": "https://weather.datakoot.com/mcp",
+  "tools": [
+   "use_pasted_text",
+   "geocode",
+   "weather_forecast",
+   "weather_current",
+   "weather_alerts",
+   "earthquakes",
+   "elevation"
+  ],
+  "hasFindTools": false,
+  "reason": "catalog fits in one phase",
+  "keyterms": [
+   "geocode",
+   "forecast"
+  ],
+  "sessionUpdateSha256": "6d2a3efd54d684a51379b1f3be659b90ecc48d8931247d80d78332a70e8c6777"
+ },
+ {
+  "fixture": "goji",
+  "url": "https://mcp.goji.agency/mcp",
+  "tools": [
+   "use_pasted_text",
+   "goji_search",
+   "goji_explain_term",
+   "goji_browse_glossary",
+   "goji_get_service",
+   "goji_answer_faq",
+   "goji_guide_contents",
+   "goji_read_guide_chapter",
+   "goji_read_guide",
+   "goji_start_enquiry"
+  ],
+  "hasFindTools": false,
+  "reason": "catalog fits in one phase",
+  "keyterms": [
+   "AI Visibility",
+   "AI Builds",
+   "goji",
+   "glossary",
+   "faq",
+   "enquiry"
+  ],
+  "sessionUpdateSha256": "4714a032ccc555b09bb43ef6ebf1e23868cafddec27ba4062933a1b893d9158d"
+ }
+]

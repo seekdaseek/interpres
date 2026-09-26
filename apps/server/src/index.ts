@@ -15,7 +15,7 @@ import type { HttpBindings } from '@hono/node-server';
 import { serveStatic } from '@hono/node-server/serve-static';
 import { existsSync } from 'node:fs';
 import {
-  applyNormalisers, assertPhaseValid, handleFindTools, initialPhase,
+  applyNormalisers, assertPhaseValid, detectPaymentRequired, handleFindTools, initialPhase, paidSentence, priceFromDescription,
   buildGreeting, phaseSessionUpdate, shapeResult, gateTools, MAX_TOOLS_PER_PHASE,
 } from '@interpres/core';
 import type { Phase, PlannerInput } from '@interpres/core';
@@ -25,7 +25,7 @@ import type { Decision } from './ratelimit.ts';
 import { EventLog, publicEvent } from './logs.ts';
 import { getCatalog, cacheStats, invalidate } from './catalog.ts';
 import type { Catalog } from './catalog.ts';
-import { callTool, pool } from './mcp.ts';
+import { McpError, callTool, httpStatus, pool } from './mcp.ts';
 import { MESSAGES, UPSTREAM_FAILED, explainFailure, requireServerUrl } from './errors.ts';
 import type { Failure } from './errors.ts';
 import { SsrfError, ensureVerified } from './ssrf.ts';
@@ -55,7 +55,7 @@ const shaper = makeShaper({ stats: shaperStats, breaker });
 /** Consulted before every Gateway call, so an open breaker costs no wait. */
 const shaperAvailable = (): boolean => config.shaperRefine && !breaker.isOpen();
 
-const counters = { tokens: 0, connects: 0, toolCalls: 0, toolFailures: 0, findTools: 0, discoveries: 0, searches: 0 };
+const counters = { tokens: 0, connects: 0, toolCalls: 0, toolFailures: 0, findTools: 0, discoveries: 0, searches: 0, paid: 0 };
 
 // HttpBindings gives access to the raw Node request, and so to the socket's
 // own peer address - the only client identity a caller cannot forge.
@@ -357,7 +357,7 @@ app.post('/api/mcp/starters', async (c) => {
     const hit = startersCache.get(url);
     if (hit && hit.expires > Date.now()) return c.json({ ...hit.starters, cached: true });
     const { catalog } = await getCatalog(url);
-    const starters = await writeStarters(catalog, { breaker });
+    const starters = await writeStarters(catalog, { breaker, paidNames: paidSeen.get(url) ?? [] });
     log.record('starters', { url, source: starters.source, ms: starters.ms, reason: starters.reason, count: starters.questions.length });
     // Templates are not worth keeping: the Gateway may be back in a minute.
     if (starters.source === 'gateway') {
@@ -404,6 +404,45 @@ app.post('/api/mcp/find-tools', async (c) => {
   }
 });
 
+/**
+ * Tools that have answered with a payment request, per server URL. Starter
+ * questions leave them out, as they leave out tools whose description names a
+ * price. Bounded: the oldest server is forgotten first.
+ */
+const paidSeen = new Map<string, Set<string>>();
+function markPaid(url: string, mcpName: string): void {
+  const seen = paidSeen.get(url) ?? new Set<string>();
+  seen.add(mcpName);
+  paidSeen.delete(url);
+  paidSeen.set(url, seen);
+  if (paidSeen.size > config.limits.catalogCacheEntries) paidSeen.delete(paidSeen.keys().next().value!);
+}
+
+/**
+ * What a paid tool call returns: the plain sentence for the agent and the
+ * page, and "paid, x402" for the timeline. The x402 object itself is not
+ * passed on: its addresses are not data the caller asked for.
+ */
+function paidReply(a: { url: string; voiceName: string; mcpName: string; price?: string; started: number; mcpMs?: number; args: Record<string, unknown> }) {
+  markPaid(a.url, a.mcpName);
+  counters.toolCalls++;
+  counters.paid++;
+  const sentence = paidSentence(a.price);
+  log.record('tool.call', { url: a.url, voiceName: a.voiceName, mcpName: a.mcpName, ok: false, ms: Date.now() - a.started, mcpMs: a.mcpMs, method: 'paid, x402' });
+  return {
+    result: JSON.stringify({ error: sentence }),
+    spoken: sentence,
+    isError: true,
+    paid: true,
+    price: a.price ?? null,
+    shaped: false,
+    method: 'paid, x402',
+    mcpMs: a.mcpMs,
+    totalMs: Date.now() - a.started,
+    arguments: a.args,
+  };
+}
+
 /** Call one tool on the MCP server and shape the result for speech. */
 app.post('/api/mcp/call', async (c) => {
   let body: { url?: unknown; tool?: unknown; arguments?: unknown; question?: unknown; session?: unknown };
@@ -425,10 +464,13 @@ app.post('/api/mcp/call', async (c) => {
   const voiceName = body.tool;
   const rawArgs = (body.arguments ?? {}) as Record<string, unknown>;
   const started = Date.now();
+  // Known before the call goes out, so a thrown 402 can still name the price.
+  let mcpName: string | undefined;
+  let description: string | undefined;
 
   try {
     const { catalog } = await getCatalog(url);
-    const mcpName = catalog.nameMap.get(voiceName);
+    mcpName = catalog.nameMap.get(voiceName);
     if (mcpName === undefined) {
       // The agent asked for a tool this server does not have. Say so in the
       // shape the docs recommend, so it can recover rather than guess.
@@ -443,6 +485,8 @@ app.post('/api/mcp/call', async (c) => {
     }
 
     const entry = catalog.conversion.converted.find((cv) => cv.tool.name === voiceName);
+    // The tool's own description: the converted one can be cut short before its price.
+    description = entry?.source?.description;
     // Patterns we dropped are no longer enforced upstream, so spoken values get
     // tidied here instead - the handler-side strip the docs prescribe.
     const { args, applied } = applyNormalisers(rawArgs, entry?.report.normalisers ?? []);
@@ -450,6 +494,11 @@ app.post('/api/mcp/call', async (c) => {
     // The Voice Agent session_id keys a warm MCP client for that conversation.
     const poolKey = typeof body.session === 'string' && /^[A-Za-z0-9_-]{1,128}$/.test(body.session) ? body.session : undefined;
     const outcome = await callTool(url, mcpName, args, { poolKey });
+    // A paid tool answers with an x402 payment request, not data: one sentence, never the JSON.
+    const pay = detectPaymentRequired(outcome.result);
+    if (pay) {
+      return c.json(paidReply({ url, voiceName, mcpName, price: pay.price ?? priceFromDescription(description), started, mcpMs: outcome.durationMs, args }));
+    }
     const shaped = await shapeResult(voiceName, outcome.result, {
       shaper,
       shaperAvailable,
@@ -489,6 +538,13 @@ app.post('/api/mcp/call', async (c) => {
       arguments: args,
     });
   } catch (err) {
+    // The same request, refused at the HTTP level: a 402.
+    if (mcpName !== undefined && err instanceof McpError && httpStatus(err.detail) === 402) {
+      const body402 = err.detail.match(/\{[\s\S]*\}/)?.[0];
+      let fromBody: string | undefined;
+      try { fromBody = body402 ? detectPaymentRequired(JSON.parse(body402))?.price : undefined; } catch { /* not JSON */ }
+      return c.json(paidReply({ url, voiceName, mcpName, price: fromBody ?? priceFromDescription(description), started, args: rawArgs }));
+    }
     counters.toolFailures++;
     const f = explainFailure(err);
     log.record('tool.call.failed', { url, voiceName, ms: Date.now() - started, ok: false, code: f.body.code, kind: f.body.kind, error: f.body.detail ?? f.body.error });

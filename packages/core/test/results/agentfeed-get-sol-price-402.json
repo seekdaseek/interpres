@@ -1,0 +1,53 @@
+{
+ "_captured": {
+  "url": "https://x402.ochinimus.app/mcp",
+  "tool": "get_sol_price",
+  "arguments": {},
+  "at": "2026-09-26T20:08:12.116Z"
+ },
+ "result": {
+  "content": [
+   {
+    "type": "text",
+    "text": "{\"x402Version\":2,\"error\":\"Payment required to access this tool\",\"resource\":{\"url\":\"mcp://tool/get_sol_price\",\"description\":\"Live SOL/USD spot price (multi-source: Coinbase, Kraken, Pyth Hermes fallback). The confidence and publish_time fields are null unless Pyth Hermes served the request; Coinbase and Kraken publish neither.\",\"mimeType\":\"application/json\",\"serviceName\":\"AgentFeed\",\"iconUrl\":\"https://x402.ochinimus.app/icon.png\"},\"accepts\":[{\"scheme\":\"exact\",\"network\":\"solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp\",\"amount\":\"1000\",\"asset\":\"EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v\",\"payTo\":\"4a8o45skRPcyjAdyR8yES215Swvh8uTpZD6KLarhxCJ7\",\"maxTimeoutSeconds\":300,\"extra\":{\"feePayer\":\"Hc3sdEAsCGQcpgfivywog9uwtk8gUBUZgsxdME1EJy88\"}},{\"scheme\":\"exact\",\"network\":\"eip155:8453\",\"amount\":\"1000\",\"asset\":\"0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913\",\"payTo\":\"0x22DB3A9686EE5261e7Bf3ed4f91277232E8076e6\",\"maxTimeoutSeconds\":300,\"extra\":{\"name\":\"USD Coin\",\"version\":\"2\"}}]}"
+   }
+  ],
+  "structuredContent": {
+   "x402Version": 2,
+   "error": "Payment required to access this tool",
+   "resource": {
+    "url": "mcp://tool/get_sol_price",
+    "description": "Live SOL/USD spot price (multi-source: Coinbase, Kraken, Pyth Hermes fallback). The confidence and publish_time fields are null unless Pyth Hermes served the request; Coinbase and Kraken publish neither.",
+    "mimeType": "application/json",
+    "serviceName": "AgentFeed",
+    "iconUrl": "https://x402.ochinimus.app/icon.png"
+   },
+   "accepts": [
+    {
+     "scheme": "exact",
+     "network": "solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp",
+     "amount": "1000",
+     "asset": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+     "payTo": "4a8o45skRPcyjAdyR8yES215Swvh8uTpZD6KLarhxCJ7",
+     "maxTimeoutSeconds": 300,
+     "extra": {
+      "feePayer": "Hc3sdEAsCGQcpgfivywog9uwtk8gUBUZgsxdME1EJy88"
+     }
+    },
+    {
+     "scheme": "exact",
+     "network": "eip155:8453",
+     "amount": "1000",
+     "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+     "payTo": "0x22DB3A9686EE5261e7Bf3ed4f91277232E8076e6",
+     "maxTimeoutSeconds": 300,
+     "extra": {
+      "name": "USD Coin",
+      "version": "2"
+     }
+    }
+   ]
+  },
+  "isError": true
+ }
+}

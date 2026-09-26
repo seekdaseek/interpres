@@ -1,0 +1,16 @@
+{
+ "_captured": {
+  "url": "https://x402.ochinimus.app/mcp",
+  "tool": "get_exit_quote",
+  "at": "2026-09-26T20:07:55.942Z"
+ },
+ "result": {
+  "content": [
+   {
+    "type": "text",
+    "text": "MCP error -32602: Input validation error: Invalid arguments for tool get_exit_quote: [\n  {\n    \"expected\": \"string\",\n    \"code\": \"invalid_type\",\n    \"path\": [\n      \"symbol\"\n    ],\n    \"message\": \"Invalid input: expected string, received undefined\"\n  }\n]"
+   }
+  ],
+  "isError": true
+ }
+}

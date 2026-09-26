@@ -341,6 +341,10 @@ To reproduce, run `node --env-file=.env scripts/e2e-audio.ts --preset <url> --sa
   replaces those bodies with its own HTML page. An upstream failure is a 424
   with one plain sentence and a next step, and the page turns any body that is
   not JSON into a sentence with its status, never a parser error.
+- **Paid tools:** servers that charge per call over x402 connect; their free
+  tools answer, and paid ones state their price. AgentFeed (type
+  `ochinimus.app`) is the example. interpres never pays, and starter questions
+  come from the free tools.
 - **Fetching strangers' URLs is rate-limited:** per IP and hour, 120 connects,
   120 searches and 20 website discoveries.
 - **Spend:**

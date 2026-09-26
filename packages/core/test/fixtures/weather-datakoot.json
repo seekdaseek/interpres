@@ -1,0 +1,160 @@
+{
+  "_captured": {
+    "url": "https://weather.datakoot.com/mcp",
+    "at": "2026-09-26T20:03:19.074Z",
+    "statefulSession": false,
+    "note": "Verbatim JSON-RPC results. Captured independently of packages/core."
+  },
+  "initialize": {
+    "protocolVersion": "2025-06-18",
+    "capabilities": {
+      "tools": {}
+    },
+    "serverInfo": {
+      "name": "weather-intel",
+      "version": "1.0.0"
+    },
+    "instructions": "Weather & Geo Intel: US weather forecasts, current conditions, active NWS alerts, recent earthquakes (USGS), ground elevation, and US address geocoding. Have a location as text - a street address or just a city like 'Chicago, IL'? Call geocode first to get lat/lon, then the weather tools."
+  },
+  "toolsList": {
+    "tools": [
+      {
+        "name": "geocode",
+        "description": "Convert a US street address OR a city/town name into latitude/longitude coordinates, using US Census data. Accepts both '1600 Pennsylvania Ave NW, Washington DC' and 'Chicago, IL' - a place name returns the centroid of the city. Call this first whenever you have a location as text and need coordinates for the weather or elevation tools. US locations only.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "address": {
+              "type": "string",
+              "description": "A US street address ('1600 Pennsylvania Ave NW, Washington DC') or a city or town ('Chicago, IL', 'Springdale, Arkansas')"
+            }
+          },
+          "required": [
+            "address"
+          ]
+        }
+      },
+      {
+        "name": "weather_forecast",
+        "description": "Get a multi-day weather forecast for a US location by latitude/longitude (National Weather Service). Returns named periods (Today, Tonight, ...) with temperature, wind, and a short + detailed forecast. Use geocode first if you only have an address.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "lat": {
+              "type": "number",
+              "description": "Latitude in decimal degrees, e.g. 36.1867. US coverage only (National Weather Service)."
+            },
+            "lon": {
+              "type": "number",
+              "description": "Longitude in decimal degrees, negative in the western hemisphere, e.g. -94.1288."
+            },
+            "hourly": {
+              "type": "boolean",
+              "description": "If true, return the hourly forecast instead of daily periods.",
+              "default": false
+            }
+          },
+          "required": [
+            "lat",
+            "lon"
+          ]
+        }
+      },
+      {
+        "name": "weather_current",
+        "description": "Get the latest observed weather conditions for a US location by latitude/longitude, from the nearest NWS observation station: temperature, humidity, wind, and text description.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "lat": {
+              "type": "number",
+              "description": "Latitude in decimal degrees, e.g. 36.1867. US coverage only (National Weather Service)."
+            },
+            "lon": {
+              "type": "number",
+              "description": "Longitude in decimal degrees, negative in the western hemisphere, e.g. -94.1288."
+            }
+          },
+          "required": [
+            "lat",
+            "lon"
+          ]
+        }
+      },
+      {
+        "name": "weather_alerts",
+        "description": "List active NWS weather alerts (warnings, watches, advisories) for a US state or marine area. Pass a two-letter state code like CA, TX, FL. Returns event type, severity, headline, affected area and expiry.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "area": {
+              "type": "string",
+              "description": "Two-letter US state/territory code, e.g. CA, TX, FL, PR."
+            }
+          },
+          "required": [
+            "area"
+          ]
+        }
+      },
+      {
+        "name": "earthquakes",
+        "description": "List recent earthquakes worldwide from the USGS feed. Filter by minimum magnitude, look-back window in days, and optionally a bounding box or a point+radius (km). Returns magnitude, place, time, depth and coordinates.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "min_magnitude": {
+              "type": "number",
+              "default": 4.5,
+              "description": "Only return quakes at or above this magnitude."
+            },
+            "days": {
+              "type": "integer",
+              "description": "Look back this many days (default 7, max 30).",
+              "default": 7
+            },
+            "lat": {
+              "type": "number",
+              "description": "Optional center latitude for a radius search."
+            },
+            "lon": {
+              "type": "number",
+              "description": "Optional center longitude for a radius search."
+            },
+            "radius_km": {
+              "type": "number",
+              "description": "Radius in km around lat/lon (requires lat+lon)."
+            },
+            "limit": {
+              "type": "integer",
+              "default": 20,
+              "description": "Maximum number of quakes to return."
+            }
+          },
+          "required": []
+        }
+      },
+      {
+        "name": "elevation",
+        "description": "Get the ground elevation at a latitude/longitude within the US, from the USGS Elevation Point Query Service. Returns elevation in feet and meters.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "lat": {
+              "type": "number",
+              "description": "Latitude in decimal degrees, e.g. 39.5883. US coverage only (USGS)."
+            },
+            "lon": {
+              "type": "number",
+              "description": "Longitude in decimal degrees, negative in the western hemisphere, e.g. -105.6438."
+            }
+          },
+          "required": [
+            "lat",
+            "lon"
+          ]
+        }
+      }
+    ]
+  }
+}
