@@ -49,9 +49,30 @@ export class McpError extends Error {
  * perfectly healthy server we simply cannot use, and must not be counted as
  * broken.
  */
+/**
+ * The message plus its `cause` chain. Undici reports every network failure as
+ * a bare "fetch failed" and puts ENOTFOUND / ECONNREFUSED / the TLS error on
+ * `cause`, so without this a dead host and a bad certificate read the same.
+ */
+export function describeError(err: unknown): string {
+  const parts: string[] = [];
+  let cur: unknown = err;
+  for (let depth = 0; depth < 4 && cur !== undefined && cur !== null; depth++) {
+    if (cur instanceof Error) {
+      const code = (cur as { code?: unknown }).code;
+      parts.push(typeof code === 'string' && !cur.message.includes(code) ? `${cur.message} [${code}]` : cur.message);
+      cur = (cur as { cause?: unknown }).cause;
+    } else {
+      parts.push(String(cur));
+      break;
+    }
+  }
+  return parts.filter(Boolean).join(' <- ');
+}
+
 export function classifyError(err: unknown): { classification: string; detail: string } {
   if (err instanceof SsrfError) return { classification: err.code, detail: err.message };
-  const message = err instanceof Error ? err.message : String(err);
+  const message = describeError(err);
   if (/\b(401|403)\b|unauthor|forbidden|invalid.token|api.key|authentication/i.test(message)) {
     return { classification: 'auth_required', detail: message };
   }
@@ -69,16 +90,49 @@ export function classifyError(err: unknown): { classification: string; detail: s
 
 type OpenResult = { client: Client; transport: Transport };
 
-async function openWith(url: URL, kind: Transport, timeoutMs: number): Promise<OpenResult> {
+/** guardedFetch with extra request headers - a User-Agent for the sweep. */
+function fetchWithHeaders(extra: Record<string, string> | undefined): typeof guardedFetch {
+  if (!extra || Object.keys(extra).length === 0) return guardedFetch;
+  return (input, init = {}) => {
+    const headers = new Headers(init.headers ?? (input instanceof Request ? input.headers : undefined));
+    for (const [k, v] of Object.entries(extra)) headers.set(k, v);
+    return guardedFetch(input, { ...init, headers });
+  };
+}
+
+async function openWith(url: URL, kind: Transport, timeoutMs: number, headers?: Record<string, string>): Promise<OpenResult> {
   const client = new Client(CLIENT_INFO, { capabilities: {} });
+  const fetch = fetchWithHeaders(headers);
   const transport =
     kind === 'streamable-http'
-      ? new StreamableHTTPClientTransport(url, { fetch: guardedFetch })
-      : new SSEClientTransport(url, { fetch: guardedFetch });
+      ? new StreamableHTTPClientTransport(url, { fetch })
+      : new SSEClientTransport(url, { fetch });
   // The SDK sends `initialize` and the `notifications/initialized` that stateful
   // servers require, and tracks Mcp-Session-Id for us.
-  await client.connect(transport, { timeout: timeoutMs });
+  try {
+    await client.connect(transport, { timeout: timeoutMs });
+  } catch (err) {
+    // A failed connect must still release the transport: an SSE event source
+    // left open keeps reconnecting in the background, to a server that already
+    // said no.
+    await client.close().catch(() => {});
+    throw err;
+  }
   return { client, transport: kind };
+}
+
+/**
+ * Could the legacy SSE transport change the outcome? Not after an auth refusal
+ * (same server, same missing credential), and not after a network-level failure
+ * (same host) - trying anyway doubles the wait on every dead URL. It can after
+ * an HTTP-level rejection of the POST or a response that is not MCP at all,
+ * which is what an SSE-only server gives a Streamable HTTP client.
+ */
+export function worthFallingBack(err: unknown): boolean {
+  if (err instanceof SsrfError) return false;
+  const { classification, detail } = classifyError(err);
+  if (classification === 'auth_required') return false;
+  return !/timeout|timed out|aborted|ENOTFOUND|EAI_AGAIN|ECONNREFUSED|ECONNRESET|EHOSTUNREACH|ENETUNREACH|certificate|CERT_|TLS|SSL|self.signed/i.test(detail);
 }
 
 /**
@@ -89,7 +143,7 @@ async function openWith(url: URL, kind: Transport, timeoutMs: number): Promise<O
  */
 export async function probeServer(
   rawUrl: string,
-  opts: { timeoutMs?: number } = {},
+  opts: { timeoutMs?: number; headers?: Record<string, string> } = {},
 ): Promise<McpConnection> {
   const timeoutMs = opts.timeoutMs ?? 15_000;
   // Vet before either transport opens, so a bad URL fails the same way for both.
@@ -98,13 +152,17 @@ export async function probeServer(
   let opened: OpenResult | undefined;
   let firstFailure: unknown;
   try {
-    opened = await openWith(url, 'streamable-http', timeoutMs);
+    opened = await openWith(url, 'streamable-http', timeoutMs, opts.headers);
   } catch (err) {
     firstFailure = err;
     // An SSRF refusal is final: falling back would just re-refuse.
     if (err instanceof SsrfError) throw err;
+    if (!worthFallingBack(err)) {
+      const { classification, detail } = classifyError(err);
+      throw new McpError(classification, detail);
+    }
     try {
-      opened = await openWith(url, 'sse', timeoutMs);
+      opened = await openWith(url, 'sse', timeoutMs, opts.headers);
     } catch {
       // Report the Streamable HTTP failure: it is the transport the spec
       // prefers, so its error describes the server better than the fallback's.
@@ -159,7 +217,16 @@ export async function callTool(
     opened = await openWith(url, 'streamable-http', timeoutMs);
   } catch (err) {
     if (err instanceof SsrfError) throw err;
-    opened = await openWith(url, 'sse', timeoutMs);
+    if (!worthFallingBack(err)) {
+      const { classification, detail } = classifyError(err);
+      throw new McpError(classification, detail);
+    }
+    try {
+      opened = await openWith(url, 'sse', timeoutMs);
+    } catch {
+      const { classification, detail } = classifyError(err);
+      throw new McpError(classification, detail);
+    }
   }
 
   try {

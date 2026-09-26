@@ -22,6 +22,7 @@ import { Agent, fetch as undiciFetch } from 'undici';
 
 export const TIMEOUT_MS = 10_000;
 export const MAX_RESPONSE_BYTES = 512 * 1024;
+export const DNS_TIMEOUT_MS = 5_000;
 
 export type SsrfCode =
   | 'not_a_url'
@@ -202,7 +203,15 @@ export async function verifyUrl(raw: string): Promise<VerifiedTarget> {
 
   let resolved: Array<{ address: string; family: number }>;
   try {
-    resolved = await lookup(url.hostname, { all: true });
+    // The system resolver has no timeout of its own worth relying on; a slow
+    // one would otherwise hold a request open far past TIMEOUT_MS.
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    resolved = await Promise.race([
+      lookup(url.hostname, { all: true }),
+      new Promise<never>((_, reject) => {
+        timer = setTimeout(() => reject(new Error('dns timeout')), DNS_TIMEOUT_MS);
+      }),
+    ]).finally(() => clearTimeout(timer));
   } catch {
     throw new SsrfError('dns_failed', `Could not resolve ${url.hostname}.`);
   }

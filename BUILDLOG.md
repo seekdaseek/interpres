@@ -1018,3 +1018,53 @@ against the documented limits (<= 50 chars, <= 3 words, no URL or path).
 $ node --test packages/core/test/keyterms.test.ts    ℹ tests 20  ℹ pass 20
 $ npm test                                            ℹ tests 272 ℹ pass 272
 ```
+
+---
+
+## 2026-09-26 - task 1: the registry sweep (code; results follow)
+
+`scripts/sweep.ts` pages the official registry
+(`/v0/servers?limit=100`, `nextCursor`), keeps servers with `streamable-http` or
+`sse` remotes, and probes each with the **product's own `probeServer`** - so an
+`ok` means "paste this URL into interpres and it works" - through the same SSRF
+guard. `initialize` + `tools/list` only; no tool is ever called. Every request
+carries `User-Agent: interpres-sweep/0.1 (+https://github.com/seekdaseek/interpres)`.
+Concurrency 8, 8 s timeout, and at most 2 probes in flight per host, because
+some hosts serve dozens of registry entries.
+
+The registry is far larger than one page suggested. Measured census:
+**119,860 entries, 36,247 unique servers, 22,214 with remotes** (21,678
+streamable-http + 1,098 sse remote URLs; 231 templated URLs; 3,358 that declare a
+required or secret header). Consequences built in:
+
+- **Versions deduped by name**, keeping the `isLatest` entry - the registry lists
+  every published version, and counting them would inflate every total.
+- **Output split**: the full record with the raw `tools/list` of every `ok` server
+  is gzipped (`data/sweep-<stamp>Z.json.gz`), beside a readable summary JSON
+  without the raw catalogs. Tasks 2 and 6 read the gzip; nothing is re-probed.
+- **Recheck mode** for the two-sweep rule: `--recheck <sweep>` re-probes every
+  server that was `ok`, each no sooner than 60 minutes after **its own** first
+  probe, so the gap holds per server rather than on average.
+- Templated URLs (`{...}`) are recorded as `unreachable / url_template`, not probed.
+- Every attempt records a short measured reason code: `http_401`, `dns`,
+  `refused`, `timeout`, `tls`, `http_404`, `jsonrpc_method_not_found`,
+  `not_mcp_response`, `ssrf_blocked_address` and so on.
+
+Three fixes to the probe path that the sweep forced, all of which the product
+now gets too:
+
+1. **A failed connect now closes its transport.** Before, an SSE `EventSource`
+   left open after a failed handshake could keep reconnecting in the background.
+2. **The SSE fallback is skipped when it cannot change the outcome** - after an
+   auth refusal, a timeout, DNS failure, refused connection or TLS error. Same
+   host, same answer; trying doubled the wait on every dead URL. It is still tried
+   after an HTTP-level rejection of the POST, which is what an SSE-only server
+   returns.
+3. **DNS lookups time out at 5 s**, and errors now carry undici's `cause` chain -
+   a bare "fetch failed" becomes `fetch failed <- getaddrinfo ENOTFOUND host`.
+
+Calibration on the first 300 servers: registry collected in 222 s, 300 probes in
+35 s (ok 123, auth_required 111, protocol_error 42, unreachable 24). It also
+found an output bug - `mkdir('data')` did not create the `--out` path's own
+directory - fixed. 6 offline tests cover the cause chain, the fallback decision
+and the reason codes.
