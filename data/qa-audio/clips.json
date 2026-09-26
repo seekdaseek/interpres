@@ -1,0 +1,10 @@
+{
+ "made": "2026-09-26, round E browser QA",
+ "how": "say -v Samantha -o <name>.aiff \"<text>\" && afconvert -f m4af -d aac -b 64000 <name>.aiff <name>.m4a",
+ "clips": {
+  "afg-spec-check": "I want to run a spec check on a job contract.",
+  "afg-pasted": "Check the reputation of the wallet I pasted.",
+  "afg-spoken-address": "What is the reputation of wallet 0 x 5 a a e b 6 0 5 3 f 3 e 9 4 c 9 b 9 a 0 9 f 3 3 6 6 9 4 3 5 e 7 e f 1 b e a e d?",
+  "goji-seo": "What is SEO in plain English?"
+ }
+}

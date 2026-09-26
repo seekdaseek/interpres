@@ -11,6 +11,9 @@
  *   refine-ab           docs/REFINE.md, the table at the top
  *   gateway-models      docs/GATEWAY.md, the table at the top
  *
+ * and single values inside a sentence, between <!-- value:name --> markers:
+ *   identifiers-exact   docs/IDENTIFIERS.md, the line "Exact: N of M."
+ *
  *   node scripts/docs-quote.ts
  */
 import { readFile, writeFile } from 'node:fs/promises';
@@ -25,6 +28,22 @@ export function tableAfter(page: string, heading: string | null): string {
   while (i < lines.length && lines[i]!.startsWith('|')) out.push(lines[i++]!);
   if (out.length === 0) throw new Error(`no table after ${heading ?? 'the top'}`);
   return out.join('\n');
+}
+
+/**
+ * One value on one line, between <!-- value:name --> and <!-- /value:name -->,
+ * for a number inside a sentence. Every occurrence is filled.
+ */
+export function fillValue(doc: string, name: string, value: string): string {
+  const re = new RegExp(`(<!-- value:${name} -->)[^\\n]*?(<!-- /value:${name} -->)`, 'g');
+  return doc.replace(re, (_m, open: string, close: string) => `${open}${value}${close}`);
+}
+
+/** The first capture of `re` in a generated page; it must be there. */
+export function valueFrom(page: string, re: RegExp, what: string): string {
+  const m = page.match(re);
+  if (!m?.[1]) throw new Error(`no ${what} in its page`);
+  return m[1];
 }
 
 /**
@@ -45,9 +64,18 @@ async function main(): Promise<void> {
     'refine-ab': tableAfter(await readFile('docs/REFINE.md', 'utf8'), null),
     'gateway-models': tableAfter(await readFile('docs/GATEWAY.md', 'utf8'), null),
   };
+  const values: Record<string, string> = {
+    'identifiers-exact': valueFrom(await readFile('docs/IDENTIFIERS.md', 'utf8'), /^Exact: (\d+ of \d+)\.$/m, 'identifier count'),
+  };
   for (const file of ['README.md', 'JUDGE_GUIDE.md']) {
     let doc = await readFile(file, 'utf8');
     const filled: string[] = [];
+    for (const [name, value] of Object.entries(values)) {
+      if (!doc.includes(`<!-- value:${name} -->`)) continue;
+      doc = fillValue(doc, name, value);
+      if (!doc.includes(`<!-- value:${name} -->${value}<!-- /value:${name} -->`)) throw new Error(`${file}: value ${name} did not fill`);
+      filled.push(`${name} = ${value}`);
+    }
     for (const [name, block] of Object.entries(blocks)) {
       if (!doc.includes(`<!-- quote:${name} -->`)) continue;
       doc = fill(doc, name, block);

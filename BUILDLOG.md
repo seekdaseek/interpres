@@ -2694,3 +2694,44 @@ called:
 
 **Noted, not changed:** the agent's own suggestion, `get_market_snapshot`, is itself a paid tool. The
 sentence says "try a free one", but the agent does not know which ones are free.
+
+---
+
+## 2026-09-26 - round F, F1: the recount
+
+The README and JUDGE_GUIDE said "0 times out of 7", typed by hand and counted over the e2e-audio runs
+only. Round E's two browser runs also spoke an address.
+
+**`scripts/spoken-identifiers.ts` now counts every recorded attempt to speak a wallet address from every
+source in `data/`, and writes `docs/IDENTIFIERS.md`.**
+- **e2e-audio** (`data/e2e-audio-*.json`): 7 sessions, as before.
+- **Round E browser QA** (`data/qa-public-round-e.json`, row 5): the address clip spoken into the page
+  at desktop (`sess_144a98f5...`) and at 375 px (`sess_ee5881f4...`). What was said is the clip's
+  text. It is now recorded in `data/qa-audio/clips.json`, copied from the `say` commands that made the
+  clips. What was heard, and that no call followed, come from the QA record.
+- **The demo video's capture logs** (`data/video/capture-*.json`) are counted when they exist. F2 adds
+  them, and the count is run again at the end of F2.
+- **Every other file in `data/` holding a wallet address** is listed with the reason it is left out.
+  A file with no known reason fails the run as UNCLASSIFIED, so nothing is dropped silently. Left out
+  this time:
+  - `e2e-audio-gate-paste*.json`: the address was pasted, not spoken;
+  - `e2e-checkpoint-a.json`: text injected through `conversation.message`, not speech;
+  - `sweep-*` summaries: an address inside a registry server's description;
+  - `qa-audio/clips.json`: the clip texts, counted through the QA record.
+
+**Result: Exact: 0 of 9.** 5 runs, all from before D4, sent a misheard value to a server; in the 4
+since, nothing ran. The two new rows heard `0x5aeb6053…f1b8ed` (40 characters) for the 42-character
+`0x5aaeb605…1beaed`: the doubled `a` merged, and `be` became `b8`.
+
+**The figure is quoted, never typed.**
+- `scripts/docs-quote.ts` gains inline values: `<!-- value:name -->…<!-- /value:name -->`, filled from
+  the line "Exact: N of M." in `docs/IDENTIFIERS.md`, and checked after filling.
+- README ("Identifiers and state-changing tools") and JUDGE_GUIDE (§3) now read "0 of 9" through it.
+- A grep for the leftover placeholder finds 0 in each file, and it finds 1 on a control line.
+
+```
+$ node scripts/docs-quote.ts
+README.md: identifiers-exact = 0 of 9, sweep-headline (16 lines), ...
+JUDGE_GUIDE.md: identifiers-exact = 0 of 9, sweep-headline (16 lines), ...
+$ npm test    ℹ tests 422  ℹ pass 422  ℹ fail 0
+```
