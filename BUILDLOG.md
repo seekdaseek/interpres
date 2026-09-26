@@ -2434,3 +2434,82 @@ $ npm test    ℹ tests 377  ℹ pass 377  ℹ fail 0
 ```
 The new test checks that `/og.png` is `image/png` with a 1200x630 IHDR, and that the built page names
 it by absolute URL.
+
+---
+
+## 2026-09-26 - round E, §4: the judge path on the public URL, desktop and 375 px
+
+**How it was run:**
+- Everything ran in the desktop app's browser pane against https://interpres.ochinimus.app, with real
+  clicks and keystrokes.
+- Where a session was needed, a **synthetic microphone that carries speech** stood in: `getUserMedia`
+  returned a MediaStream playing macOS `say` clips (`data/qa-audio/*.m4a`, fetched from
+  raw.githubusercontent.com at 2e84a139, CORS `*`).
+- A fetch wrapper logged the page's `/api` calls.
+- This instrumentation lived in the tab only; nothing in the app was changed for it.
+- Every result is in `data/qa-public-round-e.json`.
+
+| # | row | desktop | 375 px |
+| --- | --- | --- | --- |
+| 1 | cold load: console, presets, replay, share tags, og image | PASS: JS 55,551 B and CSS 4,590 B over the network, 0 console messages, 6 presets, replay button, 14 tags, og.png 200 `image/png` 157,572 B | PASS: 0 console messages, 6, button, 14 tags, og 200 `image/png`, no overflow. Assets came from the cache (the pane cannot disable it); a `no-store` refetch returned 200 for each |
+| 2 | the box, 7 inputs | PASS on the re-run (see below) | PASS; the longest message wraps at 355 px |
+| 3 | search `books`, `weather`, `goji`, one click connects | PASS after a fix (see below) | PASS, server card at the top each time |
+| 4 | Books, spoken through e2e-audio at the public URL | PASS: `sess_cf3d50a4...`, heard "Who recommends Sapiens?", `get_book_recommenders` (MCP 456 ms) through the public server, answer spoken, 4,450 ms voice-to-voice; the public `/api/status` logged the token, connect and call | n/a, a script. The page's spoken path at 375 px ran on goji: "What is SEO in plain English?" called `goji_explain_term` in 536 ms and was answered (`sess_5e60dddf...`) |
+| 5 | AFG: swap card, paste path once, spoken address held | PASS, `sess_144a98f5...`: swap card "87 ms · phase swap, Swapped in 9 tools"; `afg_get_reputation` sent once with the exact pasted value (890 ms); the spoken address was heard as `0x5AEB…B8ED` and held as `paste`, with 0 calls | PASS, `sess_ee5881f4...`: swap card 1,217 ms (right edge 342); once, exact (730 ms); held, 0 calls, card right edge 359 |
+| 6 | replay, idle end at 60 s, cap fallback | PASS: replay in real time (1.0 → 12.0 s over 12 s). Idle: 47 → 30 → 10 → 5 → 1 s, then "no one spoke for 60 s". Cap: one simulated 429 plays the recording with "Live sessions are paused: ..." | PASS: replay 1.0 → 8.0 s. Idle countdown from 60 s, ended at +62.0 s. Cap: same note, recording at the top and playing |
+| 7 | `?url=` scheme-less | PASS: `mcp.goji.agency/mcp` connects and the link is rewritten to https; `tandem.ac` is discovered | PASS, the same |
+
+**Box inputs**, with the typed value read back before each Enter:
+
+| typed | result |
+| --- | --- |
+| `mcp.goji.agency/mcp` | goji, "added https://" |
+| `goji.agency` | "Found in the official MCP registry" |
+| `http://mcp.goji.agency/mcp` | "switched http:// to https://" |
+| `" https://tandem.ac/mcp "` | Tandem, "removed the quotes" |
+| `example.com` | not-MCP, with 4 URLs tried |
+| `https://127.0.0.1/mcp` | "127.0.0.1 is not a publicly routable address." |
+| `javascript:alert(1)` | refused in the page, 0 requests |
+
+The only console lines in the whole run are Chrome's own "Failed to load resource" for the expected
+424 (example.com) and 400 (127.0.0.1).
+
+**Rows that failed, were fixed, and were re-run:**
+- **Row 2, desktop, first attempt: invalid, a harness problem.** `cmd+a` did not select the box's text,
+  so each typed value was appended to the previous URL. Discovery then rescued the garbled input,
+  which made those rows look like passes. They were thrown out and re-run with a triple-click, with
+  the box value read back before each Enter.
+- **Row 3, desktop: the page, fixed three times.**
+  1. After one click connected, the server card sat 980-1,087 px below the fold. A smooth scroll never
+     moved: 1,087 px before, 1,087 px 1.5 s later.
+     - 4bf153d added a fallback jump.
+  2. The card then ended at -187 and later -249 px. Scroll anchoring looked like the cause, because the
+     starter questions load into the card about 300 ms later.
+     - 6e6a51f set `overflow-anchor: none`, which did not help.
+  3. A 100 ms sampler showed the real cause. After the jump, the stalled smooth-scroll animation fired
+     ~830 ms later and overshot by 249 px.
+     - 7664ac5 scrolls at once.
+  - Re-run: the card is at 0 on connect and still at 0 after the starters load (the page grew 2,275 →
+    2,337 px).
+  - Later, the pane itself refused a screenshot with "the Browser pane is not displayed, so the page is
+    not compositing frames". That is the underlying cause: a smooth scroll needs frames. The instant
+    scroll is right either way, and its comment in `dom.ts` now says so.
+- **Row 5, 375 px, first session (`sess_17768b40...`): a rig problem.** When the previous session
+  ended, the page stopped the microphone track it had been given, which is the page behaving correctly.
+  My stand-in handed that ended track to the next session, so no speech arrived. The stand-in now makes
+  a fresh stream on each `getUserMedia` call, and the re-run passed.
+
+**Every redeploy during QA touched only interpres.** Each one used `sh ops/redeploy.sh` with a PM2
+snapshot before and after: 45 rows each time, one line different (the interpres pid):
+- 4bf153d: 3634331 → 3634807
+- 6e6a51f: → 3635028
+- 7664ac5: → 3635133
+
+**Voice Agent usage after QA:**
+
+| | sessions | minutes | cost |
+| --- | ---: | ---: | ---: |
+| all time (`scripts/usage.ts`, Session History) | 134, all `completed` | 69.5 | $5.22, 3.48% of the $150 credit |
+| this round's five QA sessions | 5 | 429.2 s | $0.54 |
+
+Cost is computed at the published $4.50/hr. Every QA session closed by `client_end`.

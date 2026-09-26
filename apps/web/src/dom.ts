@@ -34,11 +34,12 @@ export function clear(el: HTMLElement): void {
 }
 
 /**
- * Scroll an element into view, at once. Smooth scrolling was dropped after two
- * measured failures in a throttled tab (the desktop app's embedded Chromium,
- * Sep 26): it left a card 1,087 px down 1.5 s later, and when a jump followed,
- * the stalled animation fired later still and overshot by 249 px. An instant
- * scroll lands in the same place in every browser.
+ * Scroll an element into view, at once. Smooth scrolling animates only while
+ * the page composites frames; in a browser pane that was not on screen
+ * (Sep 26, which the pane itself reported as "not compositing frames") it left
+ * a card 1,087 px down 1.5 s later, and when a jump followed, the stalled
+ * animation fired later still and overshot by 249 px. An instant scroll lands
+ * in the same place whether or not anything is painting.
  */
 export function reveal(el: HTMLElement, block: ScrollLogicalPosition = 'start'): void {
   el.scrollIntoView({ block });

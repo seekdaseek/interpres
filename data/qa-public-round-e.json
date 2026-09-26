@@ -1,0 +1,60 @@
+{
+ "at": "2026-09-26",
+ "base": "https://interpres.ochinimus.app",
+ "method": "The desktop app's browser pane, real clicks and keystrokes. Where a session was needed, a synthetic microphone: getUserMedia returned a MediaStream that played macOS say clips (data/qa-audio, fetched from raw.githubusercontent.com at 2e84a139), and a fetch wrapper logged the page's /api calls. Test-only instrumentation; nothing in the app was changed for it.",
+ "deployedDuringQa": ["2a94512", "4bf153d", "6e6a51f", "7664ac5"],
+ "sessions": {
+  "sess_cf3d50a44dfb4be9ace903a911dae4b9": { "row": 4, "via": "scripts/e2e-audio.ts --api", "seconds": 13.6 },
+  "sess_144a98f5fd3f434f94f2d1628f21d984": { "row": "5 and 6 idle, desktop", "seconds": 174.4 },
+  "sess_5e60dddfd61f4f43928ea098a6ef0328": { "row": "goji by voice and 6 idle, 375 px", "seconds": 90.9 },
+  "sess_17768b40f31941268320bcc332f0b4e3": { "row": "5, 375 px, first try: the rig handed the page a microphone track it had already stopped; no speech arrived", "seconds": 37.5 },
+  "sess_ee5881f4b8074acdabe6137482a8327b": { "row": "5, 375 px", "seconds": 112.7 }
+ },
+ "rows": [
+  {
+   "row": 1, "name": "cold load",
+   "desktop": { "pass": true, "jsBytesOverNetwork": 55551, "cssBytesOverNetwork": 4590, "consoleMessages": 0, "presets": 6, "replayButton": true, "shareTags": 14, "ogImage": { "status": 200, "type": "image/png", "bytes": 157572 } },
+   "mobile375": { "pass": true, "consoleMessages": 0, "presets": 6, "replayButton": true, "shareTags": 14, "ogImage": { "status": 200, "type": "image/png" }, "scrollWidth": 375, "note": "the hashed assets came from the browser cache (transferSize 0): the pane has no way to disable its cache. A no-store refetch returned 200 for each (125874 B JS, 14581 B CSS)." }
+  },
+  {
+   "row": 2, "name": "the box",
+   "inputs": {
+    "mcp.goji.agency/mcp": "connected to goji; hint: added https://",
+    "goji.agency": "Found in the official MCP registry: https://mcp.goji.agency/mcp",
+    "http://mcp.goji.agency/mcp": "connected; hint: switched http:// to https://",
+    "\" https://tandem.ac/mcp \"": "connected to Tandem Docs MCP; hint: removed the quotes and punctuation around it",
+    "example.com": "not-MCP sentence plus the 4 URLs tried",
+    "https://127.0.0.1/mcp": "127.0.0.1 is not a publicly routable address.",
+    "javascript:alert(1)": "javascript: is not a web address. Only web addresses work here: http:// or https://. (0 requests sent)"
+   },
+   "desktop": { "pass": true, "firstAttemptInvalid": "cmd+a did not select the box's text, so typed values were appended to the previous URL; re-run with triple-click, and the box value read before each Enter" },
+   "mobile375": { "pass": true, "errorRightEdge": 355, "scrollWidth": 375 }
+  },
+  {
+   "row": 3, "name": "search",
+   "queries": { "books": "Most Recommended Books first; 12 of 11,572", "weather": "Weather & Geo Intel MCP first; 12 of 11,572", "goji": "agency.goji/goji first; 2 of 11,572" },
+   "desktop": { "pass": true, "failedFirst": "each click connected, but the server card stayed 980-1087 px down: the smooth scroll never animated (the pane was not compositing frames), and after a fallback jump the stalled animation overshot by 249 px. Fixed in 7664ac5 with an instant scroll; re-run: card at 0 on connect and still at 0 after the starters loaded." },
+   "mobile375": { "pass": true, "serverTopAfterClick": [0, 0, 0] }
+  },
+  {
+   "row": 4, "name": "Books preset, spoken, through the public URL",
+   "result": { "pass": true, "heard": "Who recommends Sapiens?", "tool": "get_book_recommenders", "mcpMs": 456, "answer": "Sapiens is recommended by thirty-two verified people, including Joe Rogan and Lex Fridman.", "voiceToVoiceMs": 4450, "publicStatusLogged": ["mcp.connect", "token.minted", "tool.call"] },
+   "mobile375": "not applicable: a script, not a page. The page's spoken path at 375 px ran on goji instead: 'What is SEO in plain English?' -> goji_explain_term 536 ms, answered (sess_5e60dddf...)"
+  },
+  {
+   "row": 5, "name": "AFG",
+   "desktop": { "pass": true, "swapCard": "find_tools | 87 ms · phase swap | Swapped in 9 tools", "newChips": ["afg_post_job", "afg_speccheck", "afg_get_job"], "pastePath": { "reputationCalls": 1, "exactValue": true, "ms": 890 }, "spokenAddress": { "heard": "0x5AEB6053F3E94C9B9A09F33669435E7EF1B8ED", "gate": "paste: Heard from speech, may be wrong - paste it to run", "mcpCallsAfter": 0 } },
+   "mobile375": { "pass": true, "swapCard": "1217 ms · phase swap | Swapped in 9 tools", "swapCardRightEdge": 342, "pastePath": { "reputationCalls": 1, "exactValue": true, "ms": 730 }, "spokenAddress": { "heard": "0x5AEB6053F3E94C9B9A09F33669435E7EF1B8ED", "gate": "paste", "mcpCallsAfter": 0, "cardRightEdge": 359 } }
+  },
+  {
+   "row": 6, "name": "replay, idle end, cap fallback",
+   "desktop": { "pass": true, "replay": "currentTime 1.0 -> 12.0 over 12 s; caller line ~1 s, tool call ~4 s, agent line ~6 s", "idle": "countdown 47 -> 30 -> 10 -> 5 -> 1 s; 'Session ended: no one spoke for 60 s.' 46.8 s after arming, about 13 s after the last reply", "capFallback": "1 simulated 429 from /api/token (the server's own body) -> 'Live sessions are paused: The demo has used its daily session budget. Try again tomorrow. Here is a recorded one instead.', the recording playing" },
+   "mobile375": { "pass": true, "replay": "1.0 -> 8.0 over 8 s", "idle": "countdown from 60 s at +2.0 s after arming; ended at +62.0 s", "capFallback": "same note; replay at the top (0), right edge 359, playing 1.3 -> 4.3 s over 3 s" }
+  },
+  {
+   "row": 7, "name": "?url= deep link, scheme-less",
+   "desktop": { "pass": true, "mcp.goji.agency/mcp": "goji; link rewritten to ?url=https%3A%2F%2Fmcp.goji.agency%2Fmcp", "tandem.ac": "Found in the official MCP registry: https://tandem.ac/mcp" },
+   "mobile375": { "pass": true, "same": true, "scrollWidth": 375 }
+  }
+ ]
+}
