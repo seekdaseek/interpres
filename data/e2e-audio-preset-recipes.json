@@ -1,0 +1,195 @@
+{
+  "at": "2026-09-26T12:41:29.172Z",
+  "voice": "Samantha",
+  "carry": true,
+  "results": [
+    {
+      "url": "https://recipes-daily.com/mcp",
+      "sessionId": "sess_4e52b65cfa624609ac476f193dcb0bf2",
+      "turns": [
+        {
+          "said": "What can I cook with chicken, rice and spinach?",
+          "heard": [
+            "What can I cook with chicken, rice and spinach?"
+          ],
+          "calls": [
+            {
+              "callId": "chatcmpl-tool-9bcd90ad559d75d2",
+              "name": "find_recipes_by_ingredients",
+              "arguments": {
+                "ingredients": [
+                  "chicken",
+                  "rice",
+                  "spinach"
+                ]
+              },
+              "callAt": 1790426453764,
+              "transitionReply": 0,
+              "mcpName": "find_recipes_by_ingredients",
+              "normalisersApplied": [],
+              "rawChars": 1594,
+              "spokenChars": 600,
+              "spoken": "Ranked by ingredient coverage. ## Spanish Chicken and Chorizo Skillet with Saffron Rice (One-Pan, 45-Minute) (2 of 3) — missing spinach https://recipes-daily.com/make/spanish-chicken-and-chorizo-skillet-with-saffron-rice-one-pan-45-minute ## One-Pan Lemon Garlic Chicken with Creamy Orzo (2 of 3) — missing rice https://recipes-daily.com/make/one-pan-lemon-garlic-chicken-with-creamy-orzo ## Creamy Pumpkin Risotto (2 of 3) — missing spinach https://recipes-daily.com/make/creamy-pumpkin-risotto ## Honey-Soy Braised Chicken Thighs with Ginger-Scallion Rice (One-Pot, 40-Minute) (2 of 3) — missing...",
+              "method": "truncated",
+              "refine": "not_needed",
+              "refineMs": 0,
+              "mcpMs": 557,
+              "isError": false,
+              "readyAt": 1790426454326,
+              "execMs": 561,
+              "sentAt": 1790426454326,
+              "answerReply": 1,
+              "transitionDoneAt": 1790426454064,
+              "agentWaitMs": 262,
+              "transitionAudioMs": 0,
+              "silenceOnUsMs": 562
+            },
+            {
+              "callId": "chatcmpl-tool-b20fd11fe9276afa",
+              "name": "show_recipes",
+              "arguments": {
+                "recipes": [
+                  "https://recipes-daily.com/make/spanish-chicken-and-chorizo-skillet-with-saffron-rice-one-pan-45-minute",
+                  "https://recipes-daily.com/make/one-pan-lemon-garlic-chicken-with-creamy-orzo",
+                  "https://recipes-daily.com/make/creamy-pumpkin-risotto",
+                  "https://recipes-daily.com/make/honey-soy-braised-chicken-thighs-with-ginger-scallion-rice-one-pot-40-minute"
+                ]
+              },
+              "callAt": 1790426456107,
+              "transitionReply": 1,
+              "mcpName": "show_recipes",
+              "normalisersApplied": [],
+              "rawChars": 27,
+              "spokenChars": 27,
+              "spoken": "Showing 4 recipes as cards.",
+              "method": "passthrough",
+              "refine": "not_needed",
+              "refineMs": 0,
+              "mcpMs": 395,
+              "isError": false,
+              "readyAt": 1790426456506,
+              "execMs": 399,
+              "sentAt": 1790426456507,
+              "answerReply": 2,
+              "transitionDoneAt": 1790426456363,
+              "agentWaitMs": 144,
+              "transitionAudioMs": 0,
+              "silenceOnUsMs": 400
+            }
+          ],
+          "agentReply": "I found a few options, though none use all three ingredients at once. You could try the Spanish Chicken and Chorizo Skillet with Saffron Rice, which just needs some spinach added, or the Honey Soy Braised Chicken Thighs with Ginger Scallion Rice.",
+          "interrupted": false,
+          "startedAt": 1790426449882,
+          "speechEndAt": 1790426452600,
+          "firstAudioAt": 1790426457300,
+          "voiceToVoiceMs": 4700,
+          "idleAt": 1790426470744,
+          "ms": 20862,
+          "timeToAnswerMs": 4700
+        },
+        {
+          "said": "Find me a quick vegetarian pasta recipe.",
+          "heard": [
+            "Find me a quick vegetarian pasta recipe."
+          ],
+          "calls": [
+            {
+              "callId": "chatcmpl-tool-a31bfa2c0654051a",
+              "name": "search_recipes",
+              "arguments": {
+                "query": "quick vegetarian pasta"
+              },
+              "callAt": 1790426476102,
+              "transitionReply": 3,
+              "mcpName": "search_recipes",
+              "normalisersApplied": [],
+              "rawChars": 10020,
+              "spokenChars": 179,
+              "spoken": "title: 'Recipe search: quick vegetarian pasta'. Recipe search: quick vegetarian pasta. No recipes match \"quick vegetarian pasta\". 40 minutes · serves 4 · Pasta & Rice, Vegetarian.",
+              "method": "local",
+              "refine": "no_shaper",
+              "refineMs": 0,
+              "mcpMs": 3273,
+              "isError": false,
+              "readyAt": 1790426479388,
+              "execMs": 3285,
+              "sentAt": 1790426479388,
+              "answerReply": 4,
+              "transitionDoneAt": 1790426476333,
+              "agentWaitMs": 3055,
+              "transitionAudioMs": 0,
+              "silenceOnUsMs": 3286
+            }
+          ],
+          "agentReply": "I couldn't find a specific recipe for a quick vegetarian pasta, but I can search for just vegetarian pasta recipes or try a different term if you like.",
+          "interrupted": false,
+          "startedAt": 1790426471520,
+          "speechEndAt": 1790426474161,
+          "firstAudioAt": 1790426480167,
+          "voiceToVoiceMs": 6006,
+          "idleAt": 1790426488014,
+          "ms": 16494,
+          "timeToAnswerMs": 6006
+        }
+      ],
+      "events": {
+        "session.updated": 1,
+        "session.ready": 1,
+        "input.speech.started": 2,
+        "transcript.user.delta": 6,
+        "input.speech.stopped": 2,
+        "transcript.user": 2,
+        "reply.started": 5,
+        "tool.call": 3,
+        "reply.done": 5,
+        "reply.audio": 2136,
+        "transcript.agent.delta": 70,
+        "transcript.agent": 2,
+        "session.ended": 1
+      },
+      "failures": [],
+      "audio": {
+        "chunksSent": 984,
+        "reanchors": 0
+      },
+      "shaper": {
+        "calls": 0,
+        "used": 0,
+        "failures": 0,
+        "rateLimited": 0,
+        "timeouts": 0,
+        "totalMs": 0
+      },
+      "replies": [
+        {
+          "startedAt": 1790426453136,
+          "audioMs": 0,
+          "doneAt": 1790426454063
+        },
+        {
+          "startedAt": 1790426454387,
+          "audioMs": 0,
+          "doneAt": 1790426456363
+        },
+        {
+          "startedAt": 1790426456568,
+          "firstAudioAt": 1790426457300,
+          "audioMs": 13480,
+          "doneAt": 1790426470743
+        },
+        {
+          "startedAt": 1790426474783,
+          "audioMs": 0,
+          "doneAt": 1790426476332
+        },
+        {
+          "startedAt": 1790426479450,
+          "firstAudioAt": 1790426480167,
+          "audioMs": 7880,
+          "doneAt": 1790426488014
+        }
+      ],
+      "ok": true
+    }
+  ]
+}

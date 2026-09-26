@@ -1369,3 +1369,89 @@ $0.05 each. `MAX_SESSION_SECONDS` and `RATE_PER_IP_HOUR` are set there too, so
 all three are visible in one place. The windows are fixed (UTC hour, UTC day)
 and in memory, so a `pm2 delete` + `start` resets them. The number is Sergiu's
 call at CHECKPOINT C.
+
+---
+
+## 2026-09-26 - task 1 results: the registry sweep, measured three ways
+
+Three runs of `scripts/sweep.ts`, one User-Agent
+(`interpres-sweep/0.1 (+https://github.com/seekdaseek/interpres)`), 8 at once,
+at most 2 per host, 8 s timeout, `initialize` + `tools/list` only. No tool was
+called and no credential was sent.
+
+| run | what | when (UTC) | servers |
+|---|---|---|---|
+| A | the whole registry | 11:48:21 - 12:32:10 (2,629 s) | 22,217 |
+| C | A's failures again, with the fixed classifier, no gap | 12:38:07 - 12:50:52 (765 s) | 10,205 |
+| B | A's `ok` servers again, each >= 60 min after its A probe | 12:52:04 - 13:32:12 (2,408 s) | 12,012 |
+
+B was started once at 12:32 on the old classifier, stopped at 12:52 after about
+four minutes of probing, and restarted on the fixed code. Its gaps are measured
+from A, so the restart cost no time. The aborted log is kept as
+`data/raw/sweep-B-oldcode-aborted.log`.
+
+**Headline (A):**
+- 119,873 registry entries, 36,251 unique servers, 22,217 with a streamable-http
+  or sse remote, on 14,675 hosts.
+- **12,012 `ok`** (54.1%): they listed their tools without auth, from 7,347
+  distinct hosts.
+- 202,191 tools. **Every one converted** (0 failures); 36,059 (17.8%) carry
+  spoken-format hints.
+- 5,474 `ok` servers (45.6%) have more than 10 tools, so find_tools engages for
+  nearly half the registry. Tools per server: median 9, 90th percentile 31,
+  maximum 627.
+- Transport: streamable-http 11,969, sse 43.
+- Annotations: 66,602 tools have `readOnlyHint`, 4,688 have `destructiveHint`,
+  and 5,983 servers carry at least one of them.
+
+**Failures, re-measured (C):**
+- `auth_required` 5,299: 5,038 were real 401s, 174 were 402 payment walls.
+- `unreachable` 4,416. Of these, 1,305 are 429s from one host,
+  `gateway.pipeworx.io`, rate-limiting the sweep; it answered 371 of its 1,710
+  entries in A. 1,027 are 404s, led by dead mass hosts (`api.m2mcent.com` 276,
+  `server.smithery.ai` 190).
+- `protocol_error` 344, where the first pass said 2,692. The difference is the
+  classifier bug.
+- 146 failed in A and answered in C.
+
+**Stability (B):** 11,578 of 12,012 still `ok` 60-61 minutes
+later (96.4%). 370 of the 434 drops are `gateway.pipeworx.io` answering 429 to
+this sweep, which is rate-limiting, not failing. Without that host, 11,577 of
+11,641 held (**99.5%**). The other drops are 19 timeouts, 18 refused (12 of them
+on `tooloracle.io`), 15 5xx and 2 404s.
+
+**Presets from the sweep:** three, added to `apps/server/src/presets.ts`. The
+filter was: `ok` in A and B, no declared auth, 2-40 tools, 0 conversion
+failures, no host with more than 3 entries, at most one write-classified tool.
+That left 4,845 servers. From those, general-interest ones were chosen by hand,
+and each suggested question was then spoken through `e2e-audio`:
+
+| preset | A -> B (UTC) | asked | tool calls | voice-to-voice | session |
+|---|---|---|---|---|---|
+| Most Recommended Books | 12:03:14 -> 13:03:16 | "What books does Bill Gates recommend?" | get_person_recommendations | 2,766 ms | sess_4e6cc252c2cb4754adec545d0a36824f |
+| | | "What is the reading order for the Dune series?" | get_series_reading_order | 4,035 ms | same |
+| Recipes Daily | 12:04:38 -> 13:04:38 | "What can I cook with chicken, rice and spinach?" | find_recipes_by_ingredients, show_recipes | 4,700 ms | sess_4e52b65cfa624609ac476f193dcb0bf2 |
+| US weather and earthquakes | 11:59:54 -> 12:59:55 | "Are there any weather alerts in Florida right now?" | weather_alerts | 3,418 ms | sess_881bbf9500f44fb59336c7d231aaf7a2 |
+| | | "Were there any earthquakes above magnitude five in the last week?" | earthquakes | 3,938 ms | sess_e19fc82bc077400ab8562205b4f99ae2 |
+
+Two questions were tested and left out:
+- "What's the weather forecast for Chicago tomorrow?" worked, but chained
+  `geocode`, which took 9,339 ms: 14.1 s of silence.
+- "Find me a quick vegetarian pasta recipe." got an honest "no match" from the
+  server itself.
+
+In the browser at 375 px, all six presets render with no horizontal overflow
+(scrollWidth 375) and no console errors. Clicking Most Recommended Books
+connected: 7 of 10 tools, one phase.
+
+**What is committed:**
+- The three runs' summaries, gzipped (`data/sweep-*-summary.json.gz`).
+- `docs/SWEEP.md`.
+- `docs/sweep-servers.csv`: one row per probed server, 22,217 rows.
+
+The raw catalogs stay out of git (`.gitignore`): 47 MB gzipped for A, holding
+every `tools/list`. Rendering from the committed summaries was checked to give
+the same SWEEP.md and a byte-identical CSV.
+
+A per-server Markdown table was tried first: 7,686 rows, 728 KB, unreadable. The
+CSV replaces it, and SWEEP.md says so.

@@ -17,3 +17,9 @@ data/raw/
 
 # local tooling
 .claude/
+
+# sweep outputs: the gzipped summaries are committed; the raw catalogs (tens of
+# MB, every tools/list included) and the uncompressed summaries are not
+data/sweep-*.json.gz
+!data/sweep-*-summary.json.gz
+data/sweep-*-summary.json

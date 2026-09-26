@@ -61,6 +61,34 @@ export const PRESETS: Preset[] = [
       'Check the basics of my site.',
     ],
   },
+  // The three below were picked from the Sep 26 registry sweep (docs/SWEEP.md):
+  // no auth declared or met, ok in both passes an hour apart, and every ask
+  // answered when spoken through scripts/e2e-audio.ts.
+  {
+    label: 'Most Recommended Books',
+    url: 'https://mostrecommendedbooks.com/api/mcp',
+    blurb: '6 read-only tools: who recommends what, and series reading orders.',
+    asks: [
+      'What books does Bill Gates recommend?',
+      'What is the reading order for the Dune series?',
+    ],
+  },
+  {
+    label: 'Recipes Daily',
+    url: 'https://recipes-daily.com/mcp',
+    blurb: '3 read-only tools. Say what is in your fridge.',
+    asks: ['What can I cook with chicken, rice and spinach?'],
+  },
+  {
+    label: 'US weather and earthquakes',
+    url: 'https://weather.datakoot.com/mcp',
+    blurb: '6 tools over National Weather Service and USGS data.',
+    // Not suggested: a city forecast. It chains geocode, which took 9.3 s spoken.
+    asks: [
+      'Are there any weather alerts in Florida right now?',
+      'Were there any earthquakes above magnitude five in the last week?',
+    ],
+  },
 ];
 
 export function presetFor(url: string): Preset | undefined {

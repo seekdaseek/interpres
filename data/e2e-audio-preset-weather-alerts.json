@@ -1,0 +1,99 @@
+{
+  "at": "2026-09-26T12:43:04.834Z",
+  "voice": "Samantha",
+  "carry": true,
+  "results": [
+    {
+      "url": "https://weather.datakoot.com/mcp",
+      "sessionId": "sess_881bbf9500f44fb59336c7d231aaf7a2",
+      "turns": [
+        {
+          "said": "Are there any weather alerts in Florida right now?",
+          "heard": [
+            "Are there any weather alerts in Florida right now?"
+          ],
+          "calls": [
+            {
+              "callId": "chatcmpl-tool-86a5c3ba1d63f2a2",
+              "name": "weather_alerts",
+              "arguments": {
+                "area": "FL"
+              },
+              "callAt": 1790426571770,
+              "transitionReply": 0,
+              "mcpName": "weather_alerts",
+              "normalisersApplied": [],
+              "rawChars": 6349,
+              "spokenChars": 370,
+              "spoken": "headline Rip Current Statement issued September 26 at 3:08AM EDT until September 28 at 3:00AM EDT by NWS Melbourne FL. area Coastal Volusia; Coastal Indian River; Coastal St. Lucie; Coastal Martin; Mainland Northern Brevard; Northern Brevard Barrier Islands; Mainland Southern Brevard; Southern Brevard Barrier Islands. area Mainland Monroe; Far South Miami-Dade County.",
+              "method": "local",
+              "refine": "no_shaper",
+              "refineMs": 0,
+              "mcpMs": 910,
+              "isError": false,
+              "readyAt": 1790426572688,
+              "execMs": 918,
+              "sentAt": 1790426572689,
+              "answerReply": 1,
+              "transitionDoneAt": 1790426572026,
+              "agentWaitMs": 663,
+              "transitionAudioMs": 0,
+              "silenceOnUsMs": 919
+            }
+          ],
+          "agentReply": "Yes, there are sixteen active alerts in Florida, including a rip current statement for several coastal areas and a high surf advisory and coastal flood advisory for coastal Palm Beach County.",
+          "interrupted": false,
+          "startedAt": 1790426567530,
+          "speechEndAt": 1790426570052,
+          "firstAudioAt": 1790426573470,
+          "voiceToVoiceMs": 3418,
+          "idleAt": 1790426583645,
+          "ms": 16115,
+          "timeToAnswerMs": 3418
+        }
+      ],
+      "events": {
+        "session.updated": 1,
+        "session.ready": 1,
+        "input.speech.started": 1,
+        "transcript.user.delta": 2,
+        "transcript.user": 1,
+        "reply.started": 2,
+        "input.speech.stopped": 1,
+        "tool.call": 1,
+        "reply.done": 2,
+        "reply.audio": 1021,
+        "transcript.agent.delta": 31,
+        "transcript.agent": 1,
+        "session.ended": 1
+      },
+      "failures": [],
+      "audio": {
+        "chunksSent": 433,
+        "reanchors": 0
+      },
+      "shaper": {
+        "calls": 0,
+        "used": 0,
+        "failures": 0,
+        "rateLimited": 0,
+        "timeouts": 0,
+        "totalMs": 0
+      },
+      "replies": [
+        {
+          "startedAt": 1790426570686,
+          "audioMs": 0,
+          "doneAt": 1790426572026
+        },
+        {
+          "startedAt": 1790426572750,
+          "firstAudioAt": 1790426573470,
+          "audioMs": 10210,
+          "doneAt": 1790426583644
+        }
+      ],
+      "ok": true
+    }
+  ]
+}

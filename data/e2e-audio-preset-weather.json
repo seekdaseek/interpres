@@ -1,0 +1,188 @@
+{
+  "at": "2026-09-26T12:40:35.128Z",
+  "voice": "Samantha",
+  "carry": true,
+  "results": [
+    {
+      "url": "https://weather.datakoot.com/mcp",
+      "sessionId": "sess_e19fc82bc077400ab8562205b4f99ae2",
+      "turns": [
+        {
+          "said": "What's the weather forecast for Chicago tomorrow?",
+          "heard": [
+            "What's the weather forecast for Chicago tomorrow?"
+          ],
+          "calls": [
+            {
+              "callId": "chatcmpl-tool-89737332bd14007f",
+              "name": "geocode",
+              "arguments": {
+                "address": "Chicago, IL"
+              },
+              "callAt": 1790426402627,
+              "transitionReply": 0,
+              "mcpName": "geocode",
+              "normalisersApplied": [],
+              "rawChars": 299,
+              "spokenChars": 99,
+              "spoken": "matched address Chicago city, IL. source US Census Bureau TIGERweb place gazetteer (public domain).",
+              "method": "local",
+              "refine": "no_shaper",
+              "refineMs": 0,
+              "mcpMs": 9339,
+              "isError": false,
+              "readyAt": 1790426411976,
+              "execMs": 9347,
+              "sentAt": 1790426411977,
+              "answerReply": 1,
+              "transitionDoneAt": 1790426402881,
+              "agentWaitMs": 9096,
+              "transitionAudioMs": 0,
+              "silenceOnUsMs": 9350
+            },
+            {
+              "callId": "chatcmpl-tool-8c9778c8d7b98aa8",
+              "name": "weather_forecast",
+              "arguments": {
+                "lat": 41.8369615,
+                "lon": -87.684922
+              },
+              "callAt": 1790426412608,
+              "transitionReply": 1,
+              "mcpName": "weather_forecast",
+              "normalisersApplied": [],
+              "rawChars": 4663,
+              "spokenChars": 192,
+              "spoken": "High near 68, with temperatures falling to around 65 in the afternoon. East wind around 5 mph, with gusts as high as 10 mph.. East northeast wind 0 to 5 mph.. North northeast wind 0 to 5 mph..",
+              "method": "local",
+              "refine": "no_shaper",
+              "refineMs": 0,
+              "mcpMs": 1727,
+              "isError": false,
+              "readyAt": 1790426414371,
+              "execMs": 1763,
+              "sentAt": 1790426414371,
+              "answerReply": 2,
+              "transitionDoneAt": 1790426412902,
+              "agentWaitMs": 1469,
+              "transitionAudioMs": 0,
+              "silenceOnUsMs": 1763
+            }
+          ],
+          "agentReply": "Tomorrow in Chicago, it will be partly sunny with a high near 68 degrees.",
+          "interrupted": false,
+          "startedAt": 1790426398320,
+          "speechEndAt": 1790426400960,
+          "firstAudioAt": 1790426415091,
+          "voiceToVoiceMs": 14131,
+          "idleAt": 1790426419981,
+          "ms": 21661,
+          "timeToAnswerMs": 14130
+        },
+        {
+          "said": "Were there any earthquakes above magnitude five in the last week?",
+          "heard": [
+            "Were there any earthquakes above magnitude 5 in the last week?"
+          ],
+          "calls": [
+            {
+              "callId": "chatcmpl-tool-ab049fc0450a1893",
+              "name": "earthquakes",
+              "arguments": {
+                "days": 7,
+                "min_magnitude": 5
+              },
+              "callAt": 1790426426395,
+              "transitionReply": 3,
+              "mcpName": "earthquakes",
+              "normalisersApplied": [],
+              "rawChars": 5602,
+              "spokenChars": 151,
+              "spoken": "place 79 km NE of Tadine, New Caledonia. place 78 km ENE of Tadine, New Caledonia. place 15 km NNW of Xunchang, China. url source USGS (public domain).",
+              "method": "local",
+              "refine": "no_shaper",
+              "refineMs": 0,
+              "mcpMs": 850,
+              "isError": false,
+              "readyAt": 1790426427250,
+              "execMs": 855,
+              "sentAt": 1790426427250,
+              "answerReply": 4,
+              "transitionDoneAt": 1790426426631,
+              "agentWaitMs": 619,
+              "transitionAudioMs": 0,
+              "silenceOnUsMs": 855
+            }
+          ],
+          "agentReply": "Yes, there were several, including a magnitude five point two quake near Tadine, New Caledonia.",
+          "interrupted": false,
+          "startedAt": 1790426420759,
+          "speechEndAt": 1790426424040,
+          "firstAudioAt": 1790426427978,
+          "voiceToVoiceMs": 3938,
+          "idleAt": 1790426433591,
+          "ms": 12832,
+          "timeToAnswerMs": 3938
+        }
+      ],
+      "events": {
+        "session.updated": 1,
+        "session.ready": 1,
+        "input.speech.started": 2,
+        "transcript.user.delta": 6,
+        "input.speech.stopped": 2,
+        "transcript.user": 2,
+        "reply.started": 5,
+        "tool.call": 3,
+        "reply.done": 5,
+        "reply.audio": 1056,
+        "transcript.agent.delta": 29,
+        "transcript.agent": 2,
+        "session.ended": 1
+      },
+      "failures": [],
+      "audio": {
+        "chunksSent": 912,
+        "reanchors": 0
+      },
+      "shaper": {
+        "calls": 0,
+        "used": 0,
+        "failures": 0,
+        "rateLimited": 0,
+        "timeouts": 0,
+        "totalMs": 0
+      },
+      "replies": [
+        {
+          "startedAt": 1790426401473,
+          "audioMs": 0,
+          "doneAt": 1790426402881
+        },
+        {
+          "startedAt": 1790426412038,
+          "audioMs": 0,
+          "doneAt": 1790426412902
+        },
+        {
+          "startedAt": 1790426414432,
+          "firstAudioAt": 1790426415090,
+          "audioMs": 4920,
+          "doneAt": 1790426419981
+        },
+        {
+          "startedAt": 1790426424724,
+          "audioMs": 0,
+          "doneAt": 1790426426631
+        },
+        {
+          "startedAt": 1790426427311,
+          "firstAudioAt": 1790426427978,
+          "audioMs": 5640,
+          "doneAt": 1790426433591
+        }
+      ],
+      "ok": true
+    }
+  ]
+}

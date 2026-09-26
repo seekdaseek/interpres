@@ -58,3 +58,5 @@
 {"at":"2026-09-26T11:56:08.470Z","kind":"token.minted","ms":290,"maxSessionDurationSeconds":300,"remainingForClient":119,"globalRemaining":399}
 {"at":"2026-09-26T12:02:15.523Z","kind":"mcp.cache.hit","url":"https://afg.ai/mcp","ms":5,"ok":true,"transport":"streamable-http","toolsIn":15,"toolsConverted":15,"failed":0}
 {"at":"2026-09-26T12:02:25.307Z","kind":"token.minted","ms":214,"maxSessionDurationSeconds":300,"remainingForClient":119,"globalRemaining":398}
+{"at":"2026-09-26T12:22:32.120Z","kind":"mcp.connect","url":"https://advisorsai.ai/mcp","ms":1047,"ok":true,"transport":"streamable-http","toolsIn":5,"toolsConverted":5,"failed":0}
+{"at":"2026-09-26T12:46:11.393Z","kind":"mcp.connect","url":"https://mostrecommendedbooks.com/api/mcp","ms":1156,"ok":true,"transport":"streamable-http","toolsIn":6,"toolsConverted":6,"failed":0}
