@@ -2799,3 +2799,47 @@ retries:
   `.gitignore` excludes along with `video/out/`, `video/captures/` and `video/cache/`.
 
 Voice Agent sessions for this: 17 (13 narration, 4 Q1).
+
+---
+
+## 2026-09-26 - round F, F3 and F4: npm check, share cards
+
+**Correction to the F2 entry:** it gave 17 voice sessions. The manifest (`data/video/voices.json`)
+holds 18: 14 for narration (N2 took 3) and 4 for Q1.
+
+**F3, npm (check only, nothing published):**
+- **The packed `package.json`** had name, version (0.1.0), description, MIT, repository (with
+  `directory: packages/core`), homepage and keywords. It was missing **`bugs`**, which is now
+  `https://github.com/seekdaseek/interpres/issues`.
+- **The README's usage example could not run.** It used a connected MCP client (`mcp`), the socket
+  (`ws`) and a `tool.call` event, none of which the reader has.
+  - `packages/core/README.md` now opens with **Try it**: a self-contained `example.mjs` that converts
+    a two-tool `tools/list` and prints the first `session.update`.
+  - The live-session wiring stays below it, labelled as a sketch.
+- **`scripts/npm-pack.ts` now proves the example runs.** It packs the tarball, installs it into an
+  empty project, and runs the README's `js` block exactly as written:
+
+```
+smoke: 15 tools converted; first phase shows 10; find_tools reveals 10
+README example, run from a clean install of interpres-0.1.0.tgz: session.update [ 'use_pasted_text', 'get_forecast', 'list_alerts' ]
+npm notice package size: 99.8 kB    npm notice total files: 44
+$ npm view interpres version
+npm error 404 Not Found - GET https://registry.npmjs.org/interpres - Not found
+```
+
+**F4, share cards through Cloudflare:** each crawler's user agent fetched the page and then `og.png`.
+
+| user agent | page | og:image | twitter:card | og.png |
+| --- | --- | --- | --- | --- |
+| Twitterbot/1.0 | 200 text/html | https://interpres.ochinimus.app/og.png | summary_large_image | 200 image/png, 157,572 B, identical to the committed file |
+| facebookexternalhit/1.1 | 200 | same | same | same |
+| Discordbot/2.0 | 200 | same | same | same |
+| LinkedInBot/1.0 | 200 | same | same | same |
+| Slackbot-LinkExpanding 1.0 | 200 | same | same | same |
+
+**UNTESTED:** whether each network actually renders the card. That needs a post on each network, or
+its own card validator.
+
+```
+$ npm test    ℹ tests 422  ℹ pass 422  ℹ fail 0
+```

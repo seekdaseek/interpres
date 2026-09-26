@@ -9,9 +9,10 @@
  * load for anyone who installed them.
  */
 import { execFileSync } from 'node:child_process';
-import { copyFile, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
+import { copyFile, mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
 import { pathToFileURL } from 'node:url';
-import { resolve } from 'node:path';
+import { join, resolve } from 'node:path';
 
 const OUT = 'build/npm/interpres';
 await rm(OUT, { recursive: true, force: true });
@@ -33,6 +34,7 @@ await writeFile(`${OUT}/package.json`, `${JSON.stringify({
   engines: { node: '>=20' },
   repository: { type: 'git', url: 'git+https://github.com/seekdaseek/interpres.git', directory: 'packages/core' },
   homepage: 'https://github.com/seekdaseek/interpres#readme',
+  bugs: { url: 'https://github.com/seekdaseek/interpres/issues' },
   keywords: ['mcp', 'model-context-protocol', 'assemblyai', 'voice-agent', 'voice', 'tools'],
 }, null, 2)}\n`);
 await copyFile('packages/core/README.md', `${OUT}/README.md`);
@@ -47,5 +49,16 @@ const planner = { catalog: converted, server: fixture.initialize.serverInfo };
 const update = lib.phaseSessionUpdate(lib.initialPhase(planner));
 const swapped = lib.handleFindTools(planner, 'check a job contract');
 console.log(`smoke: ${converted.length} tools converted; first phase shows ${update.session.tools.length}; find_tools reveals ${swapped.available.length}`);
+
+// The README's example must run as written, installed the way a user would:
+// the packed tarball into an empty project, then `node example.mjs`.
+const scratch = await mkdtemp(join(tmpdir(), 'interpres-example-'));
+const tgz = execFileSync('npm', ['pack', '--pack-destination', scratch, '--silent'], { cwd: OUT }).toString().trim().split('\n').pop()!;
+await writeFile(join(scratch, 'package.json'), '{ "name": "readme-example", "private": true, "type": "module" }\n');
+execFileSync('npm', ['install', '--no-audit', '--no-fund', '--silent', join(scratch, tgz)], { cwd: scratch, stdio: 'inherit' });
+const example = (await readFile(`${OUT}/README.md`, 'utf8')).match(/```js\n([\s\S]*?)```/)?.[1];
+if (!example) throw new Error('README.md has no ```js example');
+await writeFile(join(scratch, 'example.mjs'), example);
+console.log(`README example, run from a clean install of ${tgz}: ${execFileSync('node', ['example.mjs'], { cwd: scratch }).toString().trim()}`);
 
 execFileSync('npm', ['pack', '--dry-run'], { cwd: OUT, stdio: 'inherit' });
