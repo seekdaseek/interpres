@@ -27,6 +27,8 @@ import { McpError, callTool, pool } from './mcp.ts';
 import { SsrfError } from './ssrf.ts';
 import { CircuitBreaker, makeShaper, newShaperStats } from './shaper.ts';
 import { PRESETS, presetFor } from './presets.ts';
+import { writeStarters } from './starters.ts';
+import type { Starters } from './starters.ts';
 
 const log = new EventLog(config.logPath);
 const limiter = new RateLimiter({
@@ -217,6 +219,39 @@ app.post('/api/mcp/connect', async (c) => {
 });
 
 /** Handle a `find_tools` call: rank the catalog and hand back a new phase. */
+/**
+ * Three starter questions for the server just connected, written by the LLM
+ * Gateway off the speech path, templates when it cannot. One per URL for as
+ * long as its catalog is cached, so a busy page does not spend the Gateway.
+ */
+const startersCache = new Map<string, { starters: Starters; expires: number }>();
+app.post('/api/mcp/starters', async (c) => {
+  let body: { url?: unknown };
+  try {
+    body = await c.req.json();
+  } catch {
+    return c.json({ error: 'Send a JSON body.', code: 'bad_request' }, 400);
+  }
+  if (typeof body.url !== 'string' || body.url.trim() === '') return c.json({ error: 'Send a url.', code: 'bad_request' }, 400);
+  const url = body.url.trim();
+  const hit = startersCache.get(url);
+  if (hit && hit.expires > Date.now()) return c.json({ ...hit.starters, cached: true });
+  try {
+    const { catalog } = await getCatalog(url);
+    const starters = await writeStarters(catalog, { breaker });
+    log.record('starters', { url, source: starters.source, ms: starters.ms, reason: starters.reason, count: starters.questions.length });
+    // Templates are not worth keeping: the Gateway may be back in a minute.
+    if (starters.source === 'gateway') {
+      if (startersCache.size >= config.limits.catalogCacheEntries) startersCache.delete(startersCache.keys().next().value!);
+      startersCache.set(url, { starters, expires: Date.now() + config.limits.catalogCacheMs });
+    }
+    return c.json({ ...starters, cached: false });
+  } catch (err) {
+    const status = err instanceof SsrfError ? 400 : 502;
+    return c.json(errorBody(err), status);
+  }
+});
+
 app.post('/api/mcp/find-tools', async (c) => {
   let body: { url?: unknown; query?: unknown; lastUserTurn?: unknown };
   try {

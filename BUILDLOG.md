@@ -1853,3 +1853,47 @@ judge coming back would hit exactly this.
 ```
 ✔ the page always revalidates, and a hashed asset is cached for good
 ```
+
+---
+
+## 2026-09-26 - task 5: the LLM Gateway writes starter questions, off the speech path
+
+**What:** at connect time the page asks `POST /api/mcp/starters`, and the Gateway
+(`qwen3.5-4b-32k-fast`, the one model this account reaches) writes three
+questions a person could say to that server. They show as "Try asking" chips.
+- Only read-only tools feed the prompt (task 2's classifier), so a starter never
+  suggests a change.
+- The output must parse as `{"questions": [...]}`, even inside a code fence, and
+  every question must be short and contain no URL and no identifier.
+- **Templates stand in** when the breaker is open, on a 429, on a timeout (4 s:
+  nothing is speaking yet), or on unusable output. They are built from each
+  read-only tool's own description ("Returns every book..." -> "Can you return
+  every book...?"), or from its name when the description addresses the agent
+  ("advisors_catalog_list_services" -> "Can you list services?").
+- The breaker is the shaper's own, because a 429 belongs to the account.
+- The chips say which source they came from: "written by AssemblyAI's LLM Gateway
+  (model, N ms)", or "from the tools' own descriptions: the LLM Gateway was
+  rate-limited".
+- A preset's own tested questions stay, relabelled "Tested on this server".
+- Gateway answers are cached per URL alongside the catalog. Templates are not
+  cached, because the Gateway may be back in a minute.
+
+This puts an AssemblyAI product on the default path, every connect, at zero
+speech latency. Task 6 speaks the first starter of each server.
+
+Live, against the real Gateway (local dev server, three presets in a row):
+
+```
+mostrecommendedbooks.com | gateway 982 ms | "What books does Elon Musk recommend?" "Show me the reading order for Harry Potter." "Give me a summary of The Alchemist."
+recipes-daily.com        | gateway 414 ms | "What can I cook with chicken and broccoli?" "Find me a quick dinner recipe." "Show me a recipe for pasta"
+weather.datakoot.com     | template 212 ms rate_limited | "Can you convert a US street address OR a city/town name into latitude/longitude coordinates?" ...
+```
+
+The third call hit the account's 429, as measured at CHECKPOINT A (4 of 6 calls),
+and the templates and the breaker did their job. In the browser the Books preset
+showed both rows, no horizontal overflow and no errors from that load.
+
+```
+$ node --test packages/core/test/starters.test.ts apps/server/test/starters.test.ts   ℹ tests 9  ℹ pass 9
+$ npm test                                                                              ℹ tests 335  ℹ pass 335  ℹ fail 0
+```

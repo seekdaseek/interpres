@@ -217,3 +217,7 @@ button { font: inherit; color: inherit; }
 .replay-note { margin: 8px 0 12px; font-size: 14px; }
 .replay audio { width: 100%; }
 .replay-voice { margin: 8px 0 0; color: var(--muted); font-size: 12.5px; }
+
+/* ---- starter questions ---- */
+.starters { margin-top: 8px; }
+.starter-note { font: 12px var(--mono); color: var(--muted); }

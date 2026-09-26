@@ -11,7 +11,7 @@ export type Event = {
     | 'token.minted' | 'token.refused' | 'token.error'
     | 'mcp.connect' | 'mcp.connect.failed' | 'mcp.cache.hit'
     | 'tool.call' | 'tool.call.failed'
-    | 'find_tools'
+    | 'find_tools' | 'starters'
     | 'shape';
   ms?: number;
   ok?: boolean;
@@ -72,7 +72,7 @@ export function scrub(record: Record<string, unknown>): Record<string, unknown> 
  * free-text error, which can quote either.
  */
 const PUBLIC_FIELDS = new Set([
-  'at', 'kind', 'ok', 'ms', 'mcpMs', 'code', 'status', 'reason', 'retryAfterSeconds',
+  'at', 'kind', 'ok', 'ms', 'mcpMs', 'code', 'status', 'reason', 'retryAfterSeconds', 'source', 'count',
   'maxSessionDurationSeconds', 'remainingForClient', 'globalRemaining',
   'transport', 'toolsIn', 'toolsConverted', 'failed',
   'voiceName', 'mcpName', 'revealed', 'carried', 'top',

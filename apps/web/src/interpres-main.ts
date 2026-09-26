@@ -342,6 +342,7 @@ async function startReplay(why: string | null): Promise<void> {
   $('server-meta').textContent = [`recorded ${replay.recordedAt.slice(0, 10)}`, `${replay.tools.length} tools`, `${Math.round(replay.durationSeconds)} s`].join(' · ');
   $('server-warn').hidden = true;
   clear($('asks'));
+  $('starters').hidden = true;
   $('gate-card').hidden = true;
   $('talk').hidden = true;
   $('paste-row').hidden = true;
@@ -371,6 +372,38 @@ async function startReplay(why: string | null): Promise<void> {
   if (!(await player.play())) $('replay-note').textContent += ' Press play to start it.';
 }
 
+// ---------------------------------------------------------------- starters
+
+const WHY_TEMPLATES: Record<string, string> = {
+  rate_limited: 'was rate-limited',
+  breaker_open: 'is resting after a rate limit',
+  timeout: 'did not answer in time',
+  unusable_output: 'gave no usable questions',
+  no_read_only_tools: 'was not asked: this server has no read-only tools',
+};
+
+/** Three questions for this server, from the LLM Gateway or, failing that, from templates. */
+async function loadStarters(url: string): Promise<void> {
+  const el = $('starters');
+  clear(el);
+  el.hidden = false;
+  el.append(h('span', { class: 'asks-label' }, 'Try asking'), h('span', { class: 'starter-note' }, 'writing questions…'));
+  try {
+    const res = await fetch('/api/mcp/starters', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ url }) });
+    const s = (await res.json()) as { source?: string; questions?: string[]; ms?: number; model?: string; reason?: string };
+    if (conn?.url !== url) return;   // switched server meanwhile
+    if (!res.ok || !Array.isArray(s.questions)) { el.hidden = true; return; }
+    clear(el);
+    el.append(h('span', { class: 'asks-label' }, 'Try asking'));
+    for (const q of s.questions) el.append(h('span', { class: 'ask' }, `“${q}”`));
+    el.append(h('span', { class: 'starter-note' }, s.source === 'gateway'
+      ? `written by AssemblyAI's LLM Gateway (${s.model}, ${s.ms} ms)`
+      : `from the tools' own descriptions: the LLM Gateway ${WHY_TEMPLATES[s.reason ?? ''] ?? 'was unavailable'}`));
+  } catch {
+    el.hidden = true;
+  }
+}
+
 // ----------------------------------------------------------------- connect
 
 function showError(message: string | null): void {
@@ -395,6 +428,7 @@ async function connect(url: string): Promise<void> {
     if (!res.ok) { showError(`${body.error ?? 'Could not connect.'}${body.code ? ` (${body.code})` : ''}`); return; }
     conn = body as ConnectResponse;
     renderServer(conn);
+    void loadStarters(conn.url);
     const q = new URL(location.href);
     q.searchParams.set('url', url);
     history.replaceState(null, '', q);
@@ -423,7 +457,7 @@ function renderServer(c: ConnectResponse): void {
   const asks = $('asks');
   clear(asks);
   if (c.asks.length > 0) {
-    asks.append(h('span', { class: 'asks-label' }, 'Try saying'));
+    asks.append(h('span', { class: 'asks-label' }, 'Tested on this server'));
     for (const a of c.asks) asks.append(h('span', { class: 'ask' }, `“${a}”`));
   }
 
@@ -453,6 +487,7 @@ function renderServer(c: ConnectResponse): void {
     };
   }
   $('gate-card').hidden = true;
+  $('starters').hidden = true;
   const yoursNow = pasteKeyterms(($('paste') as HTMLInputElement).value);
   renderKeyterms(mergeKeyterms(c.phase.keyterms, yoursNow), yoursNow);
 
