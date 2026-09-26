@@ -333,6 +333,7 @@ export class VoiceSession {
       tool: call.name,
       arguments: call.arguments,
       question: this.lastUserTurn,
+      session: this.sessionId,
     });
     this.gate.recordToolResult(r.raw ?? r.result, call.arguments);
     return { result: r.result, meta: r };

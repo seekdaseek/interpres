@@ -1769,3 +1769,68 @@ The browser does not use `onTurnIdle` (the idle clock reads reply events
 directly), so only the proof harness mis-ended turns. A new protocol test, "a
 chained call whose result is ready before its reply ends does not end the turn",
 fails without the fix (12/13) and passes with it (13/13).
+
+---
+
+## 2026-09-26 - task 4: warm MCP connections, kept (gain 386 ms per call, 484 ms voice-to-voice)
+
+**Before:** `callTool` opened a new MCP client per call (`initialize`,
+`notifications/initialized`, `tools/call`, then `close()`, which it awaited
+before returning). `guardedFetch` built and closed a new undici `Agent` per
+request, so every request paid DNS, TCP and TLS.
+
+**Now:**
+- `McpPool`, one client per (voice session, server URL):
+  - keyed on the Voice Agent `session_id`, which the browser now sends with
+    `/api/mcp/call` and the harness passes as `poolKey`;
+  - closed after 60 s idle, capped at 32 (LRU);
+  - two calls racing on a cold key share one open;
+  - on a 404 or "not connected" (the server forgot the session) it reopens
+    exactly once.
+- `PinnedAgents`, one keep-alive `Agent` per verified host:
+  - it dials only the addresses verified for it;
+  - after 30 s the host is verified again. The same addresses keep the warm
+    Agent; new addresses get a new one; a host that now fails the check is
+    refused, never served from the cache;
+  - idle sockets are kept 60 s, because undici's default of 4 s is shorter than
+    the gap between voice turns.
+- `MCP_WARM=off` turns off both, which is how the A/B ran. `/api/status` reports
+  the pool's warm and opened counts.
+
+```
+$ node --test apps/server/test/pool.test.ts                 ℹ tests 8  ℹ pass 8
+  ✔ one initialize for N calls in one voice session           (counting fake server: initialize 1, calls 5)
+  ✔ another voice session gets its own client
+  ✔ two calls racing on a cold key share one open
+  ✔ an idle client is closed, and the next call opens a new one
+  ✔ the pool is capped, least recently used out first
+  ✔ a session the server forgot is reopened once, and the call still answers
+  ✔ a pinned agent is reused within the TTL, and the host is verified again after it
+  ✔ a host that turns private is refused at re-verification, never served from the cache
+$ npm test                                                  ℹ tests 325  ℹ pass 325  ℹ fail 0
+$ sandbox-exec, outbound denied except localhost             ℹ tests 325  ℹ pass 325  (control curl: Could not resolve host)
+```
+
+The SSRF tests stay green. The sandbox now allows loopback, because the pool
+test's counting server listens on 127.0.0.1. The control curl to the internet
+still fails.
+
+**A/B on the spoken suite:** six presets, `e2e-audio`, run from the Mac with
+`MCP_WARM=off` and then on. The first warm run exposed the protocol race logged
+above, so both arms were run again with the fix:
+
+```
+$ node scripts/warm-ab.ts data/e2e-audio-warm-off.json data/e2e-audio-warm-on.json
+                                        off      on    gain  (ms, medians)
+MCP call, all (n=11/11)                 867     481     386
+MCP call, first in session (n=5/5)      867     491     376
+MCP call, later in session (n=6/6)      806     311     495
+voice-to-voice (turns 11/11)           3504    3020     484
+off sessions: sess_42dfe7cdb5a34219ac99836d02468a42 sess_31ba0f4801264ed09f582f18b17fcf71 sess_1041022116ca4526a74daa78f06ff836 sess_75713d30db2342da913a9dff406f92c7 sess_6125246dca5c4ce0b78092088bbe8d0a sess_eed74a5adb9843519fdfef293c7d4d15
+on sessions:  sess_b0a39ba6f1754c4b8799c6790bdfdfc1 sess_5623edf76d4f4c37b81419e8372e9b42 sess_5d91b31b639e450d9a6ee9bbe1f70258 sess_e9a40d7c718e4fe4bcf089e35c0e3e6d sess_d340e7fa9fda4f4b9aa95bc1f781a597 sess_fccb439982b848978c504e97ebdf6c33
+```
+
+The first call in a session gains too, because the catalog probe at session
+start has already warmed the host's connection. The gain is over the 200 ms bar,
+so this stays. Measured from the Mac; the demo server's round trips to these
+hosts differ.

@@ -1,0 +1,901 @@
+{
+  "at": "2026-09-26T14:48:10.360Z",
+  "voice": "Samantha",
+  "carry": true,
+  "results": [
+    {
+      "url": "https://www.assemblyai.com/docs/mcp",
+      "sessionId": "sess_b0a39ba6f1754c4b8799c6790bdfdfc1",
+      "turns": [
+        {
+          "said": "What audio format does the Voice Agent API expect?",
+          "heard": [
+            "What audio format does the voice agent API expect?"
+          ],
+          "calls": [
+            {
+              "callId": "chatcmpl-tool-964f65ae81560878",
+              "name": "search_assembly_ai",
+              "arguments": {
+                "query": "voice agent API audio format"
+              },
+              "callAt": 1790433899730,
+              "transitionReply": 0,
+              "mcpName": "search_assembly_ai",
+              "normalisersApplied": [],
+              "rawChars": 31239,
+              "spokenChars": 176,
+              "spoken": "The starter agent is four fields:. Talk to an agent in the Voice Agent playground. for details, or jump to the Voice Agent API overview. See Audio format for playback guidance.",
+              "method": "local",
+              "refine": "no_shaper",
+              "refineMs": 0,
+              "mcpMs": 1095,
+              "isError": false,
+              "readyAt": 1790433900843,
+              "execMs": 1109,
+              "sentAt": 1790433900844,
+              "answerReply": 1,
+              "transitionDoneAt": 1790433899987,
+              "agentWaitMs": 857,
+              "transitionAudioMs": 0,
+              "silenceOnUsMs": 1114
+            },
+            {
+              "callId": "chatcmpl-tool-80ded59d2ff0bf23",
+              "name": "search_assembly_ai",
+              "arguments": {
+                "query": "audio format for Voice Agent API playback guidance"
+              },
+              "callAt": 1790433901413,
+              "transitionReply": 1,
+              "mcpName": "search_assembly_ai",
+              "normalisersApplied": [],
+              "rawChars": 26305,
+              "spokenChars": 247,
+              "spoken": "All audio is base64-encoded and mono . See Audio format for playback guidance. A minimal client that captures microphone audio, streams it to the Voice Agent API, and plays back the agent's response. Talk to an agent in the Voice Agent playground.",
+              "method": "local",
+              "refine": "no_shaper",
+              "refineMs": 0,
+              "mcpMs": 557,
+              "isError": false,
+              "readyAt": 1790433901975,
+              "execMs": 562,
+              "sentAt": 1790433901976,
+              "answerReply": 2,
+              "transitionDoneAt": 1790433901717,
+              "agentWaitMs": 259,
+              "transitionAudioMs": 0,
+              "silenceOnUsMs": 563
+            }
+          ],
+          "agentReply": "The Voice Agent API expects audio to be mono and base sixty four encoded.",
+          "interrupted": false,
+          "startedAt": 1790433893953,
+          "speechEndAt": 1790433897190,
+          "firstAudioAt": 1790433902605,
+          "voiceToVoiceMs": 5415,
+          "idleAt": 1790433907806,
+          "ms": 13853,
+          "timeToAnswerMs": 5415
+        },
+        {
+          "said": "How many tools can an agent have per phase?",
+          "heard": [
+            "How many tools can an agent have per phase?"
+          ],
+          "calls": [
+            {
+              "callId": "chatcmpl-tool-84bcfc3ae0d5a805",
+              "name": "search_assembly_ai",
+              "arguments": {
+                "query": "how many tools per phase agent"
+              },
+              "callAt": 1790433913417,
+              "transitionReply": 3,
+              "mcpName": "search_assembly_ai",
+              "normalisersApplied": [],
+              "rawChars": 15347,
+              "spokenChars": 329,
+              "spoken": "For multi-step workflows (lookup → estimate → commit), don't register all tools upfront. After each successful tool.result, send session.update adding the next phase's tools, and update system_prompt to match. Smaller per-phase tool sets also raise selection accuracy. Getting the agent to call your tools and per-agent patterns.",
+              "method": "local",
+              "refine": "no_shaper",
+              "refineMs": 0,
+              "mcpMs": 558,
+              "isError": false,
+              "readyAt": 1790433913985,
+              "execMs": 567,
+              "sentAt": 1790433913985,
+              "answerReply": 4,
+              "transitionDoneAt": 1790433913654,
+              "agentWaitMs": 331,
+              "transitionAudioMs": 0,
+              "silenceOnUsMs": 568
+            }
+          ],
+          "agentReply": "The documentation doesn't specify a hard limit on the number of tools per phase, but it does recommend using smaller sets of tools for each phase to improve accuracy.",
+          "interrupted": false,
+          "startedAt": 1790433908592,
+          "speechEndAt": 1790433911031,
+          "firstAudioAt": 1790433914659,
+          "voiceToVoiceMs": 3628,
+          "idleAt": 1790433923067,
+          "ms": 14475,
+          "timeToAnswerMs": 3628
+        }
+      ],
+      "events": {
+        "session.updated": 1,
+        "session.ready": 1,
+        "input.speech.started": 2,
+        "transcript.user.delta": 6,
+        "input.speech.stopped": 2,
+        "transcript.user": 2,
+        "reply.started": 5,
+        "tool.call": 3,
+        "reply.done": 5,
+        "reply.audio": 1368,
+        "transcript.agent.delta": 43,
+        "transcript.agent": 2,
+        "session.ended": 1
+      },
+      "failures": [],
+      "audio": {
+        "chunksSent": 758,
+        "reanchors": 0
+      },
+      "shaper": {
+        "calls": 0,
+        "used": 0,
+        "failures": 0,
+        "rateLimited": 0,
+        "timeouts": 0,
+        "totalMs": 0
+      },
+      "replies": [
+        {
+          "startedAt": 1790433897822,
+          "audioMs": 0,
+          "doneAt": 1790433899987
+        },
+        {
+          "startedAt": 1790433900912,
+          "audioMs": 0,
+          "doneAt": 1790433901717
+        },
+        {
+          "startedAt": 1790433902051,
+          "firstAudioAt": 1790433902605,
+          "audioMs": 5240,
+          "doneAt": 1790433907805
+        },
+        {
+          "startedAt": 1790433911715,
+          "audioMs": 0,
+          "doneAt": 1790433913654
+        },
+        {
+          "startedAt": 1790433914050,
+          "firstAudioAt": 1790433914659,
+          "audioMs": 8440,
+          "doneAt": 1790433923067
+        }
+      ],
+      "ok": true
+    },
+    {
+      "url": "https://afg.ai/mcp",
+      "sessionId": "sess_5623edf76d4f4c37b81419e8372e9b42",
+      "turns": [
+        {
+          "said": "Check the reputation of the wallet I pasted.",
+          "heard": [
+            "Check the reputation of the wallet I pasted."
+          ],
+          "calls": [
+            {
+              "callId": "chatcmpl-tool-a8a4a01b41859683",
+              "name": "use_pasted_text",
+              "arguments": {},
+              "callAt": 1790433933553,
+              "transitionReply": 0,
+              "method": "paste",
+              "readyAt": 1790433933553,
+              "spoken": "empty",
+              "sentAt": 1790433933808,
+              "answerReply": 1,
+              "transitionDoneAt": 1790433933807,
+              "agentWaitMs": 1,
+              "transitionAudioMs": 0,
+              "silenceOnUsMs": 255
+            }
+          ],
+          "agentReply": "It looks like the paste box is empty. Please paste the wallet address into the box under the Talk button, and I'll check that reputation for you.",
+          "interrupted": false,
+          "startedAt": 1790433929339,
+          "speechEndAt": 1790433931819,
+          "firstAudioAt": 1790433934558,
+          "voiceToVoiceMs": 2739,
+          "idleAt": 1790433941688,
+          "ms": 12349,
+          "timeToAnswerMs": 2739
+        },
+        {
+          "said": "I want to run a spec check on a job contract.",
+          "heard": [
+            "I want to run a spec check on a job contract."
+          ],
+          "calls": [
+            {
+              "callId": "chatcmpl-tool-b54937135caad029",
+              "name": "find_tools",
+              "arguments": {
+                "query": "run a spec check on a job contract"
+              },
+              "callAt": 1790433946844,
+              "transitionReply": 2,
+              "phaseAfter": [
+                "find_tools",
+                "use_pasted_text",
+                "afg_post_job",
+                "afg_speccheck",
+                "afg_dispute",
+                "afg_sign_contract",
+                "afg_submit",
+                "afg_contract_template",
+                "afg_get_job",
+                "afg_prepare_signed_request"
+              ],
+              "method": "phase_change",
+              "spoken": "carried: none",
+              "readyAt": 1790433946854,
+              "execMs": 10,
+              "sentAt": 1790433947087,
+              "answerReply": 3,
+              "transitionDoneAt": 1790433947087,
+              "agentWaitMs": 0,
+              "transitionAudioMs": 0,
+              "silenceOnUsMs": 243
+            }
+          ],
+          "agentReply": "I can do that for you. Please provide the job contract you'd like me to check.",
+          "interrupted": false,
+          "startedAt": 1790433942459,
+          "speechEndAt": 1790433945139,
+          "firstAudioAt": 1790433947848,
+          "voiceToVoiceMs": 2709,
+          "idleAt": 1790433952087,
+          "ms": 9628,
+          "timeToAnswerMs": 2709
+        }
+      ],
+      "events": {
+        "session.updated": 2,
+        "session.ready": 1,
+        "input.speech.started": 2,
+        "transcript.user.delta": 4,
+        "input.speech.stopped": 2,
+        "transcript.user": 2,
+        "reply.started": 4,
+        "tool.call": 2,
+        "reply.done": 4,
+        "reply.audio": 1145,
+        "transcript.agent.delta": 43,
+        "transcript.agent": 2,
+        "session.ended": 1
+      },
+      "failures": [],
+      "audio": {
+        "chunksSent": 599,
+        "reanchors": 0
+      },
+      "shaper": {
+        "calls": 0,
+        "used": 0,
+        "failures": 0,
+        "rateLimited": 0,
+        "timeouts": 0,
+        "totalMs": 0
+      },
+      "replies": [
+        {
+          "startedAt": 1790433932492,
+          "audioMs": 0,
+          "doneAt": 1790433933807
+        },
+        {
+          "startedAt": 1790433933867,
+          "firstAudioAt": 1790433934558,
+          "audioMs": 7170,
+          "doneAt": 1790433941687
+        },
+        {
+          "startedAt": 1790433945891,
+          "audioMs": 0,
+          "doneAt": 1790433947087
+        },
+        {
+          "startedAt": 1790433947147,
+          "firstAudioAt": 1790433947848,
+          "audioMs": 4280,
+          "doneAt": 1790433952087
+        }
+      ],
+      "ok": true
+    },
+    {
+      "url": "https://advisorsai.ai/mcp",
+      "sessionId": "sess_5d91b31b639e450d9a6ee9bbe1f70258",
+      "turns": [
+        {
+          "said": "What services do you have?",
+          "heard": [
+            "What services do you have?"
+          ],
+          "calls": [
+            {
+              "callId": "chatcmpl-tool-8477e60acb37ed9c",
+              "name": "advisors_catalog_list_services",
+              "arguments": {
+                "language": "en"
+              },
+              "callAt": 1790433960962,
+              "transitionReply": 0,
+              "mcpName": "advisors_catalog_list_services",
+              "normalisersApplied": [],
+              "rawChars": 5450,
+              "spokenChars": 598,
+              "spoken": "summary If you have AI programs acting on your behalf (agents), we examine from your documents what each one can really do and where the risk is, then write the rules that stop it and an application plan — without operating or installing anything on your side; the local implementation bundle, if you order it, is yours to download and run.. for whom Teams running agents or AI automation that need either a risk-and-guardrail audit or a governed local team they can run, test, and roll back themselves.. name Your share of AI answers — documented measurement. name AI Readiness & Blind-Spot Audit.",
+              "method": "local",
+              "refine": "no_shaper",
+              "refineMs": 0,
+              "mcpMs": 481,
+              "isError": false,
+              "readyAt": 1790433961446,
+              "execMs": 484,
+              "sentAt": 1790433961446,
+              "answerReply": 1,
+              "transitionDoneAt": 1790433961229,
+              "agentWaitMs": 217,
+              "transitionAudioMs": 0,
+              "silenceOnUsMs": 484
+            }
+          ],
+          "agentReply": "We offer five main services, including Agent Governance Audits, measuring your share of AI answers, and a Decision Signal Engine. I can also help with AI visibility and store audits.",
+          "interrupted": false,
+          "startedAt": 1790433957934,
+          "speechEndAt": 1790433959451,
+          "firstAudioAt": 1790433962134,
+          "voiceToVoiceMs": 2683,
+          "idleAt": 1790433973309,
+          "ms": 15375,
+          "timeToAnswerMs": 2683
+        },
+        {
+          "said": "I need an audit trail for my agents - what fits?",
+          "heard": [
+            "I need an audit trail for my agents. What fits?"
+          ],
+          "calls": [
+            {
+              "callId": "chatcmpl-tool-84d3a1ec949b45e9",
+              "name": "advisors_catalog_match_service",
+              "arguments": {
+                "language": "en",
+                "need": "audit trail for my agents"
+              },
+              "callAt": 1790433978968,
+              "transitionReply": 2,
+              "mcpName": "advisors_catalog_match_service",
+              "normalisersApplied": [],
+              "rawChars": 3440,
+              "spokenChars": 559,
+              "spoken": "summary If you have AI programs acting on your behalf (agents), we examine from your documents what each one can really do and where the risk is, then write the rules that stop it and an application plan — without operating or installing anything on your side; the local implementation bundle, if you order it, is yours to download and run.. for whom Teams running agents or AI automation that need either a risk-and-guardrail audit or a governed local team they can run, test, and roll back themselves.. scoring method bounded deterministic keyword evidence.",
+              "method": "local",
+              "refine": "no_shaper",
+              "refineMs": 0,
+              "mcpMs": 191,
+              "isError": false,
+              "readyAt": 1790433979199,
+              "execMs": 230,
+              "sentAt": 1790433979209,
+              "answerReply": 3,
+              "transitionDoneAt": 1790433979209,
+              "agentWaitMs": 0,
+              "transitionAudioMs": 0,
+              "silenceOnUsMs": 241
+            }
+          ],
+          "agentReply": "The Agent Governance Audit seems like the best fit for you. It helps examine what your agents can do and identifies any risks.",
+          "interrupted": false,
+          "startedAt": 1790433974091,
+          "speechEndAt": 1790433976931,
+          "firstAudioAt": 1790433979951,
+          "voiceToVoiceMs": 3020,
+          "idleAt": 1790433986361,
+          "ms": 12270,
+          "timeToAnswerMs": 3020
+        }
+      ],
+      "events": {
+        "session.updated": 1,
+        "session.ready": 1,
+        "input.speech.started": 2,
+        "transcript.user.delta": 5,
+        "input.speech.stopped": 2,
+        "transcript.user": 2,
+        "reply.started": 4,
+        "tool.call": 2,
+        "reply.done": 4,
+        "reply.audio": 1766,
+        "transcript.agent.delta": 53,
+        "transcript.agent": 2,
+        "session.ended": 1
+      },
+      "failures": [],
+      "audio": {
+        "chunksSent": 741,
+        "reanchors": 0
+      },
+      "shaper": {
+        "calls": 0,
+        "used": 0,
+        "failures": 0,
+        "rateLimited": 0,
+        "timeouts": 0,
+        "totalMs": 0
+      },
+      "replies": [
+        {
+          "startedAt": 1790433960080,
+          "audioMs": 0,
+          "doneAt": 1790433961229
+        },
+        {
+          "startedAt": 1790433961509,
+          "firstAudioAt": 1790433962134,
+          "audioMs": 11220,
+          "doneAt": 1790433973309
+        },
+        {
+          "startedAt": 1790433977580,
+          "audioMs": 0,
+          "doneAt": 1790433979209
+        },
+        {
+          "startedAt": 1790433979272,
+          "firstAudioAt": 1790433979951,
+          "audioMs": 6440,
+          "doneAt": 1790433986360
+        }
+      ],
+      "ok": true
+    },
+    {
+      "url": "https://mostrecommendedbooks.com/api/mcp",
+      "sessionId": "sess_e9a40d7c718e4fe4bcf089e35c0e3e6d",
+      "turns": [
+        {
+          "said": "What books does Bill Gates recommend?",
+          "heard": [
+            "What books does Bill Gates recommend?"
+          ],
+          "calls": [
+            {
+              "callId": "chatcmpl-tool-929e15d44f5b3f23",
+              "name": "get_person_recommendations",
+              "arguments": {
+                "person": "Bill Gates"
+              },
+              "callAt": 1790433995703,
+              "transitionReply": 0,
+              "mcpName": "get_person_recommendations",
+              "normalisersApplied": [],
+              "rawChars": 3011,
+              "spokenChars": 262,
+              "spoken": "Bill Gates has 235 verified book recommendations:. Army of None by Paul Scharre — \"\"The book I had been waiting for. I can’t recommend it highly enough.\" - Bill Gates\". 13 Things That Don't Make Sense by Michael Brooks — \"List of books Bill Gates read in 2011.\".",
+              "method": "local",
+              "refine": "no_shaper",
+              "refineMs": 0,
+              "mcpMs": 491,
+              "isError": false,
+              "readyAt": 1790433996198,
+              "execMs": 495,
+              "sentAt": 1790433996200,
+              "answerReply": 1,
+              "transitionDoneAt": 1790433996004,
+              "agentWaitMs": 196,
+              "transitionAudioMs": 0,
+              "silenceOnUsMs": 497
+            }
+          ],
+          "agentReply": "Bill Gates has two hundred and thirty-five verified recommendations. Some examples include Army of None by Paul Scharre, which he highly recommends, and 13 Things That Don't Make Sense by Michael Brooks.",
+          "interrupted": false,
+          "startedAt": 1790433992454,
+          "speechEndAt": 1790433994374,
+          "firstAudioAt": 1790433996897,
+          "voiceToVoiceMs": 2523,
+          "idleAt": 1790434008343,
+          "ms": 15889,
+          "timeToAnswerMs": 2523
+        },
+        {
+          "said": "What is the reading order for the Dune series?",
+          "heard": [
+            "What is the reading order for the Dune series?"
+          ],
+          "calls": [
+            {
+              "callId": "chatcmpl-tool-8119ba33b0bd1d56",
+              "name": "get_series_reading_order",
+              "arguments": {
+                "series": "Dune"
+              },
+              "callAt": 1790434013722,
+              "transitionReply": 2,
+              "mcpName": "get_series_reading_order",
+              "normalisersApplied": [],
+              "rawChars": 283,
+              "spokenChars": 282,
+              "spoken": "Dune — 6 books in publication order: 1. Dune (1965) 2. Dune Messiah (1969) 3. Children of Dune (1976) 4. God Emperor of Dune (1981) 5. Heretics of Dune (1984) 6. Chapterhouse: Dune (1985) Source: https://mostrecommendedbooks.com/series/dune-books-in-order (mostrecommendedbooks.com)",
+              "method": "truncated",
+              "refine": "not_needed",
+              "refineMs": 0,
+              "mcpMs": 239,
+              "isError": false,
+              "readyAt": 1790434013963,
+              "execMs": 241,
+              "sentAt": 1790434013967,
+              "answerReply": 3,
+              "transitionDoneAt": 1790434013966,
+              "agentWaitMs": 1,
+              "transitionAudioMs": 0,
+              "silenceOnUsMs": 245
+            }
+          ],
+          "agentReply": "The Dune series has six books in publication order, starting with Dune in nineteen sixty-five and ending with Chapterhouse: Dune in nineteen eighty-five.",
+          "interrupted": false,
+          "startedAt": 1790434009136,
+          "speechEndAt": 1790434011376,
+          "firstAudioAt": 1790434014736,
+          "voiceToVoiceMs": 3360,
+          "idleAt": 1790434022757,
+          "ms": 13621,
+          "timeToAnswerMs": 3360
+        }
+      ],
+      "events": {
+        "session.updated": 1,
+        "session.ready": 1,
+        "input.speech.started": 2,
+        "transcript.user.delta": 5,
+        "input.speech.stopped": 2,
+        "transcript.user": 2,
+        "reply.started": 4,
+        "tool.call": 2,
+        "reply.done": 4,
+        "reply.audio": 1953,
+        "transcript.agent.delta": 55,
+        "transcript.agent": 2,
+        "session.ended": 1
+      },
+      "failures": [],
+      "audio": {
+        "chunksSent": 788,
+        "reanchors": 0
+      },
+      "shaper": {
+        "calls": 0,
+        "used": 0,
+        "failures": 0,
+        "rateLimited": 0,
+        "timeouts": 0,
+        "totalMs": 0
+      },
+      "replies": [
+        {
+          "startedAt": 1790433995250,
+          "audioMs": 0,
+          "doneAt": 1790433996004
+        },
+        {
+          "startedAt": 1790433996260,
+          "firstAudioAt": 1790433996897,
+          "audioMs": 11480,
+          "doneAt": 1790434008343
+        },
+        {
+          "startedAt": 1790434012151,
+          "audioMs": 0,
+          "doneAt": 1790434013966
+        },
+        {
+          "startedAt": 1790434014027,
+          "firstAudioAt": 1790434014736,
+          "audioMs": 8050,
+          "doneAt": 1790434022757
+        }
+      ],
+      "ok": true
+    },
+    {
+      "url": "https://recipes-daily.com/mcp",
+      "sessionId": "sess_d340e7fa9fda4f4b9aa95bc1f781a597",
+      "turns": [
+        {
+          "said": "What can I cook with chicken, rice and spinach?",
+          "heard": [
+            "What can I cook with chicken, rice and spinach?"
+          ],
+          "calls": [
+            {
+              "callId": "chatcmpl-tool-9ac7f84a4a932290",
+              "name": "find_recipes_by_ingredients",
+              "arguments": {
+                "ingredients": [
+                  "chicken",
+                  "rice",
+                  "spinach"
+                ]
+              },
+              "callAt": 1790434031228,
+              "transitionReply": 0,
+              "mcpName": "find_recipes_by_ingredients",
+              "normalisersApplied": [],
+              "rawChars": 1594,
+              "spokenChars": 600,
+              "spoken": "Ranked by ingredient coverage. ## Spanish Chicken and Chorizo Skillet with Saffron Rice (One-Pan, 45-Minute) (2 of 3) — missing spinach https://recipes-daily.com/make/spanish-chicken-and-chorizo-skillet-with-saffron-rice-one-pan-45-minute ## One-Pan Lemon Garlic Chicken with Creamy Orzo (2 of 3) — missing rice https://recipes-daily.com/make/one-pan-lemon-garlic-chicken-with-creamy-orzo ## Creamy Pumpkin Risotto (2 of 3) — missing spinach https://recipes-daily.com/make/creamy-pumpkin-risotto ## Honey-Soy Braised Chicken Thighs with Ginger-Scallion Rice (One-Pot, 40-Minute) (2 of 3) — missing...",
+              "method": "truncated",
+              "refine": "not_needed",
+              "refineMs": 0,
+              "mcpMs": 277,
+              "isError": false,
+              "readyAt": 1790434031507,
+              "execMs": 278,
+              "sentAt": 1790434031528,
+              "answerReply": 1,
+              "transitionDoneAt": 1790434031528,
+              "agentWaitMs": 0,
+              "transitionAudioMs": 0,
+              "silenceOnUsMs": 300
+            },
+            {
+              "callId": "chatcmpl-tool-832d74c4a8ba538f",
+              "name": "show_recipes",
+              "arguments": {
+                "recipes": [
+                  "https://recipes-daily.com/make/spanish-chicken-and-chorizo-skillet-with-saffron-rice-one-pan-45-minute",
+                  "https://recipes-daily.com/make/one-pan-lemon-garlic-chicken-with-creamy-orzo",
+                  "https://recipes-daily.com/make/creamy-pumpkin-risotto"
+                ]
+              },
+              "callAt": 1790434032449,
+              "transitionReply": 1,
+              "mcpName": "show_recipes",
+              "normalisersApplied": [],
+              "rawChars": 27,
+              "spokenChars": 27,
+              "spoken": "Showing 3 recipes as cards.",
+              "method": "passthrough",
+              "refine": "not_needed",
+              "refineMs": 0,
+              "mcpMs": 87,
+              "isError": false,
+              "readyAt": 1790434032538,
+              "execMs": 89,
+              "sentAt": 1790434032738,
+              "answerReply": 2,
+              "transitionDoneAt": 1790434032738,
+              "agentWaitMs": 0,
+              "transitionAudioMs": 0,
+              "silenceOnUsMs": 289
+            }
+          ],
+          "agentReply": "I found a few options that use some of those ingredients, like a Spanish Chicken and Chorizo Skillet with Saffron Rice, though you would need to add your spinach to that one. I have also pulled up a Lemon Garlic Chicken with Orzo and a Creamy Pumpkin Risotto for you to look at.",
+          "interrupted": false,
+          "startedAt": 1790434027277,
+          "speechEndAt": 1790434029997,
+          "firstAudioAt": 1790434033568,
+          "voiceToVoiceMs": 3571,
+          "idleAt": 1790434047889,
+          "ms": 20612,
+          "timeToAnswerMs": 3571
+        }
+      ],
+      "events": {
+        "session.updated": 1,
+        "session.ready": 1,
+        "input.speech.started": 1,
+        "transcript.user.delta": 3,
+        "input.speech.stopped": 1,
+        "transcript.user": 1,
+        "reply.started": 3,
+        "tool.call": 2,
+        "reply.done": 3,
+        "reply.audio": 1436,
+        "transcript.agent.delta": 53,
+        "transcript.agent": 1,
+        "session.ended": 1
+      },
+      "failures": [],
+      "audio": {
+        "chunksSent": 546,
+        "reanchors": 0
+      },
+      "shaper": {
+        "calls": 0,
+        "used": 0,
+        "failures": 0,
+        "rateLimited": 0,
+        "timeouts": 0,
+        "totalMs": 0
+      },
+      "replies": [
+        {
+          "startedAt": 1790434030726,
+          "audioMs": 0,
+          "doneAt": 1790434031528
+        },
+        {
+          "startedAt": 1790434031593,
+          "audioMs": 0,
+          "doneAt": 1790434032738
+        },
+        {
+          "startedAt": 1790434032802,
+          "firstAudioAt": 1790434033568,
+          "audioMs": 14360,
+          "doneAt": 1790434047888
+        }
+      ],
+      "ok": true
+    },
+    {
+      "url": "https://weather.datakoot.com/mcp",
+      "sessionId": "sess_fccb439982b848978c504e97ebdf6c33",
+      "turns": [
+        {
+          "said": "Are there any weather alerts in Florida right now?",
+          "heard": [
+            "Are there any weather alerts in Florida right now?"
+          ],
+          "calls": [
+            {
+              "callId": "chatcmpl-tool-8a45dd0666c30407",
+              "name": "weather_alerts",
+              "arguments": {
+                "area": "FL"
+              },
+              "callAt": 1790434057582,
+              "transitionReply": 0,
+              "mcpName": "weather_alerts",
+              "normalisersApplied": [],
+              "rawChars": 6349,
+              "spokenChars": 275,
+              "spoken": "headline Flood Warning issued September 26 at 9:37AM EDT by NWS Melbourne FL. area Lake, FL; Volusia, FL. headline Rip Current Statement issued September 26 at 3:08AM EDT until September 28 at 3:00AM EDT by NWS Melbourne FL. area Mainland Monroe; Far South Miami-Dade County.",
+              "method": "local",
+              "refine": "no_shaper",
+              "refineMs": 0,
+              "mcpMs": 513,
+              "isError": false,
+              "readyAt": 1790434058103,
+              "execMs": 520,
+              "sentAt": 1790434058103,
+              "answerReply": 1,
+              "transitionDoneAt": 1790434057852,
+              "agentWaitMs": 251,
+              "transitionAudioMs": 0,
+              "silenceOnUsMs": 521
+            }
+          ],
+          "agentReply": "Yes, there are several alerts for Florida. There is currently a severe flood warning for Lake and Volusia counties, as well as rip current and coastal flood statements for areas including Monroe and Miami-Dade.",
+          "interrupted": false,
+          "startedAt": 1790434053392,
+          "speechEndAt": 1790434055913,
+          "firstAudioAt": 1790434058902,
+          "voiceToVoiceMs": 2989,
+          "idleAt": 1790434068861,
+          "ms": 15469,
+          "timeToAnswerMs": 2989
+        },
+        {
+          "said": "Were there any earthquakes above magnitude five in the last week?",
+          "heard": [
+            "Were there any earthquakes above magnitude 5 in the last week?"
+          ],
+          "calls": [
+            {
+              "callId": "chatcmpl-tool-938a6749f8388a4e",
+              "name": "earthquakes",
+              "arguments": {
+                "days": 7,
+                "min_magnitude": 5
+              },
+              "callAt": 1790434075188,
+              "transitionReply": 2,
+              "mcpName": "earthquakes",
+              "normalisersApplied": [],
+              "rawChars": 5627,
+              "spokenChars": 154,
+              "spoken": "place 74 km ESE of Kokopo, Papua New Guinea. place 58 km NE of Tadine, New Caledonia. place 15 km NNW of Xunchang, China. url source USGS (public domain).",
+              "method": "local",
+              "refine": "no_shaper",
+              "refineMs": 0,
+              "mcpMs": 382,
+              "isError": false,
+              "readyAt": 1790434075573,
+              "execMs": 384,
+              "sentAt": 1790434075573,
+              "answerReply": 3,
+              "transitionDoneAt": 1790434075442,
+              "agentWaitMs": 131,
+              "transitionAudioMs": 0,
+              "silenceOnUsMs": 385
+            }
+          ],
+          "agentReply": "Yes, there were several earthquakes above magnitude five in the last week, including one at magnitude five point six near Kokopo, Papua New Guinea. There were also others near Tadine, New Caledonia, and Xunchang, China.",
+          "interrupted": false,
+          "startedAt": 1790434069634,
+          "speechEndAt": 1790434072911,
+          "firstAudioAt": 1790434076425,
+          "voiceToVoiceMs": 3514,
+          "idleAt": 1790434088652,
+          "ms": 19018,
+          "timeToAnswerMs": 3514
+        }
+      ],
+      "events": {
+        "session.updated": 1,
+        "session.ready": 1,
+        "input.speech.started": 2,
+        "transcript.user.delta": 7,
+        "input.speech.stopped": 2,
+        "transcript.user": 2,
+        "reply.started": 4,
+        "tool.call": 2,
+        "reply.done": 4,
+        "reply.audio": 2229,
+        "transcript.agent.delta": 69,
+        "transcript.agent": 2,
+        "session.ended": 1
+      },
+      "failures": [],
+      "audio": {
+        "chunksSent": 912,
+        "reanchors": 0
+      },
+      "shaper": {
+        "calls": 0,
+        "used": 0,
+        "failures": 0,
+        "rateLimited": 0,
+        "timeouts": 0,
+        "totalMs": 0
+      },
+      "replies": [
+        {
+          "startedAt": 1790434056503,
+          "audioMs": 0,
+          "doneAt": 1790434057852
+        },
+        {
+          "startedAt": 1790434058166,
+          "firstAudioAt": 1790434058902,
+          "audioMs": 10010,
+          "doneAt": 1790434068861
+        },
+        {
+          "startedAt": 1790434073501,
+          "audioMs": 0,
+          "doneAt": 1790434075442
+        },
+        {
+          "startedAt": 1790434075637,
+          "firstAudioAt": 1790434076425,
+          "audioMs": 12280,
+          "doneAt": 1790434088651
+        }
+      ],
+      "ok": true
+    }
+  ]
+}

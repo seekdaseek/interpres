@@ -23,7 +23,7 @@ import { RateLimiter, clientKey } from './ratelimit.ts';
 import { EventLog, publicEvent } from './logs.ts';
 import { getCatalog, cacheStats, invalidate } from './catalog.ts';
 import type { Catalog } from './catalog.ts';
-import { McpError, callTool } from './mcp.ts';
+import { McpError, callTool, pool } from './mcp.ts';
 import { SsrfError } from './ssrf.ts';
 import { CircuitBreaker, makeShaper, newShaperStats } from './shaper.ts';
 import { PRESETS, presetFor } from './presets.ts';
@@ -251,7 +251,7 @@ app.post('/api/mcp/find-tools', async (c) => {
 
 /** Call one tool on the MCP server and shape the result for speech. */
 app.post('/api/mcp/call', async (c) => {
-  let body: { url?: unknown; tool?: unknown; arguments?: unknown; question?: unknown };
+  let body: { url?: unknown; tool?: unknown; arguments?: unknown; question?: unknown; session?: unknown };
   try {
     body = await c.req.json();
   } catch {
@@ -286,7 +286,9 @@ app.post('/api/mcp/call', async (c) => {
     // tidied here instead - the handler-side strip the docs prescribe.
     const { args, applied } = applyNormalisers(rawArgs, entry?.report.normalisers ?? []);
 
-    const outcome = await callTool(url, mcpName, args);
+    // The Voice Agent session_id keys a warm MCP client for that conversation.
+    const poolKey = typeof body.session === 'string' && /^[A-Za-z0-9_-]{1,128}$/.test(body.session) ? body.session : undefined;
+    const outcome = await callTool(url, mcpName, args, { poolKey });
     const shaped = await shapeResult(voiceName, outcome.result, {
       shaper,
       shaperAvailable,
@@ -354,6 +356,7 @@ app.get('/api/status', (c) =>
       breakerTrips: breaker.trips,
     },
     cache: cacheStats(),
+    mcpPool: { warm: pool.size, opened: pool.opened },
     rate: { trackedKeys: limiter.trackedKeys, globalUsed: limiter.globalUsed, globalPerDay: limiter.globalPerDay, perIpPerHour: limiter.perIpPerHour },
     recent: log.tail(30).map(publicEvent),
   }),

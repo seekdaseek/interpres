@@ -397,7 +397,7 @@ export class LiveSession {
       const sha256: Record<string, string> = {};
       for (const [k, v] of Object.entries(args)) if (typeof v === 'string') sha256[k] = createHash('sha256').update(v).digest('hex');
       this.mcpRequests.push({ tool: mcpName, args, sha256, at: Date.now() });
-      const outcome = await callTool(this.catalog.url, mcpName, args);
+      const outcome = await callTool(this.catalog.url, mcpName, args, { poolKey: this.sessionId });
       const shaped = await shapeResult(call.name, outcome.result, {
         shaper: this.refine ? this.shaper : undefined,
         shaperAvailable: () => !this.breaker.isOpen(),

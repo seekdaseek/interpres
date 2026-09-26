@@ -53,6 +53,31 @@ rate-limited hard on this plan: 4 of 6 sequential calls returned
 Set `SHAPER_REFINE=on` to use it, and `SHAPER_MODEL` to use another model on an
 account that can reach one.
 
+## Warm MCP connections
+
+A tool call used to open a new MCP client every time, over a new connection:
+DNS, TCP and TLS, then `initialize`, `notifications/initialized`, `tools/call`
+and a close. All of that happened while the caller waited in silence. Now:
+
+- Each voice session keeps one MCP client per server. It is closed after 60 s
+  idle, at most 32 are held (least recently used out first), and it is reopened
+  once if the server has forgotten the session.
+- Each verified host keeps one keep-alive connection pool. The host is checked
+  against the SSRF rules again every 30 s, so the address pin still holds.
+
+Measured with the spoken suite: the same six presets and 11 turns each way,
+`MCP_WARM=off` against the default. `scripts/warm-ab.ts` computes these from the
+two data files:
+
+| median | off | on |
+|---|---|---|
+| MCP call | 867 ms | 481 ms |
+| MCP call, later in a session | 806 ms | 311 ms |
+| voice-to-voice | 3,504 ms | 3,020 ms |
+
+These were measured from the development machine. Round trips from the demo
+server are different.
+
 ## Identifiers and state-changing tools
 
 **Voice for intent, keyboard for identifiers, and nothing misheard gets executed.**

@@ -172,11 +172,8 @@ export type VerifiedTarget = {
   addresses: Array<{ address: string; family: number }>;
 };
 
-/**
- * Parse and vet a user-supplied URL. Throws `SsrfError` with a code the API can
- * turn into a message the user can act on.
- */
-export async function verifyUrl(raw: string): Promise<VerifiedTarget> {
+/** The checks that need no network: a well-formed https URL with a host and no credentials. */
+export function parseTarget(raw: string): URL {
   let url: URL;
   try {
     url = new URL(raw);
@@ -191,7 +188,15 @@ export async function verifyUrl(raw: string): Promise<VerifiedTarget> {
     // Credentials in the URL would be forwarded to a third-party server.
     throw new SsrfError('has_credentials', 'Remove the credentials from the URL.');
   }
+  return url;
+}
 
+/**
+ * Parse and vet a user-supplied URL. Throws `SsrfError` with a code the API can
+ * turn into a message the user can act on.
+ */
+export async function verifyUrl(raw: string): Promise<VerifiedTarget> {
+  const url = parseTarget(raw);
   const literal = isIP(url.hostname.replace(/^\[|\]$/g, ''));
   if (literal !== 0) {
     const addr = url.hostname.replace(/^\[|\]$/g, '');
@@ -273,6 +278,100 @@ export function enforceResponsePolicy(res: Response, host: string): Response {
   });
 }
 
+/** Re-verify a host's addresses after this long; see PinnedAgents. */
+export const PIN_TTL_MS = 30_000;
+/** Hosts kept warm at once; the least recently used is closed first. */
+export const PIN_MAX_HOSTS = 64;
+/** MCP_WARM=off turns off keep-alive agents and the MCP client pool, for the A/B. */
+export const WARM = process.env.MCP_WARM !== 'off';
+
+type Addresses = VerifiedTarget['addresses'];
+
+/** An Agent that can only ever dial these addresses. TLS still sees the hostname. */
+function pinnedAgent(addresses: Addresses): Agent {
+  return new Agent({
+    connect: {
+      lookup(_hostname, _options, cb) {
+        cb(null, addresses.map((a) => ({ address: a.address, family: a.family })));
+      },
+    },
+    headersTimeout: TIMEOUT_MS,
+    bodyTimeout: TIMEOUT_MS,
+    // undici drops an idle socket after 4 s by default, and turns in a voice
+    // conversation are usually further apart than that.
+    keepAliveTimeout: 60_000,
+  });
+}
+
+const sameAddresses = (a: Addresses, b: Addresses) =>
+  a.length === b.length && [...a].map((x) => x.address).sort().join() === [...b].map((x) => x.address).sort().join();
+
+/**
+ * One keep-alive Agent per verified host, so a request after the first skips
+ * DNS, TCP and TLS. The pin still holds: the Agent dials only the addresses
+ * verified for it, and after PIN_TTL_MS the host is verified again. A DNS change
+ * reaches the socket no later than that, and only after passing the same
+ * public-address check.
+ */
+export class PinnedAgents {
+  private readonly byHost = new Map<string, { addresses: Addresses; agent: Agent; at: number }>();
+  private readonly ttlMs: number;
+  private readonly verify: (raw: string) => Promise<VerifiedTarget>;
+  private readonly now: () => number;
+  private readonly maxHosts: number;
+
+  constructor(opts: { ttlMs?: number; verify?: (raw: string) => Promise<VerifiedTarget>; now?: () => number; maxHosts?: number } = {}) {
+    this.ttlMs = opts.ttlMs ?? PIN_TTL_MS;
+    this.verify = opts.verify ?? verifyUrl;
+    this.now = opts.now ?? Date.now;
+    this.maxHosts = opts.maxHosts ?? PIN_MAX_HOSTS;
+  }
+
+  /** The Agent for this URL's host, verified first if it is new or stale. */
+  async get(url: URL): Promise<Agent> {
+    const host = url.host;
+    const hit = this.byHost.get(host);
+    if (hit && this.now() - hit.at < this.ttlMs) {
+      this.byHost.delete(host);
+      this.byHost.set(host, hit);   // most recently used last
+      return hit.agent;
+    }
+    const target = await this.verify(url.href);
+    this.byHost.delete(host);
+    if (hit && sameAddresses(hit.addresses, target.addresses)) {
+      hit.at = this.now();
+      this.byHost.set(host, hit);   // re-verified, same addresses: keep its warm sockets
+      return hit.agent;
+    }
+    if (hit) void hit.agent.close().catch(() => {});
+    const entry = { addresses: target.addresses, agent: pinnedAgent(target.addresses), at: this.now() };
+    this.byHost.set(host, entry);
+    while (this.byHost.size > this.maxHosts) {
+      const [oldest, e] = this.byHost.entries().next().value!;
+      this.byHost.delete(oldest);
+      void e.agent.close().catch(() => {});
+    }
+    return entry.agent;
+  }
+
+  get size(): number {
+    return this.byHost.size;
+  }
+}
+
+const pinned = new PinnedAgents();
+
+/**
+ * Vet a URL before anything opens: in full when cold, through the pinned-agent
+ * cache when warm (DNS only for a new or stale host). Same errors either way.
+ */
+export async function ensureVerified(raw: string): Promise<URL> {
+  if (!WARM) return (await verifyUrl(raw)).url;
+  const url = parseTarget(raw);
+  await pinned.get(url);
+  return url;
+}
+
 /**
  * A `fetch` that only ever reaches vetted, publicly routable addresses. Shaped
  * to the SDK's `FetchLike` so the MCP transports can use it unchanged, which
@@ -283,19 +382,17 @@ export async function guardedFetch(
   init: RequestInit = {},
 ): Promise<Response> {
   const raw = typeof input === 'string' ? input : input instanceof URL ? input.href : input.url;
-  const target = await verifyUrl(raw);
-
-  const agent = new Agent({
-    connect: {
-      // Handed only the addresses we verified. TLS still sees the hostname, so
-      // certificate validation is untouched.
-      lookup(_hostname, _options, cb) {
-        cb(null, target.addresses.map((a) => ({ address: a.address, family: a.family })));
-      },
-    },
-    headersTimeout: TIMEOUT_MS,
-    bodyTimeout: TIMEOUT_MS,
-  });
+  // Warm: the host's pinned keep-alive Agent. Cold: a fresh one per request.
+  let url: URL;
+  let agent: Agent;
+  if (WARM) {
+    url = parseTarget(raw);
+    agent = await pinned.get(url);
+  } else {
+    const target = await verifyUrl(raw);
+    url = target.url;
+    agent = pinnedAgent(target.addresses);
+  }
 
   const ac = new AbortController();
   const timer = setTimeout(() => ac.abort(new SsrfError('timeout', `No response within ${TIMEOUT_MS}ms.`)), TIMEOUT_MS);
@@ -304,7 +401,7 @@ export async function guardedFetch(
   if (callerSignal) callerSignal.addEventListener('abort', () => ac.abort(callerSignal.reason), { once: true });
 
   try {
-    const res = await undiciFetch(target.url.href, {
+    const res = await undiciFetch(url.href, {
       ...(init as Record<string, unknown>),
       method: init.method ?? (input instanceof Request ? input.method : 'GET'),
       headers: init.headers ?? (input instanceof Request ? input.headers : undefined),
@@ -314,7 +411,7 @@ export async function guardedFetch(
       dispatcher: agent,
     } as never) as unknown as Response;
 
-    return enforceResponsePolicy(res as unknown as Response, target.url.host);
+    return enforceResponsePolicy(res as unknown as Response, url.host);
   } catch (err) {
     if (err instanceof SsrfError) throw err;
     if (ac.signal.aborted && ac.signal.reason instanceof SsrfError) throw ac.signal.reason;
@@ -324,6 +421,6 @@ export async function guardedFetch(
     throw err;
   } finally {
     clearTimeout(timer);
-    void agent.close().catch(() => {});
+    if (!WARM) void agent.close().catch(() => {});
   }
 }
