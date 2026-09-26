@@ -1,0 +1,384 @@
+{
+ "file": "video/captures/A-20260926T214149/stems/agent.wav",
+ "sha256": "59334bae5c44a67c07879a712bd56b73f99164b2ad6c9bc5ae8b36e0a75ceb02",
+ "id": "35bd5b42-f5ec-49c2-b75d-dacef4302a23",
+ "speechModel": "universal-3-5-pro,universal-2",
+ "text": "Connected to Goji, with 9 tools available. What would you like to do? AEO stands for Answer Engine Optimization. It's the practice of structuring your website so AI assistants like ChatGPT or Perplexity quote you when they answer a user's question. While traditional SEO focuses on getting you listed on a search results page, AEO is about making sure you get cited directly inside the AI's answer. You can read more about it at goji.agency.",
+ "words": [
+  {
+   "text": "Connected",
+   "start": 17758,
+   "end": 18160
+  },
+  {
+   "text": "to",
+   "start": 18176,
+   "end": 18304
+  },
+  {
+   "text": "Goji,",
+   "start": 18320,
+   "end": 18625
+  },
+  {
+   "text": "with",
+   "start": 19123,
+   "end": 19332
+  },
+  {
+   "text": "9",
+   "start": 19380,
+   "end": 19589
+  },
+  {
+   "text": "tools",
+   "start": 19701,
+   "end": 20038
+  },
+  {
+   "text": "available.",
+   "start": 20038,
+   "end": 20472
+  },
+  {
+   "text": "What",
+   "start": 21146,
+   "end": 21258
+  },
+  {
+   "text": "would",
+   "start": 21291,
+   "end": 21387
+  },
+  {
+   "text": "you",
+   "start": 21387,
+   "end": 21531
+  },
+  {
+   "text": "like",
+   "start": 21531,
+   "end": 21692
+  },
+  {
+   "text": "to",
+   "start": 21692,
+   "end": 21724
+  },
+  {
+   "text": "do?",
+   "start": 21788,
+   "end": 21901
+  },
+  {
+   "text": "AEO",
+   "start": 30764,
+   "end": 30989
+  },
+  {
+   "text": "stands",
+   "start": 31101,
+   "end": 31470
+  },
+  {
+   "text": "for",
+   "start": 31487,
+   "end": 31551
+  },
+  {
+   "text": "Answer",
+   "start": 31727,
+   "end": 31968
+  },
+  {
+   "text": "Engine",
+   "start": 31984,
+   "end": 32193
+  },
+  {
+   "text": "Optimization.",
+   "start": 32289,
+   "end": 32916
+  },
+  {
+   "text": "It's",
+   "start": 33269,
+   "end": 33429
+  },
+  {
+   "text": "the",
+   "start": 33429,
+   "end": 33574
+  },
+  {
+   "text": "practice",
+   "start": 33574,
+   "end": 34152
+  },
+  {
+   "text": "of",
+   "start": 34152,
+   "end": 34216
+  },
+  {
+   "text": "structuring",
+   "start": 34232,
+   "end": 34682
+  },
+  {
+   "text": "your",
+   "start": 34714,
+   "end": 34826
+  },
+  {
+   "text": "website",
+   "start": 34858,
+   "end": 35292
+  },
+  {
+   "text": "so",
+   "start": 35292,
+   "end": 35452
+  },
+  {
+   "text": "AI",
+   "start": 35452,
+   "end": 35709
+  },
+  {
+   "text": "assistants",
+   "start": 35742,
+   "end": 36239
+  },
+  {
+   "text": "like",
+   "start": 36239,
+   "end": 36400
+  },
+  {
+   "text": "ChatGPT",
+   "start": 36400,
+   "end": 37219
+  },
+  {
+   "text": "or",
+   "start": 37219,
+   "end": 37283
+  },
+  {
+   "text": "Perplexity",
+   "start": 37283,
+   "end": 37813
+  },
+  {
+   "text": "quote",
+   "start": 37845,
+   "end": 38134
+  },
+  {
+   "text": "you",
+   "start": 38150,
+   "end": 38214
+  },
+  {
+   "text": "when",
+   "start": 38327,
+   "end": 38439
+  },
+  {
+   "text": "they",
+   "start": 38487,
+   "end": 38632
+  },
+  {
+   "text": "answer",
+   "start": 38648,
+   "end": 38905
+  },
+  {
+   "text": "a",
+   "start": 38905,
+   "end": 38953
+  },
+  {
+   "text": "user's",
+   "start": 39033,
+   "end": 39354
+  },
+  {
+   "text": "question.",
+   "start": 39354,
+   "end": 39659
+  },
+  {
+   "text": "While",
+   "start": 40334,
+   "end": 40494
+  },
+  {
+   "text": "traditional",
+   "start": 40494,
+   "end": 41040
+  },
+  {
+   "text": "SEO",
+   "start": 41072,
+   "end": 41377
+  },
+  {
+   "text": "focuses",
+   "start": 41442,
+   "end": 41827
+  },
+  {
+   "text": "on",
+   "start": 41923,
+   "end": 41988
+  },
+  {
+   "text": "getting",
+   "start": 42020,
+   "end": 42228
+  },
+  {
+   "text": "you",
+   "start": 42260,
+   "end": 42357
+  },
+  {
+   "text": "listed",
+   "start": 42421,
+   "end": 42678
+  },
+  {
+   "text": "on",
+   "start": 42678,
+   "end": 42758
+  },
+  {
+   "text": "a",
+   "start": 42758,
+   "end": 42822
+  },
+  {
+   "text": "search",
+   "start": 42822,
+   "end": 43128
+  },
+  {
+   "text": "results",
+   "start": 43128,
+   "end": 43449
+  },
+  {
+   "text": "page,",
+   "start": 43449,
+   "end": 43754
+  },
+  {
+   "text": "AEO",
+   "start": 44091,
+   "end": 44412
+  },
+  {
+   "text": "is",
+   "start": 44444,
+   "end": 44557
+  },
+  {
+   "text": "about",
+   "start": 44589,
+   "end": 44765
+  },
+  {
+   "text": "making",
+   "start": 44765,
+   "end": 45022
+  },
+  {
+   "text": "sure",
+   "start": 45054,
+   "end": 45151
+  },
+  {
+   "text": "you",
+   "start": 45151,
+   "end": 45279
+  },
+  {
+   "text": "get",
+   "start": 45295,
+   "end": 45424
+  },
+  {
+   "text": "cited",
+   "start": 45456,
+   "end": 45761
+  },
+  {
+   "text": "directly",
+   "start": 45793,
+   "end": 46162
+  },
+  {
+   "text": "inside",
+   "start": 46194,
+   "end": 46467
+  },
+  {
+   "text": "the",
+   "start": 46515,
+   "end": 46660
+  },
+  {
+   "text": "AI's",
+   "start": 46660,
+   "end": 46981
+  },
+  {
+   "text": "answer.",
+   "start": 46981,
+   "end": 47286
+  },
+  {
+   "text": "You",
+   "start": 47623,
+   "end": 47704
+  },
+  {
+   "text": "can",
+   "start": 47704,
+   "end": 47800
+  },
+  {
+   "text": "read",
+   "start": 47800,
+   "end": 48009
+  },
+  {
+   "text": "more",
+   "start": 48041,
+   "end": 48201
+  },
+  {
+   "text": "about",
+   "start": 48201,
+   "end": 48507
+  },
+  {
+   "text": "it",
+   "start": 48507,
+   "end": 48667
+  },
+  {
+   "text": "at",
+   "start": 48667,
+   "end": 48908
+  },
+  {
+   "text": "goji.agency.",
+   "start": 48908,
+   "end": 49855
+  }
+ ]
+}

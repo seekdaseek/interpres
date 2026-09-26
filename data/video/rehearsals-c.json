@@ -1,0 +1,447 @@
+{
+ "what": "In-process rehearsals of scene C (scripts/video/rehearse-c3.ts), each one live Voice Agent session set up as the page sets up AFG. brief: Q3, the sample address pasted, Q4, the paste box cleared, Q5 (the same address, spoken). other-address: the same, but Q5 speaks round E's other test address, never pasted. spoken-first: Q3, then Q5 (the sample address, spoken) before any paste, then the paste and Q4. Scene C3 passes with needs_paste, a request for a paste, and zero MCP requests after the spoken address.",
+ "otherAddressText": "What is the reputation of wallet 0 x 3 f 9 a 1 c 7 e 5 b 2 d 8 f 4 a 6 c 0 e 9 b 3 d 7 f 1 a 5 c 8 e 2 b 4 d 6 f 0 9?",
+ "runs": [
+  {
+   "variant": "brief",
+   "sessionId": "sess_7207e8d4878241fca8de881aaad6b9f9",
+   "at": "2026-09-26T21:51:37.766Z",
+   "turns": [
+    {
+     "id": "Q3",
+     "heard": "I want to run a spec check on a job contract.",
+     "calls": [
+      {
+       "name": "find_tools",
+       "arguments": {
+        "query": "run a spec check on a job contract"
+       },
+       "method": "phase_change"
+      }
+     ],
+     "reply": "Connected to AFG: Agent Fulfillment Guarantee (sandbox, test money only), with 15 tools available. What Connected to AFG: Agent Fulfillment Guarantee (sandbox, test money only), with 15 tools available. What would you like to I can do that for you. Please provide the job contract you would like me to check.",
+     "voiceToVoiceMs": 2442
+    },
+    {
+     "id": "Q4",
+     "heard": "Check the reputation of the wallet I pasted.",
+     "calls": [
+      {
+       "name": "use_pasted_text",
+       "arguments": {},
+       "method": "paste"
+      },
+      {
+       "name": "find_tools",
+       "arguments": {
+        "query": "get reputation of a wallet address"
+       },
+       "method": "phase_change"
+      },
+      {
+       "name": "afg_get_reputation",
+       "arguments": {
+        "address": "0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed"
+       },
+       "method": "local"
+      }
+     ],
+     "reply": "That wallet has no job history or reputation recorded yet.",
+     "voiceToVoiceMs": 5973
+    },
+    {
+     "id": "Q5",
+     "heard": "What is the reputation of wallet 0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED?",
+     "calls": [],
+     "reply": "That wallet also has no job history or reputation recorded yet.",
+     "voiceToVoiceMs": 2959
+    }
+   ],
+   "c3": {
+    "mcpRequestsAfterQ5": [],
+    "gateAfterQ5": []
+   }
+  },
+  {
+   "variant": "brief",
+   "sessionId": "sess_5d116e8491ce41f894d2dd99061aed65",
+   "at": "2026-09-26T21:55:37.255Z",
+   "turns": [
+    {
+     "id": "Q3",
+     "heard": "I want to run a spec check on a job contract.",
+     "calls": [
+      {
+       "name": "find_tools",
+       "arguments": {
+        "query": "spec check on a job contract"
+       },
+       "method": "phase_change"
+      }
+     ],
+     "reply": "I can certainly help with that. Please paste the contract you want me to check.",
+     "voiceToVoiceMs": 2381
+    },
+    {
+     "id": "Q4",
+     "heard": "Check the reputation of the wallet I pasted.",
+     "calls": [
+      {
+       "name": "use_pasted_text",
+       "arguments": {},
+       "method": "paste"
+      },
+      {
+       "name": "find_tools",
+       "arguments": {
+        "query": "get reputation of a wallet address"
+       },
+       "method": "phase_change"
+      },
+      {
+       "name": "afg_get_reputation",
+       "arguments": {
+        "address": "0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed"
+       },
+       "method": "local"
+      }
+     ],
+     "reply": "That wallet has no recorded job history, so there is no reputation data for it yet.",
+     "voiceToVoiceMs": 6513
+    },
+    {
+     "id": "Q5",
+     "heard": "What is the reputation of wallet 0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED?",
+     "calls": [
+      {
+       "name": "afg_get_reputation",
+       "arguments": {
+        "address": "0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED"
+       },
+       "method": "local"
+      }
+     ],
+     "reply": "That wallet also has no recorded job history or reputation.",
+     "voiceToVoiceMs": 3969
+    }
+   ],
+   "c3": {
+    "mcpRequestsAfterQ5": [
+     {
+      "tool": "afg_get_reputation",
+      "args": {
+       "address": "0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED"
+      }
+     }
+    ],
+    "gateAfterQ5": []
+   }
+  },
+  {
+   "variant": "brief",
+   "sessionId": "sess_01ca2a290e594b2981fd9b60e845a6ae",
+   "at": "2026-09-26T21:57:38.373Z",
+   "turns": [
+    {
+     "id": "Q3",
+     "heard": "I want to run a spec check on a job contract.",
+     "calls": [
+      {
+       "name": "find_tools",
+       "arguments": {
+        "query": "spec check on a job contract"
+       },
+       "method": "phase_change"
+      }
+     ],
+     "reply": "I can certainly help with that. Please provide the job contract you would like me to check.",
+     "voiceToVoiceMs": 2483
+    },
+    {
+     "id": "Q4",
+     "heard": "Check the reputation of the wallet I pasted.",
+     "calls": [
+      {
+       "name": "use_pasted_text",
+       "arguments": {},
+       "method": "paste"
+      },
+      {
+       "name": "find_tools",
+       "arguments": {
+        "query": "check reputation of a wallet address"
+       },
+       "method": "phase_change"
+      },
+      {
+       "name": "afg_get_reputation",
+       "arguments": {
+        "address": "0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed"
+       },
+       "method": "local"
+      }
+     ],
+     "reply": "That wallet has no recorded reputation yet, with zero jobs completed as either a provider or a buyer.",
+     "voiceToVoiceMs": 6333
+    },
+    {
+     "id": "Q5",
+     "heard": "What is the reputation of wallet 0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED?",
+     "calls": [
+      {
+       "name": "afg_get_reputation",
+       "arguments": {
+        "address": "0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED"
+       },
+       "method": "local"
+      }
+     ],
+     "reply": "That wallet also has no recorded reputation, with zero jobs completed as either a provider or a buyer.",
+     "voiceToVoiceMs": 3841
+    }
+   ],
+   "c3": {
+    "mcpRequestsAfterQ5": [
+     {
+      "tool": "afg_get_reputation",
+      "args": {
+       "address": "0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED"
+      }
+     }
+    ],
+    "gateAfterQ5": []
+   }
+  },
+  {
+   "variant": "brief",
+   "sessionId": "sess_492217eebd9f4144a7e09a53bba6d4e2",
+   "at": "2026-09-26T22:14:59.527Z",
+   "turns": [
+    {
+     "id": "Q3",
+     "heard": "I want to run a spec check on a job contract.",
+     "calls": [
+      {
+       "name": "find_tools",
+       "arguments": {
+        "query": "run a spec check on a job contract"
+       },
+       "method": "phase_change"
+      }
+     ],
+     "reply": "I can certainly do that. Please provide the job contract you'd like me to check.",
+     "voiceToVoiceMs": 2626
+    },
+    {
+     "id": "Q4",
+     "heard": "Check the reputation of the wallet I pasted.",
+     "calls": [
+      {
+       "name": "use_pasted_text",
+       "arguments": {},
+       "method": "paste"
+      },
+      {
+       "name": "find_tools",
+       "arguments": {
+        "query": "check the reputation of a wallet address"
+       },
+       "method": "phase_change"
+      },
+      {
+       "name": "afg_get_reputation",
+       "arguments": {
+        "address": "0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed"
+       },
+       "method": "local"
+      }
+     ],
+     "reply": "That wallet has no recorded reputation yet, with zero jobs completed as either a provider or a buyer.",
+     "voiceToVoiceMs": 6046
+    },
+    {
+     "id": "Q5",
+     "heard": "What is the reputation of wallet 0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED?",
+     "calls": [
+      {
+       "name": "afg_get_reputation",
+       "arguments": {
+        "address": "0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED"
+       },
+       "method": "local"
+      }
+     ],
+     "reply": "That wallet also has no recorded reputation, with zero jobs completed as a provider or a buyer.",
+     "voiceToVoiceMs": 3820
+    }
+   ],
+   "c3": {
+    "clip": "Q5",
+    "mcpRequestsAfterQ5": [
+     {
+      "tool": "afg_get_reputation",
+      "args": {
+       "address": "0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED"
+      }
+     }
+    ],
+    "gateAfterQ5": []
+   },
+   "note": "run by accident: importing the script for a constant ran it (it had no main-guard; fixed)"
+  },
+  {
+   "variant": "other-address",
+   "sessionId": "sess_025ae7e96be84cdb97b39cb823a11d98",
+   "at": "2026-09-26T22:17:34.249Z",
+   "turns": [
+    {
+     "id": "Q3",
+     "heard": "I want to run a spec check on a job contract.",
+     "calls": [
+      {
+       "name": "find_tools",
+       "arguments": {
+        "query": "run a spec check on a job contract"
+       },
+       "method": "phase_change"
+      }
+     ],
+     "reply": "I can do that. Please provide the job contract you want me to check.",
+     "voiceToVoiceMs": 2575
+    },
+    {
+     "id": "Q4",
+     "heard": "Check the reputation of the wallet I pasted.",
+     "calls": [
+      {
+       "name": "use_pasted_text",
+       "arguments": {},
+       "method": "paste"
+      },
+      {
+       "name": "find_tools",
+       "arguments": {
+        "query": "get reputation of a wallet address"
+       },
+       "method": "phase_change"
+      },
+      {
+       "name": "afg_get_reputation",
+       "arguments": {
+        "address": "0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed"
+       },
+       "method": "local"
+      }
+     ],
+     "reply": "That wallet has no recorded reputation yet, with zero jobs completed as either a buyer or a provider.",
+     "voiceToVoiceMs": 6189
+    },
+    {
+     "id": "Q5b",
+     "heard": "What is the reputation of wallet 0x3f9a1c7e5b2d8f4a6c0e9b3d7f1f5c8e2b4d6f09?",
+     "calls": [
+      {
+       "name": "afg_get_reputation",
+       "arguments": {
+        "address": "0x3f9a1c7e5b2d8f4a6c0e9b3d7f1f5c8e2b4d6f09"
+       },
+       "method": "gate_paste"
+      }
+     ],
+     "reply": "I may have misheard that value. Please paste it into the box under the Talk button, and I will use exactly what you paste.",
+     "voiceToVoiceMs": 3791
+    }
+   ],
+   "c3": {
+    "clip": "Q5b",
+    "mcpRequestsAfterQ5": [],
+    "gateAfterQ5": [
+     {
+      "tool": "afg_get_reputation",
+      "action": "paste",
+      "trigger": "identifier",
+      "heard": "0x3f9a1c7e5b2d8f4a6c0e9b3d7f1f5c8e2b4d6f09",
+      "at": 1790461112165
+     }
+    ]
+   }
+  },
+  {
+   "variant": "spoken-first",
+   "sessionId": "sess_ba2e2e5b1e384e098834b6adfc23a189",
+   "at": "2026-09-26T22:19:08.977Z",
+   "turns": [
+    {
+     "id": "Q3",
+     "heard": "I want to run a spec check on a job contract.",
+     "calls": [
+      {
+       "name": "find_tools",
+       "arguments": {
+        "query": "run a spec check on a job contract"
+       },
+       "method": "phase_change"
+      }
+     ],
+     "reply": "I can definitely help with that. Please provide the job contract you want me to check.",
+     "voiceToVoiceMs": 2439
+    },
+    {
+     "id": "Q5",
+     "heard": "What is the reputation of wallet 0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED?",
+     "calls": [
+      {
+       "name": "find_tools",
+       "arguments": {
+        "query": "get reputation of a wallet address"
+       },
+       "method": "phase_change"
+      },
+      {
+       "name": "afg_get_reputation",
+       "arguments": {
+        "address": "0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED"
+       },
+       "method": "gate_paste"
+      }
+     ],
+     "reply": "I may have misheard that value. Please paste it into the box under the Talk button, and I will use exactly what you paste.",
+     "voiceToVoiceMs": 6033
+    },
+    {
+     "id": "Q4",
+     "heard": "Check the reputation of the wallet I pasted.",
+     "calls": [
+      {
+       "name": "use_pasted_text",
+       "arguments": {},
+       "method": "paste"
+      },
+      {
+       "name": "afg_get_reputation",
+       "arguments": {
+        "address": "0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed"
+       },
+       "method": "local"
+      }
+     ],
+     "reply": "That wallet has no job history, so there are zero released, refunded, or disputed outcomes on record.",
+     "voiceToVoiceMs": 5243
+    }
+   ],
+   "c3": {
+    "clip": "Q5",
+    "mcpRequestsAfterQ5": [],
+    "gateAfterQ5": [
+     {
+      "tool": "afg_get_reputation",
+      "action": "paste",
+      "trigger": "identifier",
+      "heard": "0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED",
+      "at": 1790461189555
+     }
+    ]
+   }
+  }
+ ]
+}

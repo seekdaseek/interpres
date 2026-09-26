@@ -1,0 +1,39 @@
+{
+ "file": "video/captures/A-20260926T215425/stems/caller.wav",
+ "sha256": "d2c3680fc1a578646c0f7736b7f5cd4f6d391464eb6978db2ac3226ff89a7019",
+ "id": "b4db047d-463d-4b14-ae40-9a96a7e751d6",
+ "speechModel": "universal-3-5-pro,universal-2",
+ "text": "What is ASIO in plain English?",
+ "words": [
+  {
+   "text": "What",
+   "start": 22109,
+   "end": 22270
+  },
+  {
+   "text": "is",
+   "start": 22270,
+   "end": 22398
+  },
+  {
+   "text": "ASIO",
+   "start": 22575,
+   "end": 22880
+  },
+  {
+   "text": "in",
+   "start": 22993,
+   "end": 23137
+  },
+  {
+   "text": "plain",
+   "start": 23137,
+   "end": 23378
+  },
+  {
+   "text": "English?",
+   "start": 23458,
+   "end": 23828
+  }
+ ]
+}

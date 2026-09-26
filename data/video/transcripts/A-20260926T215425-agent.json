@@ -1,0 +1,319 @@
+{
+ "file": "video/captures/A-20260926T215425/stems/agent.wav",
+ "sha256": "3ba41835c18a34666e62716c17d8455898a7414b16591af0054b8b45a75ed1ca",
+ "id": "f76066ee-c5de-469d-8231-244672bbd29a",
+ "speechModel": "universal-3-5-pro,universal-2",
+ "text": "Connected to Goji with 9 tools available. What would you like to do? SEO stands for search engine optimization. It is the work of making your website the result that search engines choose to show, by using content that answers what people are looking for and making sure your site is easy for engines to read. You can learn more at goji.agency.",
+ "words": [
+  {
+   "text": "Connected",
+   "start": 17614,
+   "end": 18015
+  },
+  {
+   "text": "to",
+   "start": 18015,
+   "end": 18079
+  },
+  {
+   "text": "Goji",
+   "start": 18095,
+   "end": 18384
+  },
+  {
+   "text": "with",
+   "start": 18481,
+   "end": 18625
+  },
+  {
+   "text": "9",
+   "start": 18641,
+   "end": 18786
+  },
+  {
+   "text": "tools",
+   "start": 18818,
+   "end": 19155
+  },
+  {
+   "text": "available.",
+   "start": 19155,
+   "end": 19605
+  },
+  {
+   "text": "What",
+   "start": 19942,
+   "end": 20054
+  },
+  {
+   "text": "would",
+   "start": 20086,
+   "end": 20183
+  },
+  {
+   "text": "you",
+   "start": 20183,
+   "end": 20263
+  },
+  {
+   "text": "like",
+   "start": 20263,
+   "end": 20424
+  },
+  {
+   "text": "to",
+   "start": 20424,
+   "end": 20520
+  },
+  {
+   "text": "do?",
+   "start": 20520,
+   "end": 20632
+  },
+  {
+   "text": "SEO",
+   "start": 28882,
+   "end": 29348
+  },
+  {
+   "text": "stands",
+   "start": 29492,
+   "end": 29861
+  },
+  {
+   "text": "for",
+   "start": 29877,
+   "end": 29973
+  },
+  {
+   "text": "search",
+   "start": 29973,
+   "end": 30278
+  },
+  {
+   "text": "engine",
+   "start": 30358,
+   "end": 30679
+  },
+  {
+   "text": "optimization.",
+   "start": 30679,
+   "end": 31305
+  },
+  {
+   "text": "It",
+   "start": 31562,
+   "end": 31658
+  },
+  {
+   "text": "is",
+   "start": 31722,
+   "end": 31786
+  },
+  {
+   "text": "the",
+   "start": 31818,
+   "end": 31947
+  },
+  {
+   "text": "work",
+   "start": 31963,
+   "end": 32155
+  },
+  {
+   "text": "of",
+   "start": 32155,
+   "end": 32267
+  },
+  {
+   "text": "making",
+   "start": 32284,
+   "end": 32540
+  },
+  {
+   "text": "your",
+   "start": 32540,
+   "end": 32701
+  },
+  {
+   "text": "website",
+   "start": 32701,
+   "end": 33198
+  },
+  {
+   "text": "the",
+   "start": 33198,
+   "end": 33262
+  },
+  {
+   "text": "result",
+   "start": 33262,
+   "end": 33663
+  },
+  {
+   "text": "that",
+   "start": 33663,
+   "end": 33759
+  },
+  {
+   "text": "search",
+   "start": 33759,
+   "end": 34064
+  },
+  {
+   "text": "engines",
+   "start": 34064,
+   "end": 34433
+  },
+  {
+   "text": "choose",
+   "start": 34465,
+   "end": 34754
+  },
+  {
+   "text": "to",
+   "start": 34786,
+   "end": 34866
+  },
+  {
+   "text": "show,",
+   "start": 34866,
+   "end": 35251
+  },
+  {
+   "text": "by",
+   "start": 35669,
+   "end": 35829
+  },
+  {
+   "text": "using",
+   "start": 35829,
+   "end": 36038
+  },
+  {
+   "text": "content",
+   "start": 36070,
+   "end": 36792
+  },
+  {
+   "text": "that",
+   "start": 36792,
+   "end": 36904
+  },
+  {
+   "text": "answers",
+   "start": 37016,
+   "end": 37321
+  },
+  {
+   "text": "what",
+   "start": 37353,
+   "end": 37497
+  },
+  {
+   "text": "people",
+   "start": 37513,
+   "end": 37818
+  },
+  {
+   "text": "are",
+   "start": 37818,
+   "end": 37899
+  },
+  {
+   "text": "looking",
+   "start": 37899,
+   "end": 38075
+  },
+  {
+   "text": "for",
+   "start": 38139,
+   "end": 38348
+  },
+  {
+   "text": "and",
+   "start": 38636,
+   "end": 38701
+  },
+  {
+   "text": "making",
+   "start": 38717,
+   "end": 38957
+  },
+  {
+   "text": "sure",
+   "start": 38957,
+   "end": 39150
+  },
+  {
+   "text": "your",
+   "start": 39198,
+   "end": 39278
+  },
+  {
+   "text": "site",
+   "start": 39278,
+   "end": 39583
+  },
+  {
+   "text": "is",
+   "start": 39615,
+   "end": 39695
+  },
+  {
+   "text": "easy",
+   "start": 39904,
+   "end": 40096
+  },
+  {
+   "text": "for",
+   "start": 40145,
+   "end": 40305
+  },
+  {
+   "text": "engines",
+   "start": 40305,
+   "end": 40610
+  },
+  {
+   "text": "to",
+   "start": 40642,
+   "end": 40738
+  },
+  {
+   "text": "read.",
+   "start": 40786,
+   "end": 41011
+  },
+  {
+   "text": "You",
+   "start": 41268,
+   "end": 41332
+  },
+  {
+   "text": "can",
+   "start": 41364,
+   "end": 41524
+  },
+  {
+   "text": "learn",
+   "start": 41524,
+   "end": 41701
+  },
+  {
+   "text": "more",
+   "start": 41701,
+   "end": 41877
+  },
+  {
+   "text": "at",
+   "start": 41925,
+   "end": 42070
+  },
+  {
+   "text": "goji.agency.",
+   "start": 42086,
+   "end": 43016
+  }
+ ]
+}

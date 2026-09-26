@@ -10,9 +10,10 @@
  *   data/e2e-audio-*.json          scripted sessions, spoken with macOS `say`
  *   data/qa-public-round-e.json    the round E browser QA, spoken into the page
  *                                  (what was said: data/qa-audio/clips.json)
- *   data/video/*.json              the demo video's capture logs, when present
- * Every other file in data/ that holds an address is listed with the reason it
- * is left out, so nothing is dropped silently.
+ *   data/video/capture-*.json      the demo video's capture logs, when present
+ *   data/video/rehearsals-c.json   the in-process rehearsals of the video's scene C
+ * Every other file in data/ (and data/video/) that holds an address is listed
+ * with the reason it is left out, so nothing is dropped silently.
  */
 import { existsSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { collapseSpelled, findIdentifiers } from '../packages/core/src/index.ts';
@@ -105,12 +106,30 @@ function fromVideo(dir: string): Attempt[] {
   return out;
 }
 
+/** The in-process rehearsals of scene C: one spoken address per run. */
+function fromRehearsals(dir: string): Attempt[] {
+  const f = `${dir}/video/rehearsals-c.json`;
+  if (!existsSync(f)) return [];
+  const d = json(f) as { otherAddressText: string; runs: Array<{ variant: string; sessionId: string; turns: Array<{ id: string; heard: string }>; c3?: { clip?: string; mcpRequestsAfterQ5?: Array<{ args?: unknown }> } }> };
+  const q5 = (json(`${dir}/video/voices.json`) as { lines: Record<string, { text: string }> }).lines.Q5!.text;
+  return d.runs.map((r) => {
+    const clip = r.c3?.clip ?? 'Q5';
+    const said = addresses(clip === 'Q5b' ? d.otherAddressText : q5)[0]!;
+    const heard = addresses(r.turns.find((t) => t.id === clip)?.heard ?? '')[0] ?? null;
+    const sent = (r.c3?.mcpRequestsAfterQ5 ?? []).flatMap((c) => [...strings(c.args)].flatMap(addresses));
+    return { source: `video/rehearsals-c.json (${r.variant})`, sessionId: r.sessionId, spoken: said, heard, exact: heard === said, ran: sent[0] ?? null };
+  });
+}
+
 /** Why a file that holds an address is not counted as a spoken attempt. */
 function leftOutReason(file: string): string | null {
   if (/^e2e-audio-gate-paste/.test(file)) return 'the address was pasted, not spoken';
   if (/^e2e-checkpoint-a\.json$|^e2e-\d{4}-/.test(file)) return 'text injected with conversation.message (scripts/e2e.ts), not speech';
   if (/^sweep-/.test(file)) return 'an address inside a registry server description; nothing was spoken';
   if (/^qa-audio\//.test(file)) return 'the clip texts themselves, counted through the QA record';
+  if (file === 'video/caller-gate.json') return 'the F2a hearing gate: its only address was pasted for Q4, not spoken';
+  if (file === 'video/voices.json') return 'the caller clip texts themselves; the sessions that spoke them are counted';
+  if (/^video\/transcripts\//.test(file)) return 'a capture stem transcript; that take is counted from its capture log';
   return null;
 }
 
@@ -128,10 +147,14 @@ export function recount(dir = 'data') {
   const video = fromVideo(dir);
   for (const v of video) counted.add(v.source);
   attempts.push(...video);
+  const rehearsals = fromRehearsals(dir);
+  counted.add('video/rehearsals-c.json');
+  attempts.push(...rehearsals);
 
   // Every other file in data/ that holds a wallet address anywhere.
   const leftOut: Array<{ file: string; reason: string }> = [];
-  const files = [...readdirSync(dir).filter((f) => /\.(json|jsonl)$/.test(f)), ...(existsSync(`${dir}/qa-audio`) ? readdirSync(`${dir}/qa-audio`).filter((f) => f.endsWith('.json')).map((f) => `qa-audio/${f}`) : [])].sort();
+  const sub = (d: string) => (existsSync(`${dir}/${d}`) ? readdirSync(`${dir}/${d}`).filter((f) => f.endsWith('.json')).map((f) => `${d}/${f}`) : []);
+  const files = [...readdirSync(dir).filter((f) => /\.(json|jsonl)$/.test(f)), ...sub('qa-audio'), ...sub('video'), ...sub('video/transcripts')].sort();
   for (const f of files) {
     if (counted.has(f)) continue;
     let text = readFileSync(`${dir}/${f}`, 'utf8');

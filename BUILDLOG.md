@@ -2957,3 +2957,133 @@ min, $6.25, 4.16% of the $150 credit.
 ```
 $ npm test    ℹ tests 422  ℹ pass 422  ℹ fail 0
 ```
+
+## 2026-09-27 - round F2, from F2.3: capture, renderer and checks built; A and B captured; stopped at scene C3
+
+Sergiu's call on N10: "Each one answered out loud", plus a standing rule for narration that fails
+only on how the transcriber spells a word.
+
+**N10, remade in charles:** PASS on try 1, `sess_3d08fefdfa6f44ca814af336758f9a62`, 14,600 ms.
+N1 to N12 all pass.
+
+**F2c:** `video/out/identifiers.png` is the kit template filled from `docs/IDENTIFIERS.md`,
+screenshotted at 1920x1080 in headless Chromium, with the kit's fonts loaded (checked through
+`document.fonts`). The kit folder was not changed: `SHA256SUMS` still reads 29 of 29 OK. The slide
+is made again after the final recount.
+
+**The capture harness** is `scripts/video/capture.ts` with `instrument.js`.
+- **Browser:** Playwright 1.63.0 Chromium (new headless), 1088x585 at scale 2.
+- **Frames:** CDP screencast, JPEG q92, every frame acknowledged.
+  - The emulated scale alone gave 1088x585 frames. Adding `--force-device-scale-factor=2` gives
+    true 2176x1170. All four launch variants were measured.
+- **Audio:** recorders are AudioWorklets.
+  - The caller stem is what the fake mic sends.
+  - The agent stem is tapped where the page connects to its own destination.
+  - A third recorder on the page's own mic input is kept as evidence only.
+- **Event log:** WebSocket and fetch are logged with `token=STRIPPED` and no headers. The log also
+  records DOM snapshots with rects, the mouse, keys, scrolling and the page's URL.
+- **Scans of the three logs:** no token, bearer, authorization or key string. The key grep was
+  checked against `.env` first and found it there once.
+- **Sync:** a flash and a beep at the start and end of every capture, measured in
+  `scripts/video/assemble.ts`, which also puts every stem on the frame clock.
+  - Each audio context is fitted linearly to its `getOutputTimestamp` samples: drift −12 ppm,
+    residual 0.09 ms.
+
+**Harness bug found and fixed: the fake mic dulled the clip.**
+- Scene A take 1 (`sess_c869f61e78754fae9d2be5602963ec2f`) heard Q1 as "What is AEO in plain
+  English?". The in-process gate had heard it exactly twice.
+- The recorded caller stem, against the original clip:
+
+| band | lost |
+| --- | ---: |
+| 3-6 kHz | 0.8 dB |
+| 6-9 kHz | 1.9 dB |
+| 9-11.5 kHz | 2.6 dB |
+
+- **Why:** Chromium resamples a 24 kHz AudioBuffer in a 48 kHz context by linear interpolation.
+- **Measured in a page:** clip, MediaStream, a 24 kHz context like the page's.
+
+| harness context | what the page receives |
+| --- | --- |
+| 48 kHz | 30.9 dB SNR |
+| 24 kHz | SNR 225 dB, max error 0 (bit-exact) |
+
+- **Fix:** the harness now runs at 24 kHz.
+
+**Takes.** The first take whose every exchange passes is the one used.
+
+| scene | take | session | checks | voice to voice | page mic got the clip |
+| --- | --- | --- | --- | ---: | --- |
+| A | 1 | `sess_c869f61e78754fae9d2be5602963ec2f` | FAIL: Q1 heard "AEO" | 5,560 ms | not recorded (before the fix) |
+| A | 2 (used) | `sess_ef3b65861b724be29f631f70f33a3327` | all pass | 5,179 ms | bit-exact |
+| B | 1 (used) | `sess_d61ab83ced10487593b210a4d503c7f1` | all pass | 5,280 ms | 31.3 dB SNR: Chromium's bridge resampled it; heard exactly |
+
+- **A take 2:** discovery 228 ms; `goji_explain_term {"term":"SEO"}` once, 200; sync +2.3 ms and
+  −0.6 ms.
+- **B take 1:** the first result is Most Recommended Books; `get_book_recommenders` 200; sync −2.4 ms
+  and −3.9 ms.
+- No console errors in any take.
+
+**Scene A test render** (`video/out/test-A.mp4`, 48.0 s), checked against F2.7 by
+`scripts/video/checks.ts`:
+
+```
+ok   video: H.264 High · 1920x1080 · yuv420p · r 30/1, avg 30/1
+ok   audio: aac LC · 48000 Hz, 2 ch · 192062 b/s · ftyp moov free mdat (+faststart)
+ok   loudness -16 LUFS (LRA 6.6 LU) · true peak -2.3 dBTP · 0 black spans
+ok   N3 word for word (variants: interprase -> interpres) · N4 word for word
+silences: 11.34-14.23 Talk pressed, the session connects | 20.57-25.71 Q1's voice-to-voice wait (5179 ms), never cut | 45.49-48.04 the session ends, under the N4 punch-in
+```
+
+**Fixes the checks found:**
+- **AAC ran at 142 kbps with ffmpeg's own encoder.** It is now AudioToolbox `aac_at`, constant
+  192 kbps.
+- **Loudness.**
+  - The speech peaks about 20 dB over its loudness.
+  - `-ac 2` pans mono −3 dB per channel.
+  - The chain is now a 3:1 compressor above −28 dBFS, one gain, a limiter at 4x the sample rate
+    with a −2.3 dBFS ceiling, and dual mono at 0 dB. The limiter took off 0.1 dB at most.
+- **Proper nouns.** "interprase" and "interpraze" joined the listed spellings of interpres: every
+  "interpr" + e|a + s|ss|z|ze|se. The list does not include "interpret".
+
+**Scene C3 cannot pass as briefed.** Each rehearsal is one in-process session set up as the page
+sets up AFG (`scripts/video/rehearse-c3.ts`). The runs are in `data/video/rehearsals-c.json`.
+
+| variant | session | Q5 heard | what happened | C3 |
+| --- | --- | --- | --- | --- |
+| brief | `sess_7207e8d4878241fca8de881aaad6b9f9` | exact | answered from memory, no call | FAIL |
+| brief | `sess_5d116e8491ce41f894d2dd99061aed65` | exact | `afg_get_reputation` with the pasted value; the gate allowed it | FAIL: 1 MCP request |
+| brief | `sess_01ca2a290e594b2981fd9b60e845a6ae` | exact | same | FAIL: 1 MCP request |
+| brief (by accident: importing the script ran it) | `sess_492217eebd9f4144a7e09a53bba6d4e2` | exact | same | FAIL: 1 MCP request |
+| other-address: round E's `0x3f9a…6f09`, never pasted | `sess_025ae7e96be84cdb97b39cb823a11d98` | misheard (`…1f5c8e…`) | `needs_paste`; the agent asked for a paste | PASS: 0 requests |
+| spoken-first: Q5 before any paste, then paste and Q4 | `sess_ba2e2e5b1e384e098834b6adfc23a189` | exact | `needs_paste` anyway; the agent asked for a paste; Q4 then ran with the pasted value | PASS: 0 requests after Q5 |
+
+- **Why:**
+  - michael reads the sample address clearly enough to be heard exactly.
+  - After C2 the conversation already holds that exact value.
+  - The gate rightly runs a value that came from the paste box or a tool result.
+- **Q5b clip:** michael, `sess_857017ff0686422c8e48976e363670f5`, 14,210 ms, kept in
+  `video/voices/Q5b.wav`. The other-address variant used it.
+- **Stopped for Sergiu's call** before capturing scene C.
+
+**The recount counts the rehearsals.** `scripts/spoken-identifiers.ts` reads `rehearsals-c.json`.
+Its scan now covers `data/video/`, with reasons for the gate record, the voice manifest and the stem
+transcripts.
+- The count is **Exact: 5 of 15** (was 0 of 9). **Misheard and reached a server: 5**, unchanged and
+  all from before the gate.
+- docs-quote carried 5 of 15 into README and JUDGE_GUIDE.
+- The README's "Speech-to-text cannot carry a long identifier" became "does not reliably carry": 5
+  of 15 came through exact.
+
+**Voice Agent usage** (`scripts/usage.ts`): 184 sessions, all `completed`, 91.9 min, $6.90, 4.60% of
+the $150 credit.
+- That is 11 since add02fd, all this round's:
+  - 1 narration line;
+  - 3 public takes;
+  - 6 rehearsals;
+  - 1 for the Q5b clip.
+- Public-site sessions: 3 in this hour, of the 6 allowed.
+
+```
+$ npm test    ℹ tests 422  ℹ pass 422  ℹ fail 0
+```

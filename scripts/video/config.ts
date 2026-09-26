@@ -55,7 +55,7 @@ export function narration(): Record<string, string> {
     N7: `Speech gets identifiers wrong. In our tests, ${EXACT} of ${TOTAL} spoken wallet addresses came through exact, and before the gate, ${RAN} wrong ones reached the server. So interpres never runs a tool on an identifier it only heard. Paste it, and the agent uses the exact text.`,
     N8: 'A spoken address is held back. Nothing runs.',
     N9: "To check it isn't just these three, we probed every remote server in the official MCP registry. 12,012 answered without a login, listing more than 200,000 tools, and every tool converted.",
-    N10: 'Then we gave thirty of them one spoken question each, untuned. Twenty-nine sessions ran. Every one answered out loud, at a median of 2.6 seconds, and fourteen answered from live data. The whole run cost 60 cents.',
+    N10: 'Then we gave thirty of them one spoken question each, untuned. Twenty-nine sessions ran. Each one answered out loud, at a median of 2.6 seconds, and fourteen answered from live data. The whole run cost 60 cents.',
     N11: 'Along the way we found two places where the API behaves differently from its docs, and wrote both up with scripts that reproduce them.',
     N12: 'interpres is open source under MIT, and live now at the address on screen. Type a website, press the mic, and ask.',
   };
@@ -87,7 +87,9 @@ export const callerSay = (id: string, caption: string): string => CALLER_SAY[id]
  * transcript word is accepted in place of the script word only as listed.
  */
 export const PROPER_NOUN_VARIANTS: Record<string, string[]> = {
-  interpres: ['interpress', 'interprez', 'interpreze'],
+  // The recogniser spells the made-up name several ways: every "interpr" + e|a + s|ss|z|ze|se.
+  // Seen so far: interpress, interprez, interpreze, interprase, interpraze.
+  interpres: ['interpress', 'interprez', 'interpreze', 'interprese', 'interpras', 'interprass', 'interpraz', 'interpraze', 'interprase'],
   assemblyai: ['assembly ai'],
   openai: ['open ai'],
 };

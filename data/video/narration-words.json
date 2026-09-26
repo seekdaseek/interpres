@@ -1,0 +1,1797 @@
+{
+ "N1": {
+  "file": "video/voices/N1.wav",
+  "sha256": "f79085236774660d07ebd91f49df2e4ca293324cd52ab8ee634e797102dc10d8",
+  "id": "08eeabe7-8622-4ac6-880a-54efef5decd1",
+  "speechModel": "universal-3-5-pro,universal-2",
+  "text": "This is Interprez. It connects AssemblyAI's voice agent API to public MCP servers. Type a website, press the mic, and its tools answer out loud.",
+  "words": [
+   {
+    "text": "This",
+    "start": 517,
+    "end": 614
+   },
+   {
+    "text": "is",
+    "start": 678,
+    "end": 759
+   },
+   {
+    "text": "Interprez.",
+    "start": 840,
+    "end": 1292
+   },
+   {
+    "text": "It",
+    "start": 2116,
+    "end": 2197
+   },
+   {
+    "text": "connects",
+    "start": 2197,
+    "end": 2553
+   },
+   {
+    "text": "AssemblyAI's",
+    "start": 2553,
+    "end": 3409
+   },
+   {
+    "text": "voice",
+    "start": 3425,
+    "end": 3635
+   },
+   {
+    "text": "agent",
+    "start": 3732,
+    "end": 4540
+   },
+   {
+    "text": "API",
+    "start": 4540,
+    "end": 4912
+   },
+   {
+    "text": "to",
+    "start": 5041,
+    "end": 5186
+   },
+   {
+    "text": "public",
+    "start": 5186,
+    "end": 5509
+   },
+   {
+    "text": "MCP",
+    "start": 5526,
+    "end": 5946
+   },
+   {
+    "text": "servers.",
+    "start": 5946,
+    "end": 6382
+   },
+   {
+    "text": "Type",
+    "start": 7125,
+    "end": 7384
+   },
+   {
+    "text": "a",
+    "start": 7384,
+    "end": 7400
+   },
+   {
+    "text": "website,",
+    "start": 7465,
+    "end": 8046
+   },
+   {
+    "text": "press",
+    "start": 8515,
+    "end": 8757
+   },
+   {
+    "text": "the",
+    "start": 8757,
+    "end": 8887
+   },
+   {
+    "text": "mic,",
+    "start": 8887,
+    "end": 9226
+   },
+   {
+    "text": "and",
+    "start": 9808,
+    "end": 9872
+   },
+   {
+    "text": "its",
+    "start": 9905,
+    "end": 10001
+   },
+   {
+    "text": "tools",
+    "start": 10115,
+    "end": 10373
+   },
+   {
+    "text": "answer",
+    "start": 10438,
+    "end": 10680
+   },
+   {
+    "text": "out",
+    "start": 10696,
+    "end": 10858
+   },
+   {
+    "text": "loud.",
+    "start": 10858,
+    "end": 11052
+   }
+  ],
+  "script": "This is interpres. It connects AssemblyAI's Voice Agent API to public MCP servers. Type a website, press the mic, and its tools answer out loud."
+ },
+ "N2": {
+  "file": "video/voices/N2.wav",
+  "sha256": "f4675c1bbc6058dcbe7548991e7115ec07d1e823ca926e462fe1f3b12a38fc76",
+  "id": "2d0a04fe-8b3f-43ab-9e6a-ef82c2df2809",
+  "speechModel": "universal-3-5-pro,universal-2",
+  "text": "AssemblyAI lists its Voice Agent API at $4.50 an hour and OpenAI Realtime at $18. Realtime can call MCP servers by itself. The Voice Agent API has no MCP tool type, so teams that switch for the price lose their MCP tools. Interpreze gives them back.",
+  "words": [
+   {
+    "text": "AssemblyAI",
+    "start": 818,
+    "end": 1459
+   },
+   {
+    "text": "lists",
+    "start": 1459,
+    "end": 1796
+   },
+   {
+    "text": "its",
+    "start": 1796,
+    "end": 2021
+   },
+   {
+    "text": "Voice",
+    "start": 2037,
+    "end": 2245
+   },
+   {
+    "text": "Agent",
+    "start": 2358,
+    "end": 2678
+   },
+   {
+    "text": "API",
+    "start": 2678,
+    "end": 3144
+   },
+   {
+    "text": "at",
+    "start": 3160,
+    "end": 3304
+   },
+   {
+    "text": "$4.50",
+    "start": 3304,
+    "end": 4251
+   },
+   {
+    "text": "an",
+    "start": 4603,
+    "end": 4668
+   },
+   {
+    "text": "hour",
+    "start": 4668,
+    "end": 4972
+   },
+   {
+    "text": "and",
+    "start": 5406,
+    "end": 5470
+   },
+   {
+    "text": "OpenAI",
+    "start": 5630,
+    "end": 6079
+   },
+   {
+    "text": "Realtime",
+    "start": 6192,
+    "end": 6705
+   },
+   {
+    "text": "at",
+    "start": 6705,
+    "end": 6849
+   },
+   {
+    "text": "$18.",
+    "start": 6849,
+    "end": 7186
+   },
+   {
+    "text": "Realtime",
+    "start": 8277,
+    "end": 8774
+   },
+   {
+    "text": "can",
+    "start": 8774,
+    "end": 8903
+   },
+   {
+    "text": "call",
+    "start": 8935,
+    "end": 9240
+   },
+   {
+    "text": "MCP",
+    "start": 9320,
+    "end": 9817
+   },
+   {
+    "text": "servers",
+    "start": 9817,
+    "end": 10218
+   },
+   {
+    "text": "by",
+    "start": 10218,
+    "end": 10443
+   },
+   {
+    "text": "itself.",
+    "start": 10443,
+    "end": 10844
+   },
+   {
+    "text": "The",
+    "start": 11165,
+    "end": 11245
+   },
+   {
+    "text": "Voice",
+    "start": 11245,
+    "end": 11469
+   },
+   {
+    "text": "Agent",
+    "start": 11566,
+    "end": 11822
+   },
+   {
+    "text": "API",
+    "start": 11886,
+    "end": 12368
+   },
+   {
+    "text": "has",
+    "start": 12368,
+    "end": 12432
+   },
+   {
+    "text": "no",
+    "start": 12544,
+    "end": 12753
+   },
+   {
+    "text": "MCP",
+    "start": 12785,
+    "end": 13330
+   },
+   {
+    "text": "tool",
+    "start": 13330,
+    "end": 13571
+   },
+   {
+    "text": "type,",
+    "start": 13587,
+    "end": 13908
+   },
+   {
+    "text": "so",
+    "start": 14325,
+    "end": 14549
+   },
+   {
+    "text": "teams",
+    "start": 14549,
+    "end": 14870
+   },
+   {
+    "text": "that",
+    "start": 14870,
+    "end": 14982
+   },
+   {
+    "text": "switch",
+    "start": 15014,
+    "end": 15239
+   },
+   {
+    "text": "for",
+    "start": 15335,
+    "end": 15383
+   },
+   {
+    "text": "the",
+    "start": 15383,
+    "end": 15512
+   },
+   {
+    "text": "price",
+    "start": 15512,
+    "end": 15833
+   },
+   {
+    "text": "lose",
+    "start": 15913,
+    "end": 16121
+   },
+   {
+    "text": "their",
+    "start": 16234,
+    "end": 16394
+   },
+   {
+    "text": "MCP",
+    "start": 16394,
+    "end": 16939
+   },
+   {
+    "text": "tools.",
+    "start": 16939,
+    "end": 17325
+   },
+   {
+    "text": "Interpreze",
+    "start": 17597,
+    "end": 18046
+   },
+   {
+    "text": "gives",
+    "start": 18159,
+    "end": 18367
+   },
+   {
+    "text": "them",
+    "start": 18383,
+    "end": 18544
+   },
+   {
+    "text": "back.",
+    "start": 18560,
+    "end": 18784
+   }
+  ],
+  "script": "AssemblyAI lists its Voice Agent API at $4.50 an hour, and OpenAI Realtime at $18. Realtime can call MCP servers by itself. The Voice Agent API has no MCP tool type, so teams that switch for the price lose their MCP tools. interpres gives them back."
+ },
+ "N3": {
+  "file": "video/voices/N3.wav",
+  "sha256": "170969500a499c5b5c0703ced3bb6d77f5485dcbd69cf1a86b982924fb500f95",
+  "id": "efbdb6ca-35e7-42c3-86d7-fd70dccdf2da",
+  "speechModel": "universal-3-5-pro,universal-2",
+  "text": "Here's a real website with an MCP server: Interpreze looks in the official MCP registry, finds the server, and turns each of its tools into a voice agent function tool.",
+  "words": [
+   {
+    "text": "Here's",
+    "start": 501,
+    "end": 695
+   },
+   {
+    "text": "a",
+    "start": 695,
+    "end": 808
+   },
+   {
+    "text": "real",
+    "start": 824,
+    "end": 970
+   },
+   {
+    "text": "website",
+    "start": 1002,
+    "end": 1487
+   },
+   {
+    "text": "with",
+    "start": 1487,
+    "end": 1600
+   },
+   {
+    "text": "an",
+    "start": 1632,
+    "end": 1681
+   },
+   {
+    "text": "MCP",
+    "start": 1713,
+    "end": 2215
+   },
+   {
+    "text": "server:",
+    "start": 2215,
+    "end": 2586
+   },
+   {
+    "text": "Interpreze",
+    "start": 2942,
+    "end": 3476
+   },
+   {
+    "text": "looks",
+    "start": 3589,
+    "end": 3912
+   },
+   {
+    "text": "in",
+    "start": 3912,
+    "end": 3993
+   },
+   {
+    "text": "the",
+    "start": 3993,
+    "end": 4090
+   },
+   {
+    "text": "official",
+    "start": 4090,
+    "end": 4478
+   },
+   {
+    "text": "MCP",
+    "start": 4478,
+    "end": 4963
+   },
+   {
+    "text": "registry,",
+    "start": 4963,
+    "end": 5464
+   },
+   {
+    "text": "finds",
+    "start": 5933,
+    "end": 6305
+   },
+   {
+    "text": "the",
+    "start": 6337,
+    "end": 6418
+   },
+   {
+    "text": "server,",
+    "start": 6418,
+    "end": 6871
+   },
+   {
+    "text": "and",
+    "start": 7307,
+    "end": 7372
+   },
+   {
+    "text": "turns",
+    "start": 7469,
+    "end": 7809
+   },
+   {
+    "text": "each",
+    "start": 7938,
+    "end": 8003
+   },
+   {
+    "text": "of",
+    "start": 8116,
+    "end": 8197
+   },
+   {
+    "text": "its",
+    "start": 8197,
+    "end": 8294
+   },
+   {
+    "text": "tools",
+    "start": 8358,
+    "end": 8682
+   },
+   {
+    "text": "into",
+    "start": 8682,
+    "end": 8892
+   },
+   {
+    "text": "a",
+    "start": 8924,
+    "end": 9005
+   },
+   {
+    "text": "voice",
+    "start": 9005,
+    "end": 9328
+   },
+   {
+    "text": "agent",
+    "start": 9328,
+    "end": 9652
+   },
+   {
+    "text": "function",
+    "start": 9652,
+    "end": 10024
+   },
+   {
+    "text": "tool.",
+    "start": 10056,
+    "end": 10185
+   }
+  ],
+  "script": "Here's a real website with an MCP server. interpres looks in the official MCP registry, finds the server, and turns each of its tools into a Voice Agent function tool."
+ },
+ "N4": {
+  "file": "video/voices/N4.wav",
+  "sha256": "c85837733aa8dd8f9f217d186e427200c31c89f225efbf4d2d58772e6b8273cb",
+  "id": "20e451c3-9adc-4977-a9aa-02fdb17c4565",
+  "speechModel": "universal-3-5-pro,universal-2",
+  "text": "That answer came from Goji's own server, through a live tool call.",
+  "words": [
+   {
+    "text": "That",
+    "start": 262,
+    "end": 377
+   },
+   {
+    "text": "answer",
+    "start": 508,
+    "end": 771
+   },
+   {
+    "text": "came",
+    "start": 771,
+    "end": 1034
+   },
+   {
+    "text": "from",
+    "start": 1083,
+    "end": 1247
+   },
+   {
+    "text": "Goji's",
+    "start": 1264,
+    "end": 1658
+   },
+   {
+    "text": "own",
+    "start": 1658,
+    "end": 1805
+   },
+   {
+    "text": "server,",
+    "start": 1838,
+    "end": 2298
+   },
+   {
+    "text": "through",
+    "start": 2561,
+    "end": 2675
+   },
+   {
+    "text": "a",
+    "start": 2675,
+    "end": 2741
+   },
+   {
+    "text": "live",
+    "start": 2807,
+    "end": 3135
+   },
+   {
+    "text": "tool",
+    "start": 3135,
+    "end": 3381
+   },
+   {
+    "text": "call.",
+    "start": 3398,
+    "end": 3546
+   }
+  ],
+  "script": "That answer came from goji's own server, through a live tool call."
+ },
+ "N5": {
+  "file": "video/voices/N5.wav",
+  "sha256": "12836a667f2a94856e952a2b205ad00560858847dc889caad71c988052637402",
+  "id": "634b9f97-1261-4044-839c-13374ac9a54b",
+  "speechModel": "universal-3-5-pro,universal-2",
+  "text": "No website in mind? Search more than 11,000 public MCP servers right on the page— one-click connects!",
+  "words": [
+   {
+    "text": "No",
+    "start": 515,
+    "end": 644
+   },
+   {
+    "text": "website",
+    "start": 676,
+    "end": 1175
+   },
+   {
+    "text": "in",
+    "start": 1175,
+    "end": 1288
+   },
+   {
+    "text": "mind?",
+    "start": 1320,
+    "end": 1722
+   },
+   {
+    "text": "Search",
+    "start": 2366,
+    "end": 2576
+   },
+   {
+    "text": "more",
+    "start": 2753,
+    "end": 2882
+   },
+   {
+    "text": "than",
+    "start": 2930,
+    "end": 3059
+   },
+   {
+    "text": "11,000",
+    "start": 3091,
+    "end": 3896
+   },
+   {
+    "text": "public",
+    "start": 3896,
+    "end": 4283
+   },
+   {
+    "text": "MCP",
+    "start": 4299,
+    "end": 4766
+   },
+   {
+    "text": "servers",
+    "start": 4766,
+    "end": 5152
+   },
+   {
+    "text": "right",
+    "start": 5249,
+    "end": 5426
+   },
+   {
+    "text": "on",
+    "start": 5426,
+    "end": 5506
+   },
+   {
+    "text": "the",
+    "start": 5506,
+    "end": 5651
+   },
+   {
+    "text": "page—",
+    "start": 5651,
+    "end": 5957
+   },
+   {
+    "text": "one-click",
+    "start": 6553,
+    "end": 7020
+   },
+   {
+    "text": "connects!",
+    "start": 7036,
+    "end": 7487
+   }
+  ],
+  "script": "No website in mind? Search more than 11,000 public MCP servers right on the page. One click connects."
+ },
+ "N6": {
+  "file": "video/voices/N6.wav",
+  "sha256": "f7cf157b62c4d7f50c8da6d753760056826422af7a203a1274d8cedf09668ea8",
+  "id": "a8e81fdc-5734-4ee2-856a-fee01c0b43d4",
+  "speechModel": "universal-3-5-pro,universal-2",
+  "text": "Many servers list more than 10 tools. Interprez shows the agent 10 at a time, and one of them is find tools. Ask for something out of view, and Interprez swaps the right tools in mid-conversation.",
+  "words": [
+   {
+    "text": "Many",
+    "start": 738,
+    "end": 915
+   },
+   {
+    "text": "servers",
+    "start": 915,
+    "end": 1365
+   },
+   {
+    "text": "list",
+    "start": 1397,
+    "end": 1638
+   },
+   {
+    "text": "more",
+    "start": 1638,
+    "end": 1799
+   },
+   {
+    "text": "than",
+    "start": 1799,
+    "end": 1911
+   },
+   {
+    "text": "10",
+    "start": 1959,
+    "end": 2152
+   },
+   {
+    "text": "tools.",
+    "start": 2281,
+    "end": 2650
+   },
+   {
+    "text": "Interprez",
+    "start": 3405,
+    "end": 3823
+   },
+   {
+    "text": "shows",
+    "start": 3823,
+    "end": 4096
+   },
+   {
+    "text": "the",
+    "start": 4144,
+    "end": 4289
+   },
+   {
+    "text": "agent",
+    "start": 4289,
+    "end": 4610
+   },
+   {
+    "text": "10",
+    "start": 4610,
+    "end": 4786
+   },
+   {
+    "text": "at",
+    "start": 4786,
+    "end": 4931
+   },
+   {
+    "text": "a",
+    "start": 4931,
+    "end": 5011
+   },
+   {
+    "text": "time,",
+    "start": 5011,
+    "end": 5333
+   },
+   {
+    "text": "and",
+    "start": 5798,
+    "end": 5863
+   },
+   {
+    "text": "one",
+    "start": 5895,
+    "end": 6056
+   },
+   {
+    "text": "of",
+    "start": 6056,
+    "end": 6200
+   },
+   {
+    "text": "them",
+    "start": 6200,
+    "end": 6313
+   },
+   {
+    "text": "is",
+    "start": 6313,
+    "end": 6425
+   },
+   {
+    "text": "find",
+    "start": 6457,
+    "end": 6746
+   },
+   {
+    "text": "tools.",
+    "start": 6778,
+    "end": 7148
+   },
+   {
+    "text": "Ask",
+    "start": 7887,
+    "end": 7999
+   },
+   {
+    "text": "for",
+    "start": 8063,
+    "end": 8128
+   },
+   {
+    "text": "something",
+    "start": 8144,
+    "end": 8513
+   },
+   {
+    "text": "out",
+    "start": 8529,
+    "end": 8642
+   },
+   {
+    "text": "of",
+    "start": 8642,
+    "end": 8706
+   },
+   {
+    "text": "view,",
+    "start": 8706,
+    "end": 9011
+   },
+   {
+    "text": "and",
+    "start": 9268,
+    "end": 9333
+   },
+   {
+    "text": "Interprez",
+    "start": 9429,
+    "end": 9830
+   },
+   {
+    "text": "swaps",
+    "start": 9830,
+    "end": 10312
+   },
+   {
+    "text": "the",
+    "start": 10312,
+    "end": 10393
+   },
+   {
+    "text": "right",
+    "start": 10393,
+    "end": 10634
+   },
+   {
+    "text": "tools",
+    "start": 10634,
+    "end": 10923
+   },
+   {
+    "text": "in",
+    "start": 11019,
+    "end": 11132
+   },
+   {
+    "text": "mid-conversation.",
+    "start": 11437,
+    "end": 12288
+   }
+  ],
+  "script": "Many servers list more than ten tools. interpres shows the agent ten at a time, and one of them is find tools. Ask for something out of view, and interpres swaps the right tools in, mid-conversation."
+ },
+ "N7": {
+  "file": "video/voices/N7.wav",
+  "sha256": "26c339c557b89b38d8fb2dcadf437fd70d1f19e7afe55339a308b9048628e01f",
+  "id": "c048880e-7e7d-489c-955e-466cbb8fc42d",
+  "speechModel": "universal-3-5-pro,universal-2",
+  "text": "Speech gets identifiers wrong. In our tests, 0 of 9 spoken wallet addresses came through exact, and before the gate, 5 wrong ones reached the server. So Interprez never runs a tool on an identifier it only heard— paste it, and the agent uses the exact text.",
+  "words": [
+   {
+    "text": "Speech",
+    "start": 272,
+    "end": 561
+   },
+   {
+    "text": "gets",
+    "start": 673,
+    "end": 898
+   },
+   {
+    "text": "identifiers",
+    "start": 898,
+    "end": 1523
+   },
+   {
+    "text": "wrong.",
+    "start": 1619,
+    "end": 1763
+   },
+   {
+    "text": "In",
+    "start": 2597,
+    "end": 2645
+   },
+   {
+    "text": "our",
+    "start": 2742,
+    "end": 2838
+   },
+   {
+    "text": "tests,",
+    "start": 2838,
+    "end": 3367
+   },
+   {
+    "text": "0",
+    "start": 3736,
+    "end": 4185
+   },
+   {
+    "text": "of",
+    "start": 4201,
+    "end": 4329
+   },
+   {
+    "text": "9",
+    "start": 4377,
+    "end": 4762
+   },
+   {
+    "text": "spoken",
+    "start": 4762,
+    "end": 5163
+   },
+   {
+    "text": "wallet",
+    "start": 5163,
+    "end": 5468
+   },
+   {
+    "text": "addresses",
+    "start": 5468,
+    "end": 5885
+   },
+   {
+    "text": "came",
+    "start": 5885,
+    "end": 6109
+   },
+   {
+    "text": "through",
+    "start": 6125,
+    "end": 6350
+   },
+   {
+    "text": "exact,",
+    "start": 6350,
+    "end": 6927
+   },
+   {
+    "text": "and",
+    "start": 7328,
+    "end": 7392
+   },
+   {
+    "text": "before",
+    "start": 7408,
+    "end": 7681
+   },
+   {
+    "text": "the",
+    "start": 7729,
+    "end": 7809
+   },
+   {
+    "text": "gate,",
+    "start": 7809,
+    "end": 8114
+   },
+   {
+    "text": "5",
+    "start": 8595,
+    "end": 8996
+   },
+   {
+    "text": "wrong",
+    "start": 8996,
+    "end": 9140
+   },
+   {
+    "text": "ones",
+    "start": 9172,
+    "end": 9461
+   },
+   {
+    "text": "reached",
+    "start": 9493,
+    "end": 9814
+   },
+   {
+    "text": "the",
+    "start": 9814,
+    "end": 9878
+   },
+   {
+    "text": "server.",
+    "start": 9878,
+    "end": 10263
+   },
+   {
+    "text": "So",
+    "start": 10856,
+    "end": 11000
+   },
+   {
+    "text": "Interprez",
+    "start": 11016,
+    "end": 11545
+   },
+   {
+    "text": "never",
+    "start": 11658,
+    "end": 11978
+   },
+   {
+    "text": "runs",
+    "start": 11978,
+    "end": 12187
+   },
+   {
+    "text": "a",
+    "start": 12235,
+    "end": 12363
+   },
+   {
+    "text": "tool",
+    "start": 12363,
+    "end": 12684
+   },
+   {
+    "text": "on",
+    "start": 12684,
+    "end": 12780
+   },
+   {
+    "text": "an",
+    "start": 12780,
+    "end": 12828
+   },
+   {
+    "text": "identifier",
+    "start": 12925,
+    "end": 13582
+   },
+   {
+    "text": "it",
+    "start": 13582,
+    "end": 13726
+   },
+   {
+    "text": "only",
+    "start": 13726,
+    "end": 13919
+   },
+   {
+    "text": "heard—",
+    "start": 13967,
+    "end": 14272
+   },
+   {
+    "text": "paste",
+    "start": 14544,
+    "end": 14881
+   },
+   {
+    "text": "it,",
+    "start": 14881,
+    "end": 14993
+   },
+   {
+    "text": "and",
+    "start": 15506,
+    "end": 15570
+   },
+   {
+    "text": "the",
+    "start": 15651,
+    "end": 15731
+   },
+   {
+    "text": "agent",
+    "start": 15811,
+    "end": 16212
+   },
+   {
+    "text": "uses",
+    "start": 16212,
+    "end": 16517
+   },
+   {
+    "text": "the",
+    "start": 16533,
+    "end": 16693
+   },
+   {
+    "text": "exact",
+    "start": 16693,
+    "end": 17030
+   },
+   {
+    "text": "text.",
+    "start": 17030,
+    "end": 17527
+   }
+  ],
+  "script": "Speech gets identifiers wrong. In our tests, 0 of 9 spoken wallet addresses came through exact, and before the gate, 5 wrong ones reached the server. So interpres never runs a tool on an identifier it only heard. Paste it, and the agent uses the exact text."
+ },
+ "N8": {
+  "file": "video/voices/N8.wav",
+  "sha256": "a7b776a10274ee7c5d85e5f33f8d5275fae45d486292820eec5042389e783b7b",
+  "id": "0b4c3a1e-0cad-498e-ab0d-7e5cd2451544",
+  "speechModel": "universal-3-5-pro,universal-2",
+  "text": "A spoken address is held back; nothing runs.",
+  "words": [
+   {
+    "text": "A",
+    "start": 275,
+    "end": 307
+   },
+   {
+    "text": "spoken",
+    "start": 340,
+    "end": 680
+   },
+   {
+    "text": "address",
+    "start": 680,
+    "end": 1020
+   },
+   {
+    "text": "is",
+    "start": 1020,
+    "end": 1150
+   },
+   {
+    "text": "held",
+    "start": 1150,
+    "end": 1345
+   },
+   {
+    "text": "back;",
+    "start": 1409,
+    "end": 1669
+   },
+   {
+    "text": "nothing",
+    "start": 2058,
+    "end": 2333
+   },
+   {
+    "text": "runs.",
+    "start": 2382,
+    "end": 2754
+   }
+  ],
+  "script": "A spoken address is held back. Nothing runs."
+ },
+ "N9": {
+  "file": "video/voices/N9.wav",
+  "sha256": "de8cd4d37be886e103701f1063d30fd911a6156bc67274f3c3ab1ffa3e1c8088",
+  "id": "35192cc7-22d1-495d-9bcc-27b0ef6fd746",
+  "speechModel": "universal-3-5-pro,universal-2",
+  "text": "To check it isn't just these 3, we probed every remote server in the official MCP registry. 12,012 answered without a login, listing more than 200,000 tools, and every tool converted.",
+  "words": [
+   {
+    "text": "To",
+    "start": 674,
+    "end": 818
+   },
+   {
+    "text": "check",
+    "start": 818,
+    "end": 1011
+   },
+   {
+    "text": "it",
+    "start": 1011,
+    "end": 1139
+   },
+   {
+    "text": "isn't",
+    "start": 1139,
+    "end": 1380
+   },
+   {
+    "text": "just",
+    "start": 1380,
+    "end": 1556
+   },
+   {
+    "text": "these",
+    "start": 1556,
+    "end": 1765
+   },
+   {
+    "text": "3,",
+    "start": 1797,
+    "end": 2102
+   },
+   {
+    "text": "we",
+    "start": 2118,
+    "end": 2279
+   },
+   {
+    "text": "probed",
+    "start": 2279,
+    "end": 2648
+   },
+   {
+    "text": "every",
+    "start": 2744,
+    "end": 2969
+   },
+   {
+    "text": "remote",
+    "start": 3065,
+    "end": 3354
+   },
+   {
+    "text": "server",
+    "start": 3386,
+    "end": 3787
+   },
+   {
+    "text": "in",
+    "start": 3804,
+    "end": 3852
+   },
+   {
+    "text": "the",
+    "start": 3884,
+    "end": 3980
+   },
+   {
+    "text": "official",
+    "start": 4028,
+    "end": 4429
+   },
+   {
+    "text": "MCP",
+    "start": 4446,
+    "end": 4991
+   },
+   {
+    "text": "registry.",
+    "start": 4991,
+    "end": 5457
+   },
+   {
+    "text": "12,012",
+    "start": 6131,
+    "end": 7078
+   },
+   {
+    "text": "answered",
+    "start": 7078,
+    "end": 7415
+   },
+   {
+    "text": "without",
+    "start": 7479,
+    "end": 7736
+   },
+   {
+    "text": "a",
+    "start": 7736,
+    "end": 7752
+   },
+   {
+    "text": "login,",
+    "start": 7880,
+    "end": 8169
+   },
+   {
+    "text": "listing",
+    "start": 8699,
+    "end": 8988
+   },
+   {
+    "text": "more",
+    "start": 9020,
+    "end": 9132
+   },
+   {
+    "text": "than",
+    "start": 9180,
+    "end": 9309
+   },
+   {
+    "text": "200,000",
+    "start": 9405,
+    "end": 10352
+   },
+   {
+    "text": "tools,",
+    "start": 10368,
+    "end": 10753
+   },
+   {
+    "text": "and",
+    "start": 11026,
+    "end": 11090
+   },
+   {
+    "text": "every",
+    "start": 11171,
+    "end": 11395
+   },
+   {
+    "text": "tool",
+    "start": 11428,
+    "end": 11733
+   },
+   {
+    "text": "converted.",
+    "start": 11749,
+    "end": 12278
+   }
+  ],
+  "script": "To check it isn't just these three, we probed every remote server in the official MCP registry. 12,012 answered without a login, listing more than 200,000 tools, and every tool converted."
+ },
+ "N10": {
+  "file": "video/voices/N10.wav",
+  "sha256": "f42d874ee20418a807a92e7053ef62fb4b7318d68cb64d38cd0bc8d58e3e853a",
+  "id": "7c490dbf-fedf-4b72-99a5-a864417555c6",
+  "speechModel": "universal-3-5-pro,universal-2",
+  "text": "Then we gave 30 of them one spoken question each, untuned. 29 sessions ran, each one answered out loud at a median of 2.6 seconds, and 14 answered from live data. The whole run cost 60 cents.",
+  "words": [
+   {
+    "text": "Then",
+    "start": 673,
+    "end": 754
+   },
+   {
+    "text": "we",
+    "start": 754,
+    "end": 850
+   },
+   {
+    "text": "gave",
+    "start": 850,
+    "end": 1042
+   },
+   {
+    "text": "30",
+    "start": 1074,
+    "end": 1476
+   },
+   {
+    "text": "of",
+    "start": 1476,
+    "end": 1604
+   },
+   {
+    "text": "them",
+    "start": 1620,
+    "end": 1732
+   },
+   {
+    "text": "one",
+    "start": 1861,
+    "end": 1925
+   },
+   {
+    "text": "spoken",
+    "start": 2021,
+    "end": 2438
+   },
+   {
+    "text": "question",
+    "start": 2438,
+    "end": 2887
+   },
+   {
+    "text": "each,",
+    "start": 2903,
+    "end": 3240
+   },
+   {
+    "text": "untuned.",
+    "start": 3385,
+    "end": 4010
+   },
+   {
+    "text": "29",
+    "start": 4829,
+    "end": 5342
+   },
+   {
+    "text": "sessions",
+    "start": 5342,
+    "end": 5775
+   },
+   {
+    "text": "ran,",
+    "start": 5807,
+    "end": 6016
+   },
+   {
+    "text": "each",
+    "start": 6433,
+    "end": 6578
+   },
+   {
+    "text": "one",
+    "start": 6674,
+    "end": 6738
+   },
+   {
+    "text": "answered",
+    "start": 6834,
+    "end": 7155
+   },
+   {
+    "text": "out",
+    "start": 7155,
+    "end": 7332
+   },
+   {
+    "text": "loud",
+    "start": 7332,
+    "end": 7781
+   },
+   {
+    "text": "at",
+    "start": 7813,
+    "end": 7909
+   },
+   {
+    "text": "a",
+    "start": 7909,
+    "end": 7925
+   },
+   {
+    "text": "median",
+    "start": 7957,
+    "end": 8374
+   },
+   {
+    "text": "of",
+    "start": 8374,
+    "end": 8519
+   },
+   {
+    "text": "2.6",
+    "start": 8519,
+    "end": 9289
+   },
+   {
+    "text": "seconds,",
+    "start": 9289,
+    "end": 9626
+   },
+   {
+    "text": "and",
+    "start": 10059,
+    "end": 10123
+   },
+   {
+    "text": "14",
+    "start": 10203,
+    "end": 10685
+   },
+   {
+    "text": "answered",
+    "start": 10685,
+    "end": 11070
+   },
+   {
+    "text": "from",
+    "start": 11086,
+    "end": 11198
+   },
+   {
+    "text": "live",
+    "start": 11262,
+    "end": 11471
+   },
+   {
+    "text": "data.",
+    "start": 11519,
+    "end": 11920
+   },
+   {
+    "text": "The",
+    "start": 12546,
+    "end": 12690
+   },
+   {
+    "text": "whole",
+    "start": 12690,
+    "end": 12819
+   },
+   {
+    "text": "run",
+    "start": 12947,
+    "end": 13075
+   },
+   {
+    "text": "cost",
+    "start": 13252,
+    "end": 13444
+   },
+   {
+    "text": "60",
+    "start": 13444,
+    "end": 13813
+   },
+   {
+    "text": "cents.",
+    "start": 13813,
+    "end": 14134
+   }
+  ],
+  "script": "Then we gave thirty of them one spoken question each, untuned. Twenty-nine sessions ran. Each one answered out loud, at a median of 2.6 seconds, and fourteen answered from live data. The whole run cost 60 cents."
+ },
+ "N11": {
+  "file": "video/voices/N11.wav",
+  "sha256": "8bca0e4990650c0459af766943216d9b5b455e2dad189391bee40e487f0ca5ef",
+  "id": "072f65f9-dfc8-40ac-884f-57dac8739791",
+  "speechModel": "universal-3-5-pro,universal-2",
+  "text": "Along the way, we found 2 places where the API behaves differently from its docs, and wrote both up with scripts that reproduce them.",
+  "words": [
+   {
+    "text": "Along",
+    "start": 756,
+    "end": 950
+   },
+   {
+    "text": "the",
+    "start": 998,
+    "end": 1143
+   },
+   {
+    "text": "way,",
+    "start": 1143,
+    "end": 1239
+   },
+   {
+    "text": "we",
+    "start": 1304,
+    "end": 1400
+   },
+   {
+    "text": "found",
+    "start": 1400,
+    "end": 1690
+   },
+   {
+    "text": "2",
+    "start": 1723,
+    "end": 1948
+   },
+   {
+    "text": "places",
+    "start": 1948,
+    "end": 2415
+   },
+   {
+    "text": "where",
+    "start": 2447,
+    "end": 2544
+   },
+   {
+    "text": "the",
+    "start": 2544,
+    "end": 2689
+   },
+   {
+    "text": "API",
+    "start": 2689,
+    "end": 3091
+   },
+   {
+    "text": "behaves",
+    "start": 3091,
+    "end": 3558
+   },
+   {
+    "text": "differently",
+    "start": 3574,
+    "end": 3945
+   },
+   {
+    "text": "from",
+    "start": 3977,
+    "end": 4138
+   },
+   {
+    "text": "its",
+    "start": 4138,
+    "end": 4363
+   },
+   {
+    "text": "docs,",
+    "start": 4363,
+    "end": 4702
+   },
+   {
+    "text": "and",
+    "start": 5185,
+    "end": 5249
+   },
+   {
+    "text": "wrote",
+    "start": 5265,
+    "end": 5507
+   },
+   {
+    "text": "both",
+    "start": 5507,
+    "end": 5813
+   },
+   {
+    "text": "up",
+    "start": 5813,
+    "end": 5974
+   },
+   {
+    "text": "with",
+    "start": 5974,
+    "end": 6070
+   },
+   {
+    "text": "scripts",
+    "start": 6070,
+    "end": 6537
+   },
+   {
+    "text": "that",
+    "start": 6537,
+    "end": 6634
+   },
+   {
+    "text": "reproduce",
+    "start": 6698,
+    "end": 7278
+   },
+   {
+    "text": "them.",
+    "start": 7278,
+    "end": 7359
+   }
+  ],
+  "script": "Along the way we found two places where the API behaves differently from its docs, and wrote both up with scripts that reproduce them."
+ },
+ "N12": {
+  "file": "video/voices/N12.wav",
+  "sha256": "c7c2ce1ed284c03edb0e45ea6b6ae86a1ce590f66c3a2fa57f31f14b8af95b59",
+  "id": "fc2b5dba-56e8-4d17-a4bc-0eb67b68e993",
+  "speechModel": "universal-3-5-pro,universal-2",
+  "text": "Interprez is open source under MIT and live now at the address on screen. Type a website, press the mic, and ask.",
+  "words": [
+   {
+    "text": "Interprez",
+    "start": 273,
+    "end": 805
+   },
+   {
+    "text": "is",
+    "start": 901,
+    "end": 966
+   },
+   {
+    "text": "open",
+    "start": 1062,
+    "end": 1320
+   },
+   {
+    "text": "source",
+    "start": 1320,
+    "end": 1642
+   },
+   {
+    "text": "under",
+    "start": 1642,
+    "end": 1867
+   },
+   {
+    "text": "MIT",
+    "start": 1884,
+    "end": 2528
+   },
+   {
+    "text": "and",
+    "start": 3011,
+    "end": 3075
+   },
+   {
+    "text": "live",
+    "start": 3172,
+    "end": 3381
+   },
+   {
+    "text": "now",
+    "start": 3397,
+    "end": 3510
+   },
+   {
+    "text": "at",
+    "start": 3590,
+    "end": 3719
+   },
+   {
+    "text": "the",
+    "start": 3719,
+    "end": 3768
+   },
+   {
+    "text": "address",
+    "start": 3816,
+    "end": 4138
+   },
+   {
+    "text": "on",
+    "start": 4138,
+    "end": 4235
+   },
+   {
+    "text": "screen.",
+    "start": 4283,
+    "end": 4685
+   },
+   {
+    "text": "Type",
+    "start": 5346,
+    "end": 5603
+   },
+   {
+    "text": "a",
+    "start": 5652,
+    "end": 5668
+   },
+   {
+    "text": "website,",
+    "start": 5668,
+    "end": 6215
+   },
+   {
+    "text": "press",
+    "start": 6231,
+    "end": 6537
+   },
+   {
+    "text": "the",
+    "start": 6537,
+    "end": 6602
+   },
+   {
+    "text": "mic,",
+    "start": 6602,
+    "end": 6940
+   },
+   {
+    "text": "and",
+    "start": 6956,
+    "end": 7020
+   },
+   {
+    "text": "ask.",
+    "start": 7053,
+    "end": 7455
+   }
+  ],
+  "script": "interpres is open source under MIT, and live now at the address on screen. Type a website, press the mic, and ask."
+ }
+}

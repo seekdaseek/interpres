@@ -282,73 +282,23 @@
   "N10": {
    "id": "N10",
    "voice": "charles",
-   "text": "Then we gave thirty of them one spoken question each, untuned. Twenty-nine sessions ran. Every one answered out loud, at a median of 2.6 seconds, and fourteen answered from live data. The whole run cost 60 cents.",
+   "text": "Then we gave thirty of them one spoken question each, untuned. Twenty-nine sessions ran. Each one answered out loud, at a median of 2.6 seconds, and fourteen answered from live data. The whole run cost 60 cents.",
    "file": "video/voices/N10.wav",
    "path": "greeting",
    "parts": 1,
    "attempts": [
     {
      "sessionIds": [
-      "sess_36e5660bff2b482eab6cc28dea496490"
+      "sess_3d08fefdfa6f44ca814af336758f9a62"
      ],
-     "ms": 15890,
-     "transcript": "Then we gave 30 of them one spoken question each, untuned. 29 sessions ran. Everyone answered out loud at a median of 2.6 seconds, and 14 answered from live data. The whole run cost 60 cents.",
+     "ms": 14600,
+     "transcript": "Then we gave 30 of them one spoken question each, untuned. 29 sessions ran, each one answered out loud at a median of 2.6 seconds, and 14 answered from live data. The whole run cost 60 cents.",
      "speechModel": "universal-3-5-pro,universal-2",
-     "pass": false,
-     "firstDifference": {
-      "at": 15,
-      "expected": "every one answered out",
-      "heard": "everyone answered out loud"
-     },
-     "variantsUsed": []
-    },
-    {
-     "sessionIds": [
-      "sess_5b30d86ffc724f8faf7d5c796f9dc54f"
-     ],
-     "ms": 15010,
-     "transcript": "Then we gave 30 of them one spoken question each, untuned. 29 sessions ran. Everyone answered out loud, at a median of 2.6 seconds, and 14 answered from live data. The whole run cost 60 cents.",
-     "speechModel": "universal-3-5-pro,universal-2",
-     "pass": false,
-     "firstDifference": {
-      "at": 15,
-      "expected": "every one answered out",
-      "heard": "everyone answered out loud"
-     },
-     "variantsUsed": []
-    },
-    {
-     "sessionIds": [
-      "sess_366ccc55607c4ab59372f1a36d5b3cd7"
-     ],
-     "ms": 15220,
-     "transcript": "Then we gave 30 of them one spoken question each, untuned. 29 sessions ran. Everyone answered out loud, at a median of 2.6 seconds, and 14 answered from live data. The whole run cost 60 cents.",
-     "speechModel": "universal-3-5-pro,universal-2",
-     "pass": false,
-     "firstDifference": {
-      "at": 15,
-      "expected": "every one answered out",
-      "heard": "everyone answered out loud"
-     },
-     "variantsUsed": []
-    },
-    {
-     "sessionIds": [
-      "sess_09fa578cb1144d28803586b6fc7a44fb"
-     ],
-     "ms": 15580,
-     "transcript": "Then we gave 30 of them one spoken question each, untuned. 29 sessions ran. Everyone answered out loud, at a median of 2.6 seconds, and 14 answered from live data. The whole run cost 60 cents.",
-     "speechModel": "universal-3-5-pro,universal-2",
-     "pass": false,
-     "firstDifference": {
-      "at": 15,
-      "expected": "every one answered out",
-      "heard": "everyone answered out loud"
-     },
+     "pass": true,
      "variantsUsed": []
     }
    ],
-   "pass": false,
+   "pass": true,
    "checked": "strict"
   },
   "N11": {

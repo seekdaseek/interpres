@@ -44,7 +44,7 @@ and tool calls appear at their real times, with the `session_id` shown.
 3. Now clear the box and read the sample address aloud instead. The card shows
    what was heard and asks for a paste. Nothing heard by speech-to-text is ever executed, even after
    "yes, that's right". Of every recorded attempt to speak a wallet address,
-   <!-- value:identifiers-exact -->0 of 9<!-- /value:identifiers-exact --> came through exact ([docs/IDENTIFIERS.md](docs/IDENTIFIERS.md)).
+   <!-- value:identifiers-exact -->5 of 15<!-- /value:identifiers-exact --> came through exact ([docs/IDENTIFIERS.md](docs/IDENTIFIERS.md)).
 
 ## 4. Check the numbers (1 minute)
 

@@ -2,7 +2,7 @@
 
 Every recorded attempt to speak a wallet address, from every source in `data/`, recounted by `scripts/spoken-identifiers.ts`. "Ran" is whether the address reached an MCP server: a misheard value ran in 5 of them, all from before the gate held spoken identifiers (decision D4).
 
-Exact: 0 of 9.
+Exact: 5 of 15.
 
 Misheard and reached a server: 5.
 
@@ -17,6 +17,12 @@ Misheard and reached a server: 5.
 | e2e-audio-gate-spoken.json | `sess_c7ecda9ca1ca4a3f8eebfb18378bd139` | `0x3f9a1c7e…4d6f09` (42) | `0x3f9a1c7e…4d6f09` (42) | no | ran with `0x3f9a1c7e…4d6f09` (42) |
 | qa-public-round-e.json (desktop) | `sess_144a98f5fd3f434f94f2d1628f21d984` | `0x5aaeb605…1beaed` (42) | `0x5aeb6053…f1b8ed` (40) | no | nothing ran |
 | qa-public-round-e.json (mobile375) | `sess_ee5881f4b8074acdabe6137482a8327b` | `0x5aaeb605…1beaed` (42) | `0x5aeb6053…f1b8ed` (40) | no | nothing ran |
+| video/rehearsals-c.json (brief) | `sess_7207e8d4878241fca8de881aaad6b9f9` | `0x5aaeb605…1beaed` (42) | `0x5aaeb605…1beaed` (42) | yes | nothing ran |
+| video/rehearsals-c.json (brief) | `sess_5d116e8491ce41f894d2dd99061aed65` | `0x5aaeb605…1beaed` (42) | `0x5aaeb605…1beaed` (42) | yes | ran with the spoken value |
+| video/rehearsals-c.json (brief) | `sess_01ca2a290e594b2981fd9b60e845a6ae` | `0x5aaeb605…1beaed` (42) | `0x5aaeb605…1beaed` (42) | yes | ran with the spoken value |
+| video/rehearsals-c.json (brief) | `sess_492217eebd9f4144a7e09a53bba6d4e2` | `0x5aaeb605…1beaed` (42) | `0x5aaeb605…1beaed` (42) | yes | ran with the spoken value |
+| video/rehearsals-c.json (other-address) | `sess_025ae7e96be84cdb97b39cb823a11d98` | `0x3f9a1c7e…4d6f09` (42) | `0x3f9a1c7e…4d6f09` (42) | no | nothing ran |
+| video/rehearsals-c.json (spoken-first) | `sess_ba2e2e5b1e384e098834b6adfc23a189` | `0x5aaeb605…1beaed` (42) | `0x5aaeb605…1beaed` (42) | yes | nothing ran |
 
 ## Files in data/ that hold an address but are not counted
 
@@ -28,3 +34,5 @@ Misheard and reached a server: 5.
 | `qa-audio/clips.json` | the clip texts themselves, counted through the QA record |
 | `sweep-2026-09-26T1148Z-summary.json` | an address inside a registry server description; nothing was spoken |
 | `sweep-2026-09-26T1252Z-recheck-summary.json` | an address inside a registry server description; nothing was spoken |
+| `video/caller-gate.json` | the F2a hearing gate: its only address was pasted for Q4, not spoken |
+| `video/voices.json` | the caller clip texts themselves; the sessions that spoke them are counted |
