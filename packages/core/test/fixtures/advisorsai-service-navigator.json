@@ -1,0 +1,1845 @@
+{
+  "_captured": {
+    "url": "https://advisorsai.ai/mcp",
+    "at": "2026-09-26T08:50:04.693Z",
+    "statefulSession": false,
+    "note": "Verbatim JSON-RPC results. Captured independently of packages/core."
+  },
+  "initialize": {
+    "capabilities": {
+      "experimental": {},
+      "prompts": {
+        "listChanged": false
+      },
+      "resources": {
+        "listChanged": false,
+        "subscribe": false
+      },
+      "tools": {
+        "listChanged": false
+      }
+    },
+    "instructions": "Use advisors_catalog_list_services when the user asks what is offered; advisors_catalog_match_service when the need is known; advisors_site_check_basics only for a public website the user wants checked; and advisors_order_prepare_link only after the user selects a package. Never call the page-basics score AI visibility, ranking, buyer intent, or a guarantee. No tool creates or charges an order.",
+    "protocolVersion": "2025-06-18",
+    "serverInfo": {
+      "description": "Read-only discovery, bounded public-page checks, and request-link preparation for five services.",
+      "name": "advisors-ai-service-navigator",
+      "title": "Advisors AI Service Navigator",
+      "version": "2026-08-21.5",
+      "websiteUrl": "https://advisorsai.ai"
+    }
+  },
+  "toolsList": {
+    "tools": [
+      {
+        "annotations": {
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        },
+        "description": "Use when a user asks what Advisors AI offers. Returns exactly five public services; do not use it to infer fit or to create an order.",
+        "inputSchema": {
+          "properties": {
+            "language": {
+              "default": "ar",
+              "description": "Response language: ar or en.",
+              "enum": [
+                "ar",
+                "en"
+              ],
+              "title": "Language",
+              "type": "string"
+            }
+          },
+          "type": "object",
+          "additionalProperties": false,
+          "title": "tool_list_servicesArguments"
+        },
+        "name": "advisors_catalog_list_services",
+        "outputSchema": {
+          "properties": {
+            "ok": {
+              "const": true,
+              "title": "Ok",
+              "type": "boolean"
+            },
+            "status": {
+              "const": "public_catalogue",
+              "title": "Status",
+              "type": "string"
+            },
+            "service_count": {
+              "const": 5,
+              "title": "Service Count",
+              "type": "integer"
+            },
+            "package_count": {
+              "const": 11,
+              "title": "Package Count",
+              "type": "integer"
+            },
+            "catalog_version": {
+              "title": "Catalog Version",
+              "type": "string"
+            },
+            "catalog_fingerprint_sha256": {
+              "title": "Catalog Fingerprint Sha256",
+              "type": "string"
+            },
+            "services": {
+              "items": {
+                "$ref": "#/$defs/ServiceOutput"
+              },
+              "title": "Services",
+              "type": "array"
+            },
+            "deployed_channel": {
+              "title": "Deployed Channel",
+              "type": "string"
+            },
+            "attribution_status": {
+              "const": "link_only_not_order_bound",
+              "title": "Attribution Status",
+              "type": "string"
+            }
+          },
+          "required": [
+            "ok",
+            "status",
+            "service_count",
+            "package_count",
+            "catalog_version",
+            "catalog_fingerprint_sha256",
+            "services",
+            "deployed_channel",
+            "attribution_status"
+          ],
+          "type": "object",
+          "$defs": {
+            "EligibilityOutput": {
+              "additionalProperties": false,
+              "properties": {
+                "kind": {
+                  "title": "Kind",
+                  "type": "string"
+                },
+                "service_id": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "default": null,
+                  "title": "Service Id"
+                },
+                "allowed_package_ids": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "title": "Allowed Package Ids",
+                  "type": "array"
+                },
+                "minimum_age_days": {
+                  "anyOf": [
+                    {
+                      "type": "integer"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "default": null,
+                  "title": "Minimum Age Days"
+                }
+              },
+              "required": [
+                "kind"
+              ],
+              "title": "EligibilityOutput",
+              "type": "object"
+            },
+            "PackageOutput": {
+              "additionalProperties": false,
+              "properties": {
+                "package_id": {
+                  "title": "Package Id",
+                  "type": "string"
+                },
+                "service_id": {
+                  "enum": [
+                    "store-assistant",
+                    "store-audit",
+                    "ai-visibility",
+                    "custom-monitor",
+                    "agent-team"
+                  ],
+                  "title": "Service Id",
+                  "type": "string"
+                },
+                "name": {
+                  "title": "Name",
+                  "type": "string"
+                },
+                "billing_kind": {
+                  "enum": [
+                    "fixed",
+                    "quote_required",
+                    "recurring"
+                  ],
+                  "title": "Billing Kind",
+                  "type": "string"
+                },
+                "currency": {
+                  "title": "Currency",
+                  "type": "string"
+                },
+                "price_usd": {
+                  "anyOf": [
+                    {
+                      "type": "integer"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "default": null,
+                  "title": "Price Usd"
+                },
+                "base_price_usd": {
+                  "anyOf": [
+                    {
+                      "type": "integer"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "default": null,
+                  "title": "Base Price Usd"
+                },
+                "billing_interval": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "default": null,
+                  "title": "Billing Interval"
+                },
+                "product_package": {
+                  "title": "Product Package",
+                  "type": "string"
+                },
+                "eligibility": {
+                  "$ref": "#/$defs/EligibilityOutput"
+                }
+              },
+              "required": [
+                "package_id",
+                "service_id",
+                "name",
+                "billing_kind",
+                "currency",
+                "product_package",
+                "eligibility"
+              ],
+              "title": "PackageOutput",
+              "type": "object"
+            },
+            "ServiceOutput": {
+              "additionalProperties": false,
+              "properties": {
+                "service_id": {
+                  "enum": [
+                    "store-assistant",
+                    "store-audit",
+                    "ai-visibility",
+                    "custom-monitor",
+                    "agent-team"
+                  ],
+                  "title": "Service Id",
+                  "type": "string"
+                },
+                "name": {
+                  "title": "Name",
+                  "type": "string"
+                },
+                "summary": {
+                  "title": "Summary",
+                  "type": "string"
+                },
+                "for_whom": {
+                  "title": "For Whom",
+                  "type": "string"
+                },
+                "service_url": {
+                  "title": "Service Url",
+                  "type": "string"
+                },
+                "sample_url": {
+                  "title": "Sample Url",
+                  "type": "string"
+                },
+                "sample_language": {
+                  "const": "ar",
+                  "title": "Sample Language",
+                  "type": "string"
+                },
+                "sample_status": {
+                  "enum": [
+                    "available",
+                    "arabic_only"
+                  ],
+                  "title": "Sample Status",
+                  "type": "string"
+                },
+                "terms_url": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "default": null,
+                  "title": "Terms Url"
+                },
+                "delivery": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "default": null,
+                  "title": "Delivery"
+                },
+                "limits": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "default": null,
+                  "title": "Limits"
+                },
+                "packages": {
+                  "items": {
+                    "$ref": "#/$defs/PackageOutput"
+                  },
+                  "title": "Packages",
+                  "type": "array"
+                },
+                "match_score": {
+                  "anyOf": [
+                    {
+                      "type": "integer"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "default": null,
+                  "title": "Match Score"
+                }
+              },
+              "required": [
+                "service_id",
+                "name",
+                "summary",
+                "for_whom",
+                "service_url",
+                "sample_url",
+                "sample_language",
+                "sample_status"
+              ],
+              "title": "ServiceOutput",
+              "type": "object"
+            }
+          },
+          "additionalProperties": false,
+          "title": "ListServicesOutput"
+        },
+        "title": "List the five public services"
+      },
+      {
+        "annotations": {
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        },
+        "description": "Use after a service is identified and the user needs its published scope, limits, commercial packages, sample, and terms. Does not determine eligibility or order.",
+        "inputSchema": {
+          "properties": {
+            "service_id": {
+              "description": "One id returned by the list tool.",
+              "enum": [
+                "store-assistant",
+                "store-audit",
+                "ai-visibility",
+                "custom-monitor",
+                "agent-team"
+              ],
+              "title": "Service Id",
+              "type": "string"
+            },
+            "language": {
+              "default": "ar",
+              "description": "Response language: ar or en.",
+              "enum": [
+                "ar",
+                "en"
+              ],
+              "title": "Language",
+              "type": "string"
+            }
+          },
+          "required": [
+            "service_id"
+          ],
+          "type": "object",
+          "additionalProperties": false,
+          "title": "tool_get_serviceArguments"
+        },
+        "name": "advisors_catalog_get_service",
+        "outputSchema": {
+          "properties": {
+            "ok": {
+              "const": true,
+              "title": "Ok",
+              "type": "boolean"
+            },
+            "status": {
+              "const": "public_service_detail",
+              "title": "Status",
+              "type": "string"
+            },
+            "catalog_version": {
+              "title": "Catalog Version",
+              "type": "string"
+            },
+            "catalog_fingerprint_sha256": {
+              "title": "Catalog Fingerprint Sha256",
+              "type": "string"
+            },
+            "service": {
+              "$ref": "#/$defs/ServiceOutput"
+            }
+          },
+          "required": [
+            "ok",
+            "status",
+            "catalog_version",
+            "catalog_fingerprint_sha256",
+            "service"
+          ],
+          "type": "object",
+          "$defs": {
+            "EligibilityOutput": {
+              "additionalProperties": false,
+              "properties": {
+                "kind": {
+                  "title": "Kind",
+                  "type": "string"
+                },
+                "service_id": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "default": null,
+                  "title": "Service Id"
+                },
+                "allowed_package_ids": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "title": "Allowed Package Ids",
+                  "type": "array"
+                },
+                "minimum_age_days": {
+                  "anyOf": [
+                    {
+                      "type": "integer"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "default": null,
+                  "title": "Minimum Age Days"
+                }
+              },
+              "required": [
+                "kind"
+              ],
+              "title": "EligibilityOutput",
+              "type": "object"
+            },
+            "PackageOutput": {
+              "additionalProperties": false,
+              "properties": {
+                "package_id": {
+                  "title": "Package Id",
+                  "type": "string"
+                },
+                "service_id": {
+                  "enum": [
+                    "store-assistant",
+                    "store-audit",
+                    "ai-visibility",
+                    "custom-monitor",
+                    "agent-team"
+                  ],
+                  "title": "Service Id",
+                  "type": "string"
+                },
+                "name": {
+                  "title": "Name",
+                  "type": "string"
+                },
+                "billing_kind": {
+                  "enum": [
+                    "fixed",
+                    "quote_required",
+                    "recurring"
+                  ],
+                  "title": "Billing Kind",
+                  "type": "string"
+                },
+                "currency": {
+                  "title": "Currency",
+                  "type": "string"
+                },
+                "price_usd": {
+                  "anyOf": [
+                    {
+                      "type": "integer"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "default": null,
+                  "title": "Price Usd"
+                },
+                "base_price_usd": {
+                  "anyOf": [
+                    {
+                      "type": "integer"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "default": null,
+                  "title": "Base Price Usd"
+                },
+                "billing_interval": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "default": null,
+                  "title": "Billing Interval"
+                },
+                "product_package": {
+                  "title": "Product Package",
+                  "type": "string"
+                },
+                "eligibility": {
+                  "$ref": "#/$defs/EligibilityOutput"
+                }
+              },
+              "required": [
+                "package_id",
+                "service_id",
+                "name",
+                "billing_kind",
+                "currency",
+                "product_package",
+                "eligibility"
+              ],
+              "title": "PackageOutput",
+              "type": "object"
+            },
+            "ServiceOutput": {
+              "additionalProperties": false,
+              "properties": {
+                "service_id": {
+                  "enum": [
+                    "store-assistant",
+                    "store-audit",
+                    "ai-visibility",
+                    "custom-monitor",
+                    "agent-team"
+                  ],
+                  "title": "Service Id",
+                  "type": "string"
+                },
+                "name": {
+                  "title": "Name",
+                  "type": "string"
+                },
+                "summary": {
+                  "title": "Summary",
+                  "type": "string"
+                },
+                "for_whom": {
+                  "title": "For Whom",
+                  "type": "string"
+                },
+                "service_url": {
+                  "title": "Service Url",
+                  "type": "string"
+                },
+                "sample_url": {
+                  "title": "Sample Url",
+                  "type": "string"
+                },
+                "sample_language": {
+                  "const": "ar",
+                  "title": "Sample Language",
+                  "type": "string"
+                },
+                "sample_status": {
+                  "enum": [
+                    "available",
+                    "arabic_only"
+                  ],
+                  "title": "Sample Status",
+                  "type": "string"
+                },
+                "terms_url": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "default": null,
+                  "title": "Terms Url"
+                },
+                "delivery": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "default": null,
+                  "title": "Delivery"
+                },
+                "limits": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "default": null,
+                  "title": "Limits"
+                },
+                "packages": {
+                  "items": {
+                    "$ref": "#/$defs/PackageOutput"
+                  },
+                  "title": "Packages",
+                  "type": "array"
+                },
+                "match_score": {
+                  "anyOf": [
+                    {
+                      "type": "integer"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "default": null,
+                  "title": "Match Score"
+                }
+              },
+              "required": [
+                "service_id",
+                "name",
+                "summary",
+                "for_whom",
+                "service_url",
+                "sample_url",
+                "sample_language",
+                "sample_status"
+              ],
+              "title": "ServiceOutput",
+              "type": "object"
+            }
+          },
+          "additionalProperties": false,
+          "title": "GetServiceOutput"
+        },
+        "title": "Get one public service and its packages"
+      },
+      {
+        "annotations": {
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        },
+        "description": "Use when the user describes a business need but has not chosen a service. Returns at most two deterministic routing suggestions; it is not a diagnosis or proof of fit.",
+        "inputSchema": {
+          "properties": {
+            "need": {
+              "description": "Business need only; do not include credentials or personal data.",
+              "examples": [
+                "We need an audit trail and permission boundaries for our agents."
+              ],
+              "maxLength": 2000,
+              "minLength": 1,
+              "title": "Need",
+              "type": "string"
+            },
+            "language": {
+              "default": "ar",
+              "description": "Response language: ar or en.",
+              "enum": [
+                "ar",
+                "en"
+              ],
+              "title": "Language",
+              "type": "string"
+            }
+          },
+          "required": [
+            "need"
+          ],
+          "type": "object",
+          "additionalProperties": false,
+          "title": "tool_match_serviceArguments"
+        },
+        "name": "advisors_catalog_match_service",
+        "outputSchema": {
+          "properties": {
+            "ok": {
+              "const": true,
+              "title": "Ok",
+              "type": "boolean"
+            },
+            "status": {
+              "enum": [
+                "matched_public_service",
+                "needs_clarification"
+              ],
+              "title": "Status",
+              "type": "string"
+            },
+            "confidence": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "high",
+                    "medium"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Confidence"
+            },
+            "recommendations": {
+              "items": {
+                "$ref": "#/$defs/ServiceOutput"
+              },
+              "title": "Recommendations",
+              "type": "array"
+            },
+            "question": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Question"
+            },
+            "scoring_method": {
+              "const": "bounded deterministic keyword evidence",
+              "title": "Scoring Method",
+              "type": "string"
+            },
+            "claim_boundary": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Claim Boundary"
+            }
+          },
+          "required": [
+            "ok",
+            "status",
+            "recommendations",
+            "scoring_method"
+          ],
+          "type": "object",
+          "$defs": {
+            "EligibilityOutput": {
+              "additionalProperties": false,
+              "properties": {
+                "kind": {
+                  "title": "Kind",
+                  "type": "string"
+                },
+                "service_id": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "default": null,
+                  "title": "Service Id"
+                },
+                "allowed_package_ids": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "title": "Allowed Package Ids",
+                  "type": "array"
+                },
+                "minimum_age_days": {
+                  "anyOf": [
+                    {
+                      "type": "integer"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "default": null,
+                  "title": "Minimum Age Days"
+                }
+              },
+              "required": [
+                "kind"
+              ],
+              "title": "EligibilityOutput",
+              "type": "object"
+            },
+            "PackageOutput": {
+              "additionalProperties": false,
+              "properties": {
+                "package_id": {
+                  "title": "Package Id",
+                  "type": "string"
+                },
+                "service_id": {
+                  "enum": [
+                    "store-assistant",
+                    "store-audit",
+                    "ai-visibility",
+                    "custom-monitor",
+                    "agent-team"
+                  ],
+                  "title": "Service Id",
+                  "type": "string"
+                },
+                "name": {
+                  "title": "Name",
+                  "type": "string"
+                },
+                "billing_kind": {
+                  "enum": [
+                    "fixed",
+                    "quote_required",
+                    "recurring"
+                  ],
+                  "title": "Billing Kind",
+                  "type": "string"
+                },
+                "currency": {
+                  "title": "Currency",
+                  "type": "string"
+                },
+                "price_usd": {
+                  "anyOf": [
+                    {
+                      "type": "integer"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "default": null,
+                  "title": "Price Usd"
+                },
+                "base_price_usd": {
+                  "anyOf": [
+                    {
+                      "type": "integer"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "default": null,
+                  "title": "Base Price Usd"
+                },
+                "billing_interval": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "default": null,
+                  "title": "Billing Interval"
+                },
+                "product_package": {
+                  "title": "Product Package",
+                  "type": "string"
+                },
+                "eligibility": {
+                  "$ref": "#/$defs/EligibilityOutput"
+                }
+              },
+              "required": [
+                "package_id",
+                "service_id",
+                "name",
+                "billing_kind",
+                "currency",
+                "product_package",
+                "eligibility"
+              ],
+              "title": "PackageOutput",
+              "type": "object"
+            },
+            "ServiceOutput": {
+              "additionalProperties": false,
+              "properties": {
+                "service_id": {
+                  "enum": [
+                    "store-assistant",
+                    "store-audit",
+                    "ai-visibility",
+                    "custom-monitor",
+                    "agent-team"
+                  ],
+                  "title": "Service Id",
+                  "type": "string"
+                },
+                "name": {
+                  "title": "Name",
+                  "type": "string"
+                },
+                "summary": {
+                  "title": "Summary",
+                  "type": "string"
+                },
+                "for_whom": {
+                  "title": "For Whom",
+                  "type": "string"
+                },
+                "service_url": {
+                  "title": "Service Url",
+                  "type": "string"
+                },
+                "sample_url": {
+                  "title": "Sample Url",
+                  "type": "string"
+                },
+                "sample_language": {
+                  "const": "ar",
+                  "title": "Sample Language",
+                  "type": "string"
+                },
+                "sample_status": {
+                  "enum": [
+                    "available",
+                    "arabic_only"
+                  ],
+                  "title": "Sample Status",
+                  "type": "string"
+                },
+                "terms_url": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "default": null,
+                  "title": "Terms Url"
+                },
+                "delivery": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "default": null,
+                  "title": "Delivery"
+                },
+                "limits": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "default": null,
+                  "title": "Limits"
+                },
+                "packages": {
+                  "items": {
+                    "$ref": "#/$defs/PackageOutput"
+                  },
+                  "title": "Packages",
+                  "type": "array"
+                },
+                "match_score": {
+                  "anyOf": [
+                    {
+                      "type": "integer"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "default": null,
+                  "title": "Match Score"
+                }
+              },
+              "required": [
+                "service_id",
+                "name",
+                "summary",
+                "for_whom",
+                "service_url",
+                "sample_url",
+                "sample_language",
+                "sample_status"
+              ],
+              "title": "ServiceOutput",
+              "type": "object"
+            }
+          },
+          "additionalProperties": false,
+          "title": "MatchServiceOutput"
+        },
+        "title": "Route a business need to a public service"
+      },
+      {
+        "annotations": {
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": true,
+          "readOnlyHint": true
+        },
+        "description": "Use only when a user asks to inspect a public website. Measures bounded page, robots, structured-data, sitemap, and experimental llms.txt signals. It does not measure AI mentions, rank, visibility, firewall passage, or sales.",
+        "inputSchema": {
+          "properties": {
+            "url": {
+              "description": "Public HTTP(S) website; private networks, credentials, and unusual ports are rejected.",
+              "examples": [
+                "https://example.com"
+              ],
+              "maxLength": 2048,
+              "minLength": 4,
+              "title": "Url",
+              "type": "string"
+            },
+            "language": {
+              "default": "ar",
+              "description": "Response language: ar or en.",
+              "enum": [
+                "ar",
+                "en"
+              ],
+              "title": "Language",
+              "type": "string"
+            }
+          },
+          "required": [
+            "url"
+          ],
+          "type": "object",
+          "additionalProperties": false,
+          "title": "tool_check_basicsArguments"
+        },
+        "name": "advisors_site_check_basics",
+        "outputSchema": {
+          "properties": {
+            "ok": {
+              "title": "Ok",
+              "type": "boolean"
+            },
+            "status": {
+              "enum": [
+                "complete",
+                "partial",
+                "target_rejected",
+                "busy",
+                "check_unavailable"
+              ],
+              "title": "Status",
+              "type": "string"
+            },
+            "message": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Message"
+            },
+            "measurement": {
+              "anyOf": [
+                {
+                  "const": "declared_public_page_machine_basics",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Measurement"
+            },
+            "checked_origin": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Checked Origin"
+            },
+            "score_percent": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Score Percent"
+            },
+            "coverage_percent": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Coverage Percent"
+            },
+            "signals": {
+              "items": {
+                "$ref": "#/$defs/SignalOutput"
+              },
+              "title": "Signals",
+              "type": "array"
+            },
+            "miss_count": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Miss Count"
+            },
+            "unchecked_count": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Unchecked Count"
+            },
+            "errors": {
+              "items": {
+                "type": "string"
+              },
+              "title": "Errors",
+              "type": "array"
+            },
+            "external_data_policy": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "External Data Policy"
+            },
+            "measured_at_utc": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Measured At Utc"
+            },
+            "scope": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Scope"
+            },
+            "not_measured": {
+              "items": {
+                "type": "string"
+              },
+              "title": "Not Measured",
+              "type": "array"
+            },
+            "next_step": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/ServiceOutput"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null
+            },
+            "separate_live_measurement": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/ServiceOutput"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null
+            }
+          },
+          "required": [
+            "ok",
+            "status"
+          ],
+          "type": "object",
+          "$defs": {
+            "EligibilityOutput": {
+              "additionalProperties": false,
+              "properties": {
+                "kind": {
+                  "title": "Kind",
+                  "type": "string"
+                },
+                "service_id": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "default": null,
+                  "title": "Service Id"
+                },
+                "allowed_package_ids": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "title": "Allowed Package Ids",
+                  "type": "array"
+                },
+                "minimum_age_days": {
+                  "anyOf": [
+                    {
+                      "type": "integer"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "default": null,
+                  "title": "Minimum Age Days"
+                }
+              },
+              "required": [
+                "kind"
+              ],
+              "title": "EligibilityOutput",
+              "type": "object"
+            },
+            "PackageOutput": {
+              "additionalProperties": false,
+              "properties": {
+                "package_id": {
+                  "title": "Package Id",
+                  "type": "string"
+                },
+                "service_id": {
+                  "enum": [
+                    "store-assistant",
+                    "store-audit",
+                    "ai-visibility",
+                    "custom-monitor",
+                    "agent-team"
+                  ],
+                  "title": "Service Id",
+                  "type": "string"
+                },
+                "name": {
+                  "title": "Name",
+                  "type": "string"
+                },
+                "billing_kind": {
+                  "enum": [
+                    "fixed",
+                    "quote_required",
+                    "recurring"
+                  ],
+                  "title": "Billing Kind",
+                  "type": "string"
+                },
+                "currency": {
+                  "title": "Currency",
+                  "type": "string"
+                },
+                "price_usd": {
+                  "anyOf": [
+                    {
+                      "type": "integer"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "default": null,
+                  "title": "Price Usd"
+                },
+                "base_price_usd": {
+                  "anyOf": [
+                    {
+                      "type": "integer"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "default": null,
+                  "title": "Base Price Usd"
+                },
+                "billing_interval": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "default": null,
+                  "title": "Billing Interval"
+                },
+                "product_package": {
+                  "title": "Product Package",
+                  "type": "string"
+                },
+                "eligibility": {
+                  "$ref": "#/$defs/EligibilityOutput"
+                }
+              },
+              "required": [
+                "package_id",
+                "service_id",
+                "name",
+                "billing_kind",
+                "currency",
+                "product_package",
+                "eligibility"
+              ],
+              "title": "PackageOutput",
+              "type": "object"
+            },
+            "ServiceOutput": {
+              "additionalProperties": false,
+              "properties": {
+                "service_id": {
+                  "enum": [
+                    "store-assistant",
+                    "store-audit",
+                    "ai-visibility",
+                    "custom-monitor",
+                    "agent-team"
+                  ],
+                  "title": "Service Id",
+                  "type": "string"
+                },
+                "name": {
+                  "title": "Name",
+                  "type": "string"
+                },
+                "summary": {
+                  "title": "Summary",
+                  "type": "string"
+                },
+                "for_whom": {
+                  "title": "For Whom",
+                  "type": "string"
+                },
+                "service_url": {
+                  "title": "Service Url",
+                  "type": "string"
+                },
+                "sample_url": {
+                  "title": "Sample Url",
+                  "type": "string"
+                },
+                "sample_language": {
+                  "const": "ar",
+                  "title": "Sample Language",
+                  "type": "string"
+                },
+                "sample_status": {
+                  "enum": [
+                    "available",
+                    "arabic_only"
+                  ],
+                  "title": "Sample Status",
+                  "type": "string"
+                },
+                "terms_url": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "default": null,
+                  "title": "Terms Url"
+                },
+                "delivery": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "default": null,
+                  "title": "Delivery"
+                },
+                "limits": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "default": null,
+                  "title": "Limits"
+                },
+                "packages": {
+                  "items": {
+                    "$ref": "#/$defs/PackageOutput"
+                  },
+                  "title": "Packages",
+                  "type": "array"
+                },
+                "match_score": {
+                  "anyOf": [
+                    {
+                      "type": "integer"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "default": null,
+                  "title": "Match Score"
+                }
+              },
+              "required": [
+                "service_id",
+                "name",
+                "summary",
+                "for_whom",
+                "service_url",
+                "sample_url",
+                "sample_language",
+                "sample_status"
+              ],
+              "title": "ServiceOutput",
+              "type": "object"
+            },
+            "SignalOutput": {
+              "additionalProperties": false,
+              "properties": {
+                "key": {
+                  "title": "Key",
+                  "type": "string"
+                },
+                "ok": {
+                  "anyOf": [
+                    {
+                      "type": "boolean"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "title": "Ok"
+                },
+                "detail": {
+                  "title": "Detail",
+                  "type": "string"
+                },
+                "weight": {
+                  "title": "Weight",
+                  "type": "integer"
+                },
+                "evidence": {
+                  "title": "Evidence",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "key",
+                "ok",
+                "detail",
+                "weight",
+                "evidence"
+              ],
+              "title": "SignalOutput",
+              "type": "object"
+            }
+          },
+          "additionalProperties": false,
+          "title": "ReadabilityOutput"
+        },
+        "title": "Check declared public-page machine basics"
+      },
+      {
+        "annotations": {
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": false,
+          "readOnlyHint": true
+        },
+        "description": "Use only after the user explicitly selects a package returned by the service tool. Returns the ordinary login/request link; it does not create an order, confirm eligibility, or charge anything.",
+        "inputSchema": {
+          "properties": {
+            "package_id": {
+              "description": "Published package id returned by advisors_catalog_get_service.",
+              "examples": [
+                "store-audit.first-audit"
+              ],
+              "maxLength": 120,
+              "minLength": 3,
+              "pattern": "^[a-z0-9-]+\\.[a-z0-9-]+$",
+              "title": "Package Id",
+              "type": "string"
+            },
+            "language": {
+              "default": "ar",
+              "description": "Request-page language: ar or en.",
+              "enum": [
+                "ar",
+                "en"
+              ],
+              "title": "Language",
+              "type": "string"
+            }
+          },
+          "required": [
+            "package_id"
+          ],
+          "type": "object",
+          "additionalProperties": false,
+          "title": "tool_prepare_linkArguments"
+        },
+        "name": "advisors_order_prepare_link",
+        "outputSchema": {
+          "properties": {
+            "ok": {
+              "const": true,
+              "title": "Ok",
+              "type": "boolean"
+            },
+            "status": {
+              "const": "request_link_prepared",
+              "title": "Status",
+              "type": "string"
+            },
+            "package": {
+              "$ref": "#/$defs/PackageOutput"
+            },
+            "request_url": {
+              "title": "Request Url",
+              "type": "string"
+            },
+            "creates_order": {
+              "const": false,
+              "title": "Creates Order",
+              "type": "boolean"
+            },
+            "charges_customer": {
+              "const": false,
+              "title": "Charges Customer",
+              "type": "boolean"
+            },
+            "eligibility_status": {
+              "const": "server_verifies_at_request_time",
+              "title": "Eligibility Status",
+              "type": "string"
+            },
+            "attribution_status": {
+              "const": "not_bound_to_order",
+              "title": "Attribution Status",
+              "type": "string"
+            }
+          },
+          "required": [
+            "ok",
+            "status",
+            "package",
+            "request_url",
+            "creates_order",
+            "charges_customer",
+            "eligibility_status",
+            "attribution_status"
+          ],
+          "type": "object",
+          "$defs": {
+            "EligibilityOutput": {
+              "additionalProperties": false,
+              "properties": {
+                "kind": {
+                  "title": "Kind",
+                  "type": "string"
+                },
+                "service_id": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "default": null,
+                  "title": "Service Id"
+                },
+                "allowed_package_ids": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "title": "Allowed Package Ids",
+                  "type": "array"
+                },
+                "minimum_age_days": {
+                  "anyOf": [
+                    {
+                      "type": "integer"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "default": null,
+                  "title": "Minimum Age Days"
+                }
+              },
+              "required": [
+                "kind"
+              ],
+              "title": "EligibilityOutput",
+              "type": "object"
+            },
+            "PackageOutput": {
+              "additionalProperties": false,
+              "properties": {
+                "package_id": {
+                  "title": "Package Id",
+                  "type": "string"
+                },
+                "service_id": {
+                  "enum": [
+                    "store-assistant",
+                    "store-audit",
+                    "ai-visibility",
+                    "custom-monitor",
+                    "agent-team"
+                  ],
+                  "title": "Service Id",
+                  "type": "string"
+                },
+                "name": {
+                  "title": "Name",
+                  "type": "string"
+                },
+                "billing_kind": {
+                  "enum": [
+                    "fixed",
+                    "quote_required",
+                    "recurring"
+                  ],
+                  "title": "Billing Kind",
+                  "type": "string"
+                },
+                "currency": {
+                  "title": "Currency",
+                  "type": "string"
+                },
+                "price_usd": {
+                  "anyOf": [
+                    {
+                      "type": "integer"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "default": null,
+                  "title": "Price Usd"
+                },
+                "base_price_usd": {
+                  "anyOf": [
+                    {
+                      "type": "integer"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "default": null,
+                  "title": "Base Price Usd"
+                },
+                "billing_interval": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "default": null,
+                  "title": "Billing Interval"
+                },
+                "product_package": {
+                  "title": "Product Package",
+                  "type": "string"
+                },
+                "eligibility": {
+                  "$ref": "#/$defs/EligibilityOutput"
+                }
+              },
+              "required": [
+                "package_id",
+                "service_id",
+                "name",
+                "billing_kind",
+                "currency",
+                "product_package",
+                "eligibility"
+              ],
+              "title": "PackageOutput",
+              "type": "object"
+            }
+          },
+          "additionalProperties": false,
+          "title": "RequestLinkOutput"
+        },
+        "title": "Prepare a normal request link for a selected package"
+      }
+    ]
+  }
+}

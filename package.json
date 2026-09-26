@@ -1,0 +1,28 @@
+{
+  "name": "interpres",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Make any MCP server talkable with AssemblyAI's Voice Agent API",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "test": "node --test 'packages/*/test/**/*.test.ts' 'apps/*/test/**/*.test.ts'",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "dev": "node apps/server/src/index.ts",
+    "sweep": "node scripts/sweep.ts",
+    "e2e": "node scripts/e2e.ts",
+    "proof": "node scripts/proof.ts",
+    "test:core": "node --test 'packages/core/test/*.test.ts'"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.3",
+    "typescript": "^7.0.2"
+  }
+}

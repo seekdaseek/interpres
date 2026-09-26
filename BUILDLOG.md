@@ -128,3 +128,166 @@ voice-agent-api-twilio-example (2026-07-30), bluejay-aai-bridge (2026-09-04)
 ```
 
 **UNTESTED so far:** the WebSocket session itself. No `session.ready` has been observed — only the token mint. `scripts/e2e.ts` (step 4) is the test that proves it, and CHECKPOINT A is where that evidence lands.
+
+---
+
+## 2026-09-26 - step 2: the converter (`packages/core`)
+
+No build step anywhere: Node 24.16.0 runs `.ts` directly and `node --test` runs
+`.ts` test files, so the tests exercise the same source the server imports.
+
+```
+$ node t.ts                       -> ts-direct-ok 42
+$ node --test t.test.ts           -> pass 1
+```
+
+### Fixtures: real `tools/list` output from three live servers
+
+`scripts/capture-fixture.ts` writes them, deliberately **not** using
+`packages/core`'s own MCP client - a fixture produced by the code under test
+proves nothing.
+
+```
+$ node scripts/capture-fixture.ts assemblyai-docs-mcp https://www.assemblyai.com/docs/mcp
+3 tools, server "AssemblyAI" v1.0.0, session=stateless
+$ node scripts/capture-fixture.ts advisorsai-service-navigator https://advisorsai.ai/mcp
+5 tools, server "advisors-ai-service-navigator" v2026-08-21.5, session=stateless
+$ node scripts/capture-fixture.ts afg-marketplace https://afg.ai/mcp
+15 tools, server "afg" v0.1.0, session=stateful, $ref=7 $defs=7 allOf=0 anyOf=30
+```
+
+### Four findings from the real data that changed the design
+
+1. **`anyOf` is the real-world case; `allOf` barely exists.** Across the first
+   100 registry entries, `allOf` appeared **0** times and `anyOf` **hundreds** of
+   times - it is what Pydantic and Zod emit for every optional field, as
+   `anyOf: [{type: T}, {type: "null"}]` with `default: null`. The brief plans for
+   `$ref`/`$defs`/`allOf` only. All four are handled, with the nullable unwrap
+   carrying the weight: 30 of them in the afg fixture alone.
+
+2. **My first complexity measurement was wrong, and a control caught it.** I
+   counted `$ref`/`anyOf` over each tool's whole JSON blob and picked fixtures on
+   that basis. Re-measuring `inputSchema` only:
+   `advisorsai INPUT: anyOf=0 $ref=0 / OUTPUT: anyOf=57 $ref=16`. Every one of
+   those 57 was in `outputSchema`, which the converter never touches. The hard
+   input schemas are in the afg fixture, which is why it is there.
+
+3. **Unwrapping a nullable must drop `default: null`.** Left in place the output
+   said `{"type": "string", "default": null}` - a default the property's own type
+   forbids, shown to the model as a legal value. Now dropped; legitimate
+   defaults like `default: ""` survive. Test: *unwrapping a nullable drops the
+   null default it came with*.
+
+4. **Stateful MCP servers need the session id AND `notifications/initialized`.**
+   Two servers answered `initialize` and then failed `tools/list` with
+   `Bad Request: Missing session ID`. My first probe captured the
+   `Mcp-Session-Id` header and never sent it back. With the header forwarded and
+   the `initialized` notification sent, both now list tools (`afg.ai` 15,
+   `agentberg.ai` 11). The sweep would have written these off as broken servers
+   and under-reported the reachable count.
+
+### The pattern judge, and the bug a control found in it
+
+`judgePattern` decides whether a `pattern` is safe to forward. The control set
+is the docs' own "good values" table, every row of which must survive, plus the
+one pattern the docs call broken, which must not.
+
+First attempt gated on **total digits in the example** at a threshold of 7. A
+deliberately-escaped inline test looked like it disagreed with the docs on four
+rows; the escaping was mangled, but re-running it properly in a file showed the
+rule really was wrong:
+
+```
+MISS docs "good value" survives: E.164 phone
+  -> accepts "+14155552671" but rejects all 3 spoken forms of it
+```
+
+`+14155552671` holds 11 digits, so a total-digit rule condemns a pattern the
+docs explicitly endorse. The fix: gate on the longest **contiguous** run the
+pattern *insists* on, read off the **lower** bound of its quantifiers. That one
+choice separates the two classes cleanly:
+
+| pattern | insists on | verdict |
+|---|---|---|
+| `\d{5}(-\d{4})?` (ZIP) | 5 | keep |
+| `\+[1-9]\d{1,14}` (E.164) | **1** | keep |
+| `[A-Z]{2}-\d{5}` (order ID) | 5 | keep |
+| `\d{4}-\d{2}-\d{2}` (ISO date) | 4 | keep |
+| ` *([0-9] *){13,19}` (docs' spoken card) | 0, and allows spaces | keep |
+| `\d{16}` (the docs' broken example) | 16 | **drop** + `strip_non_digits` |
+| `\d{13,19}` | 13 | **drop** + `strip_non_digits` |
+| `\d{4}\d{4}\d{4}\d{4}` | 16 (summed) | **drop** + `strip_non_digits` |
+
+Threshold 10, with tests pinning both sides (`\d{9}` keeps, `\d{10}` drops) so
+moving it cannot pass unnoticed. When a pattern is dropped the shape is written
+into the property description instead and a `strip_non_digits` normaliser is
+recorded against that argument path.
+
+### Ranking: measured, not asserted
+
+BM25-lite, no embeddings. Two real bugs came out of evaluating it against the
+three fixtures instead of eyeballing it:
+
+- *"dispute the outcome"* ranked `afg_get_reputation` above `afg_dispute`,
+  because raw term frequency let a description that says "disputed" and
+  "outcome" outweigh the tool actually named `dispute`. Fixed by scoring
+  **presence per field** rather than frequency: name, description and property
+  names each contribute their weight once.
+- The stemmer sent `dispute` -> `dispute` but `disputed` -> `disput`, so the word
+  family did not match itself. Fixed by stripping a trailing `e` last, which
+  sends dispute / disputes / disputed all to `disput`.
+
+Measured over 19 spoken queries across all three catalogs:
+
+```
+top-1 accuracy: 17/19 (89%)
+recall@9:       19/19 (100%)
+```
+
+recall@9 is the number that matters, because `find_tools` reveals nine tools at
+once. Both top-1 misses are synonym gaps a keyword ranker cannot close - "throw
+away that wallet" for `afg_discard_wallet`, "tell me about that one service" for
+`advisors_catalog_get_service` - and in both the right tool is still second.
+Both numbers are asserted in `rank.test.ts`.
+
+### One deliberate deviation from the brief
+
+The brief says "Always expose a meta-tool, `find_tools(query)`, plus up to 9
+catalog tools." When the whole catalog already fits in 10, `find_tools` spends
+one of ten slots to answer "you already have all of them", and gives the model a
+wrong turn to take. So: catalog <= 10 exposes every tool and no `find_tools`;
+catalog > 10 exposes `find_tools` plus the 9 best. Above 10 it is also forced -
+10 catalog tools plus `find_tools` would be 11.
+
+### Converter output on the three real catalogs
+
+```
+assemblyai-docs-mcp   3/3 converted, 1 description truncated (3405 chars -> 1024)
+advisorsai            5/5 converted, 5 with hints, 1 pattern kept
+afg-marketplace      15/15 converted, 7 $refs resolved, 30 nullables unwrapped
+                                      23/23 tools total, 0 failures
+```
+
+### Tests
+
+```
+$ npm test
+ℹ tests 142
+ℹ pass 142
+ℹ fail 0
+
+$ npx tsc --noEmit -p tsconfig.json
+(clean)
+```
+
+The suite asserts the API's own contract on every tool of every fixture: `type`,
+`name`, `description` and `parameters` all present; `name` inside
+`[A-Za-z0-9_-]{1,64}`; `parameters.type === "object"`; every property carrying a
+description; `required` naming only properties that exist; and **no** `$ref`,
+`$defs`, `allOf`, `anyOf`, `oneOf`, `$schema` or `title` surviving into the
+output. Two fixture-drift guards fail loudly if a re-capture turns a hard
+fixture into an easy one (`>= 7` refs and `>= 25` nullables in afg).
+
+**UNTESTED at this point:** everything over the wire. No `session.ready` has been
+observed and no `tool.call` has ever arrived. `scripts/e2e.ts` in step 4 is the
+test that proves it; CHECKPOINT A is where that evidence goes.
