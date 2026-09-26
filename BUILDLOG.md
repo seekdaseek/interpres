@@ -1465,3 +1465,48 @@ asked for `max_memory_restart: '250M'` on `interpres`. The box has about 1 GB
 free (999 MB available, 1,717 of 2,047 MB swap in use at 13:46 UTC per his
 solwatch check), so a leak here must be recycled before it can starve the
 protected services. Committed before shipping, so HEAD is what runs.
+
+---
+
+## 2026-09-26 - step 9: deployed to interpres.ochinimus.app
+
+Shipped HEAD `bea7324`, following the CHECKPOINT C plan and Sergiu's go
+(`~/Desktop/interpres-checkpoint-C.md`). The dedicated tunnel replaced the
+config.yml edit and SIGHUP. No signal was sent to any existing cloudflared, and
+no process other than `interpres` and `interpres-tunnel` was started, stopped or
+edited.
+
+```
+step 0  3031 free, 3032 free; /opt/interpres and interpres.yml absent; no tunnel named interpres
+        free -m before: available 1961 MB, swap 1700/2047 MB; PM2: 43 processes
+step 1  git archive HEAD (+ dist, no macOS metadata) -> /opt/interpres: 36 files
+        npm ci --omit=dev: hono 4.13.9, @hono/node-server 2.1.1, MCP SDK 1.30.1, undici 8.11.2; no vite, no typescript
+step 2  .env: 52 bytes, mode 600 root (value never printed)
+step 3  scratch boot, node v22.23.1, 127.0.0.1:3032:
+        200 /api/health   200 6108B /   presets: 6   token minted, length 2462 (value never printed)
+        no warning in its log; afterwards 3032 free, no serve.ts process left
+step 4  pm2 interpres: pid 3618430, online, 0 restarts, serve.ts via node --env-file, max_memory_restart 250M
+        listener 127.0.0.1:3031 only (no 0.0.0.0 or [::] bind); log: "limits: 6/IP/hour, 100/day global"
+step 5  tunnel interpres e2f8f68d-3423-4e88-9132-f12d9e995a65, credentials mode 400
+        ingress validate: OK; ingress rule https://interpres.ochinimus.app: Matched rule #0 -> http://127.0.0.1:3031
+        route dns --overwrite-dns <UUID>: "Added CNAME interpres.ochinimus.app ... tunnelID=e2f8f68d-..." (the right tunnel)
+        pm2 interpres-tunnel: pid 3618535; 4 edge connections (fra19, prg01, fra18, prg01)
+        /root/.cloudflared/config.yml untouched (mtime 2026-09-08)
+step 6  from the VPS and from the Mac, identical:
+          200 https://interpres.ochinimus.app/        200 https://interpres.ochinimus.app/api/health
+          200 https://x402.ochinimus.app/             405 https://mcp.ochinimus.app/mcp (405 before too)
+          200 https://alibi.ochinimus.app             200 https://nomen.ochinimus.app/health
+        PM2 diff, before -> after: exactly two new rows; every other process kept its pid and restart count
+          > interpres 3618430 0 online
+          > interpres-tunnel 3618535 0 online
+        free -m after: available 1888 MB, swap 1694/2047 MB; RSS interpres 102.3 MB, interpres-tunnel 39.9 MB
+```
+
+**End to end through the public URL:**
+- `POST /api/mcp/connect` on Most Recommended Books: 6 tools.
+- `POST /api/mcp/call get_series_reading_order {"series":"Dune"}`: no error, mcp 826 ms, "Dune - 6 books in publication order: ...".
+- `GET /api/token`: minted (length only).
+- In a browser at the public URL: `/api/presets` 200, connect 200, "7 of 10" tools shown, no console errors. The response carries no CSP header, so nothing blocks the Voice Agent WebSocket.
+
+UNTESTED: a spoken session through the public URL, which needs a microphone.
+That is Sergiu's device test, on his phone and on the Mac.
