@@ -73,3 +73,8 @@
 {"at":"2026-09-26T14:10:11.659Z","kind":"mcp.connect","url":"https://mostrecommendedbooks.com/api/mcp","ms":1092,"ok":true,"transport":"streamable-http","toolsIn":6,"toolsConverted":6,"failed":0}
 {"at":"2026-09-26T14:10:14.967Z","kind":"token.minted","ms":250,"maxSessionDurationSeconds":300,"remainingForClient":118,"globalRemaining":398}
 {"at":"2026-09-26T14:18:36.607Z","kind":"mcp.connect","url":"https://recipes-daily.com/mcp","ms":585,"ok":true,"transport":"streamable-http","toolsIn":3,"toolsConverted":3,"failed":0}
+{"at":"2026-09-26T14:54:03.094Z","kind":"starters","url":"https://mostrecommendedbooks.com/api/mcp","source":"gateway","ms":982,"count":3}
+{"at":"2026-09-26T14:54:03.975Z","kind":"starters","url":"https://recipes-daily.com/mcp","source":"gateway","ms":414,"count":3}
+{"at":"2026-09-26T14:54:04.360Z","kind":"starters","url":"https://weather.datakoot.com/mcp","source":"template","ms":212,"reason":"rate_limited","count":3}
+{"at":"2026-09-26T14:54:13.791Z","kind":"mcp.cache.hit","url":"https://mostrecommendedbooks.com/api/mcp","ms":2,"ok":true,"transport":"streamable-http","toolsIn":6,"toolsConverted":6,"failed":0}
+{"at":"2026-09-26T14:54:44.720Z","kind":"mcp.cache.hit","url":"https://mostrecommendedbooks.com/api/mcp","ms":1,"ok":true,"transport":"streamable-http","toolsIn":6,"toolsConverted":6,"failed":0}
