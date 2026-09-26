@@ -105,13 +105,6 @@ test('localhost is blocked through DNS, not only as a literal', async () => {
   assert.ok(['blocked_address', 'dns_failed'].includes(await code('https://localhost/mcp')));
 });
 
-test('a real public MCP URL is allowed and its addresses recorded', async () => {
-  const t = await verifyUrl('https://www.assemblyai.com/docs/mcp');
-  assert.equal(t.url.protocol, 'https:');
-  assert.ok(t.addresses.length > 0, 'resolved addresses must be recorded for pinning');
-  for (const a of t.addresses) assert.equal(isPublicAddress(a.address), true);
-});
-
 // ------------------------------------------------------------ response policy
 
 const res = (status: number, body: string | null = '', headers: Record<string, string> = {}) =>
@@ -175,10 +168,3 @@ test('guardedFetch refuses a blocked target before opening a socket', async () =
   }
 });
 
-test('guardedFetch reaches a real public host and enforces the cap', async () => {
-  const r = await guardedFetch('https://www.assemblyai.com/docs/llms.txt');
-  assert.equal(r.status, 200);
-  const text = await r.text();
-  assert.ok(text.length > 1000, `expected real content, got ${text.length} bytes`);
-  assert.ok(text.length <= MAX_RESPONSE_BYTES);
-});

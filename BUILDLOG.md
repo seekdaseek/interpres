@@ -1208,3 +1208,36 @@ UNTESTED; whether it holds for Sergiu's own voice is still his to try.
 $ npm test          ℹ tests 296  ℹ pass 296  ℹ fail 0
 $ npm run build     JS 36.2 kB (14.1 kB gzip), CSS 11.7 kB
 ```
+
+---
+
+## 2026-09-26 - task 3: `npm test` is hermetic
+
+Sergiu's fresh clone of `a9a86be` under Node 22.22 with no egress passed 247 of
+252. Six tests touch the network, not five: the four `api.test.ts` MCP calls he
+named, the public-host fetch in `ssrf.test.ts`, and a DNS-only lookup of a public
+host in the same file (which passes where DNS works and TCP does not - likely why
+it did not fail for him). All six now live in `api.live.ts` and `ssrf.live.ts`,
+which the `*.test.ts` glob does not match, behind `npm run test:live`.
+
+Two more reached AssemblyAI's token endpoint through the server. They passed
+offline because a 502 was an accepted answer, but against a firewall that drops
+rather than refuses they would have waited on connect timeouts. Their upstream is
+now a closed local port (`AGENTS_API=http://127.0.0.1:9`), so they fail fast
+everywhere. Moving the live tests also exposed a race: "a client address is never
+written to the event log" had only passed because earlier live tests had already
+written lines; it now waits up to 2 s for the async append instead of reading once.
+
+Proved with macOS `sandbox-exec -p '(version 1)(allow default)(deny network-outbound)'`,
+controls first:
+
+```
+control 1: curl inside the sandbox        -> curl: (6) Could not resolve host: example.com
+control 2: npm run test:live, sandboxed   -> ℹ tests 6    ℹ pass 0    ℹ fail 6
+           npm test, sandboxed            -> ℹ tests 290  ℹ pass 290  ℹ fail 0   (7 s)
+           npm test, three runs unsandboxed: 290/290 each
+           npm run test:live, unsandboxed -> ℹ tests 6    ℹ pass 6
+```
+
+UNTESTED here: Node 22.22 specifically - only Node 24.16 is installed on this Mac.
+The test is Sergiu's fresh-clone run again.

@@ -103,6 +103,17 @@ does not verify the middle. The confirmed spoken address above still carried its
 `c8e` -> `cad` error, because the last four were right. Read the value on the
 card - or paste it.
 
+## Tests
+
+```bash
+npm test            # 290 tests, no network needed: runs offline
+npm run test:live   # 6 more that reach www.assemblyai.com and afg.ai
+```
+
+`npm test` is hermetic: it passes inside a macOS sandbox that denies all
+outbound network (`sandbox-exec -p '(version 1)(allow default)(deny network-outbound)' npm test`),
+where the live suite fails 6 of 6.
+
 ## Status
 
 Under construction for the lablab.ai AssemblyAI Voice Agent Hackathon

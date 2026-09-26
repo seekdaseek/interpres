@@ -21,7 +21,8 @@
     "proof": "node scripts/proof.ts",
     "test:core": "node --test 'packages/core/test/*.test.ts'",
     "dev:local": "RATE_PER_IP_HOUR=120 node --env-file=.env apps/server/src/index.ts",
-    "build": "npm run build -w @interpres/web"
+    "build": "npm run build -w @interpres/web",
+    "test:live": "node --test 'apps/*/test/**/*.live.ts' 'packages/*/test/**/*.live.ts'"
   },
   "devDependencies": {
     "@types/node": "^26.6.3",
