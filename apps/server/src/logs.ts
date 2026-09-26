@@ -64,6 +64,34 @@ export function scrub(record: Record<string, unknown>): Record<string, unknown> 
   return out;
 }
 
+/**
+ * The fields /api/status may show to anyone. A whitelist, so a field added
+ * later stays private until someone decides otherwise. Left out on purpose:
+ * `url`, because a pasted MCP URL can carry a key in its path (Zapier's do), so
+ * only its host is shown; `query`, which is what someone said; and every
+ * free-text error, which can quote either.
+ */
+const PUBLIC_FIELDS = new Set([
+  'at', 'kind', 'ok', 'ms', 'mcpMs', 'code', 'status', 'reason', 'retryAfterSeconds',
+  'maxSessionDurationSeconds', 'remainingForClient', 'globalRemaining',
+  'transport', 'toolsIn', 'toolsConverted', 'failed',
+  'voiceName', 'mcpName', 'revealed', 'carried', 'top',
+  'normalisersApplied', 'rawChars', 'spokenChars', 'shaped', 'method', 'refine', 'refineMs',
+]);
+
+export function publicEvent(event: Event): Record<string, unknown> {
+  const out: Record<string, unknown> = {};
+  for (const [k, v] of Object.entries(event)) if (PUBLIC_FIELDS.has(k)) out[k] = v;
+  if (typeof event.url === 'string') {
+    try {
+      out.host = new URL(event.url).host;
+    } catch {
+      // Not a URL: show nothing rather than the raw string.
+    }
+  }
+  return out;
+}
+
 export class EventLog {
   readonly path: string;
   private ready: Promise<void> | null = null;

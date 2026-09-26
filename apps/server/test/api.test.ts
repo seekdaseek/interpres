@@ -86,6 +86,19 @@ test('status reports counters without leaking anything', async () => {
   assert.ok(!JSON.stringify(body).match(/[A-Za-z0-9]{32}/), 'no 32-char secret-shaped string may appear');
 });
 
+test('status shows the host of a failed connect, never its path secret or a spoken query', async () => {
+  const secret = 'hooks_0a1b2c3d4e5f60718293a4b5c6d7e8f9';
+  const url = `https://mcp.zapier.example/api/mcp/s/${secret}/mcp`;
+  const r = await post('/api/mcp/connect', { url });
+  assert.ok(r.status >= 400, `a .example host cannot connect, got ${r.status}`);
+  await post('/api/mcp/find-tools', { url, query: 'the wallet I pasted' });
+  const status = await (await get('/api/status')).json();
+  const text = JSON.stringify(status);
+  assert.ok(status.recent.some((e: { host?: string }) => e.host === 'mcp.zapier.example'), 'positive control: the failed connect is in the tail');
+  assert.ok(!text.includes(secret), 'the path secret must not appear');
+  assert.ok(!text.includes('wallet I pasted'), 'the query must not appear');
+});
+
 test('the token route enforces its limit rather than minting forever', async () => {
   // No valid key is configured in tests, so upstream fails - but the limiter
   // runs first, which is the behaviour under test.

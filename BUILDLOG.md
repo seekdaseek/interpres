@@ -1241,3 +1241,72 @@ control 2: npm run test:live, sandboxed   -> ℹ tests 6    ℹ pass 0    ℹ fa
 
 UNTESTED here: Node 22.22 specifically - only Node 24.16 is installed on this Mac.
 The test is Sergiu's fresh-clone run again.
+
+---
+
+## 2026-09-26 - deploy prep: three problems found while writing the CHECKPOINT C plan
+
+Nothing on the VPS was changed. The only box commands were read-only (`ss`,
+`pgrep`, `/proc/<pid>/status`, file names under `/root/.cloudflared`).
+
+**1. Under PM2 the server would never have listened.** index.ts starts only when
+`import.meta.url === file://argv[1]`. PM2's fork mode runs
+`node <pm2>/lib/ProcessContainerFork.js` and `import()`s the script from there
+(read in the pm2 7.0.1 tarball, the version on the box), so argv[1] is PM2's
+file. Replayed through that exact container file (`pmx=false` skips only its
+metrics module, whose `debug` dependency is not in the tarball; the argv and
+import path are untouched):
+
+```
+index.ts via ProcessContainerFork.js  -> exit=0 after 1s, nothing printed   (PM2 restarts that forever)
+serve.ts via ProcessContainerFork.js  -> interpres listening on http://127.0.0.1:3099
+  200 application/json /api/health    200 text/html /    200 application/json /api/presets
+  404 text/plain /assets/does-not-exist.js    404 application/json /api/nope
+  listener: node 127.0.0.1:3099       still serving at 15 s (gtimeout exit 124)
+```
+
+Fix: index.ts exports `start()`; `apps/server/src/serve.ts` calls it; `node
+apps/server/src/index.ts` still works for dev. PM2 also maps `.ts` to **bun** by
+default (`lib/API/interpreter.json`), so `ops/ecosystem.config.cjs` sets
+`interpreter: 'node'` - the same shape visum-demo runs on the box today.
+`test/entry.test.ts` imports both entries the way PM2 does: serve.ts must bind,
+index.ts must stay silent and exit 0 (the negative control).
+
+**2. `/api/status` would have published visitors' MCP URLs and what they said.**
+Its `recent` tail carried the full `url` of every connect and the `query` of
+every find_tools. Some MCP URLs hold a key in the path (Zapier's
+`/api/mcp/s/<key>/mcp`). `publicEvent()` is now a whitelist: the host instead of
+the URL, no query, no free-text error, and any field added later stays private
+until listed. The on-disk log is unchanged (gitignored, on the box only).
+
+**3. The brief's tunnel steps would have taken down every tunnel on the box.**
+- cloudflared 2026.9.3 (commit 96d39ad, the box's version):
+  `cmd/cloudflared/tunnel/signal.go` registers SIGTERM and SIGINT only; no
+  non-vendored file mentions SIGHUP.
+- Go 1.26 runtime: `sigtab_linux_generic.go` gives SIGHUP `_SigNotify +
+  _SigKill`, so an un-notified SIGHUP calls `dieFromSignal`. It survives only if
+  SIGHUP was ignored at start.
+- On the box, all four cloudflared processes (solquest-api, cassum, overhang,
+  visum) show `hup_ignored=0 hup_caught=1` in `/proc/<pid>/status`.
+- So `pkill -HUP -x cloudflared` ends all four, and PM2 then cycles
+  solquest-api-tunnel. The brief forbids that, and cassum-tunnel is protected.
+- And it would not even load the new ingress: config.yml is read only at
+  startup. The config watcher runs only for a bare `cloudflared` invocation
+  (`handleServiceMode` in main.go), and `tunnel run` never takes that path.
+
+Instead: a dedicated tunnel, as cassum, overhang and visum already use
+(`ops/interpres-tunnel.yml`, PM2 `interpres-tunnel`). DNS is routed by UUID with
+`--overwrite-dns`, because `route dns <name>` has twice bound the record to
+solquest-api's UUID on this box.
+
+```
+$ npm test                         ℹ tests 295  ℹ pass 295  ℹ fail 0
+$ sandbox-exec (deny outbound)     ℹ tests 295  ℹ pass 295  ℹ fail 0   (control curl: Could not resolve host)
+$ npm run typecheck                exit 0
+```
+
+UNTESTED:
+- Node 22.23.1, the box's runtime. Only Node 24.16 is on this Mac, so the first
+  deploy step is a scratch boot on the box.
+- `ingress validate` for interpres.yml. There is no cloudflared on this Mac; it
+  runs on the box before anything goes live.

@@ -20,7 +20,7 @@ import {
 import type { Phase, PlannerInput } from '@interpres/core';
 import { config, assertConfigured } from './config.ts';
 import { RateLimiter, clientKey } from './ratelimit.ts';
-import { EventLog } from './logs.ts';
+import { EventLog, publicEvent } from './logs.ts';
 import { getCatalog, cacheStats, invalidate } from './catalog.ts';
 import type { Catalog } from './catalog.ts';
 import { McpError, callTool } from './mcp.ts';
@@ -355,7 +355,7 @@ app.get('/api/status', (c) =>
     },
     cache: cacheStats(),
     rate: { trackedKeys: limiter.trackedKeys, globalUsed: limiter.globalUsed, globalPerDay: limiter.globalPerDay, perIpPerHour: limiter.perIpPerHour },
-    recent: log.tail(30),
+    recent: log.tail(30).map(publicEvent),
   }),
 );
 
@@ -383,8 +383,8 @@ if (existsSync(`${WEB_DIST}/${WEB_ENTRY}`)) {
 
 // ----------------------------------------------------------------- bootstrap
 
-const isMain = process.argv[1] !== undefined && import.meta.url === `file://${process.argv[1]}`;
-if (isMain) {
+/** Binds the server. `serve.ts` calls this for process managers; `node index.ts` does too, below. */
+export function start(): void {
   assertConfigured();
   serve({ fetch: app.fetch, port: config.port, hostname: config.host }, (info) => {
     console.log(`interpres listening on http://${config.host}:${info.port}`);
@@ -393,3 +393,8 @@ if (isMain) {
     console.log(`  web app: ${existsSync(WEB_DIST) ? WEB_DIST : 'not built'}`);
   });
 }
+
+// True only for `node apps/server/src/index.ts`. Under PM2 it is false, because
+// PM2's fork container is argv[1] and imports this file: use serve.ts there.
+const isMain = process.argv[1] !== undefined && import.meta.url === `file://${process.argv[1]}`;
+if (isMain) start();

@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { mkdtemp, readFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { redactIps, scrub, EventLog } from '../src/logs.ts';
+import { redactIps, scrub, EventLog, publicEvent } from '../src/logs.ts';
 
 test('redaction removes a known IPv4 address (the positive control)', () => {
   // G1: prove the matcher fires on a real address before trusting a clean log.
@@ -61,4 +61,26 @@ test('nothing with an IP reaches the file, even when a caller passes one', async
   const text = await readFile(join(dir, 'events.jsonl'), 'utf8');
   for (const ip of ['10.0.0.5', '172.16.4.4', '203.0.113.9']) assert.ok(!text.includes(ip), `${ip} reached the file`);
   assert.match(text, /<ip>/, 'redaction markers are present, so the line was really written');
+});
+
+test('the public view shows a host, never a URL path, a query or an error text', () => {
+  const secret = 'hooks_9f8e7d6c5b4a39281706f5e4d3c2b1a0';
+  const event = {
+    at: '2026-09-26T12:00:00.000Z', kind: 'find_tools' as const,
+    url: `https://mcp.zapier.example/api/mcp/s/${secret}/mcp`,
+    query: 'check the wallet I pasted', error: `fetch failed for /s/${secret}`,
+    revealed: 3, top: ['get_reputation'],
+  };
+  assert.ok(JSON.stringify(event).includes(secret), 'positive control: the raw event holds the secret');
+  const out = publicEvent(event);
+  const text = JSON.stringify(out);
+  assert.ok(!text.includes(secret), 'the path secret must not survive');
+  assert.ok(!text.includes('wallet I pasted'), 'what someone said must not survive');
+  assert.equal(out.host, 'mcp.zapier.example');
+  assert.equal(out.revealed, 3);
+  assert.deepEqual(Object.keys(out).sort(), ['at', 'host', 'kind', 'revealed', 'top']);
+});
+
+test('a field nobody listed stays private', () => {
+  assert.deepEqual(Object.keys(publicEvent({ at: 'x', kind: 'tool.call', futureField: 'anything' })), ['at', 'kind']);
 });

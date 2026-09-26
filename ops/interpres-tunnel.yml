@@ -1,0 +1,15 @@
+# /root/.cloudflared/interpres.yml on solwatch
+#
+# A DEDICATED tunnel for interpres, matching cassum, overhang and visum on this
+# host. The shared /root/.cloudflared/config.yml is not touched, and no running
+# cloudflared is signalled: cloudflared handles only SIGTERM and SIGINT, so a
+# SIGHUP would end every tunnel on the box.
+#
+# <UUID> is filled in by `cloudflared tunnel create interpres`.
+tunnel: <UUID>
+credentials-file: /root/.cloudflared/<UUID>.json
+
+ingress:
+  - hostname: interpres.ochinimus.app
+    service: http://127.0.0.1:3031
+  - service: http_status:404
