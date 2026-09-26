@@ -1,0 +1,351 @@
+{
+  "at": "2026-09-26T10:41:21.219Z",
+  "voice": "Samantha",
+  "carry": true,
+  "results": [
+    {
+      "url": "https://www.assemblyai.com/docs/mcp",
+      "sessionId": "sess_21d1ed7300ff482eac00c7b2e58358fa",
+      "turns": [
+        {
+          "said": "What audio format does the Voice Agent API expect?",
+          "heard": [
+            "What audio format does the voice agent API expect?"
+          ],
+          "calls": [
+            {
+              "callId": "chatcmpl-tool-841efbc856a3a0ad",
+              "name": "search_assembly_ai",
+              "arguments": {
+                "query": "voice agent API audio format"
+              },
+              "callAt": 1790419163789,
+              "mcpName": "search_assembly_ai",
+              "normalisersApplied": [],
+              "rawChars": 31239,
+              "spokenChars": 124,
+              "spoken": "The voice agent API expects audio in PCM16 format by default, but you can also use 8 kHz G.711 μ-law or A-law for telephony.",
+              "method": "llm",
+              "refine": "used",
+              "refineMs": 847,
+              "mcpMs": 1344,
+              "isError": false,
+              "readyAt": 1790419166000,
+              "execMs": 2210,
+              "sentAt": 1790419166001,
+              "transitionDoneAt": 1790419164056,
+              "agentWaitMs": 1945
+            }
+          ],
+          "agentReply": "The voice agent API expects audio in P C M sixteen format by default, but it also supports eight kilohertz G dot seven one one mu-law or A-law for telephony.",
+          "interrupted": false,
+          "startedAt": 1790419157894,
+          "speechEndAt": 1790419161134,
+          "firstAudioAt": 1790419166720,
+          "voiceToVoiceMs": 5586,
+          "idleAt": 1790419177196,
+          "ms": 19302
+        },
+        {
+          "said": "How many tools can an agent have per phase?",
+          "heard": [
+            "How many tools can an agent have per phase?"
+          ],
+          "calls": [
+            {
+              "callId": "chatcmpl-tool-ac4bfb18857dc463",
+              "name": "search_assembly_ai",
+              "arguments": {
+                "query": "how many tools can an agent have per phase"
+              },
+              "callAt": 1790419183017,
+              "mcpName": "search_assembly_ai",
+              "normalisersApplied": [],
+              "rawChars": 19460,
+              "spokenChars": 174,
+              "spoken": "The documentation does not state a specific number of tools an agent can have per phase, but it recommends keeping the per-phase tool set smaller to raise selection accuracy.",
+              "method": "llm",
+              "refine": "used",
+              "refineMs": 799,
+              "mcpMs": 1262,
+              "isError": false,
+              "readyAt": 1790419185090,
+              "execMs": 2073,
+              "sentAt": 1790419185090,
+              "transitionDoneAt": 1790419183255,
+              "agentWaitMs": 1835
+            }
+          ],
+          "agentReply": "The documentation doesn't specify a exact number, but it recommends keeping the tool set for each phase small to improve selection accuracy.",
+          "interrupted": false,
+          "startedAt": 1790419177974,
+          "speechEndAt": 1790419180414,
+          "firstAudioAt": 1790419185734,
+          "voiceToVoiceMs": 5320,
+          "idleAt": 1790419193627,
+          "ms": 15653
+        }
+      ],
+      "events": {
+        "session.updated": 1,
+        "session.ready": 1,
+        "input.speech.started": 2,
+        "transcript.user.delta": 6,
+        "input.speech.stopped": 2,
+        "transcript.user": 2,
+        "reply.started": 4,
+        "tool.call": 2,
+        "reply.done": 4,
+        "reply.audio": 1847,
+        "transcript.agent.delta": 52,
+        "transcript.agent": 2,
+        "session.ended": 1
+      },
+      "failures": [],
+      "audio": {
+        "chunksSent": 924,
+        "reanchors": 0
+      },
+      "shaper": {
+        "calls": 2,
+        "used": 2,
+        "failures": 0,
+        "rateLimited": 0,
+        "timeouts": 0,
+        "totalMs": 1645
+      },
+      "ok": true
+    },
+    {
+      "url": "https://afg.ai/mcp",
+      "sessionId": "sess_0c192f37d80b4d5e988dfc441cc4022c",
+      "turns": [
+        {
+          "said": "I want to run a spec check on a job contract.",
+          "heard": [
+            "I want to run a spec check on a job contract."
+          ],
+          "calls": [
+            {
+              "callId": "chatcmpl-tool-9df22f6a49750bfe",
+              "name": "find_tools",
+              "arguments": {
+                "query": "run a spec check on a job contract"
+              },
+              "callAt": 1790419204072,
+              "phaseAfter": [
+                "find_tools",
+                "afg_post_job",
+                "afg_speccheck",
+                "afg_dispute",
+                "afg_sign_contract",
+                "afg_submit",
+                "afg_contract_template",
+                "afg_get_job",
+                "afg_prepare_signed_request",
+                "afg_upload_artifact"
+              ],
+              "method": "phase_change",
+              "spoken": "carried: none",
+              "readyAt": 1790419204088,
+              "execMs": 16,
+              "sentAt": 1790419204387,
+              "transitionDoneAt": 1790419204386,
+              "agentWaitMs": 1
+            }
+          ],
+          "agentReply": "I can certainly do that for you. Please provide the job contract you would like me to check.",
+          "interrupted": false,
+          "startedAt": 1790419200241,
+          "speechEndAt": 1790419202920,
+          "firstAudioAt": 1790419205107,
+          "voiceToVoiceMs": 2187,
+          "idleAt": 1790419210146,
+          "ms": 9905
+        },
+        {
+          "said": "What does the contract template for a passing test suite look like?",
+          "heard": [
+            "What does the contract template for a passing test suite look like?"
+          ],
+          "calls": [
+            {
+              "callId": "chatcmpl-tool-975e2ccf20d5cb76",
+              "name": "afg_contract_template",
+              "arguments": {
+                "category": "code_fix_test_suite_pass"
+              },
+              "callAt": 1790419216819,
+              "mcpName": "afg_contract_template",
+              "normalisersApplied": [],
+              "rawChars": 33607,
+              "spokenChars": 429,
+              "spoken": "The contract template for a passing test suite is version afg-acs slash 0 dash draft and includes a buyer agent named buyer dot acme ci and a provider agent named fixer dot py agent. The deal price is 40 USDC on chain 8453 with a deadline of September 28, 2026, and it requires three submissions. The acceptance checks include a test suite pass and a hash match, and the inputs involve a base repository, tests, and hidden tests.",
+              "method": "llm",
+              "refine": "used",
+              "refineMs": 1133,
+              "mcpMs": 1493,
+              "isError": false,
+              "readyAt": 1790419219454,
+              "execMs": 2634,
+              "sentAt": 1790419219455,
+              "transitionDoneAt": 1790419217056,
+              "agentWaitMs": 2399
+            }
+          ],
+          "agentReply": "The template for a passing test suite is version afg dash acs slash zero dash draft. It features a buyer named buyer dot acme ci and a provider named fixer dot py agent, with a price of forty tUSDC on chain eight four five three. The deadline is September twenty-eighth, twenty-twenty-six, and the contract requires three submissions based on a repository, tests, and hidden tests.",
+          "interrupted": false,
+          "startedAt": 1790419210920,
+          "speechEndAt": 1790419214440,
+          "firstAudioAt": 1790419220354,
+          "voiceToVoiceMs": 5914,
+          "idleAt": 1790419242052,
+          "ms": 31132
+        }
+      ],
+      "events": {
+        "session.updated": 2,
+        "session.ready": 1,
+        "input.speech.started": 2,
+        "transcript.user.delta": 5,
+        "input.speech.stopped": 2,
+        "transcript.user": 2,
+        "reply.started": 4,
+        "tool.call": 2,
+        "reply.done": 4,
+        "reply.audio": 2678,
+        "transcript.agent.delta": 83,
+        "transcript.agent": 2,
+        "session.ended": 1
+      },
+      "failures": [],
+      "audio": {
+        "chunksSent": 1076,
+        "reanchors": 0
+      },
+      "shaper": {
+        "calls": 1,
+        "used": 1,
+        "failures": 0,
+        "rateLimited": 0,
+        "timeouts": 0,
+        "totalMs": 1133
+      },
+      "ok": true
+    },
+    {
+      "url": "https://advisorsai.ai/mcp",
+      "sessionId": "sess_7afa10015afd46198788fcc811386574",
+      "turns": [
+        {
+          "said": "What services do you have?",
+          "heard": [
+            "What services do you have?"
+          ],
+          "calls": [
+            {
+              "callId": "chatcmpl-tool-99c400571847119c",
+              "name": "advisors_catalog_list_services",
+              "arguments": {
+                "language": "en"
+              },
+              "callAt": 1790419251191,
+              "mcpName": "advisors_catalog_list_services",
+              "normalisersApplied": [],
+              "rawChars": 5450,
+              "spokenChars": 163,
+              "spoken": "We offer five services: Agent Governance Audit, Your share of AI answers, Decision Signal Engine, Independent Store Assistant, and AI Readiness & Blind-Spot Audit.",
+              "method": "llm",
+              "refine": "used",
+              "refineMs": 782,
+              "mcpMs": 809,
+              "isError": false,
+              "readyAt": 1790419252791,
+              "execMs": 1598,
+              "sentAt": 1790419252791,
+              "transitionDoneAt": 1790419251454,
+              "agentWaitMs": 1337
+            }
+          ],
+          "agentReply": "We offer five services: Agent Governance Audit, Your share of AI answers, Decision Signal Engine, Independent Store Assistant, and AI Readiness and Blind-Spot Audit.",
+          "interrupted": false,
+          "startedAt": 1790419248196,
+          "speechEndAt": 1790419249715,
+          "firstAudioAt": 1790419253472,
+          "voiceToVoiceMs": 3757,
+          "idleAt": 1790419265145,
+          "ms": 16949
+        },
+        {
+          "said": "I need an audit trail for my agents - what fits?",
+          "heard": [
+            "I need an audit trail for my agents. What fits?"
+          ],
+          "calls": [
+            {
+              "callId": "chatcmpl-tool-9e32f00f81de62af",
+              "name": "advisors_catalog_match_service",
+              "arguments": {
+                "language": "en",
+                "need": "audit trail for my agents"
+              },
+              "callAt": 1790419270816,
+              "mcpName": "advisors_catalog_match_service",
+              "normalisersApplied": [],
+              "rawChars": 3440,
+              "spokenChars": 158,
+              "spoken": "The service that fits your need for an audit trail is the Agent Governance Audit, which costs $450 and examines what your agents can do and where the risk is.",
+              "method": "llm",
+              "refine": "used",
+              "refineMs": 785,
+              "mcpMs": 613,
+              "isError": false,
+              "readyAt": 1790419272220,
+              "execMs": 1404,
+              "sentAt": 1790419272220,
+              "transitionDoneAt": 1790419271054,
+              "agentWaitMs": 1166
+            }
+          ],
+          "agentReply": "The Agent Governance Audit would be a good fit for you. It costs four hundred and fifty dollars and examines what your agents can do and where the risks are.",
+          "interrupted": false,
+          "startedAt": 1790419265917,
+          "speechEndAt": 1790419268756,
+          "firstAudioAt": 1790419272932,
+          "voiceToVoiceMs": 4176,
+          "idleAt": 1790419279685,
+          "ms": 13768
+        }
+      ],
+      "events": {
+        "session.updated": 1,
+        "session.ready": 1,
+        "input.speech.started": 2,
+        "transcript.user.delta": 5,
+        "input.speech.stopped": 2,
+        "transcript.user": 2,
+        "reply.started": 4,
+        "tool.call": 2,
+        "reply.done": 4,
+        "reply.audio": 1855,
+        "transcript.agent.delta": 54,
+        "transcript.agent": 2,
+        "session.ended": 1
+      },
+      "failures": [],
+      "audio": {
+        "chunksSent": 818,
+        "reanchors": 0
+      },
+      "shaper": {
+        "calls": 2,
+        "used": 2,
+        "failures": 0,
+        "rateLimited": 0,
+        "timeouts": 0,
+        "totalMs": 1567
+      },
+      "ok": true
+    }
+  ]
+}

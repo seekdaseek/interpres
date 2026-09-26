@@ -1,0 +1,92 @@
+{
+  "at": "2026-09-26T10:32:12.636Z",
+  "voice": "Samantha",
+  "carry": false,
+  "results": [
+    {
+      "url": "https://afg.ai/mcp",
+      "sessionId": "sess_72ded57c42ea46b98af12f36a90d2282",
+      "turns": [
+        {
+          "said": "What is the reputation of wallet 0 x 5 a a e b 6 0 5 3 f 3 e 9 4 c 9 b 9 a 0 9 f 3 3 6 6 9 4 3 5 e 7 e f 1 b e a e d?",
+          "heard": [
+            "What is the reputation of wallet 0x5aeb6053f3e94c9b9a09f33669435e7ef1bead?"
+          ],
+          "calls": [
+            {
+              "callId": "chatcmpl-tool-9ad83c4b414541b6",
+              "name": "afg_get_reputation",
+              "arguments": {
+                "address": "0x5aeb6053f3e94c9b9a09f33669435e7ef1bead"
+              },
+              "callAt": 1790418722250,
+              "mcpName": "afg_get_reputation",
+              "normalisersApplied": [],
+              "rawChars": 194,
+              "spokenChars": 186,
+              "spoken": "{ \"ok\": false, \"error\": \"bad_address\", \"explanation\": \"address must be 0x followed by 40 hex characters.\", \"notice\": \"TEST MONEY ONLY: mock ledger, test tokens (tUSDC), no real funds.\" }",
+              "method": "truncated",
+              "refine": "not_needed",
+              "refineMs": 0,
+              "mcpMs": 1258,
+              "isError": true,
+              "readyAt": 1790418723517,
+              "execMs": 1265,
+              "sentAt": 1790418723517,
+              "transitionDoneAt": 1790418722554,
+              "agentWaitMs": 963
+            }
+          ],
+          "agentReply": "It looks like that wallet address is invalid. Please check it and make sure it is zero-x followed by forty hex characters.",
+          "interrupted": false,
+          "startedAt": 1790418708310,
+          "speechEndAt": 1790418719549,
+          "firstAudioAt": 1790418724276,
+          "voiceToVoiceMs": 4727,
+          "idleAt": 1790418731075,
+          "ms": 22765
+        }
+      ],
+      "events": {
+        "session.updated": 1,
+        "session.ready": 1,
+        "input.speech.started": 1,
+        "transcript.user.delta": 10,
+        "input.speech.stopped": 1,
+        "transcript.user": 1,
+        "reply.started": 2,
+        "tool.call": 1,
+        "reply.done": 2,
+        "reply.audio": 685,
+        "transcript.agent.delta": 22,
+        "transcript.agent": 1,
+        "session.ended": 1
+      },
+      "failures": [],
+      "audio": {
+        "chunksSent": 600,
+        "reanchors": 0
+      },
+      "shaper": {
+        "calls": 0,
+        "used": 0,
+        "failures": 0,
+        "rateLimited": 0,
+        "timeouts": 0,
+        "totalMs": 0
+      },
+      "ok": true,
+      "addressVerdict": {
+        "spoken": "0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed",
+        "heard": [
+          "What is the reputation of wallet 0x5aeb6053f3e94c9b9a09f33669435e7ef1bead?"
+        ],
+        "findToolsCalled": false,
+        "reputationCalledAfterPhaseChange": false,
+        "addressArgument": "0x5aeb6053f3e94c9b9a09f33669435e7ef1bead",
+        "survived": true,
+        "exact": false
+      }
+    }
+  ]
+}

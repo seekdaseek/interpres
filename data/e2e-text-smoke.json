@@ -1,0 +1,59 @@
+{
+  "at": "2026-09-26T10:38:56.255Z",
+  "harness": "text-injection-fallback",
+  "results": [
+    {
+      "url": "https://advisorsai.ai/mcp",
+      "sessionId": "sess_e9a348dba30146e4a2a165e21902020f",
+      "turns": [
+        {
+          "said": "What services do you have?",
+          "heard": [],
+          "calls": [
+            {
+              "callId": "chatcmpl-tool-b9582df46f16dd48",
+              "name": "advisors_catalog_list_services",
+              "arguments": {
+                "language": "en"
+              },
+              "callAt": 1790419120281,
+              "mcpName": "advisors_catalog_list_services",
+              "normalisersApplied": [],
+              "rawChars": 5450,
+              "spokenChars": 163,
+              "spoken": "We offer five services: Agent Governance Audit, Your share of AI answers, Decision Signal Engine, Independent Store Assistant, and AI Readiness & Blind-Spot Audit.",
+              "method": "llm",
+              "refine": "used",
+              "refineMs": 752,
+              "mcpMs": 619,
+              "isError": false,
+              "readyAt": 1790419121662,
+              "execMs": 1381,
+              "sentAt": 1790419121663,
+              "transitionDoneAt": 1790419120582,
+              "agentWaitMs": 1081
+            }
+          ],
+          "agentReply": "We offer five services: Agent Governance Audit, Your share of AI answers, Decision Signal Engine, Independent Store Assistant, and AI Readiness and Blind-Spot Audit. Which one would you like to hear more about?",
+          "interrupted": false,
+          "startedAt": 1790419119338,
+          "idleAt": 1790419135896,
+          "ms": 16558
+        }
+      ],
+      "events": {
+        "session.updated": 1,
+        "session.ready": 1,
+        "reply.started": 2,
+        "tool.call": 1,
+        "reply.done": 2,
+        "reply.audio": 1357,
+        "transcript.agent.delta": 33,
+        "transcript.agent": 1,
+        "session.ended": 1
+      },
+      "failures": [],
+      "ok": true
+    }
+  ]
+}

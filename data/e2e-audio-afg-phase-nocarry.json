@@ -1,0 +1,119 @@
+{
+  "at": "2026-09-26T10:35:34.541Z",
+  "voice": "Samantha",
+  "carry": false,
+  "results": [
+    {
+      "url": "https://afg.ai/mcp",
+      "sessionId": "sess_8f118a8d2bb145fc994d5affaa99a3f3",
+      "turns": [
+        {
+          "said": "What is the reputation of wallet 0 x 3 f 9 a 1 c 7 e 5 b 2 d 8 f 4 a 6 c 0 e 9 b 3 d 7 f 1 a 5 c 8 e 2 b 4 d 6 f 0 9?",
+          "heard": [
+            "What is the reputation of wallet 0x3f9a1c7e5b2d8f4a6ce09b3d7f1a5cad2b4d6f09?"
+          ],
+          "calls": [
+            {
+              "callId": "chatcmpl-tool-83d6933fbb9679a1",
+              "name": "find_tools",
+              "arguments": {
+                "query": "get reputation of a wallet address"
+              },
+              "callAt": 1790418923895,
+              "phaseAfter": [
+                "find_tools",
+                "afg_get_reputation",
+                "afg_get_job",
+                "afg_sign_contract",
+                "afg_create_wallet",
+                "afg_discard_wallet",
+                "afg_post_job",
+                "afg_fund",
+                "afg_upload_artifact",
+                "afg_appeal"
+              ],
+              "method": "phase_change",
+              "spoken": "carried: none",
+              "readyAt": 1790418923903,
+              "execMs": 7,
+              "sentAt": 1790418924152,
+              "transitionDoneAt": 1790418924151,
+              "agentWaitMs": 1
+            },
+            {
+              "callId": "chatcmpl-tool-8deb8d6cd17fe7ee",
+              "name": "afg_get_reputation",
+              "arguments": {
+                "address": "0x3f9a1c7e5b2d8f4a6ce09b3d7f1a5cad2b4d6f09"
+              },
+              "callAt": 1790418925012,
+              "mcpName": "afg_get_reputation",
+              "normalisersApplied": [],
+              "rawChars": 1527,
+              "spokenChars": 179,
+              "spoken": "The wallet 0x3f9a1c7e5b2d8f4a6ce09b3d7f1a5cad2b4d6f09 has zero jobs, zero disputes, and zero counterparties, and the system notes that test money only was used with no real funds.",
+              "method": "llm",
+              "refine": "used",
+              "refineMs": 897,
+              "mcpMs": 1202,
+              "isError": false,
+              "readyAt": 1790418927121,
+              "execMs": 2109,
+              "sentAt": 1790418927122,
+              "transitionDoneAt": 1790418925300,
+              "agentWaitMs": 1822
+            }
+          ],
+          "agentReply": "That wallet has no job history, no disputes, and no recorded counterparties.",
+          "interrupted": false,
+          "startedAt": 1790418909253,
+          "speechEndAt": 1790418920811,
+          "firstAudioAt": 1790418927896,
+          "voiceToVoiceMs": 7085,
+          "idleAt": 1790418933010,
+          "ms": 23757
+        }
+      ],
+      "events": {
+        "session.updated": 2,
+        "session.ready": 1,
+        "input.speech.started": 1,
+        "transcript.user.delta": 10,
+        "input.speech.stopped": 1,
+        "transcript.user": 1,
+        "reply.started": 3,
+        "tool.call": 2,
+        "reply.done": 3,
+        "reply.audio": 515,
+        "transcript.agent.delta": 12,
+        "transcript.agent": 1,
+        "session.ended": 1
+      },
+      "failures": [],
+      "audio": {
+        "chunksSent": 624,
+        "reanchors": 0
+      },
+      "shaper": {
+        "calls": 1,
+        "used": 1,
+        "failures": 0,
+        "rateLimited": 0,
+        "timeouts": 0,
+        "totalMs": 896
+      },
+      "ok": true,
+      "addressVerdict": {
+        "spoken": "0x3f9a1c7e5b2d8f4a6c0e9b3d7f1a5c8e2b4d6f09",
+        "heard": [
+          "What is the reputation of wallet 0x3f9a1c7e5b2d8f4a6ce09b3d7f1a5cad2b4d6f09?"
+        ],
+        "findToolsCalled": true,
+        "reputationCalledAfterPhaseChange": true,
+        "addressArgument": "0x3f9a1c7e5b2d8f4a6ce09b3d7f1a5cad2b4d6f09",
+        "survived": true,
+        "exact": false
+      }
+    }
+  ]
+}

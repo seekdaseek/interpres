@@ -1,0 +1,119 @@
+{
+  "at": "2026-09-26T10:36:39.368Z",
+  "voice": "Samantha",
+  "carry": true,
+  "results": [
+    {
+      "url": "https://afg.ai/mcp",
+      "sessionId": "sess_a22027d3092e4992a387619ba232817d",
+      "turns": [
+        {
+          "said": "What is the reputation of wallet 0 x 3 f 9 a 1 c 7 e 5 b 2 d 8 f 4 a 6 c 0 e 9 b 3 d 7 f 1 a 5 c 8 e 2 b 4 d 6 f 0 9?",
+          "heard": [
+            "What is the reputation of wallet 0x3f9a1c7e5b2d8f4a6ce0e9b3d7f1a5cade2b4d6f09?"
+          ],
+          "calls": [
+            {
+              "callId": "chatcmpl-tool-86bec404067a4f05",
+              "name": "find_tools",
+              "arguments": {
+                "query": "get reputation of a wallet address"
+              },
+              "callAt": 1790418987356,
+              "phaseAfter": [
+                "find_tools",
+                "afg_get_reputation",
+                "afg_get_job",
+                "afg_sign_contract",
+                "afg_create_wallet",
+                "afg_discard_wallet",
+                "afg_post_job",
+                "afg_fund",
+                "afg_upload_artifact",
+                "afg_appeal"
+              ],
+              "method": "phase_change",
+              "spoken": "carried: 0x3f9a1c7e5b2d8f4a6ce0e9b3d7f1a5cade2b4d6f09",
+              "readyAt": 1790418987365,
+              "execMs": 8,
+              "sentAt": 1790418987614,
+              "transitionDoneAt": 1790418987614,
+              "agentWaitMs": 0
+            },
+            {
+              "callId": "chatcmpl-tool-8e91f4db4eada25c",
+              "name": "afg_get_reputation",
+              "arguments": {
+                "address": "0x3f9a1c7e5b2d8f4a6ce0e9b3d7f1a5cade2b4d6f09"
+              },
+              "callAt": 1790418988491,
+              "mcpName": "afg_get_reputation",
+              "normalisersApplied": [],
+              "rawChars": 194,
+              "spokenChars": 186,
+              "spoken": "{ \"ok\": false, \"error\": \"bad_address\", \"explanation\": \"address must be 0x followed by 40 hex characters.\", \"notice\": \"TEST MONEY ONLY: mock ledger, test tokens (tUSDC), no real funds.\" }",
+              "method": "truncated",
+              "refine": "not_needed",
+              "refineMs": 0,
+              "mcpMs": 1321,
+              "isError": true,
+              "readyAt": 1790418989822,
+              "execMs": 1330,
+              "sentAt": 1790418989822,
+              "transitionDoneAt": 1790418988796,
+              "agentWaitMs": 1026
+            }
+          ],
+          "agentReply": "It looks like that address is invalid. It needs to be the zero x prefix followed by exactly forty hex characters.",
+          "interrupted": false,
+          "startedAt": 1790418972706,
+          "speechEndAt": 1790418984267,
+          "firstAudioAt": 1790418990601,
+          "voiceToVoiceMs": 6334,
+          "idleAt": 1790418997834,
+          "ms": 25128
+        }
+      ],
+      "events": {
+        "session.updated": 2,
+        "session.ready": 1,
+        "input.speech.started": 1,
+        "transcript.user.delta": 10,
+        "input.speech.stopped": 1,
+        "transcript.user": 1,
+        "reply.started": 3,
+        "tool.call": 2,
+        "reply.done": 3,
+        "reply.audio": 727,
+        "transcript.agent.delta": 21,
+        "transcript.agent": 1,
+        "session.ended": 1
+      },
+      "failures": [],
+      "audio": {
+        "chunksSent": 659,
+        "reanchors": 0
+      },
+      "shaper": {
+        "calls": 0,
+        "used": 0,
+        "failures": 0,
+        "rateLimited": 0,
+        "timeouts": 0,
+        "totalMs": 0
+      },
+      "ok": true,
+      "addressVerdict": {
+        "spoken": "0x3f9a1c7e5b2d8f4a6c0e9b3d7f1a5c8e2b4d6f09",
+        "heard": [
+          "What is the reputation of wallet 0x3f9a1c7e5b2d8f4a6ce0e9b3d7f1a5cade2b4d6f09?"
+        ],
+        "findToolsCalled": true,
+        "reputationCalledAfterPhaseChange": true,
+        "addressArgument": "0x3f9a1c7e5b2d8f4a6ce0e9b3d7f1a5cade2b4d6f09",
+        "survived": true,
+        "exact": false
+      }
+    }
+  ]
+}

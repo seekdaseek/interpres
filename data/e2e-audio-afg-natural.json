@@ -1,0 +1,162 @@
+{
+  "at": "2026-09-26T10:38:07.216Z",
+  "voice": "Samantha",
+  "carry": true,
+  "results": [
+    {
+      "url": "https://afg.ai/mcp",
+      "sessionId": "sess_545bb78a858f41bebe3b5f6135b11524",
+      "turns": [
+        {
+          "said": "I want to run a spec check on a job contract.",
+          "heard": [
+            "I want to run a spec check on a job contract."
+          ],
+          "calls": [
+            {
+              "callId": "chatcmpl-tool-af0a70fc0755f95c",
+              "name": "find_tools",
+              "arguments": {
+                "query": "run a spec check on a job contract"
+              },
+              "callAt": 1790419052779,
+              "phaseAfter": [
+                "find_tools",
+                "afg_post_job",
+                "afg_speccheck",
+                "afg_dispute",
+                "afg_sign_contract",
+                "afg_submit",
+                "afg_contract_template",
+                "afg_get_job",
+                "afg_prepare_signed_request",
+                "afg_upload_artifact"
+              ],
+              "method": "phase_change",
+              "spoken": "carried: none",
+              "readyAt": 1790419052784,
+              "execMs": 4,
+              "sentAt": 1790419053081,
+              "transitionDoneAt": 1790419053080,
+              "agentWaitMs": 1
+            }
+          ],
+          "agentReply": "I can do that for you. Please provide the job contract you would like me to check.",
+          "interrupted": false,
+          "startedAt": 1790419048945,
+          "speechEndAt": 1790419051624,
+          "firstAudioAt": 1790419053856,
+          "voiceToVoiceMs": 2232,
+          "idleAt": 1790419058261,
+          "ms": 9316
+        },
+        {
+          "said": "Actually, first tell me the reputation of wallet 0 x 3 f 9 a 1 c 7 e 5 b 2 d 8 f 4 a 6 c 0 e 9 b 3 d 7 f 1 a 5 c 8 e 2 b 4 d 6 f 0 9.",
+          "heard": [
+            "Actually, first tell me the reputation of wallet 0x3f9a1c7e5b2d8f4a6ce09b3d7f1a5cad2b4d6f09."
+          ],
+          "calls": [
+            {
+              "callId": "chatcmpl-tool-892c7e50bc4cd9f7",
+              "name": "find_tools",
+              "arguments": {
+                "query": "get reputation of a wallet address"
+              },
+              "callAt": 1790419076256,
+              "phaseAfter": [
+                "find_tools",
+                "afg_get_reputation",
+                "afg_get_job",
+                "afg_sign_contract",
+                "afg_create_wallet",
+                "afg_discard_wallet",
+                "afg_post_job",
+                "afg_fund",
+                "afg_upload_artifact",
+                "afg_appeal"
+              ],
+              "method": "phase_change",
+              "spoken": "carried: 0x3f9a1c7e5b2d8f4a6ce09b3d7f1a5cad2b4d6f09",
+              "readyAt": 1790419076283,
+              "execMs": 27,
+              "sentAt": 1790419076491,
+              "transitionDoneAt": 1790419076491,
+              "agentWaitMs": 0
+            },
+            {
+              "callId": "chatcmpl-tool-aa287719c44887b1",
+              "name": "afg_get_reputation",
+              "arguments": {
+                "address": "0x3f9a1c7e5b2d8f4a6ce09b3d7f1a5cad2b4d6f09"
+              },
+              "callAt": 1790419077329,
+              "mcpName": "afg_get_reputation",
+              "normalisersApplied": [],
+              "rawChars": 1527,
+              "spokenChars": 262,
+              "spoken": "The wallet 0x3f9a1c7e5b2d8f4a6ce09b3d7f1a5cad2b4d6f09 has zero jobs as a provider and zero jobs as a buyer, with no disputes, refunds, or released items recorded. The system notes that this is a test environment using mock ledger and test tokens, not real funds.",
+              "method": "llm",
+              "refine": "used",
+              "refineMs": 949,
+              "mcpMs": 1211,
+              "isError": false,
+              "readyAt": 1790419079502,
+              "execMs": 2173,
+              "sentAt": 1790419079503,
+              "transitionDoneAt": 1790419077622,
+              "agentWaitMs": 1881
+            }
+          ],
+          "agentReply": "That wallet has no recorded history, with zero jobs as either a buyer or a provider.",
+          "interrupted": false,
+          "startedAt": 1790419059026,
+          "speechEndAt": 1790419071825,
+          "firstAudioAt": 1790419080279,
+          "voiceToVoiceMs": 8454,
+          "idleAt": 1790419085640,
+          "ms": 26614
+        }
+      ],
+      "events": {
+        "session.updated": 3,
+        "session.ready": 1,
+        "input.speech.started": 2,
+        "transcript.user.delta": 14,
+        "input.speech.stopped": 2,
+        "transcript.user": 2,
+        "reply.started": 5,
+        "tool.call": 3,
+        "reply.done": 5,
+        "reply.audio": 984,
+        "transcript.agent.delta": 33,
+        "transcript.agent": 2,
+        "session.ended": 1
+      },
+      "failures": [],
+      "audio": {
+        "chunksSent": 948,
+        "reanchors": 0
+      },
+      "shaper": {
+        "calls": 1,
+        "used": 1,
+        "failures": 0,
+        "rateLimited": 0,
+        "timeouts": 0,
+        "totalMs": 948
+      },
+      "ok": true,
+      "addressVerdict": {
+        "spoken": "0x3f9a1c7e5b2d8f4a6c0e9b3d7f1a5c8e2b4d6f09",
+        "heard": [
+          "Actually, first tell me the reputation of wallet 0x3f9a1c7e5b2d8f4a6ce09b3d7f1a5cad2b4d6f09."
+        ],
+        "findToolsCalled": true,
+        "reputationCalledAfterPhaseChange": true,
+        "addressArgument": "0x3f9a1c7e5b2d8f4a6ce09b3d7f1a5cad2b4d6f09",
+        "survived": true,
+        "exact": false
+      }
+    }
+  ]
+}

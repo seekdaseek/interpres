@@ -656,3 +656,108 @@ $ npm test
 ℹ tests 225
 ℹ pass 225
 ```
+
+### 3. `scripts/e2e-audio.ts`: real speech is now the main proof path
+
+**Main proof path: `scripts/e2e-audio.ts`.** Every question is spoken by macOS
+`say -v Samantha`, converted with
+`afconvert -f WAVE -d LEI16@24000 -c 1 --no-filler` (flags read off
+`afconvert -h`), checked with `afinfo`, and streamed through `input.audio` in
+40 ms / 1,920-byte chunks at real-time pace, followed by 1.5 s of silence.
+**Fallback only: `scripts/e2e.ts`**, the text-injection harness, now labelled as
+such in its header and output, because it gets argument inference wrong (below).
+
+```
+$ afinfo q.wav   (converted)
+File type ID:   WAVE
+Data format:     1 ch,  24000 Hz, Int16
+bit rate: 384000 bits per second          # 24000 x 16 x 1: exact
+RIFF chunk walk: "fmt " at 12 (PCM, 1 ch, 24000, 16-bit), "data" at 36
+```
+
+The WAV is parsed by walking its RIFF chunks, not by skipping 44 bytes; without
+`--no-filler` afconvert inserts a page-alignment chunk before `data`. The pump
+streams continuously like a live mic (silence when nothing is queued), anchored
+to its start time, and re-anchors rather than bursting to catch up, since a burst
+is exactly what `audio_rate_violation` rejects. Every run below: 0 re-anchors,
+0 rate violations.
+
+#### Shared state machine
+
+The tool-call protocol moved into `packages/core/src/protocol.ts` (`AgentProtocol`).
+The browser, `e2e.ts` and `e2e-audio.ts` all drive that one class through
+`scripts/lib/session.ts`, so what the scripts prove is proved about the code the
+browser runs. 11 offline tests replay the event orderings from the docs and from
+the live runs. One found a real bug class: a tool result that finishes after its
+reply was **interrupted** used to be delivered into the next turn. An epoch
+counter now drops it.
+
+#### The afg reputation case: does a spoken argument survive a phase change?
+
+**Answer: yes, with real speech, with or without carrying.** The CHECKPOINT A
+failure (agent asks for the address again) was an artifact of text injection.
+
+| run | setup | find_tools | reputation called after swap | argument survived | exact |
+|---|---|---|---|---|---|
+| `afg-zeros` | CHECKPOINT A address, spoken | no | no | **no** - never recognised | no |
+| `afg-address` | EIP-55 vector, char by char | no (tool visible) | direct call | yes | no |
+| `afg-phase` carry OFF | start phase hides the tool (harness-set) | **yes** | **yes** | **yes** | no |
+| `afg-phase` carry ON | same | yes | yes | yes | no |
+| `afg-natural` | no harness help: turn 1 needs a hidden tool | **yes, twice, self-chosen** | **yes** | **yes** | no |
+
+`afg-natural`, the strongest evidence (`data/e2e-audio-afg-natural.json`,
+`sess_545bb78a858f41bebe3b5f6135b11524`):
+
+```
+SAY   I want to run a spec check on a job contract.
+      TOOL.CALL find_tools({"query":"run a spec check on a job contract"})
+      PHASE -> ... afg_speccheck ...            (afg_get_reputation swapped OUT)
+      AGENT: Please provide the job contract you would like me to check.
+SAY   Actually, first tell me the reputation of wallet 0 x 3 f 9 a 1 c ...
+HEARD "... wallet 0x3f9a1c7e5b2d8f4a6ce09b3d7f1a5cad2b4d6f09."
+      TOOL.CALL find_tools({"query":"get reputation of a wallet address"})
+      PHASE -> find_tools, afg_get_reputation, ...
+      TOOL.CALL afg_get_reputation({"address":"0x3f9a1c7e5b2d8f4a6ce09b3d7f1a5cad2b4d6f09"})
+      AGENT: That wallet has no recorded history, with zero jobs as either a buyer or a provider.
+```
+
+#### What does NOT work: speech-to-text on spelled-out hex
+
+The argument survives every phase change, but it is **wrong** in every run,
+because it is already wrong when it is heard:
+
+- `afg-zeros`: 39 zeros and a `1` became **~900 zeros** with no `1` - a
+  repetition loop on identical tokens. The agent replied with nothing.
+- `afg-address`: doubled letters merged (`5 a a e b` -> `5aeb`, `b e a e d` ->
+  `bead`): 38 hex characters, which afg rejected as invalid.
+- `afg-phase` / `afg-natural`: transposition and substitution
+  (`6 c 0 e 9 b` -> `6ce09b`, `5 c 8 e 2 b` -> `5cad2b`) giving **40 characters -
+  a valid-looking, different address**. afg answered confidently about a wallet
+  nobody asked for. Identical audio produced the identical wrong value twice, so
+  this is deterministic for that input, not noise.
+
+Carrying cannot fix this: it carries the value as heard. What it does do is put
+the heard values into the `find_tools` result (a documented argument-inference
+source) and into `keyterms`/`transcription_prompt` for a repeat, and it
+**refuses** anything longer than 66 characters, so the 900-zero garbage can
+never be carried into keyterms. The fix for exactness is a product decision -
+read-back confirmation of long identifiers, or letting the caller paste them -
+and is flagged for Sergiu rather than built.
+
+#### Full spoken suite, all presets (`data/e2e-audio-presets.json`)
+
+```
+ok   https://www.assemblyai.com/docs/mcp   sess_21d1ed7300ff482eac00c7b2e58358fa   2 turns, 2 tool calls
+ok   https://afg.ai/mcp                    sess_0c192f37d80b4d5e988dfc441cc4022c   2 turns, 2 tool calls (1 find_tools)
+ok   https://advisorsai.ai/mcp             sess_7afa10015afd46198788fcc811386574   2 turns, 2 tool calls
+tool calls: 6 made, 6 returned a result; STT exact on all 6 natural-language questions
+audio_rate_violations=0, reanchors=0 in every session
+```
+
+The afg preset's suggested questions no longer include a spoken address; the
+first one ("I want to run a spec check on a job contract") is the one verified to
+make the agent call `find_tools` on its own.
+
+**Open measurement:** in every shaped call of that run the agent waited 1.1-2.4 s
+after its transition phrase, and the Gateway accounted for 0.78-1.13 s of it.
+The 1.5 s cap bounds that; it does not make it zero. Being measured properly next.

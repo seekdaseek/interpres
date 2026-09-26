@@ -10,6 +10,7 @@ import type { ConvertedTool, JsonSchema, McpServerInfo, VoiceAgentTool } from '.
 import { rankTools } from './rank.ts';
 import { buildKeyterms, buildTranscriptionPrompt } from './keyterms.ts';
 import { buildSystemPrompt } from './prompt.ts';
+import { extractEntities } from './entities.ts';
 
 /** The documented ceiling on tools per phase. */
 export const MAX_TOOLS_PER_PHASE = 10;
@@ -122,18 +123,57 @@ export type FindToolsOutcome = {
   available: string[];
   /** Best matches, for the UI. */
   matched: Array<{ name: string; score: number }>;
+  /** Exactly what goes back in `tool.result.result`: a JSON string. */
+  toolResult: string;
+  /** Values carried over from the caller's last turn into the new phase. */
+  carried: string[];
+};
+
+export type FindToolsOptions = {
+  /** The caller's most recent final transcript, if the client has one. */
+  lastUserTurn?: string;
+  /**
+   * Carry the values in `lastUserTurn` across the swap. On by default; off only
+   * to measure what happens without it.
+   */
+  carry?: boolean;
 };
 
 /** Handle a `find_tools` call: rank, reveal, and report back. */
-export function handleFindTools(input: PlannerInput, query: string): FindToolsOutcome {
+export function handleFindTools(input: PlannerInput, query: string, opts: FindToolsOptions = {}): FindToolsOutcome {
   const ranked = rankTools(input.catalog, query);
   const keep = MAX_TOOLS_PER_PHASE - 1;
   const visible = ranked.slice(0, keep).map((r) => r.tool);
   const phase = assemble(input, visible, true, `find_tools(${JSON.stringify(query)})`);
+  const available = phase.tools.map((t) => t.name);
+  const carried = opts.carry === false ? [] : extractEntities(opts.lastUserTurn ?? '');
+
+  if (carried.length > 0) {
+    // Bias speech-to-text toward these values if the caller has to say them
+    // again, and tell the transcriber they are in play.
+    phase.keyterms = [...carried, ...phase.keyterms.filter((k) => !carried.includes(k))].slice(0, 100);
+    const note = ` The caller already gave these values: ${carried.join(', ')}.`;
+    if (phase.transcriptionPrompt.length + note.length <= 1750) phase.transcriptionPrompt += note;
+  }
+
+  const result: Record<string, unknown> = {
+    available_tools: available.filter((n) => n !== FIND_TOOLS_NAME),
+    note: 'These tools are now callable. Call the right one now.',
+  };
+  if (carried.length > 0) {
+    // A tool result is one of the two sources tool arguments are inferred from,
+    // so the values ride along in it rather than relying on the agent to reach
+    // back past the phase change to the caller's turn.
+    result.values_from_request = carried;
+    result.note = 'These tools are now callable. The person already gave the values listed in values_from_request: use them as arguments now instead of asking again.';
+  }
+
   return {
     phase,
-    available: phase.tools.map((t) => t.name),
+    available,
     matched: ranked.slice(0, keep).map((r) => ({ name: r.tool.tool.name, score: Number(r.score.toFixed(3)) })),
+    toolResult: JSON.stringify(result),
+    carried,
   };
 }
 

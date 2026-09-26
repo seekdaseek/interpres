@@ -35,13 +35,16 @@ export const PRESETS: Preset[] = [
     url: 'https://afg.ai/mcp',
     blurb: '15 tools, so find_tools has to swap the set. Test money only.',
     asks: [
-      // afg_about is NOT in the opening phase, so answering this needs
-      // find_tools first. "from the service itself" is what stops the agent
-      // paraphrasing the server description already in its system prompt.
-      'Look up the official job flow and the limits from the service itself.',
-      'What is the reputation of wallet 0x0000000000000000000000000000000000000001?',
+      // afg_speccheck is NOT in the opening phase, so this needs find_tools.
+      // Verified spoken on 2026-09-26: the agent calls find_tools itself.
+      'I want to run a spec check on a job contract.',
       'What does the contract template for a passing test suite look like?',
+      // afg_fund is hidden in the opening phase too. The agent needs a job id
+      // before it would call it, so it explains and asks rather than acting.
+      'How do I fund a job?',
     ],
+    // Not suggested in the UI: a spoken 40-character hex address. Speech-to-text
+    // mis-hears it (see BUILDLOG, e2e-audio), so it makes a bad first impression.
     exercisesPhases: true,
     writeTools: ['afg_create_wallet', 'afg_post_job', 'afg_sign_contract', 'afg_fund', 'afg_submit', 'afg_dispute', 'afg_appeal', 'afg_upload_artifact', 'afg_discard_wallet'],
   },

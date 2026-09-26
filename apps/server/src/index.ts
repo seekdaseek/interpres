@@ -228,10 +228,8 @@ app.post('/api/mcp/find-tools', async (c) => {
       matched: outcome.matched,
       phase: phasePayload(outcome.phase),
       /** Exactly what goes back in `tool.result`. */
-      toolResult: JSON.stringify({
-        available_tools: outcome.available.filter((n) => n !== 'find_tools'),
-        note: 'These tools are now callable. Call the right one now.',
-      }),
+      toolResult: outcome.toolResult,
+      carried: outcome.carried,
     });
   } catch (err) {
     return c.json(errorBody(err), errorStatus(err) as 400);
