@@ -8,6 +8,7 @@
  * outside node_modules, so the .ts sources the monorepo runs directly would not
  * load for anyone who installed them.
  */
+import { createHash } from 'node:crypto';
 import { execFileSync } from 'node:child_process';
 import { copyFile, mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
@@ -62,3 +63,8 @@ await writeFile(join(scratch, 'example.mjs'), example);
 console.log(`README example, run from a clean install of ${tgz}: ${execFileSync('node', ['example.mjs'], { cwd: scratch }).toString().trim()}`);
 
 execFileSync('npm', ['pack', '--dry-run'], { cwd: OUT, stdio: 'inherit' });
+
+// The tarball Sergiu publishes, kept beside the staged folder (build/ is not in git).
+const ready = execFileSync('npm', ['pack', '--pack-destination', resolve('build/npm'), '--silent'], { cwd: OUT }).toString().trim().split('\n').pop()!;
+const bytes = await readFile(resolve('build/npm', ready));
+console.log(`ready to publish: build/npm/${ready}, ${bytes.length.toLocaleString('en-US')} bytes, sha256 ${createHash('sha256').update(bytes).digest('hex')}`);

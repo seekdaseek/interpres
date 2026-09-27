@@ -14,7 +14,7 @@ Every voice in the video is an AssemblyAI Voice Agent voice. Each line was made 
 
 Narration is checked word for word with AssemblyAI's pre-recorded transcription (default model: universal-3-5-pro,universal-2), after case, punctuation and number format. Proper nouns may differ only as listed:
 
-- **interpres**: interpress, interprez, interpreze, interprese, interpras, interprass, interpraz, interpraze, interprase
+- **interpres**: interpress, interprez, interpreze, interprese, interpras, interprass, interpraz, interpraze, interprase, interprete
 - **assemblyai**: assembly ai
 - **openai**: open ai
 
@@ -121,22 +121,24 @@ Each step in ms after the caller's last word, from the take's log. A tool's page
 
 ## The edit
 
-12 shots, 249.3 s. Scenes change with 300 ms crossfades. Every cut inside a scene is a visible 200 ms crossfade, and nothing between a caller's last word and the agent's first is ever cut, sped up or slowed down (`scripts/video/edl.ts` checks it for each exchange).
+12 shots, 235.6 s. Scenes change with 300 ms crossfades. Every cut inside a scene is a visible 200 ms crossfade, and nothing between a caller's last word and the agent's first is ever cut, sped up or slowed down (`scripts/video/edl.ts` checks it for each exchange).
 
 | cut | at | removed from the take | reason |
 | --- | ---: | --- | --- |
-| B | 92.7 s | 16.0 s to 21.7 s of the take | the greeting (greetings after scene A may be cut) |
-| C1+C3 | 128.6 s | 10.5 s to 20.4 s of the take | the greeting (greetings after scene A may be cut) |
-| C1+C3 | 144.3 s | 36.1 s to 44.3 s of the take | inside Q5, which runs 13.8 s: its first 4 s and last 3 s kept, cut between two letters |
+| B | 87.1 s | 12.6 s to 14.7 s of the take | before the mic is pressed: the scroll to the talk bar, which ran past N5 |
+| B | 87.7 s | 15.3 s to 21.4 s of the take | from the mic press to the first frame where the page is listening: the connect and the greeting (greetings after scene A may be cut) |
+| C1+C3 | 113.9 s | 6.1 s to 9.3 s of the take | between the AFG click and the mic press: the connect and the scroll (before the mic is pressed) |
+| C1+C3 | 114.5 s | 9.8 s to 20.0 s of the take | from the mic press to the first frame where the page is listening: the connect and the greeting (greetings after scene A may be cut) |
+| C1+C3 | 130.6 s | 36.1 s to 44.3 s of the take | inside Q5, which runs 13.8 s: its first 4 s and last 3 s kept, cut between two letters |
 
 | punch-in | at | on |
 | --- | ---: | --- |
 | 1.4x, about 3 s | 36.9 s | "Found in the official MCP registry" |
 | 1.4x, about 3 s | 74.3 s | the goji_explain_term call, under N4 |
-| 1.4x, about 3 s | 98.6 s | the get_book_recommenders call |
-| 1.4x, about 3 s | 133.5 s | find_tools and the swap |
-| 1.4x, about 3 s | 152.6 s | needs_paste |
-| 1.4x, about 3 s | 187.9 s | afg_get_reputation and its argument |
+| 1.4x, about 3 s | 94.0 s | the get_book_recommenders call |
+| 1.4x, about 3 s | 119.8 s | find_tools and the swap |
+| 1.4x, about 3 s | 138.9 s | needs_paste |
+| 1.4x, about 3 s | 174.1 s | afg_get_reputation and its argument |
 
 Captions: narration shows the script as written, timed by the narration clip's word timestamps. Caller lines show the live transcript (what interpres heard), with a spoken identifier printed in groups of four as the page's own gate card prints it. Agent lines come from AssemblyAI's transcript of the agent stem.
 
@@ -162,7 +164,7 @@ What the page's own microphone path received, against each clip as made, in 0.5 
 
 ## The rendered file
 
-`interpres-demo.mp4`, sha256 `2f8cd19d1669c6a62b7bbd960e384d2cb6742ac3d66f20b46b4cc87317fbff7a`. The checks of brief F, F2.7 (`scripts/video/checks.ts`):
+`interpres-demo.mp4`, sha256 `681ab05e547f734760f6c5f23d0882a06481ee972a1edfcbeda02c5d2c1e863b`. The checks of brief F, F2.7 (`scripts/video/checks.ts`):
 
 - ok: video: H.264 High: h264 High
 - ok: video: 1920x1080: 1920x1080
@@ -172,10 +174,10 @@ What the page's own microphone path received, against each clip as made, in 0.5 
 - ok: audio: 48 kHz stereo: 48000 Hz, 2 ch
 - ok: audio: 192 kbps: 192012 b/s
 - ok: +faststart (moov before mdat): ftyp moov free mdat
-- ok: duration and size: 249.301 s, 34,070,534 bytes
-- ok: length 3:30 to 4:15 (hard cap 4:55): 4:09.3
-- ok: size 300 MB or less: 32.5 MB
-- ok: loudness -16 LUFS integrated +-1: -16 LUFS (LRA 5.9 LU)
+- ok: duration and size: 235.567 s, 31,839,453 bytes
+- ok: length 3:30 to 4:15 (hard cap 4:55): 3:55.6
+- ok: size 300 MB or less: 30.4 MB
+- ok: loudness -16 LUFS integrated +-1: -16 LUFS (LRA 5.3 LU)
 - ok: true peak -1.5 dBTP or lower: -2.3 dBTP
 - ok: no black over 0.3 s outside fades: 0 black span(s)
 - ok: N1 word for word: ok (variants: interprez -> interpres)
@@ -183,7 +185,7 @@ What the page's own microphone path received, against each clip as made, in 0.5 
 - ok: N3 word for word: ok (variants: interpraze -> interpres)
 - ok: N4 word for word: ok
 - ok: N5 word for word: ok
-- ok: N6 word for word: ok (variants: interprez -> interpres, interprez -> interpres)
+- ok: N6 word for word: ok (variants: interprete -> interpres, interprete -> interpres)
 - ok: N8 word for word: ok
 - ok: N7 word for word: ok
 - ok: N9 word for word: ok
@@ -195,18 +197,21 @@ Every silence of 2.5 s or more at -45 dB, and what it is:
 
 - 43.8 s to 46.7 s: A (live): clicks; Talk pressed: the page fetches a token, opens the session and waits for the greeting
 - 53.1 s to 58.2 s: Q1: the voice-to-voice wait from the caller's last word to the agent's first (5179 ms), never cut | A (live): the tool call goji_explain_term runs
-- 78.0 s to 81.4 s: A (live): clicks; the session ended with the Talk button; punch-in on the goji_explain_term call, under N4 | B (live): the page between spoken turns
-- 88.8 s to 93.3 s: B (live): scrolling; clicks; Talk pressed: the page fetches a token, opens the session and waits for the greeting
-- 94.6 s to 99.7 s: Q2: the voice-to-voice wait from the caller's last word to the agent's first (5280 ms), never cut | B (live): the tool call get_book_recommenders runs; punch-in on the get_book_recommenders call
-- 104.9 s to 109.6 s: B (live): clicks; the session ended with the Talk button | the phases slide
-- 121.8 s to 129.2 s: the phases slide | C1+C3 (live): clicks; scrolling; Talk pressed: the page fetches a token, opens the session and waits for the greeting
-- 131.4 s to 134.4 s: Q3: the voice-to-voice wait from the caller's last word to the agent's first (3104 ms), never cut | C1+C3 (live): the tool call find_tools runs; punch-in on find_tools and the swap
-- 138.7 s to 141.2 s: C1+C3 (live): the page between spoken turns
-- 147.0 s to 153.7 s: Q5: the voice-to-voice wait from the caller's last word to the agent's first (6758 ms), never cut | C1+C3 (live): the tool call find_tools runs; the tool call afg_get_reputation is held by the gate (no request); punch-in on needs_paste
-- 185.1 s to 190.7 s: Q4: the voice-to-voice wait from the caller's last word to the agent's first (5683 ms), never cut | C2 (live): the tool call use_pasted_text runs; the tool call afg_get_reputation runs; punch-in on afg_get_reputation and its argument
-- 244.2 s to 249.3 s: the try slide and the end card
+- 89.9 s to 95.1 s: Q2: the voice-to-voice wait from the caller's last word to the agent's first (5280 ms), never cut | B (live): the tool call get_book_recommenders runs; punch-in on the get_book_recommenders call
+- 117.7 s to 120.7 s: Q3: the voice-to-voice wait from the caller's last word to the agent's first (3104 ms), never cut | C1+C3 (live): the tool call find_tools runs; punch-in on find_tools and the swap
+- 125.0 s to 127.5 s: C1+C3 (live): the page between spoken turns
+- 133.3 s to 139.9 s: Q5: the voice-to-voice wait from the caller's last word to the agent's first (6758 ms), never cut | C1+C3 (live): the tool call find_tools runs; the tool call afg_get_reputation is held by the gate (no request); punch-in on needs_paste
+- 171.4 s to 176.9 s: Q4: the voice-to-voice wait from the caller's last word to the agent's first (5683 ms), never cut | C2 (live): the tool call use_pasted_text runs; the tool call afg_get_reputation runs; punch-in on afg_get_reputation and its argument
+- 230.4 s to 235.6 s: the try slide and the end card
 
-The transcript of the file's audio is AssemblyAI transcript `11d035ad-ad40-4a3f-bd87-0e8be0e36616` (universal-3-5-pro,universal-2, speaker labels on).
+The transcript of the file's audio is AssemblyAI transcript `2b8e4bce-7936-4fca-a6a7-b21023652e6e` (universal-3-5-pro,universal-2, speaker labels on).
+
+## Changed on the page after capture
+
+Page copy changed after the takes in data/video/takes.json were captured (round G). The video shows the page as it was when captured; nothing inside a page frame is edited.
+
+- the paste box's hint (apps/web/interpres-index.html): "Speech-to-text cannot carry long IDs: nothing it mishears is ever run." is now "Speech-to-text does not reliably carry long IDs, so nothing spoken is run until it is pasted."
+- the AFG preset card (apps/server/src/presets.ts) (the server now lists 18 tools): "15 tools, so find_tools has to swap the set. Test money only." is now "More than ten tools, so find_tools has to swap the set. Test money only."
 
 ## Rebuild
 

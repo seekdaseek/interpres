@@ -1,6 +1,6 @@
 {
  "file": "video/out/interpres-demo.mp4",
- "sha256": "2f8cd19d1669c6a62b7bbd960e384d2cb6742ac3d66f20b46b4cc87317fbff7a",
+ "sha256": "681ab05e547f734760f6c5f23d0882a06481ee972a1edfcbeda02c5d2c1e863b",
  "results": [
   {
    "check": "video: H.264 High",
@@ -45,22 +45,22 @@
   {
    "check": "duration and size",
    "ok": true,
-   "detail": "249.301 s, 34,070,534 bytes"
+   "detail": "235.567 s, 31,839,453 bytes"
   },
   {
    "check": "length 3:30 to 4:15 (hard cap 4:55)",
    "ok": true,
-   "detail": "4:09.3"
+   "detail": "3:55.6"
   },
   {
    "check": "size 300 MB or less",
    "ok": true,
-   "detail": "32.5 MB"
+   "detail": "30.4 MB"
   },
   {
    "check": "loudness -16 LUFS integrated +-1",
    "ok": true,
-   "detail": "-16 LUFS (LRA 5.9 LU)"
+   "detail": "-16 LUFS (LRA 5.3 LU)"
   },
   {
    "check": "true peak -1.5 dBTP or lower",
@@ -100,7 +100,7 @@
   {
    "check": "N6 word for word",
    "ok": true,
-   "detail": "ok (variants: interprez -> interpres, interprez -> interpres)"
+   "detail": "ok (variants: interprete -> interpres, interprete -> interpres)"
   },
   {
    "check": "N8 word for word",
@@ -146,58 +146,38 @@
    "what": "Q1: the voice-to-voice wait from the caller's last word to the agent's first (5179 ms), never cut | A (live): the tool call goji_explain_term runs"
   },
   {
-   "start": 77971,
-   "end": 81381,
-   "what": "A (live): clicks; the session ended with the Talk button; punch-in on the goji_explain_term call, under N4 | B (live): the page between spoken turns"
-  },
-  {
-   "start": 88809,
-   "end": 93293,
-   "what": "B (live): scrolling; clicks; Talk pressed: the page fetches a token, opens the session and waits for the greeting"
-  },
-  {
-   "start": 94582,
-   "end": 99733,
+   "start": 89943,
+   "end": 95094,
    "what": "Q2: the voice-to-voice wait from the caller's last word to the agent's first (5280 ms), never cut | B (live): the tool call get_book_recommenders runs; punch-in on the get_book_recommenders call"
   },
   {
-   "start": 104863,
-   "end": 109587,
-   "what": "B (live): clicks; the session ended with the Talk button | the phases slide"
-  },
-  {
-   "start": 121766,
-   "end": 129196,
-   "what": "the phases slide | C1+C3 (live): clicks; scrolling; Talk pressed: the page fetches a token, opens the session and waits for the greeting"
-  },
-  {
-   "start": 131409,
-   "end": 134420,
+   "start": 117668,
+   "end": 120679,
    "what": "Q3: the voice-to-voice wait from the caller's last word to the agent's first (3104 ms), never cut | C1+C3 (live): the tool call find_tools runs; punch-in on find_tools and the swap"
   },
   {
-   "start": 138733,
-   "end": 141241,
+   "start": 124992,
+   "end": 127499,
    "what": "C1+C3 (live): the page between spoken turns"
   },
   {
-   "start": 147038,
-   "end": 153665,
+   "start": 133297,
+   "end": 139923,
    "what": "Q5: the voice-to-voice wait from the caller's last word to the agent's first (6758 ms), never cut | C1+C3 (live): the tool call find_tools runs; the tool call afg_get_reputation is held by the gate (no request); punch-in on needs_paste"
   },
   {
-   "start": 185102,
-   "end": 190651,
+   "start": 171360,
+   "end": 176910,
    "what": "Q4: the voice-to-voice wait from the caller's last word to the agent's first (5683 ms), never cut | C2 (live): the tool call use_pasted_text runs; the tool call afg_get_reputation runs; punch-in on afg_get_reputation and its argument"
   },
   {
-   "start": 244163,
-   "end": 249301,
+   "start": 230421,
+   "end": 235563,
    "what": "the try slide and the end card"
   }
  ],
  "transcript": {
-  "id": "11d035ad-ad40-4a3f-bd87-0e8be0e36616",
+  "id": "2b8e4bce-7936-4fca-a6a7-b21023652e6e",
   "speechModel": "universal-3-5-pro,universal-2"
  }
 }

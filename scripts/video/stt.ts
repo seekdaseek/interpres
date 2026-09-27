@@ -19,6 +19,13 @@ async function api<T>(path: string, init: RequestInit): Promise<T> {
   return JSON.parse(text) as T;
 }
 
+/** A finished transcript fetched again by its id: the same words, re-checked under a changed rule. */
+export async function getTranscript(id: string): Promise<Transcript> {
+  const t = await api<{ id: string; status: string; text?: string; words?: Word[]; speech_model?: string | null; speech_models?: string[] | null; utterances?: Transcript['utterances'] }>(`/transcript/${id}`, { method: 'GET' });
+  if (t.status !== 'completed') throw new Error(`transcript ${id} is ${t.status}`);
+  return { id: t.id, text: t.text ?? '', words: t.words ?? [], speechModel: t.speech_model ?? (t.speech_models?.join(',') ?? null), utterances: t.utterances };
+}
+
 export async function transcribeFile(path: string, opts: { speakerLabels?: boolean } = {}): Promise<Transcript> {
   if (config.assemblyAiKey === '') throw new Error('ASSEMBLYAI_API_KEY is not set');
   const { upload_url } = await api<{ upload_url: string }>('/upload', {

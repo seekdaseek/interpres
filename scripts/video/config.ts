@@ -87,9 +87,11 @@ export const callerSay = (id: string, caption: string): string => CALLER_SAY[id]
  * transcript word is accepted in place of the script word only as listed.
  */
 export const PROPER_NOUN_VARIANTS: Record<string, string[]> = {
-  // The recogniser spells the made-up name several ways: every "interpr" + e|a + s|ss|z|ze|se.
-  // Seen so far: interpress, interprez, interpreze, interprase, interpraze.
-  interpres: ['interpress', 'interprez', 'interpreze', 'interprese', 'interpras', 'interprass', 'interpraz', 'interpraze', 'interprase'],
+  // The recogniser spells the made-up name several ways: every "interpr" + e|a + s|ss|z|ze|se,
+  // and "interprete" (seen in N7's first try in F2b and in N6 of round G's final transcript).
+  // Not "interpret", which is a different English word.
+  // Seen so far: interpress, interprez, interpreze, interprase, interpraze, interprete.
+  interpres: ['interpress', 'interprez', 'interpreze', 'interprese', 'interpras', 'interprass', 'interpraz', 'interpraze', 'interprase', 'interprete'],
   assemblyai: ['assembly ai'],
   openai: ['open ai'],
 };

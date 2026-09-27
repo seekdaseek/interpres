@@ -3284,3 +3284,81 @@ Brief: `interpres-brief-G.md`. Order: G1, G2, G3, G4.
 ```
 $ npm test    ℹ tests 422  ℹ pass 422  ℹ fail 0
 ```
+
+## 2026-09-27 - round G: G2 deployed, G3 the tighter cut, G4 the tarball
+
+**G2 deploy:** `sh ops/redeploy.sh` shipped e36a8c7.
+- The tree was clean: `data/events.jsonl`, the local dev server's log, was stashed for the run and
+  restored after.
+- PM2, read before and after with name, pid, restarts and status only, never env:
+
+```
+16c16
+< interpres 3641140 0 online
+---
+> interpres 3682770 0 online
+200 /api/health on 127.0.0.1:3031
+```
+
+- Only `interpres` changed. The other 44 processes, `interpres-tunnel` included, kept their pids.
+- **On the public URL:**
+  - The served HTML carries the new hint once and the old one 0 times.
+  - `/api/presets` gives the AFG blurb as "More than ten tools, so find_tools has to swap the set.
+    Test money only."
+  - In headless Chromium the rendered AFG card and the paste hint read the new copy. After the
+    connect, the server card reads "v0.1.0 · 18 tools".
+
+**G3: the tighter cut**, from the same takes:
+
+| cut | at | in the take | reason |
+| --- | ---: | --- | --- |
+| B | 87.08 s | 12.6-14.7 s | before the mic is pressed: the scroll to the talk bar, which ran past N5 |
+| B | 87.73 s | 15.3-21.4 s | from the mic press to the first frame where the page is listening |
+| C | 113.95 s | 6.1-9.3 s | between the AFG click and the mic press: the connect and the scroll |
+| C | 114.50 s | 9.8-20.0 s | from the mic press to the first frame where the page is listening |
+| C | 130.57 s | 36.1-44.3 s | inside Q5 (13.8 s), as before |
+
+- **Scene A** keeps its connect time whole. It now ends 0.5 s after N4 instead of at the End press.
+- **Scene B** starts 0.6 s before N5 and ends 0.7 s after the agent's last word.
+- **The phases slide's tail** is 150 ms.
+- **The measured gaps:**
+
+| gap | before | after | target |
+| --- | ---: | ---: | --- |
+| N6's end to Q3's first word | 7.4 s | 1.87 s | 2 s or less |
+| N5 to Q2 | 3.95 s | 1.85 s | about 1.5 s |
+| N4 to N5 | 3.4 s | 0.8 s | |
+
+- **Silences left at -45 dB for 2.5 s or more:** the five voice-to-voice waits, never cut; A's
+  connect, 2.9 s; C between turns, 2.5 s; and the 4 s end card.
+
+**The final file** is `interpres-demo.mp4`, sha256
+`681ab05e547f734760f6c5f23d0882a06481ee972a1edfcbeda02c5d2c1e863b`:
+
+```
+ok   H.264 High · 1920x1080 · yuv420p · r 30/1, avg 30/1 · AAC LC 48 kHz 2 ch · 192012 b/s · ftyp moov free mdat
+ok   235.567 s (3:55.6) · 31,839,453 bytes (30.4 MB) · -16 LUFS (LRA 5.3 LU) · true peak -2.3 dBTP · 0 black spans
+ok   N1-N12 word for word
+```
+
+- **One more listed spelling.** N6 first failed on "interprete", a spelling the recogniser had
+  already given once (N7's first try, F2b). It joins the listed spellings of the made-up name;
+  "interpret" is still not accepted.
+- **The same transcript was judged again.** `2b8e4bce-7936-4fca-a6a7-b21023652e6e` was fetched by id
+  (`build.ts --reuse-transcript`, same file sha) rather than made anew, and passed.
+- **VIDEO.md** records the post-capture page copy.
+
+**G4: npm.**
+- `node scripts/npm-pack.ts` now also leaves the tarball in `build/npm`:
+  `build/npm/interpres-0.1.0.tgz`, 99,765 bytes, sha256
+  `363f99e6db2dc21b3b92a6681ec3a2e03de1933935f02dff457c2099ac9fce36`.
+- The README example ran from a clean install of it.
+- `npm view interpres version` answered 404, so there is no install line in the README.
+
+**Voice Agent usage** (`scripts/usage.ts`): 234 sessions, all `completed`, 115.4 min, $8.66, 5.77% of
+the $150.
+- That is 46 since c31864b, all this round's: 42 A/B sessions and 4 that made its clips.
+
+```
+$ npm test    ℹ tests 422  ℹ pass 422  ℹ fail 0
+```

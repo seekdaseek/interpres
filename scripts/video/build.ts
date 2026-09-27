@@ -8,10 +8,10 @@
  *   5. the outputs on the Desktop, key frames included;
  *   6. docs/VIDEO.md.
  *
- *   node --env-file=.env scripts/video/build.ts [--no-desktop] [--skip-render]
+ *   node --env-file=.env scripts/video/build.ts [--no-desktop] [--skip-render] [--reuse-transcript]
  */
 import { createHash } from 'node:crypto';
-import { copyFileSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { copyFileSync, existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { identifiersSlide } from './identifiers-slide.ts';
 import { build as buildEdl } from './edl.ts';
 import type { Edl } from './edl.ts';
@@ -61,7 +61,12 @@ if (isMain) {
   const b = black(OUT, edl);
   results.push(b.result);
   const sil = silences(OUT, edl);
-  const tr = await transcript(OUT, OUT.replace(/\.mp4$/, '-transcript.txt'));
+  // --reuse-transcript: when the file is byte for byte the one last checked, its transcript is
+  // fetched again by id rather than made anew, so a changed rule is judged on the same words.
+  const last = existsSync('data/video/final-checks.json') ? JSON.parse(readFileSync('data/video/final-checks.json', 'utf8')) as { sha256?: string; transcript?: { id: string } } : null;
+  const reuse = process.argv.includes('--reuse-transcript') && last?.sha256 === sha(OUT) ? last.transcript?.id : undefined;
+  if (process.argv.includes('--reuse-transcript')) console.log(reuse ? `   transcript ${reuse} reused (same file)` : '   transcript not reused: the file changed');
+  const tr = await transcript(OUT, OUT.replace(/\.mp4$/, '-transcript.txt'), reuse);
   results.push(...narrationCheck(edl, tr.words));
   await contactSheet(OUT, OUT.replace(/\.mp4$/, '-contact.png'), edl.durationMs);
   const checks = { file: OUT, sha256: sha(OUT), results, black: b.spans, silences: sil, transcript: { id: tr.id, speechModel: tr.speechModel } };

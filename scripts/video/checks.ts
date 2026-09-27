@@ -16,7 +16,7 @@ import { execFileSync, spawnSync } from 'node:child_process';
 import { closeSync, mkdirSync, openSync, readFileSync, readSync, statSync, writeFileSync } from 'node:fs';
 import { createCanvas, loadImage, GlobalFonts } from '@napi-rs/canvas';
 import { PROPER_NOUN_VARIANTS, narration } from './config.ts';
-import { matchWords, transcribeFile } from './stt.ts';
+import { getTranscript, matchWords, transcribeFile } from './stt.ts';
 import { KIT } from './edl.ts';
 import type { Edl } from './edl.ts';
 import { ffmpegStderr, measure } from './render.ts';
@@ -138,10 +138,16 @@ export function silences(file: string, edl: Edl): Array<{ start: number; end: nu
 }
 
 /** AssemblyAI transcript of the file's audio: words, speaker labels, and a text file. */
-export async function transcript(file: string, outTxt: string): Promise<{ id: string; speechModel: string | null; words: Array<{ text: string; start: number; end: number; speaker?: string | null }>; utterances: Array<{ speaker: string; text: string; start: number; end: number }> }> {
-  const flac = file.replace(/\.mp4$/, '-audio.flac');
-  execFileSync('ffmpeg', ['-v', 'error', '-y', '-i', file, '-vn', '-ac', '1', '-ar', '16000', '-sample_fmt', 's16', flac]);
-  const t = await transcribeFile(flac, { speakerLabels: true });
+export async function transcript(file: string, outTxt: string, reuseId?: string): Promise<{ id: string; speechModel: string | null; words: Array<{ text: string; start: number; end: number; speaker?: string | null }>; utterances: Array<{ speaker: string; text: string; start: number; end: number }> }> {
+  let t: Awaited<ReturnType<typeof transcribeFile>>;
+  if (reuseId) {
+    // The same file, checked again under a changed rule: the same transcript, fetched by id.
+    t = await getTranscript(reuseId);
+  } else {
+    const flac = file.replace(/\.mp4$/, '-audio.flac');
+    execFileSync('ffmpeg', ['-v', 'error', '-y', '-i', file, '-vn', '-ac', '1', '-ar', '16000', '-sample_fmt', 's16', flac]);
+    t = await transcribeFile(flac, { speakerLabels: true });
+  }
   const ts = (ms: number) => `${String(Math.floor(ms / 60000)).padStart(2, '0')}:${((ms % 60000) / 1000).toFixed(2).padStart(5, '0')}`;
   const lines = [
     `AssemblyAI transcript of ${file.split('/').at(-1)}'s audio. Transcript ${t.id}, speech model ${t.speechModel}, speaker labels on.`,

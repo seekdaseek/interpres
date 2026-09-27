@@ -1,6 +1,6 @@
 {
  "fps": 30,
- "durationMs": 249302,
+ "durationMs": 235560,
  "shots": [
   {
    "kind": "still",
@@ -20,61 +20,71 @@
    "kind": "live",
    "capture": "A-20260926T215425",
    "start": 32480,
-   "end": 80513,
+   "end": 78686,
    "name": "A",
    "segments": [
     {
      "at": 32480,
      "from": 3306,
-     "to": 51339
+     "to": 49512
     }
    ]
   },
   {
    "kind": "live",
    "capture": "B-20260926T221242",
-   "start": 80213,
-   "end": 109227.0625,
+   "start": 78386,
+   "end": 100888,
    "name": "B",
    "segments": [
     {
-     "at": 80213,
-     "from": 3391,
-     "to": 16086
+     "at": 78386,
+     "from": 3791,
+     "to": 12681
     },
     {
-     "at": 92708,
-     "from": 21600.9375,
-     "to": 38120
+     "at": 87076,
+     "from": 14586,
+     "to": 15436
+    },
+    {
+     "at": 87726,
+     "from": 21258,
+     "to": 34420
     }
    ]
   },
   {
    "kind": "still",
    "image": "/Users/ochinimus/Desktop/interpres-video-kit/slides/phases.png",
-   "start": 108927.0625,
-   "end": 122737.0625,
+   "start": 100588,
+   "end": 113848,
    "name": "phases"
   },
   {
    "kind": "live",
    "capture": "C-20260927T064547",
-   "start": 122437.0625,
-   "end": 167319.5625,
+   "start": 113548,
+   "end": 153578,
    "name": "C1+C3",
    "segments": [
     {
-     "at": 122437.0625,
-     "from": 4218,
-     "to": 10600
+     "at": 113548,
+     "from": 5568,
+     "to": 6168
     },
     {
-     "at": 128619.0625,
-     "from": 20297.5,
+     "at": 113948,
+     "from": 9200,
+     "to": 9950
+    },
+    {
+     "at": 114498,
+     "from": 19918,
      "to": 36190
     },
     {
-     "at": 144311.5625,
+     "at": 130570,
      "from": 44180,
      "to": 67188
     }
@@ -83,19 +93,19 @@
   {
    "kind": "still",
    "image": "video/out/identifiers.png",
-   "start": 167019.5625,
-   "end": 171319.5625,
+   "start": 153278,
+   "end": 157578,
    "name": "identifiers"
   },
   {
    "kind": "live",
    "capture": "C-20260927T064547",
-   "start": 171019.5625,
-   "end": 196051.5625,
+   "start": 157278,
+   "end": 182310,
    "name": "C2",
    "segments": [
     {
-     "at": 171019.5625,
+     "at": 157278,
      "from": 70888,
      "to": 95920
     }
@@ -104,29 +114,29 @@
   {
    "kind": "still",
    "image": "/Users/ochinimus/Desktop/interpres-video-kit/slides/registry.png",
-   "start": 195751.5625,
-   "end": 209631.5625,
+   "start": 182010,
+   "end": 195890,
    "name": "registry"
   },
   {
    "kind": "still",
    "image": "/Users/ochinimus/Desktop/interpres-video-kit/slides/spoken.png",
-   "start": 209331.5625,
-   "end": 227781.5625,
+   "start": 195590,
+   "end": 214040,
    "name": "spoken"
   },
   {
    "kind": "still",
    "image": "/Users/ochinimus/Desktop/interpres-video-kit/slides/speed.png",
-   "start": 227481.5625,
-   "end": 236491.5625,
+   "start": 213740,
+   "end": 222750,
    "name": "speed"
   },
   {
    "kind": "still",
    "image": "/Users/ochinimus/Desktop/interpres-video-kit/slides/try.png",
-   "start": 236191.5625,
-   "end": 249301.5625,
+   "start": 222450,
+   "end": 235560,
    "name": "try"
   }
  ],
@@ -157,49 +167,49 @@
   },
   {
    "id": "N5",
-   "at": 81213,
+   "at": 78986,
    "ms": 7890,
    "file": "video/voices/N5.wav"
   },
   {
    "id": "N6",
-   "at": 109427.0625,
+   "at": 101088,
    "ms": 12610,
    "file": "video/voices/N6.wav"
   },
   {
    "id": "N8",
-   "at": 162095.5625,
+   "at": 148354,
    "ms": 4470,
    "file": "video/voices/N8.wav"
   },
   {
    "id": "N7",
-   "at": 167169.5625,
+   "at": 153428,
    "ms": 14980,
    "file": "video/voices/N7.wav"
   },
   {
    "id": "N9",
-   "at": 196251.5625,
+   "at": 182510,
    "ms": 12680,
    "file": "video/voices/N9.wav"
   },
   {
    "id": "N10",
-   "at": 209831.5625,
+   "at": 196090,
    "ms": 17250,
    "file": "video/voices/N10.wav"
   },
   {
    "id": "N11",
-   "at": 227981.5625,
+   "at": 214240,
    "ms": 7810,
    "file": "video/voices/N11.wav"
   },
   {
    "id": "N12",
-   "at": 236691.5625,
+   "at": 222950,
    "ms": 7810,
    "file": "video/voices/N12.wav"
   }
@@ -209,7 +219,7 @@
    "capture": "A-20260926T215425",
    "stem": "caller",
    "from": 3306,
-   "to": 51339,
+   "to": 49512,
    "at": 32480,
    "fadeIn": 300,
    "fadeOut": 300
@@ -218,7 +228,7 @@
    "capture": "A-20260926T215425",
    "stem": "agent",
    "from": 3306,
-   "to": 51339,
+   "to": 49512,
    "at": 32480,
    "fadeIn": 300,
    "fadeOut": 300
@@ -226,72 +236,108 @@
   {
    "capture": "B-20260926T221242",
    "stem": "caller",
-   "from": 3391,
-   "to": 16086,
-   "at": 80213,
+   "from": 3791,
+   "to": 12681,
+   "at": 78386,
    "fadeIn": 300,
    "fadeOut": 200
   },
   {
    "capture": "B-20260926T221242",
    "stem": "agent",
-   "from": 3391,
-   "to": 16086,
-   "at": 80213,
+   "from": 3791,
+   "to": 12681,
+   "at": 78386,
    "fadeIn": 300,
    "fadeOut": 200
   },
   {
    "capture": "B-20260926T221242",
    "stem": "caller",
-   "from": 21600.9375,
-   "to": 38120,
-   "at": 92708,
+   "from": 14586,
+   "to": 15436,
+   "at": 87076,
+   "fadeIn": 200,
+   "fadeOut": 200
+  },
+  {
+   "capture": "B-20260926T221242",
+   "stem": "agent",
+   "from": 14586,
+   "to": 15436,
+   "at": 87076,
+   "fadeIn": 200,
+   "fadeOut": 200
+  },
+  {
+   "capture": "B-20260926T221242",
+   "stem": "caller",
+   "from": 21258,
+   "to": 34420,
+   "at": 87726,
    "fadeIn": 200,
    "fadeOut": 300
   },
   {
    "capture": "B-20260926T221242",
    "stem": "agent",
-   "from": 21600.9375,
-   "to": 38120,
-   "at": 92708,
+   "from": 21258,
+   "to": 34420,
+   "at": 87726,
    "fadeIn": 200,
    "fadeOut": 300
   },
   {
    "capture": "C-20260927T064547",
    "stem": "caller",
-   "from": 4218,
-   "to": 10600,
-   "at": 122437.0625,
+   "from": 5568,
+   "to": 6168,
+   "at": 113548,
    "fadeIn": 300,
    "fadeOut": 200
   },
   {
    "capture": "C-20260927T064547",
    "stem": "agent",
-   "from": 4218,
-   "to": 10600,
-   "at": 122437.0625,
+   "from": 5568,
+   "to": 6168,
+   "at": 113548,
    "fadeIn": 300,
    "fadeOut": 200
   },
   {
    "capture": "C-20260927T064547",
    "stem": "caller",
-   "from": 20297.5,
-   "to": 36190,
-   "at": 128619.0625,
+   "from": 9200,
+   "to": 9950,
+   "at": 113948,
    "fadeIn": 200,
    "fadeOut": 200
   },
   {
    "capture": "C-20260927T064547",
    "stem": "agent",
-   "from": 20297.5,
+   "from": 9200,
+   "to": 9950,
+   "at": 113948,
+   "fadeIn": 200,
+   "fadeOut": 200
+  },
+  {
+   "capture": "C-20260927T064547",
+   "stem": "caller",
+   "from": 19918,
    "to": 36190,
-   "at": 128619.0625,
+   "at": 114498,
+   "fadeIn": 200,
+   "fadeOut": 200
+  },
+  {
+   "capture": "C-20260927T064547",
+   "stem": "agent",
+   "from": 19918,
+   "to": 36190,
+   "at": 114498,
    "fadeIn": 200,
    "fadeOut": 200
   },
@@ -300,7 +346,7 @@
    "stem": "caller",
    "from": 44180,
    "to": 67188,
-   "at": 144311.5625,
+   "at": 130570,
    "fadeIn": 200,
    "fadeOut": 300
   },
@@ -309,7 +355,7 @@
    "stem": "agent",
    "from": 44180,
    "to": 67188,
-   "at": 144311.5625,
+   "at": 130570,
    "fadeIn": 200,
    "fadeOut": 300
   },
@@ -318,7 +364,7 @@
    "stem": "caller",
    "from": 70888,
    "to": 95920,
-   "at": 171019.5625,
+   "at": 157278,
    "fadeIn": 300,
    "fadeOut": 300
   },
@@ -327,7 +373,7 @@
    "stem": "agent",
    "from": 70888,
    "to": 95920,
-   "at": 171019.5625,
+   "at": 157278,
    "fadeIn": 300,
    "fadeOut": 300
   }
@@ -514,16 +560,16 @@
    ]
   },
   {
-   "start": 81728,
-   "end": 83535,
+   "start": 79501,
+   "end": 81308,
    "who": "narration",
    "lines": [
     "No website in mind?"
    ]
   },
   {
-   "start": 83579,
-   "end": 87766,
+   "start": 81352,
+   "end": 85539,
    "who": "narration",
    "lines": [
     "Search more than 11,000 public",
@@ -531,24 +577,24 @@
    ]
   },
   {
-   "start": 87766,
-   "end": 89300,
+   "start": 85539,
+   "end": 87073,
    "who": "narration",
    "lines": [
     "One click connects."
    ]
   },
   {
-   "start": 93361.0625,
-   "end": 95069.0625,
+   "start": 88722,
+   "end": 90430,
    "who": "caller",
    "lines": [
     "Caller: Who recommends Sapiens?"
    ]
   },
   {
-   "start": 99864.0625,
-   "end": 102851.0625,
+   "start": 95225,
+   "end": 98212,
    "who": "agent",
    "lines": [
     "Agent: Sapiens is recommended",
@@ -556,24 +602,24 @@
    ]
   },
   {
-   "start": 102851.0625,
-   "end": 105394.0625,
+   "start": 98212,
+   "end": 100755,
    "who": "agent",
    "lines": [
     "including Joe Rogan and Lex Fridman."
    ]
   },
   {
-   "start": 110165.0625,
-   "end": 112677.0625,
+   "start": 101826,
+   "end": 104338,
    "who": "narration",
    "lines": [
     "Many servers list more than ten tools."
    ]
   },
   {
-   "start": 112832.0625,
-   "end": 117175.0625,
+   "start": 104493,
+   "end": 108836,
    "who": "narration",
    "lines": [
     "interpres shows the agent ten at a time,",
@@ -581,16 +627,16 @@
    ]
   },
   {
-   "start": 117314.0625,
-   "end": 118695.0625,
+   "start": 108975,
+   "end": 110356,
    "who": "narration",
    "lines": [
     "Ask for something out of view,"
    ]
   },
   {
-   "start": 118695.0625,
-   "end": 122315.0625,
+   "start": 110356,
+   "end": 113976,
    "who": "narration",
    "lines": [
     "and interpres swaps the right",
@@ -598,8 +644,8 @@
    ]
   },
   {
-   "start": 129306.5625,
-   "end": 131962.5625,
+   "start": 115565,
+   "end": 118221,
    "who": "caller",
    "lines": [
     "Caller: I want to run a spec",
@@ -607,16 +653,16 @@
    ]
   },
   {
-   "start": 134525.5625,
-   "end": 136291.5625,
+   "start": 120784,
+   "end": 122550,
    "who": "agent",
    "lines": [
     "Agent: I can certainly help you with that."
    ]
   },
   {
-   "start": 136291.5625,
-   "end": 139059.5625,
+   "start": 122550,
+   "end": 125318,
    "who": "agent",
    "lines": [
     "Please provide the job contract",
@@ -624,8 +670,8 @@
    ]
   },
   {
-   "start": 141131.5625,
-   "end": 144782.5625,
+   "start": 127390,
+   "end": 131041,
    "who": "caller",
    "lines": [
     "Caller: What is the reputation",
@@ -633,24 +679,24 @@
    ]
   },
   {
-   "start": 144782.5625,
-   "end": 147563.5625,
+   "start": 131041,
+   "end": 133822,
    "who": "caller",
    "lines": [
     "…1BEA ED?"
    ]
   },
   {
-   "start": 153776.5625,
-   "end": 155478.5625,
+   "start": 140035,
+   "end": 141737,
    "who": "agent",
    "lines": [
     "Agent: I may have misheard that value."
    ]
   },
   {
-   "start": 155478.5625,
-   "end": 158432.5625,
+   "start": 141737,
+   "end": 144691,
    "who": "agent",
    "lines": [
     "Please paste it into the",
@@ -658,16 +704,16 @@
    ]
   },
   {
-   "start": 158432.5625,
-   "end": 160718.5625,
+   "start": 144691,
+   "end": 146977,
    "who": "agent",
    "lines": [
     "and I will use exactly what you paste."
    ]
   },
   {
-   "start": 162550.5625,
-   "end": 166758.5625,
+   "start": 148809,
+   "end": 153017,
    "who": "narration",
    "lines": [
     "A spoken address is held back,",
@@ -675,16 +721,16 @@
    ]
   },
   {
-   "start": 167458.5625,
-   "end": 169701.5625,
+   "start": 153717,
+   "end": 155960,
    "who": "narration",
    "lines": [
     "Speech often gets identifiers wrong."
    ]
   },
   {
-   "start": 170422.5625,
-   "end": 174852.5625,
+   "start": 156681,
+   "end": 161111,
    "who": "narration",
    "lines": [
     "Before this gate, a misheard wallet",
@@ -692,8 +738,8 @@
    ]
   },
   {
-   "start": 174852.5625,
-   "end": 177675.5625,
+   "start": 161111,
+   "end": 163934,
    "who": "narration",
    "lines": [
     "and a right hearing looks",
@@ -701,8 +747,8 @@
    ]
   },
   {
-   "start": 177687.5625,
-   "end": 182442.5625,
+   "start": 163946,
+   "end": 168701,
    "who": "narration",
    "lines": [
     "So the address comes from the paste box,",
@@ -710,8 +756,8 @@
    ]
   },
   {
-   "start": 182919.5625,
-   "end": 185623.5625,
+   "start": 169178,
+   "end": 171882,
    "who": "caller",
    "lines": [
     "Caller: Check the reputation",
@@ -719,8 +765,8 @@
    ]
   },
   {
-   "start": 190788.5625,
-   "end": 193293.5625,
+   "start": 177047,
+   "end": 179552,
    "who": "agent",
    "lines": [
     "Agent: That wallet currently",
@@ -728,24 +774,24 @@
    ]
   },
   {
-   "start": 193293.5625,
-   "end": 195402.5625,
+   "start": 179552,
+   "end": 181661,
    "who": "agent",
    "lines": [
     "so it doesn't have a reputation yet."
    ]
   },
   {
-   "start": 196925.5625,
-   "end": 198369.5625,
+   "start": 183184,
+   "end": 184628,
    "who": "narration",
    "lines": [
     "To check it isn't just these three,"
    ]
   },
   {
-   "start": 198369.5625,
-   "end": 202308.5625,
+   "start": 184628,
+   "end": 188567,
    "who": "narration",
    "lines": [
     "we probed every remote server",
@@ -753,16 +799,16 @@
    ]
   },
   {
-   "start": 202382.5625,
-   "end": 204950.5625,
+   "start": 188641,
+   "end": 191209,
    "who": "narration",
    "lines": [
     "12,012 answered without a login,"
    ]
   },
   {
-   "start": 204950.5625,
-   "end": 209129.5625,
+   "start": 191209,
+   "end": 195388,
    "who": "narration",
    "lines": [
     "listing more than 200,000 tools,",
@@ -770,8 +816,8 @@
    ]
   },
   {
-   "start": 210569.5625,
-   "end": 214420.5625,
+   "start": 196828,
+   "end": 200679,
    "who": "narration",
    "lines": [
     "Then we gave thirty of them one",
@@ -779,8 +825,8 @@
    ]
   },
   {
-   "start": 214420.5625,
-   "end": 218046.5625,
+   "start": 200679,
+   "end": 204305,
    "who": "narration",
    "lines": [
     "Twenty-nine sessions ran,",
@@ -788,16 +834,16 @@
    ]
   },
   {
-   "start": 218046.5625,
-   "end": 220411.5625,
+   "start": 204305,
+   "end": 206670,
    "who": "narration",
    "lines": [
     "and fourteen answered from live data."
    ]
   },
   {
-   "start": 220598.5625,
-   "end": 225011.5625,
+   "start": 206857,
+   "end": 211270,
    "who": "narration",
    "lines": [
     "When a tool ran, the median",
@@ -805,16 +851,16 @@
    ]
   },
   {
-   "start": 225011.5625,
-   "end": 227311.5625,
+   "start": 211270,
+   "end": 213570,
    "who": "narration",
    "lines": [
     "and the whole run cost 60 cents."
    ]
   },
   {
-   "start": 228737.5625,
-   "end": 233166.5625,
+   "start": 214996,
+   "end": 219425,
    "who": "narration",
    "lines": [
     "Along the way we found two places where",
@@ -822,8 +868,8 @@
    ]
   },
   {
-   "start": 233166.5625,
-   "end": 235940.5625,
+   "start": 219425,
+   "end": 222199,
    "who": "narration",
    "lines": [
     "and wrote both up with",
@@ -831,8 +877,8 @@
    ]
   },
   {
-   "start": 236964.5625,
-   "end": 241976.5625,
+   "start": 223223,
+   "end": 228235,
    "who": "narration",
    "lines": [
     "interpres is open source under MIT,",
@@ -840,8 +886,8 @@
    ]
   },
   {
-   "start": 242037.5625,
-   "end": 244746.5625,
+   "start": 228296,
+   "end": 231005,
    "who": "narration",
    "lines": [
     "Type a website, press the mic, and ask."
@@ -877,7 +923,7 @@
   },
   {
    "capture": "B-20260926T221242",
-   "start": 98605.0625,
+   "start": 93966,
    "hold": 3000,
    "rect": {
     "x": 603.7890625,
@@ -890,7 +936,7 @@
   },
   {
    "capture": "C-20260927T064547",
-   "start": 133505.5625,
+   "start": 119764,
    "hold": 3000,
    "rect": {
     "x": 603.7890625,
@@ -903,7 +949,7 @@
   },
   {
    "capture": "C-20260927T064547",
-   "start": 152613.5625,
+   "start": 138872,
    "hold": 3000,
    "rect": {
     "x": 24,
@@ -916,7 +962,7 @@
   },
   {
    "capture": "C-20260927T064547",
-   "start": 187851.5625,
+   "start": 174110,
    "hold": 3000,
    "rect": {
     "x": 618.7890625,
@@ -936,28 +982,28 @@
   },
   {
    "start": 32480,
-   "end": 80513,
+   "end": 78686,
    "text": "live session · scripted caller"
   },
   {
-   "start": 80213,
-   "end": 109227.0625,
+   "start": 78386,
+   "end": 100888,
    "text": "live session · scripted caller"
   },
   {
-   "start": 122437.0625,
-   "end": 167319.5625,
+   "start": 113548,
+   "end": 153578,
    "text": "live session · scripted caller"
   },
   {
-   "start": 171019.5625,
-   "end": 196051.5625,
+   "start": 157278,
+   "end": 182310,
    "text": "live session · scripted caller"
   }
  ],
  "endCard": {
-  "start": 245301.5625,
-  "end": 249301.5625,
+  "start": 231560,
+  "end": 235560,
   "lines": [
    "Recorded live on interpres.ochinimus.app on 26 and 27 September 2026 (UTC).",
    "Every voice is an AssemblyAI Voice Agent voice; the caller is scripted.",
@@ -967,21 +1013,35 @@
  "cuts": [
   {
    "shot": "B",
-   "at": 92708,
-   "fromMs": 15986,
-   "toMs": 21700.9375,
-   "reason": "the greeting (greetings after scene A may be cut)"
+   "at": 87076,
+   "fromMs": 12581,
+   "toMs": 14686,
+   "reason": "before the mic is pressed: the scroll to the talk bar, which ran past N5"
+  },
+  {
+   "shot": "B",
+   "at": 87726,
+   "fromMs": 15336,
+   "toMs": 21358,
+   "reason": "from the mic press to the first frame where the page is listening: the connect and the greeting (greetings after scene A may be cut)"
   },
   {
    "shot": "C1+C3",
-   "at": 128619.0625,
-   "fromMs": 10500,
-   "toMs": 20397.5,
-   "reason": "the greeting (greetings after scene A may be cut)"
+   "at": 113948,
+   "fromMs": 6068,
+   "toMs": 9300,
+   "reason": "between the AFG click and the mic press: the connect and the scroll (before the mic is pressed)"
   },
   {
    "shot": "C1+C3",
-   "at": 144311.5625,
+   "at": 114498,
+   "fromMs": 9850,
+   "toMs": 20018,
+   "reason": "from the mic press to the first frame where the page is listening: the connect and the greeting (greetings after scene A may be cut)"
+  },
+  {
+   "shot": "C1+C3",
+   "at": 130570,
    "fromMs": 36090,
    "toMs": 44280,
    "reason": "inside Q5, which runs 13.8 s: its first 4 s and last 3 s kept, cut between two letters"
@@ -999,29 +1059,29 @@
    "capture": "B-20260926T221242",
    "id": "Q2",
    "voiceToVoiceMs": 5280,
-   "callerEndAt": 94524.47924804688,
-   "agentStartAt": 99804.8125
+   "callerEndAt": 89885.41674804688,
+   "agentStartAt": 95165.75
   },
   {
    "capture": "C-20260927T064547",
    "id": "Q3",
    "voiceToVoiceMs": 3104,
-   "callerEndAt": 131398.54174804688,
-   "agentStartAt": 134502.08333333334
+   "callerEndAt": 117656.97924804688,
+   "agentStartAt": 120760.52083333333
   },
   {
    "capture": "C-20260927T064547",
    "id": "Q5",
    "voiceToVoiceMs": 6758,
-   "callerEndAt": 146963.54174804688,
-   "agentStartAt": 153721.27083333334
+   "callerEndAt": 133221.97924804688,
+   "agentStartAt": 139979.70833333334
   },
   {
    "capture": "C-20260927T064547",
    "id": "Q4",
    "voiceToVoiceMs": 5683,
-   "callerEndAt": 185026.5625,
-   "agentStartAt": 190709.25
+   "callerEndAt": 171285,
+   "agentStartAt": 176967.6875
   }
  ],
  "checks": [
