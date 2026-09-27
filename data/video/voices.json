@@ -8,100 +8,66 @@
   "N2": {
    "id": "N2",
    "voice": "charles",
-   "text": "AssemblyAI lists its Voice Agent API at $4.50 an hour, and OpenAI Realtime at $18. Realtime can call MCP servers by itself. The Voice Agent API has no MCP tool type, so teams that switch for the price lose their MCP tools. interpres gives them back.",
+   "text": "AssemblyAI lists its Voice Agent API at $4.50 an hour, and OpenAI Realtime at $18. Realtime can call MCP servers by itself. The Voice Agent API has no MCP tool type, so teams that move over for the price lose their MCP tools. interpres gives them back.",
    "file": "video/voices/N2.wav",
    "path": "greeting",
    "parts": 1,
    "attempts": [
     {
      "sessionIds": [
-      "sess_99f49d638c9c4f07aa21bd3ae60620c2"
+      "sess_e00a301fedbf4870ae3e28b5e2bf5671"
      ],
-     "ms": 19480,
-     "transcript": "AssemblyAI lists its Voice Agent API at $4.50 an hour, and OpenAI Realtime at $18. Realtime can call MCP servers by itself. The Voice Agent API has no MCP tool type, so teams that switch for the price lose their MCP tools. Interpreze gives them back.",
+     "ms": 19000,
+     "transcript": "AssemblyAI lists its Voice Agent API at $4.50 an hour, and OpenAI Realtime at $18. Realtime can call MCP servers by itself. The Voice Agent API has no MCP tool type, so teams that move over for the price lose their MCP tools. Enterprise gives them back.",
      "speechModel": "universal-3-5-pro,universal-2",
      "pass": false,
      "firstDifference": {
-      "at": 45,
-      "expected": "interpres gives them back",
-      "heard": "interpreze gives them back"
-     },
-     "variantsUsed": [],
-     "recheck": {
-      "pass": true,
-      "variantsUsed": [
-       "interpreze -> interpres"
-      ]
-     }
-    },
-    {
-     "sessionIds": [
-      "sess_abb4f20a723e46feb6b4a18c383af5f2"
-     ],
-     "ms": 18360,
-     "transcript": "AssemblyAI lists its Voice Agent API at $4.50 an hour and OpenAI Realtime at $18. Realtime can call MCP servers by itself. The Voice Agent API has no MCP tool type, so teams that switch for the price lose their MCP tools. Enterprise gives them back.",
-     "speechModel": "universal-3-5-pro,universal-2",
-     "pass": false,
-     "firstDifference": {
-      "at": 45,
+      "at": 46,
       "expected": "interpres gives them back",
       "heard": "enterprise gives them back"
      },
-     "variantsUsed": [],
-     "recheck": {
-      "pass": false,
-      "variantsUsed": []
-     }
+     "variantsUsed": []
     },
     {
      "sessionIds": [
-      "sess_832af9b7aeb74de8a7705276cd30c262"
+      "sess_6cb339d6f20e4b058fc5d72e2585e168"
      ],
-     "ms": 19250,
-     "transcript": "AssemblyAI lists its Voice Agent API at $4.50 an hour and OpenAI Realtime at $18. Realtime can call MCP servers by itself. The Voice Agent API has no MCP tool type, so teams that switch for the price lose their MCP tools. Interpreze gives them back.",
+     "ms": 19410,
+     "transcript": "AssemblyAI lists its Voice Agent API at $4.50 an hour and OpenAI Realtime at $18. Realtime can call MCP servers by itself. The Voice Agent API has no MCP tool type, so teams that move over for the price lose their MCP tools. Interpreze gives them back.",
      "speechModel": "universal-3-5-pro,universal-2",
-     "pass": false,
-     "firstDifference": {
-      "at": 45,
-      "expected": "interpres gives them back",
-      "heard": "interpreze gives them back"
-     },
-     "variantsUsed": [],
-     "recheck": {
-      "pass": true,
-      "variantsUsed": [
-       "interpreze -> interpres"
-      ]
-     }
+     "pass": true,
+     "variantsUsed": [
+      "interpreze -> interpres"
+     ]
     }
    ],
    "pass": true,
-   "checked": true,
-   "note": "re-checked with the listed proper-noun variants; the audio is try 3, unchanged"
+   "checked": "strict"
   },
   "N1": {
    "id": "N1",
    "voice": "charles",
-   "text": "This is interpres. It connects AssemblyAI's Voice Agent API to public MCP servers. Type a website, press the mic, and its tools answer out loud.",
+   "text": "This is interpres. MCP servers are how AI apps reach tools and data, and thousands of them are public. interpres connects them to AssemblyAI's Voice Agent API. Type a website, press the mic, and its tools answer out loud.",
    "file": "video/voices/N1.wav",
    "path": "greeting",
    "parts": 1,
    "attempts": [
     {
      "sessionIds": [
-      "sess_386e3d1b8caa4f319509bbf090b8206e"
+      "sess_fbc7102bca99435e967cb99813099f4f"
      ],
-     "ms": 11230,
-     "transcript": "This is Interprez. It connects AssemblyAI's voice agent API to public MCP servers. Type a website, press the mic, and its tools answer out loud.",
+     "ms": 15190,
+     "transcript": "This is Interprez. MCP servers are how AI apps reach tools and data, and thousands of them are public. Interprez connects them to AssemblyAI's Voice Agent API. Type a website, press the mic, and its tools answer out loud.",
      "speechModel": "universal-3-5-pro,universal-2",
      "pass": true,
      "variantsUsed": [
+      "interprez -> interpres",
       "interprez -> interpres"
      ]
     }
    ],
    "pass": true,
-   "checked": true
+   "checked": "strict"
   },
   "N3": {
    "id": "N3",
@@ -174,17 +140,17 @@
   "N6": {
    "id": "N6",
    "voice": "charles",
-   "text": "Many servers list more than ten tools. interpres shows the agent ten at a time, and one of them is find tools. Ask for something out of view, and interpres swaps the right tools in, mid-conversation.",
+   "text": "Many servers list more than ten tools. interpres shows the agent ten at a time, and one of them is find tools. Ask for something out of view: interpres swaps the right tools in, mid-conversation.",
    "file": "video/voices/N6.wav",
    "path": "greeting",
    "parts": 1,
    "attempts": [
     {
      "sessionIds": [
-      "sess_39b20174ab784e91998ce218c92b255c"
+      "sess_71b66c8fb130450aaf156cc9333219be"
      ],
-     "ms": 12610,
-     "transcript": "Many servers list more than 10 tools. Interprez shows the agent 10 at a time, and one of them is find tools. Ask for something out of view, and Interprez swaps the right tools in mid-conversation.",
+     "ms": 12600,
+     "transcript": "Many servers list more than 10 tools. Interprez shows the agent 10 at a time, and one of them is find tools. Ask for something out of view— Interprez swaps the right tools in mid-conversation.",
      "speechModel": "universal-3-5-pro,universal-2",
      "pass": true,
      "variantsUsed": [
@@ -194,7 +160,7 @@
     }
    ],
    "pass": true,
-   "checked": true
+   "checked": "strict"
   },
   "N7": {
    "id": "N7",
@@ -321,11 +287,11 @@
    "pass": true,
    "checked": true
   },
-  "N12": {
-   "id": "N12",
+  "N13": {
+   "id": "N13",
    "voice": "charles",
    "text": "interpres is open source under MIT, and live now at the address on screen. Type a website, press the mic, and ask.",
-   "file": "video/voices/N12.wav",
+   "file": "video/voices/N13.wav",
    "path": "greeting",
    "parts": 1,
    "attempts": [
@@ -343,7 +309,8 @@
     }
    ],
    "pass": true,
-   "checked": true
+   "checked": true,
+   "renamedFrom": "N12 (the final round: the value line is N12 now)"
   },
   "Q1": {
    "id": "Q1",
@@ -501,6 +468,28 @@
    ],
    "pass": true,
    "checked": "none"
+  },
+  "N12": {
+   "id": "N12",
+   "voice": "charles",
+   "text": "Who is it for? Teams leaving OpenAI Realtime add the library to their agent and keep every MCP server it calls, at a quarter of the price. Any public MCP server gets a voice interface, with no change on its side. The library ships in the same repo.",
+   "file": "video/voices/N12.wav",
+   "path": "greeting",
+   "parts": 1,
+   "attempts": [
+    {
+     "sessionIds": [
+      "sess_1d88a7abebc24569819bb328044e8741"
+     ],
+     "ms": 15830,
+     "transcript": "Who is it for? Teams leaving OpenAI Realtime add the library to their agent and keep every MCP server it calls at a quarter of the price. Any public MCP server gets a voice interface with no change on its side. The library ships in the same repo.",
+     "speechModel": "universal-3-5-pro,universal-2",
+     "pass": true,
+     "variantsUsed": []
+    }
+   ],
+   "pass": true,
+   "checked": "strict"
   }
  }
 }

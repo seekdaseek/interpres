@@ -511,10 +511,12 @@ export function build(opts: { only?: string } = {}): Edl {
     still('registry', `${KIT}/slides/registry.png`, ['N9']);
     still('spoken', `${KIT}/slides/spoken.png`, ['N10']);
     still('speed', `${KIT}/slides/speed.png`, ['N11']);
+    // The final round: who it is for, over the deck's value slide.
+    still('value', `${KIT}/slides/value.png`, ['N12']);
   }
   let endCard: Edl['endCard'] = null;
   if (!only) {
-    const s = still('try', `${KIT}/slides/try.png`, ['N12'], { tail: 800 });
+    const s = still('try', `${KIT}/slides/try.png`, ['N13'], { tail: 800 });
     const endStart = s.end;
     const lastShot = shots.at(-1)!;
     lastShot.end = endStart + 4000;

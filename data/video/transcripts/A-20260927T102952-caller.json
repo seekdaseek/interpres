@@ -1,0 +1,39 @@
+{
+ "file": "video/captures/A-20260927T102952/stems/caller.wav",
+ "sha256": "533e9eacca1280af19f3c9dc720056b3b2b00d33d02c4d189bb314df8948cf7c",
+ "id": "b9af41f2-1324-45cc-b331-702984eae772",
+ "speechModel": "universal-3-5-pro,universal-2",
+ "text": "What is ACO in plain English?",
+ "words": [
+  {
+   "text": "What",
+   "start": 25235,
+   "end": 25379
+  },
+  {
+   "text": "is",
+   "start": 25379,
+   "end": 25444
+  },
+  {
+   "text": "ACO",
+   "start": 25620,
+   "end": 26006
+  },
+  {
+   "text": "in",
+   "start": 26102,
+   "end": 26166
+  },
+  {
+   "text": "plain",
+   "start": 26198,
+   "end": 26407
+  },
+  {
+   "text": "English?",
+   "start": 26519,
+   "end": 26921
+  }
+ ]
+}

@@ -31,6 +31,10 @@ export type Attempt = {
   ran: string | null;
   /** Which recording was played: the same clip replayed counts once in the distinct-clip line. */
   clip: string;
+  /** Where the value that ran came from, when it was not the hearing alone: "pasted" earlier in the session. */
+  ranFrom?: 'pasted';
+  /** From after decision D4 (the gate): here a value may only run if pasted or read from a tool result earlier. */
+  afterD4?: boolean;
 };
 
 function* strings(v: unknown): Generator<string> {
@@ -106,7 +110,7 @@ function fromVideo(dir: string): Attempt[] {
       if (!said) continue;
       const heard = addresses(a.heard ?? '')[0] ?? null;
       const sent = a.mcpCalls.flatMap((c) => [...strings(c.arguments)].flatMap(addresses));
-      out.push({ source: `video/${f}`, sessionId: a.sessionId, spoken: said, heard, exact: heard === said, ran: sent[0] ?? null, clip: a.clip ? `${a.clip.voice} ${a.clip.id} ${a.clip.sha256.slice(0, 12)}` : 'unknown clip' });
+      out.push({ source: `video/${f}`, sessionId: a.sessionId, spoken: said, heard, exact: heard === said, ran: sent[0] ?? null, clip: a.clip ? `${a.clip.voice} ${a.clip.id} ${a.clip.sha256.slice(0, 12)}` : 'unknown clip', afterD4: true });
     }
   }
   return out;
@@ -116,7 +120,7 @@ function fromVideo(dir: string): Attempt[] {
 function fromRehearsals(dir: string): Attempt[] {
   const f = `${dir}/video/rehearsals-c.json`;
   if (!existsSync(f)) return [];
-  const d = json(f) as { otherAddressText: string; clips: Record<string, { voice: string; sha256: string }>; runs: Array<{ variant: string; sessionId: string; turns: Array<{ id: string; heard: string }>; c3?: { clip?: string; mcpRequestsAfterQ5?: Array<{ args?: unknown }> } }> };
+  const d = json(f) as { otherAddressText: string; clips: Record<string, { voice: string; sha256: string }>; runs: Array<{ variant: string; sessionId: string; turns: Array<{ id: string; heard: string; calls?: Array<{ name: string; arguments?: unknown; method?: string }> }>; c3?: { clip?: string; mcpRequestsAfterQ5?: Array<{ args?: unknown }> } }> };
   const q5 = (json(`${dir}/video/voices.json`) as { lines: Record<string, { text: string }> }).lines.Q5!.text;
   return d.runs.map((r) => {
     const clip = r.c3?.clip ?? 'Q5';
@@ -124,7 +128,14 @@ function fromRehearsals(dir: string): Attempt[] {
     const heard = addresses(r.turns.find((t) => t.id === clip)?.heard ?? '')[0] ?? null;
     const sent = (r.c3?.mcpRequestsAfterQ5 ?? []).flatMap((c) => [...strings(c.args)].flatMap(addresses));
     const c = d.clips[clip]!;
-    return { source: `video/rehearsals-c.json (${r.variant})`, sessionId: r.sessionId, spoken: said, heard, exact: heard === said, ran: sent[0] ?? null, clip: `${c.voice} ${clip === 'Q5b' ? 'Q5b' : 'Q5'} ${c.sha256.slice(0, 12)}` };
+    // A value that ran after Q5 is accounted for only by this run's own earlier turns: the paste
+    // box read (use_pasted_text) and a call that ran with the same address.
+    const earlier = r.turns.slice(0, Math.max(0, r.turns.findIndex((t) => t.id === clip)));
+    const pastedEarlier = earlier.some((t) => (t.calls ?? []).some((x) => x.name === 'use_pasted_text'));
+    const ranEarlier = earlier.flatMap((t) => (t.calls ?? []).filter((x) => !String(x.method ?? '').startsWith('gate')).flatMap((x) => [...strings(x.arguments)].flatMap(addresses)));
+    const ran = sent[0] ?? null;
+    const ranFrom = ran !== null && pastedEarlier && ranEarlier.includes(ran) ? 'pasted' as const : undefined;
+    return { source: `video/rehearsals-c.json (${r.variant})`, sessionId: r.sessionId, spoken: said, heard, exact: heard === said, ran, clip: `${c.voice} ${clip === 'Q5b' ? 'Q5b' : 'Q5'} ${c.sha256.slice(0, 12)}`, ranFrom, afterD4: true };
   });
 }
 
@@ -141,7 +152,7 @@ function fromLatencyAbH1(dir: string, file: string): Attempt[] {
   return d.turns.filter((t) => t.clip === 'Q5').map((t) => {
     const heard = addresses(t.heard ?? '')[0] ?? null;
     const sent = (t.mcpRequests ?? []).flatMap((m) => [...strings(m.args)].flatMap(addresses));
-    return { source: `${file} (${t.mode}, run ${t.run})`, sessionId: t.sessionId, spoken: said, heard, exact: heard === said, ran: sent[0] ?? null, clip: `${q5.voice} Q5 ${String(t.clipSha256 ?? '').slice(0, 12)}` };
+    return { source: `${file} (${t.mode}, run ${t.run})`, sessionId: t.sessionId, spoken: said, heard, exact: heard === said, ran: sent[0] ?? null, clip: `${q5.voice} Q5 ${String(t.clipSha256 ?? '').slice(0, 12)}`, afterD4: true };
   });
 }
 
@@ -196,7 +207,10 @@ export function recount(dir = 'data') {
     leftOut.push({ file: f, reason: leftOutReason(f) ?? 'UNCLASSIFIED: look at this file' });
   }
   const exact = attempts.filter((a) => a.exact).length;
-  return { attempts, exact, total: attempts.length, leftOut };
+  // After D4 a spoken value may run only if the same value was pasted, or read from a tool result,
+  // earlier in the session. Anything else is a gate leak, and the recount refuses to write it up.
+  const leaks = attempts.filter((a) => a.afterD4 && a.ran !== null && !a.ranFrom);
+  return { attempts, exact, total: attempts.length, leftOut, leaks };
 }
 
 const short = (v: string) => (v.length > 24 ? `\`${v.slice(0, 10)}…${v.slice(-6)}\` (${v.length})` : `\`${v}\``);
@@ -224,12 +238,13 @@ export function distinctClipLine(attempts: Attempt[]): string {
 
 export function report(r = recount()): string {
   const rows = r.attempts.map((a) =>
-    `| ${a.source} | \`${a.sessionId}\` | ${short(a.spoken)} | ${a.heard ? short(a.heard) : '(nothing)'} | ${a.exact ? 'yes' : 'no'} | ${a.ran === null ? 'nothing ran' : a.ran === a.spoken ? `ran with the spoken value` : a.ran === 'a call ran' ? 'a call ran' : `ran with ${short(a.ran)}`} |`);
+    `| ${a.source} | \`${a.sessionId}\` | ${short(a.spoken)} | ${a.heard ? short(a.heard) : '(nothing)'} | ${a.exact ? 'yes' : 'no'} | ${a.ran === null ? 'nothing ran' : a.ranFrom === 'pasted' ? 'ran with the address pasted earlier in the session' : a.ran === a.spoken ? `ran with the spoken value` : a.ran === 'a call ran' ? 'a call ran' : `ran with ${short(a.ran)}`} |`);
   const misheardRan = r.attempts.filter((a) => !a.exact && a.ran !== null).length;
+  const pastedRan = r.attempts.filter((a) => a.ranFrom === 'pasted').length;
   return [
     '# Spoken wallet addresses',
     '',
-    `Every recorded attempt to speak a wallet address, from every source in \`data/\`, recounted by \`scripts/spoken-identifiers.ts\`. "Ran" is whether the address reached an MCP server: a misheard value ran in ${misheardRan} of them, all from before the gate held spoken identifiers (decision D4).`,
+    `Every recorded attempt to speak a wallet address, from every source in \`data/\`, recounted by \`scripts/spoken-identifiers.ts\`. "Ran" is whether the address reached an MCP server: a misheard value ran in ${misheardRan} of them, all from before the gate held spoken identifiers (decision D4).${pastedRan ? ` After D4, a spoken address ran only in ${pastedRan} rehearsal${pastedRan === 1 ? '' : 's'} where the same address had been pasted earlier in that session and had already run with the pasted text, which the gate allows.` : ''}`,
     '',
     `Exact: ${r.exact} of ${r.total}.`,
     '',
@@ -256,6 +271,10 @@ if (isMain) {
   const md = report(r);
   writeFileSync('docs/IDENTIFIERS.md', md);
   console.log(md);
+  if (r.leaks.length > 0) {
+    console.error(`a spoken value ran after D4 with no earlier paste or tool result: ${r.leaks.map((a) => `${a.source} ${a.sessionId}`).join('; ')}`);
+    process.exit(1);
+  }
   if (r.leftOut.some((l) => l.reason.startsWith('UNCLASSIFIED'))) {
     console.error('an address-holding file is unclassified: decide whether it counts');
     process.exit(1);

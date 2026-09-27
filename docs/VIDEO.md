@@ -14,28 +14,32 @@ Every voice in the video is an AssemblyAI Voice Agent voice. Each line was made 
 
 Narration is checked word for word with AssemblyAI's pre-recorded transcription (default model: universal-3-5-pro,universal-2), after case, punctuation and number format. Proper nouns may differ only as listed:
 
-- **interpres**: interpress, interprez, interpreze, interprese, interpras, interprass, interpraz, interpraze, interprase, interprete
+- **interpres**: interpress, interprez, interpreze, interprese, interpras, interprass, interpraz, interpraze, interprase, interprete, interperez
 - **assemblyai**: assembly ai
 - **openai**: open ai
 
 | line | voice | length | session | check |
 | --- | --- | ---: | --- | --- |
-| N1 | charles | 11,230 ms | `sess_386e3d1b8caa4f319509bbf090b8206e` | pass on try 1 |
-| N2 | charles | 19,250 ms | `sess_832af9b7aeb74de8a7705276cd30c262` | pass on a re-check of try 3: re-checked with the listed proper-noun variants; the audio is try 3, unchanged |
+| N1 | charles | 15,190 ms | `sess_fbc7102bca99435e967cb99813099f4f` | pass on try 1 |
+| N2 | charles | 19,410 ms | `sess_6cb339d6f20e4b058fc5d72e2585e168` | pass on try 2 |
 | N3 | charles | 10,590 ms | `sess_7b89aad399e342c0b8d21ced348b913c` | pass on try 1 |
 | N4 | charles | 3,940 ms | `sess_05d04df8826145de94c170728403fe27` | pass on try 1 |
 | N5 | charles | 7,890 ms | `sess_06ae7b1c46d94306853818b7150494ae` | pass on try 1 |
-| N6 | charles | 12,610 ms | `sess_39b20174ab784e91998ce218c92b255c` | pass on try 1 |
+| N6 | charles | 12,600 ms | `sess_71b66c8fb130450aaf156cc9333219be` | pass on try 1 |
 | N7 | charles | 13,720 ms | `sess_573e8fd085ee43c78e6af8418df82fee` | pass on try 2 |
 | N8 | charles | 4,470 ms | `sess_0d716136675f4f968c440a62775e1f2d` | pass on try 1 |
 | N9 | charles | 12,680 ms | `sess_bd9af3992cac44878a6929ffa414dc81` | pass on try 1 |
 | N10 | charles | 17,250 ms | `sess_1e097174e2d546949ff6c19a233a5fb0` | pass on try 1 |
 | N11 | charles | 7,810 ms | `sess_c127c341a94b43d98538e55f443b5928` | pass on try 1 |
-| N12 | charles | 7,810 ms | `sess_4ece2f31161147d08bbd6764352ed123` | pass on try 1 |
+| N12 | charles | 15,830 ms | `sess_1d88a7abebc24569819bb328044e8741` | pass on try 1 |
+| N13 | charles | 7,810 ms | `sess_4ece2f31161147d08bbd6764352ed123` | pass on try 1 |
 
 Rewordings under the standing rule (a line that fails only because the transcriber spells a word differently):
 
 - **N7, round H.** The clip that read "Speech often gets identifiers wrong" passed its own check and round G's final file. In round H's final file, with the same audio, it was heard as "gets identified as wrong". The phrase became "Speech often mishears identifiers": the same meaning, and the number is unchanged. The new clip passed on its second try, after "mishars" on the first.
+- **N2, the final round.** The clip that read "so teams that switch for the price" had passed its own check and every earlier final file. In the final round's first render, with the same audio, it was heard as "which for the price". The phrase became "so teams that move over for the price": the same meaning, and both prices are unchanged. The new clip passed on its second try; on the first, "interpres" was heard as "enterprise".
+- **N6, the final round.** In the second render, with the same audio as the first (where N6 passed), the transcriber wrote the "and" in "out of view, and interpres swaps" twice. The phrase became "out of view: interpres swaps": the same meaning, and "ten" is unchanged. The new clip passed on its first try, but in the next render the reworded line failed too: "interpres shows" was heard as "interplay shows", a different English word, which is not accepted. Under the standing rule, rewording stops there.
+- **N12, the final round (a new line).** "a voice front end" was written "frontend" on 4 of 4 tries. It became "a voice interface": the same meaning, and there is no number in the line. The new line passed on its first try.
 - **N10, round F2.** "Every one answered out loud" was heard as "Everyone" on 4 of 4 tries. Sergiu changed it to "Each one answered out loud" (BUILDLOG, round F2).
 
 ## The caller
@@ -50,30 +54,42 @@ Caller clips are judged where they are heard: each streamed into a live Voice Ag
 | Q4 | michael | Check the reputation of the wallet I pasted. | pass | `sess_150e5f7a28754416ba75cf4d1b82a730` exact, `sess_95be7ff9c2c746a2a50df842e93caed0` exact |
 | Q5 | michael | What is the reputation of wallet 0 x 5 a a e b 6 0 5 3 f 3 e 9 4 c 9 b 9 a 0 9 f 3 3 6 6 9 4 3 5 e 7 e f 1 b e a e d? | not checked word for word | made in `sess_156d76e4c73742a6afca5a053d303f29` |
 
+## The final round
+
+What changed from the round H video:
+
+- **N1 is new**, over the title card. It says what an MCP server is before it says what interpres does.
+- **N12 is a new line** over the deck's value slide (`slides/value.png`), before the try slide. It says who interpres is for. Its last sentence is "The library ships in the same repo.", because `npm view interpres version` answered E404 when the line was made. The try slide's line is now N13, with the same clip it had as N12.
+- **The kit changed.** `slides/speed.png` has the min_latency row, and the identifiers slide's footer says where the exact hearings came from (`{EXACTCLIPS}`, filled from `docs/IDENTIFIERS.md`).
+- **Scene A was captured again**, after the Found line's wrap rule was fixed. The discovery is a fresh lookup, on one line.
+
 ## Scenes and takes
 
-A take counts only if every exchange passes its checks; the first such take of each scene is used (`data/video/takes.json`). Takes used: A = `A-20260927T091341`, B = `B-20260927T091537`, C = `C-20260927T091639`.
+Each take ran on: A on `310a0da`, B on `18ea86b`, C on `18ea86b`. The deployed commit each take was captured against. Between 18ea86b and 310a0da the only shipped change is one CSS rule: the Found line (.url-hint) wraps with overflow-wrap: anywhere instead of word-break: break-all (apps/web/src/interpres.css).
+
+A take counts only if every exchange passes its checks; the first such take of each scene is used (`data/video/takes.json`). Takes used: A = `A-20260927T102952`, B = `B-20260927T091537`, C = `C-20260927T091639`.
 
 | take | scene | session | checks | used |
 | --- | --- | --- | --- | --- |
 | `A-20260926T214149` | A | `sess_c869f61e78754fae9d2be5602963ec2f` | FAIL: Q1 heard as said (heard "What is AEO in plain English?") | no |
 | `A-20260926T215425` | A | `sess_ef3b65861b724be29f631f70f33a3327` | all pass | no |
-| `A-20260927T091341` | A | `sess_2df644020f0f4646ae311f71e61a0bec` | all pass | yes |
+| `A-20260927T091341` | A | `sess_2df644020f0f4646ae311f71e61a0bec` | all pass | no |
+| `A-20260927T102952` | A | `sess_20ca8ded68e4490bb568b1fcd73fcd53` | all pass | yes |
 | `B-20260926T221242` | B | `sess_d61ab83ced10487593b210a4d503c7f1` | all pass | no |
 | `B-20260927T091537` | B | `sess_37d290ae5e8f431d9f6e4b1d10d6280e` | all pass | yes |
 | `C-20260927T064547` | C | `sess_3fcf411e656145b0a5b487036ce05e38` | all pass | no |
 | `C-20260927T091639` | C | `sess_bad159e000e9412ba713b9dfb8389cf2` | all pass | yes |
 
-**Scene A** (`sess_2df644020f0f4646ae311f71e61a0bec`): `goji_explain_term({"term":"SEO"})`.
+**Scene A** (`sess_20ca8ded68e4490bb568b1fcd73fcd53`): `goji_explain_term({"term":"SEO"})`.
 
-- ok: discovery connects to https://mcp.goji.agency/mcp (Found in the official MCP registry: https://mcp.goji.agency/mcp · 9 tools · 757 ms, remembered from an earlier look)
+- ok: discovery connects to https://mcp.goji.agency/mcp (Found in the official MCP registry: https://mcp.goji.agency/mcp · 9 tools · 1.1 s)
+- ok: the Found line is one line (18.75 px tall, one line is 18.75 px)
+- ok: the Found line does not say "remembered" (Found in the official MCP registry: https://mcp.goji.agency/mcp · 9 tools · 1.1 s)
 - ok: Q1 heard as said (heard "What is SEO in plain English?")
 - ok: goji_explain_term called once and succeeds (1 call(s) [{"term":"SEO"}]; /api/mcp/call 200)
-- ok: Q1: the agent answers (SEO stands for Search Engine Optimisation. It is the work of making your website the result that search engines choose to show, by using con)
+- ok: Q1: the agent answers (SEO, or Search Engine Optimisation, is the work of making your website the result that search engines choose to show. This involves creating)
 - ok: no console errors
 - ok: sync within one frame
-
-The page says the discovery was "remembered from an earlier look". The server keeps a discovery answer for 10 minutes (`DISCOVERY_CACHE_MS`), and the same lookup had run about 2 minutes before this take, in the post-deploy check of `/api/mcp/connect` (BUILDLOG, round H). The time shown is that first lookup's. The take passed every check and was the first to do so, so it is the one used.
 
 **Scene B** (`sess_37d290ae5e8f431d9f6e4b1d10d6280e`): `get_book_recommenders({"title":"Sapiens"})`.
 
@@ -109,7 +125,7 @@ Both medians are measured the way `scripts/e2e-audio.ts` measures: from the mome
 
 | scene | exchange | video (last word to first sound) | e2e-audio style (clip end to first audio received) | clip's trailing silence | page playback buffer |
 | --- | --- | ---: | ---: | ---: | ---: |
-| A | Q1 | 4,372 ms | 3,911 ms | 242 ms | 220 ms |
+| A | Q1 | 4,467 ms | 3,993 ms | 242 ms | 231 ms |
 | B | Q2 | 4,846 ms | 4,155 ms | 477 ms | 215 ms |
 | C | Q3 | 2,875 ms | 2,390 ms | 221 ms | 264 ms |
 | C | Q5 | 5,949 ms | 5,387 ms | 324 ms | 237 ms |
@@ -121,7 +137,7 @@ The takes the round G video used (3:55.6, sha256 681ab05e...), captured before r
 
 | exchange | this video (min_latency) | session | before (balanced) | session | difference |
 | --- | ---: | --- | ---: | --- | ---: |
-| A Q1 | 4,372 ms | `sess_2df644020f0f4646ae311f71e61a0bec` | 5,179 ms | `sess_ef3b65861b724be29f631f70f33a3327` | -807 ms |
+| A Q1 | 4,467 ms | `sess_20ca8ded68e4490bb568b1fcd73fcd53` | 5,179 ms | `sess_ef3b65861b724be29f631f70f33a3327` | -712 ms |
 | B Q2 | 4,846 ms | `sess_37d290ae5e8f431d9f6e4b1d10d6280e` | 5,280 ms | `sess_d61ab83ced10487593b210a4d503c7f1` | -434 ms |
 | C Q3 | 2,875 ms | `sess_bad159e000e9412ba713b9dfb8389cf2` | 3,104 ms | `sess_3fcf411e656145b0a5b487036ce05e38` | -229 ms |
 | C Q5 | 5,949 ms | `sess_bad159e000e9412ba713b9dfb8389cf2` | 6,758 ms | `sess_3fcf411e656145b0a5b487036ce05e38` | -809 ms |
@@ -133,7 +149,7 @@ Each step in ms after the caller's last word, from the take's log. A tool's page
 
 | exchange | API end of turn | tool calls | last result sent | first audio received | first audio played |
 | --- | ---: | --- | ---: | ---: | ---: |
-| A Q1 | 1179 | goji_explain_term at 2982: 354 ms = network 60 + server 294 (MCP 293, refine not_needed 0 ms, truncated) | 3342 | 4153 | 4372 |
+| A Q1 | 1076 | goji_explain_term at 2806: 563 ms = network 65 + server 498 (MCP 496, refine not_needed 0 ms, truncated) | 3376 | 4236 | 4467 |
 | B Q2 | 1210 | get_book_recommenders at 3278: 748 ms = network 61 + server 687 (MCP 684, refine circuit_open 0 ms, local) | 4031 | 4631 | 4846 |
 | C Q3 | 671 | find_tools at 1652: 63 ms | 1903 | 2611 | 2875 |
 | C Q5 | 1228 | find_tools at 3612: 69 ms; afg_get_reputation at 4673 (held by the gate, no request) | 4947 | 5711 | 5949 |
@@ -141,25 +157,25 @@ Each step in ms after the caller's last word, from the take's log. A tool's page
 
 ## The edit
 
-12 shots, 232.1 s. Scenes change with 300 ms crossfades. Every cut inside a scene is a visible 200 ms crossfade, and nothing between a caller's last word and the agent's first is ever cut, sped up or slowed down (`scripts/video/edl.ts` checks it for each exchange).
+13 shots, 254.1 s. Scenes change with 300 ms crossfades. Every cut inside a scene is a visible 200 ms crossfade, and nothing between a caller's last word and the agent's first is ever cut, sped up or slowed down (`scripts/video/edl.ts` checks it for each exchange).
 
 | cut | at | removed from the take | reason |
 | --- | ---: | --- | --- |
-| A | 70.7 s | 41.8 s to 45.4 s of the take | the tail of Q1's answer, cut at a sentence end 11.9 s in |
-| B | 85.2 s | 12.6 s to 13.8 s of the take | before the mic is pressed: the scroll to the talk bar, which ran past N5 |
-| B | 85.8 s | 14.5 s to 20.7 s of the take | from the mic press to the first frame where the page is listening: the connect and the greeting (greetings after scene A may be cut) |
-| C1+C3 | 112.0 s | 6.0 s to 10.3 s of the take | between the AFG click and the mic press: the connect and the scroll (before the mic is pressed) |
-| C1+C3 | 112.5 s | 10.9 s to 20.0 s of the take | from the mic press to the first frame where the page is listening: the connect and the greeting (greetings after scene A may be cut) |
-| C1+C3 | 128.5 s | 36.0 s to 44.2 s of the take | inside Q5, which runs 13.8 s: its first 4 s and last 3 s kept, cut between two letters |
+| A | 76.0 s | 45.4 s to 50.1 s of the take | the tail of Q1's answer, cut at a sentence end 13.8 s in |
+| B | 90.4 s | 12.6 s to 13.8 s of the take | before the mic is pressed: the scroll to the talk bar, which ran past N5 |
+| B | 91.1 s | 14.5 s to 20.7 s of the take | from the mic press to the first frame where the page is listening: the connect and the greeting (greetings after scene A may be cut) |
+| C1+C3 | 117.2 s | 6.0 s to 10.3 s of the take | between the AFG click and the mic press: the connect and the scroll (before the mic is pressed) |
+| C1+C3 | 117.7 s | 10.9 s to 20.0 s of the take | from the mic press to the first frame where the page is listening: the connect and the greeting (greetings after scene A may be cut) |
+| C1+C3 | 133.8 s | 36.0 s to 44.2 s of the take | inside Q5, which runs 13.8 s: its first 4 s and last 3 s kept, cut between two letters |
 
 | punch-in | at | on |
 | --- | ---: | --- |
-| 1.4x, about 3 s | 36.6 s | "Found in the official MCP registry" |
-| 1.4x, about 3 s | 72.4 s | the goji_explain_term call, under N4 |
-| 1.4x, about 3 s | 91.5 s | the get_book_recommenders call |
-| 1.4x, about 3 s | 117.6 s | find_tools and the swap |
-| 1.4x, about 3 s | 136.1 s | needs_paste |
-| 1.4x, about 3 s | 171.1 s | afg_get_reputation and its argument |
+| 1.4x, about 3 s | 41.9 s | "Found in the official MCP registry" |
+| 1.4x, about 3 s | 77.7 s | the goji_explain_term call, under N4 |
+| 1.4x, about 3 s | 96.7 s | the get_book_recommenders call |
+| 1.4x, about 3 s | 122.9 s | find_tools and the swap |
+| 1.4x, about 3 s | 141.3 s | needs_paste |
+| 1.4x, about 3 s | 176.3 s | afg_get_reputation and its argument |
 
 Captions: narration shows the script as written, timed by the narration clip's word timestamps. Caller lines show the live transcript (what interpres heard), with a spoken identifier printed in groups of four as the page's own gate card prints it. Agent lines come from AssemblyAI's transcript of the agent stem.
 
@@ -169,7 +185,7 @@ Every capture starts (and, when the take ends cleanly, ends) with one white fram
 
 | take | flash to beep |
 | --- | --- |
-| `A-20260927T091341` | start 3.3 ms (within a frame), end -2.9 ms (within a frame) |
+| `A-20260927T102952` | start -7.2 ms (within a frame), end -4 ms (within a frame) |
 | `B-20260927T091537` | start -0.4 ms (within a frame), end -4.1 ms (within a frame) |
 | `C-20260927T091639` | start -1 ms (within a frame), end -4.3 ms (within a frame) |
 
@@ -177,7 +193,7 @@ What the page's own microphone path received, against each clip as made, in 0.5 
 
 | take | clip | bit-exact windows | sample slips | worst window SNR |
 | --- | --- | ---: | --- | ---: |
-| `A-20260927T091341` | Q1 | 4 of 4 | none | exact |
+| `A-20260927T102952` | Q1 | 4 of 4 | none | exact |
 | `B-20260927T091537` | Q2 | 3 of 3 | none | exact |
 | `C-20260927T091639` | Q3 | 4 of 5 | none | 54.9 dB |
 | `C-20260927T091639` | Q5 | 0 of 28 | -1 at 3500 ms, +1 at 4000 ms, -3 at 9500 ms | 15.6 dB |
@@ -185,7 +201,7 @@ What the page's own microphone path received, against each clip as made, in 0.5 
 
 ## The rendered file
 
-`interpres-demo.mp4`, sha256 `5b96af90f595290b7c01c802c59ff9e747ed7042b120b50569a88cc24d6f0c5f`. The checks of brief F, F2.7 (`scripts/video/checks.ts`):
+`interpres-demo.mp4`, sha256 `75d96f35fe858ed578d2e208d127ceccdf936d25f7b0b3a57b13f424dda67cd8`. The checks of brief F, F2.7 (`scripts/video/checks.ts`):
 
 - ok: video: H.264 High: h264 High
 - ok: video: 1920x1080: 1920x1080
@@ -193,39 +209,42 @@ What the page's own microphone path received, against each clip as made, in 0.5 
 - ok: video: 30 fps constant: r 30/1, avg 30/1
 - ok: audio: AAC-LC: aac LC
 - ok: audio: 48 kHz stereo: 48000 Hz, 2 ch
-- ok: audio: 192 kbps: 192012 b/s
+- ok: audio: 192 kbps: 192011 b/s
 - ok: +faststart (moov before mdat): ftyp moov free mdat
-- ok: duration and size: 232.107 s, 31,997,494 bytes
-- ok: length 3:30 to 4:15 (hard cap 4:55): 3:52.1
-- ok: size 300 MB or less: 30.5 MB
-- ok: loudness -16 LUFS integrated +-1: -16 LUFS (LRA 5.3 LU)
+- ok: duration and size: 254.067 s, 33,944,626 bytes
+- ok: length 3:30 to 4:15 (hard cap 4:55): 4:14.1
+- ok: size 300 MB or less: 32.4 MB
+- ok: loudness -16 LUFS integrated +-1: -16 LUFS (LRA 5.4 LU)
 - ok: true peak -1.5 dBTP or lower: -2.3 dBTP
 - ok: no black over 0.3 s outside fades: 0 black span(s)
-- ok: N1 word for word: ok (variants: interprez -> interpres)
-- ok: N2 word for word: ok (variants: interprez -> interpres)
-- ok: N3 word for word: ok (variants: interpraze -> interpres)
+- ok: N1 word for word: ok (variants: interprez -> interpres, interprez -> interpres)
+- ok: N2 word for word: ok (variants: interpreze -> interpres)
+- ok: N3 word for word: ok (variants: interpreze -> interpres)
 - ok: N4 word for word: ok
 - ok: N5 word for word: ok
-- ok: N6 word for word: ok (variants: interpreze -> interpres, interpreze -> interpres)
+- FAIL: N6 word for word: at word 7: script "interpres shows the agent" heard "interplay shows the agent"
 - ok: N8 word for word: ok
 - ok: N7 word for word: ok
 - ok: N9 word for word: ok
 - ok: N10 word for word: ok
 - ok: N11 word for word: ok
-- ok: N12 word for word: ok (variants: interprez -> interpres)
+- ok: N12 word for word: ok
+- ok: N13 word for word: ok (variants: interprez -> interpres)
+
+**This file failed a check above, so it did not replace the video on the Desktop.** The Desktop keeps the last video that passed every check (BUILDLOG).
 
 Every silence of 2.5 s or more at -45 dB, and what it is:
 
-- 43.8 s to 46.8 s: A (live): clicks; Talk pressed: the page fetches a token, opens the session and waits for the greeting
-- 54.4 s to 58.7 s: Q1: the voice-to-voice wait from the caller's last word to the agent's first (4372 ms), never cut | A (live): the tool call goji_explain_term runs
-- 88.0 s to 92.8 s: Q2: the voice-to-voice wait from the caller's last word to the agent's first (4846 ms), never cut | B (live): the tool call get_book_recommenders runs; punch-in on the get_book_recommenders call
-- 115.7 s to 118.5 s: Q3: the voice-to-voice wait from the caller's last word to the agent's first (2875 ms), never cut | C1+C3 (live): the tool call find_tools runs; punch-in on find_tools and the swap
-- 122.9 s to 125.5 s: C1+C3 (live): the page between spoken turns
-- 131.3 s to 137.1 s: Q5: the voice-to-voice wait from the caller's last word to the agent's first (5949 ms), never cut | C1+C3 (live): the tool call find_tools runs; the tool call afg_get_reputation is held by the gate (no request); punch-in on needs_paste
-- 168.3 s to 173.9 s: Q4: the voice-to-voice wait from the caller's last word to the agent's first (5780 ms), never cut | C2 (live): the tool call use_pasted_text runs; the tool call afg_get_reputation runs; punch-in on afg_get_reputation and its argument
-- 227.0 s to 232.1 s: the try slide and the end card
+- 47.9 s to 51.0 s: A (live): clicks; Talk pressed: the page fetches a token, opens the session and waits for the greeting
+- 57.7 s to 62.1 s: Q1: the voice-to-voice wait from the caller's last word to the agent's first (4467 ms), never cut | A (live): the tool call goji_explain_term runs
+- 93.3 s to 98.0 s: Q2: the voice-to-voice wait from the caller's last word to the agent's first (4846 ms), never cut | B (live): the tool call get_book_recommenders runs; punch-in on the get_book_recommenders call
+- 120.9 s to 123.7 s: Q3: the voice-to-voice wait from the caller's last word to the agent's first (2875 ms), never cut | C1+C3 (live): the tool call find_tools runs; punch-in on find_tools and the swap
+- 128.2 s to 130.7 s: C1+C3 (live): the page between spoken turns
+- 136.5 s to 142.3 s: Q5: the voice-to-voice wait from the caller's last word to the agent's first (5949 ms), never cut | C1+C3 (live): the tool call find_tools runs; the tool call afg_get_reputation is held by the gate (no request); punch-in on needs_paste
+- 173.5 s to 179.2 s: Q4: the voice-to-voice wait from the caller's last word to the agent's first (5780 ms), never cut | C2 (live): the tool call use_pasted_text runs; the tool call afg_get_reputation runs; punch-in on afg_get_reputation and its argument
+- 248.9 s to 254.1 s: the try slide and the end card
 
-The transcript of the file's audio is AssemblyAI transcript `d4a1d616-b8ff-440b-9a74-d27373098c0f` (universal-3-5-pro,universal-2, speaker labels on).
+The transcript of the file's audio is AssemblyAI transcript `ce12ea6f-c660-4f76-9b64-8898e9db6f81` (universal-3-5-pro,universal-2, speaker labels on).
 
 ## Rebuild
 

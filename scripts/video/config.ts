@@ -34,30 +34,39 @@ export const VOICES = {
  * "Misheard and reached a server: R." (the runs where a misheard value reached
  * an MCP server, all from before the gate).
  */
-export function identifierCount(): { exact: number; total: number; ran: number } {
+export function identifierCount(): { exact: number; total: number; ran: number; exactClips: number } {
   const page = readFileSync('docs/IDENTIFIERS.md', 'utf8');
   const m = page.match(/^Exact: (\d+) of (\d+)\.$/m);
   const r = page.match(/^Misheard and reached a server: (\d+)\.$/m);
   if (!m || !r) throw new Error('docs/IDENTIFIERS.md: no "Exact: N of M." or "Misheard and reached a server: R." line; run scripts/spoken-identifiers.ts');
-  return { exact: Number(m[1]), total: Number(m[2]), ran: Number(r[1]) };
+  // "The N exact hearings came from K distinct clip(s): ..." (distinctClipLine).
+  const c = page.match(/^The (\d+) exact hearings came from (\d+) distinct clips?:/m);
+  if (!c || Number(c[1]) !== Number(m[1])) throw new Error('docs/IDENTIFIERS.md: no distinct-clip line matching "Exact: N of M."; run scripts/spoken-identifiers.ts');
+  return { exact: Number(m[1]), total: Number(m[2]), ran: Number(r[1]), exactClips: Number(c[2]) };
 }
+
+/** The slide's {EXACTCLIPS}: how many recordings the exact hearings came from. */
+export const exactClipsText = (clips: number) => (clips === 1 ? 'all from one replayed clip' : `from ${clips} distinct clips`);
 
 /** The script as written; N7's {RAN} comes from F1's count, as digits. */
 export function narration(): Record<string, string> {
   const { ran: RAN } = identifierCount();
   return {
-    N1: "This is interpres. It connects AssemblyAI's Voice Agent API to public MCP servers. Type a website, press the mic, and its tools answer out loud.",
-    N2: "AssemblyAI lists its Voice Agent API at $4.50 an hour, and OpenAI Realtime at $18. Realtime can call MCP servers by itself. The Voice Agent API has no MCP tool type, so teams that switch for the price lose their MCP tools. interpres gives them back.",
+    N1: "This is interpres. MCP servers are how AI apps reach tools and data, and thousands of them are public. interpres connects them to AssemblyAI's Voice Agent API. Type a website, press the mic, and its tools answer out loud.",
+    N2: "AssemblyAI lists its Voice Agent API at $4.50 an hour, and OpenAI Realtime at $18. Realtime can call MCP servers by itself. The Voice Agent API has no MCP tool type, so teams that move over for the price lose their MCP tools. interpres gives them back.",
     N3: "Here's a real website with an MCP server. interpres looks in the official MCP registry, finds the server, and turns each of its tools into a Voice Agent function tool.",
     N4: "That answer came from goji's own server, through a live tool call.",
     N5: 'No website in mind? Search more than 11,000 public MCP servers right on the page. One click connects.',
-    N6: 'Many servers list more than ten tools. interpres shows the agent ten at a time, and one of them is find tools. Ask for something out of view, and interpres swaps the right tools in, mid-conversation.',
+    N6: 'Many servers list more than ten tools. interpres shows the agent ten at a time, and one of them is find tools. Ask for something out of view: interpres swaps the right tools in, mid-conversation.',
     N7: `Speech often mishears identifiers. Before this gate, a misheard wallet address reached the server ${RAN} times, and a right hearing looks exactly like a wrong one. So the address comes from the paste box, and the agent uses the exact text.`,
     N8: 'A spoken address is held back, right or wrong. Nothing runs.',
     N9: "To check it isn't just these three, we probed every remote server in the official MCP registry. 12,012 answered without a login, listing more than 200,000 tools, and every tool converted.",
     N10: 'Then we gave thirty of them one spoken question each, untuned. Twenty-nine sessions ran, each one answered out loud, and fourteen answered from live data. When a tool ran, the median was 3.5 seconds voice to voice, and the whole run cost 60 cents.',
     N11: 'Along the way we found two places where the API behaves differently from its docs, and wrote both up with scripts that reproduce them.',
-    N12: 'interpres is open source under MIT, and live now at the address on screen. Type a website, press the mic, and ask.',
+    // The final round's value line, over the kit's value slide. Its last sentence depends on npm:
+    // `npm view interpres version` answered E404 when the line was made, so it is the repo sentence.
+    N12: 'Who is it for? Teams leaving OpenAI Realtime add the library to their agent and keep every MCP server it calls, at a quarter of the price. Any public MCP server gets a voice interface, with no change on its side. The library ships in the same repo.',
+    N13: 'interpres is open source under MIT, and live now at the address on screen. Type a website, press the mic, and ask.',
   };
 }
 
@@ -88,10 +97,11 @@ export const callerSay = (id: string, caption: string): string => CALLER_SAY[id]
  */
 export const PROPER_NOUN_VARIANTS: Record<string, string[]> = {
   // The recogniser spells the made-up name several ways: every "interpr" + e|a + s|ss|z|ze|se,
-  // and "interprete" (seen in N7's first try in F2b and in N6 of round G's final transcript).
+  // and "interprete" (seen in N7's first try in F2b and in N6 of round G's final transcript),
+  // and "interperez" (both times in the word-timing transcript of the final round's N6 clip).
   // Not "interpret", which is a different English word.
-  // Seen so far: interpress, interprez, interpreze, interprase, interpraze, interprete.
-  interpres: ['interpress', 'interprez', 'interpreze', 'interprese', 'interpras', 'interprass', 'interpraz', 'interpraze', 'interprase', 'interprete'],
+  // Seen so far: interpress, interprez, interpreze, interprase, interpraze, interprete, interperez.
+  interpres: ['interpress', 'interprez', 'interpreze', 'interprese', 'interpras', 'interprass', 'interpraz', 'interpraze', 'interprase', 'interprete', 'interperez'],
   assemblyai: ['assembly ai'],
   openai: ['open ai'],
 };

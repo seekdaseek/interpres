@@ -8,6 +8,7 @@
  *   data/video/edl.json           the edit: shots, cuts, punch-ins
  *   data/video/final-checks.json  F2.7's checks on the rendered file
  *   data/video/previous-takes.json the takes the video used before round H (balanced)
+ *   data/video/take-builds.json   the deployed commit each take was captured against
  *   docs/VOICE-SWEEP.md           the sweep's tool-call median
  *   data/e2e-audio-warm-on.json   the warm suite's median (scripts/warm-ab.ts)
  *
@@ -64,6 +65,9 @@ export async function videoDoc(): Promise<string> {
   md.push('');
   md.push('Rewordings under the standing rule (a line that fails only because the transcriber spells a word differently):', '');
   md.push('- **N7, round H.** The clip that read "Speech often gets identifiers wrong" passed its own check and round G\'s final file. In round H\'s final file, with the same audio, it was heard as "gets identified as wrong". The phrase became "Speech often mishears identifiers": the same meaning, and the number is unchanged. The new clip passed on its second try, after "mishars" on the first.');
+  md.push('- **N2, the final round.** The clip that read "so teams that switch for the price" had passed its own check and every earlier final file. In the final round\'s first render, with the same audio, it was heard as "which for the price". The phrase became "so teams that move over for the price": the same meaning, and both prices are unchanged. The new clip passed on its second try; on the first, "interpres" was heard as "enterprise".');
+  md.push('- **N6, the final round.** In the second render, with the same audio as the first (where N6 passed), the transcriber wrote the "and" in "out of view, and interpres swaps" twice. The phrase became "out of view: interpres swaps": the same meaning, and "ten" is unchanged. The new clip passed on its first try, but in the next render the reworded line failed too: "interpres shows" was heard as "interplay shows", a different English word, which is not accepted. Under the standing rule, rewording stops there.');
+  md.push('- **N12, the final round (a new line).** "a voice front end" was written "frontend" on 4 of 4 tries. It became "a voice interface": the same meaning, and there is no number in the line. The new line passed on its first try.');
   md.push('- **N10, round F2.** "Every one answered out loud" was heard as "Everyone" on 4 of 4 tries. Sergiu changed it to "Each one answered out loud" (BUILDLOG, round F2).', '');
 
   md.push('## The caller', '');
@@ -78,7 +82,18 @@ export async function videoDoc(): Promise<string> {
   const q5 = voices.lines.Q5!;
   md.push(`| Q5 | ${q5.voice} | ${q5.text} | not checked word for word | made in \`${q5.attempts.at(-1)!.sessionIds[0]}\` |`, '');
 
+  md.push('## The final round', '');
+  md.push('What changed from the round H video:', '');
+  md.push('- **N1 is new**, over the title card. It says what an MCP server is before it says what interpres does.');
+  md.push('- **N12 is a new line** over the deck\'s value slide (`slides/value.png`), before the try slide. It says who interpres is for. Its last sentence is "The library ships in the same repo.", because `npm view interpres version` answered E404 when the line was made. The try slide\'s line is now N13, with the same clip it had as N12.');
+  md.push('- **The kit changed.** `slides/speed.png` has the min_latency row, and the identifiers slide\'s footer says where the exact hearings came from (`{EXACTCLIPS}`, filled from `docs/IDENTIFIERS.md`).');
+  md.push('- **Scene A was captured again**, after the Found line\'s wrap rule was fixed. The discovery is a fresh lookup, on one line.');
+  md.push('');
   md.push('## Scenes and takes', '');
+  if (existsSync('data/video/take-builds.json')) {
+    const tb = j<{ what: string; builds: Record<string, string> }>('data/video/take-builds.json');
+    md.push(`Each take ran on: ${Object.entries(takes).map(([k, v]) => `${k} on \`${tb.builds[v] ?? 'unrecorded'}\``).join(', ')}. ${tb.what}`, '');
+  }
   md.push(`A take counts only if every exchange passes its checks; the first such take of each scene is used (\`data/video/takes.json\`). Takes used: ${Object.entries(takes).map(([k, v]) => `${k} = \`${v}\``).join(', ')}.`, '');
   md.push('| take | scene | session | checks | used |', '| --- | --- | --- | --- | --- |');
   for (const [name, c] of caps) {
@@ -156,6 +171,7 @@ export async function videoDoc(): Promise<string> {
     md.push('## The rendered file', '');
     md.push(`\`${final.file.split('/').at(-1)}\`${final.sha256 ? `, sha256 \`${final.sha256}\`` : ''}. The checks of brief F, F2.7 (\`scripts/video/checks.ts\`):`, '');
     for (const r of final.results) md.push(`- ${r.ok ? 'ok' : 'FAIL'}: ${r.check}: ${r.detail}`);
+    if (final.results.some((r) => !r.ok)) md.push('', '**This file failed a check above, so it did not replace the video on the Desktop.** The Desktop keeps the last video that passed every check (BUILDLOG).');
     md.push('', `Every silence of 2.5 s or more at -45 dB, and what it is:`, '');
     for (const x of final.silences) md.push(`- ${s1(x.start)} to ${s1(x.end)}: ${x.what}`);
     md.push('', `The transcript of the file's audio is AssemblyAI transcript \`${final.transcript.id}\` (${final.transcript.speechModel}, speaker labels on).`, '');

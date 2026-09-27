@@ -1,6 +1,6 @@
 {
  "file": "video/out/interpres-demo.mp4",
- "sha256": "5b96af90f595290b7c01c802c59ff9e747ed7042b120b50569a88cc24d6f0c5f",
+ "sha256": "75d96f35fe858ed578d2e208d127ceccdf936d25f7b0b3a57b13f424dda67cd8",
  "results": [
   {
    "check": "video: H.264 High",
@@ -35,7 +35,7 @@
   {
    "check": "audio: 192 kbps",
    "ok": true,
-   "detail": "192012 b/s"
+   "detail": "192011 b/s"
   },
   {
    "check": "+faststart (moov before mdat)",
@@ -45,22 +45,22 @@
   {
    "check": "duration and size",
    "ok": true,
-   "detail": "232.107 s, 31,997,494 bytes"
+   "detail": "254.067 s, 33,944,626 bytes"
   },
   {
    "check": "length 3:30 to 4:15 (hard cap 4:55)",
    "ok": true,
-   "detail": "3:52.1"
+   "detail": "4:14.1"
   },
   {
    "check": "size 300 MB or less",
    "ok": true,
-   "detail": "30.5 MB"
+   "detail": "32.4 MB"
   },
   {
    "check": "loudness -16 LUFS integrated +-1",
    "ok": true,
-   "detail": "-16 LUFS (LRA 5.3 LU)"
+   "detail": "-16 LUFS (LRA 5.4 LU)"
   },
   {
    "check": "true peak -1.5 dBTP or lower",
@@ -75,17 +75,17 @@
   {
    "check": "N1 word for word",
    "ok": true,
-   "detail": "ok (variants: interprez -> interpres)"
+   "detail": "ok (variants: interprez -> interpres, interprez -> interpres)"
   },
   {
    "check": "N2 word for word",
    "ok": true,
-   "detail": "ok (variants: interprez -> interpres)"
+   "detail": "ok (variants: interpreze -> interpres)"
   },
   {
    "check": "N3 word for word",
    "ok": true,
-   "detail": "ok (variants: interpraze -> interpres)"
+   "detail": "ok (variants: interpreze -> interpres)"
   },
   {
    "check": "N4 word for word",
@@ -99,8 +99,8 @@
   },
   {
    "check": "N6 word for word",
-   "ok": true,
-   "detail": "ok (variants: interpreze -> interpres, interpreze -> interpres)"
+   "ok": false,
+   "detail": "at word 7: script \"interpres shows the agent\" heard \"interplay shows the agent\""
   },
   {
    "check": "N8 word for word",
@@ -130,54 +130,59 @@
   {
    "check": "N12 word for word",
    "ok": true,
+   "detail": "ok"
+  },
+  {
+   "check": "N13 word for word",
+   "ok": true,
    "detail": "ok (variants: interprez -> interpres)"
   }
  ],
  "black": [],
  "silences": [
   {
-   "start": 43818,
-   "end": 46834,
+   "start": 47938,
+   "end": 50981,
    "what": "A (live): clicks; Talk pressed: the page fetches a token, opens the session and waits for the greeting"
   },
   {
-   "start": 54395,
-   "end": 58711,
-   "what": "Q1: the voice-to-voice wait from the caller's last word to the agent's first (4372 ms), never cut | A (live): the tool call goji_explain_term runs"
+   "start": 57669,
+   "end": 62069,
+   "what": "Q1: the voice-to-voice wait from the caller's last word to the agent's first (4467 ms), never cut | A (live): the tool call goji_explain_term runs"
   },
   {
-   "start": 88045,
-   "end": 92799,
+   "start": 93280,
+   "end": 98034,
    "what": "Q2: the voice-to-voice wait from the caller's last word to the agent's first (4846 ms), never cut | B (live): the tool call get_book_recommenders runs; punch-in on the get_book_recommenders call"
   },
   {
-   "start": 115693,
-   "end": 118488,
+   "start": 120918,
+   "end": 123713,
    "what": "Q3: the voice-to-voice wait from the caller's last word to the agent's first (2875 ms), never cut | C1+C3 (live): the tool call find_tools runs; punch-in on find_tools and the swap"
   },
   {
-   "start": 122947,
-   "end": 125466,
+   "start": 128172,
+   "end": 130691,
    "what": "C1+C3 (live): the page between spoken turns"
   },
   {
-   "start": 131263,
-   "end": 137082,
+   "start": 136488,
+   "end": 142307,
    "what": "Q5: the voice-to-voice wait from the caller's last word to the agent's first (5949 ms), never cut | C1+C3 (live): the tool call find_tools runs; the tool call afg_get_reputation is held by the gate (no request); punch-in on needs_paste"
   },
   {
-   "start": 168282,
-   "end": 173934,
+   "start": 173507,
+   "end": 179159,
    "what": "Q4: the voice-to-voice wait from the caller's last word to the agent's first (5780 ms), never cut | C2 (live): the tool call use_pasted_text runs; the tool call afg_get_reputation runs; punch-in on afg_get_reputation and its argument"
   },
   {
-   "start": 226956,
-   "end": 232107,
+   "start": 248911,
+   "end": 254059,
    "what": "the try slide and the end card"
   }
  ],
  "transcript": {
-  "id": "d4a1d616-b8ff-440b-9a74-d27373098c0f",
+  "id": "ce12ea6f-c660-4f76-9b64-8898e9db6f81",
   "speechModel": "universal-3-5-pro,universal-2"
  }
 }

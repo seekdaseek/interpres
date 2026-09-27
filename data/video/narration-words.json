@@ -1,378 +1,453 @@
 {
  "N1": {
   "file": "video/voices/N1.wav",
-  "sha256": "f79085236774660d07ebd91f49df2e4ca293324cd52ab8ee634e797102dc10d8",
-  "id": "08eeabe7-8622-4ac6-880a-54efef5decd1",
+  "sha256": "1a141c302b30376cb22d9592d2e6d55d9c3f74cd8ee71a9c0a67704470639305",
+  "id": "47b1e495-51b9-4f07-bf9c-e1e535d1016d",
   "speechModel": "universal-3-5-pro,universal-2",
-  "text": "This is Interprez. It connects AssemblyAI's voice agent API to public MCP servers. Type a website, press the mic, and its tools answer out loud.",
+  "text": "This is Interprez. MCP servers are how AI apps reach tools and data, and thousands of them are public. Interprez connects them to AssemblyAI's Voice Agent API. Type a website, press the mic, and its tools answer out loud.",
   "words": [
    {
     "text": "This",
-    "start": 517,
-    "end": 614
+    "start": 353,
+    "end": 514
    },
    {
     "text": "is",
-    "start": 678,
-    "end": 759
+    "start": 514,
+    "end": 562
    },
    {
     "text": "Interprez.",
-    "start": 840,
-    "end": 1292
-   },
-   {
-    "text": "It",
-    "start": 2116,
-    "end": 2197
-   },
-   {
-    "text": "connects",
-    "start": 2197,
-    "end": 2553
-   },
-   {
-    "text": "AssemblyAI's",
-    "start": 2553,
-    "end": 3409
-   },
-   {
-    "text": "voice",
-    "start": 3425,
-    "end": 3635
-   },
-   {
-    "text": "agent",
-    "start": 3732,
-    "end": 4540
-   },
-   {
-    "text": "API",
-    "start": 4540,
-    "end": 4912
-   },
-   {
-    "text": "to",
-    "start": 5041,
-    "end": 5186
-   },
-   {
-    "text": "public",
-    "start": 5186,
-    "end": 5509
+    "start": 594,
+    "end": 1205
    },
    {
     "text": "MCP",
-    "start": 5526,
-    "end": 5946
-   },
-   {
-    "text": "servers.",
-    "start": 5946,
-    "end": 6382
-   },
-   {
-    "text": "Type",
-    "start": 7125,
-    "end": 7384
-   },
-   {
-    "text": "a",
-    "start": 7384,
-    "end": 7400
-   },
-   {
-    "text": "website,",
-    "start": 7465,
-    "end": 8046
-   },
-   {
-    "text": "press",
-    "start": 8515,
-    "end": 8757
-   },
-   {
-    "text": "the",
-    "start": 8757,
-    "end": 8887
-   },
-   {
-    "text": "mic,",
-    "start": 8887,
-    "end": 9226
-   },
-   {
-    "text": "and",
-    "start": 9808,
-    "end": 9872
-   },
-   {
-    "text": "its",
-    "start": 9905,
-    "end": 10001
-   },
-   {
-    "text": "tools",
-    "start": 10115,
-    "end": 10373
-   },
-   {
-    "text": "answer",
-    "start": 10438,
-    "end": 10680
-   },
-   {
-    "text": "out",
-    "start": 10696,
-    "end": 10858
-   },
-   {
-    "text": "loud.",
-    "start": 10858,
-    "end": 11052
-   }
-  ],
-  "script": "This is interpres. It connects AssemblyAI's Voice Agent API to public MCP servers. Type a website, press the mic, and its tools answer out loud."
- },
- "N2": {
-  "file": "video/voices/N2.wav",
-  "sha256": "f4675c1bbc6058dcbe7548991e7115ec07d1e823ca926e462fe1f3b12a38fc76",
-  "id": "2d0a04fe-8b3f-43ab-9e6a-ef82c2df2809",
-  "speechModel": "universal-3-5-pro,universal-2",
-  "text": "AssemblyAI lists its Voice Agent API at $4.50 an hour and OpenAI Realtime at $18. Realtime can call MCP servers by itself. The Voice Agent API has no MCP tool type, so teams that switch for the price lose their MCP tools. Interpreze gives them back.",
-  "words": [
-   {
-    "text": "AssemblyAI",
-    "start": 818,
-    "end": 1459
-   },
-   {
-    "text": "lists",
-    "start": 1459,
-    "end": 1796
-   },
-   {
-    "text": "its",
-    "start": 1796,
-    "end": 2021
-   },
-   {
-    "text": "Voice",
-    "start": 2037,
-    "end": 2245
-   },
-   {
-    "text": "Agent",
-    "start": 2358,
-    "end": 2678
-   },
-   {
-    "text": "API",
-    "start": 2678,
-    "end": 3144
-   },
-   {
-    "text": "at",
-    "start": 3160,
-    "end": 3304
-   },
-   {
-    "text": "$4.50",
-    "start": 3304,
-    "end": 4251
-   },
-   {
-    "text": "an",
-    "start": 4603,
-    "end": 4668
-   },
-   {
-    "text": "hour",
-    "start": 4668,
-    "end": 4972
-   },
-   {
-    "text": "and",
-    "start": 5406,
-    "end": 5470
-   },
-   {
-    "text": "OpenAI",
-    "start": 5630,
-    "end": 6079
-   },
-   {
-    "text": "Realtime",
-    "start": 6192,
-    "end": 6705
-   },
-   {
-    "text": "at",
-    "start": 6705,
-    "end": 6849
-   },
-   {
-    "text": "$18.",
-    "start": 6849,
-    "end": 7186
-   },
-   {
-    "text": "Realtime",
-    "start": 8277,
-    "end": 8774
-   },
-   {
-    "text": "can",
-    "start": 8774,
-    "end": 8903
-   },
-   {
-    "text": "call",
-    "start": 8935,
-    "end": 9240
-   },
-   {
-    "text": "MCP",
-    "start": 9320,
-    "end": 9817
+    "start": 1961,
+    "end": 2443
    },
    {
     "text": "servers",
-    "start": 9817,
-    "end": 10218
+    "start": 2443,
+    "end": 2909
    },
    {
-    "text": "by",
-    "start": 10218,
-    "end": 10443
+    "text": "are",
+    "start": 2909,
+    "end": 2989
    },
    {
-    "text": "itself.",
-    "start": 10443,
-    "end": 10844
+    "text": "how",
+    "start": 2989,
+    "end": 3118
    },
    {
-    "text": "The",
-    "start": 11165,
-    "end": 11245
+    "text": "AI",
+    "start": 3311,
+    "end": 3873
    },
    {
-    "text": "Voice",
-    "start": 11245,
-    "end": 11469
+    "text": "apps",
+    "start": 3954,
+    "end": 4114
    },
    {
-    "text": "Agent",
-    "start": 11566,
-    "end": 11822
+    "text": "reach",
+    "start": 4211,
+    "end": 4468
    },
    {
-    "text": "API",
-    "start": 11886,
-    "end": 12368
+    "text": "tools",
+    "start": 4516,
+    "end": 4741
    },
    {
-    "text": "has",
-    "start": 12368,
-    "end": 12432
+    "text": "and",
+    "start": 4854,
+    "end": 4918
    },
    {
-    "text": "no",
-    "start": 12544,
-    "end": 12753
+    "text": "data,",
+    "start": 4934,
+    "end": 5400
    },
    {
-    "text": "MCP",
-    "start": 12785,
-    "end": 13330
+    "text": "and",
+    "start": 5658,
+    "end": 5722
    },
    {
-    "text": "tool",
-    "start": 13330,
-    "end": 13571
+    "text": "thousands",
+    "start": 5899,
+    "end": 6349
    },
    {
-    "text": "type,",
-    "start": 13587,
-    "end": 13908
-   },
-   {
-    "text": "so",
-    "start": 14325,
-    "end": 14549
-   },
-   {
-    "text": "teams",
-    "start": 14549,
-    "end": 14870
-   },
-   {
-    "text": "that",
-    "start": 14870,
-    "end": 14982
-   },
-   {
-    "text": "switch",
-    "start": 15014,
-    "end": 15239
-   },
-   {
-    "text": "for",
-    "start": 15335,
-    "end": 15383
-   },
-   {
-    "text": "the",
-    "start": 15383,
-    "end": 15512
-   },
-   {
-    "text": "price",
-    "start": 15512,
-    "end": 15833
-   },
-   {
-    "text": "lose",
-    "start": 15913,
-    "end": 16121
-   },
-   {
-    "text": "their",
-    "start": 16234,
-    "end": 16394
-   },
-   {
-    "text": "MCP",
-    "start": 16394,
-    "end": 16939
-   },
-   {
-    "text": "tools.",
-    "start": 16939,
-    "end": 17325
-   },
-   {
-    "text": "Interpreze",
-    "start": 17597,
-    "end": 18046
-   },
-   {
-    "text": "gives",
-    "start": 18159,
-    "end": 18367
+    "text": "of",
+    "start": 6365,
+    "end": 6461
    },
    {
     "text": "them",
-    "start": 18383,
-    "end": 18544
+    "start": 6461,
+    "end": 6574
+   },
+   {
+    "text": "are",
+    "start": 6622,
+    "end": 6702
+   },
+   {
+    "text": "public.",
+    "start": 6702,
+    "end": 7040
+   },
+   {
+    "text": "Interprez",
+    "start": 7345,
+    "end": 7795
+   },
+   {
+    "text": "connects",
+    "start": 7908,
+    "end": 8310
+   },
+   {
+    "text": "them",
+    "start": 8310,
+    "end": 8471
+   },
+   {
+    "text": "to",
+    "start": 8471,
+    "end": 8599
+   },
+   {
+    "text": "AssemblyAI's",
+    "start": 8631,
+    "end": 9580
+   },
+   {
+    "text": "Voice",
+    "start": 9596,
+    "end": 9901
+   },
+   {
+    "text": "Agent",
+    "start": 9901,
+    "end": 10223
+   },
+   {
+    "text": "API.",
+    "start": 10239,
+    "end": 10673
+   },
+   {
+    "text": "Type",
+    "start": 11026,
+    "end": 11284
+   },
+   {
+    "text": "a",
+    "start": 11284,
+    "end": 11300
+   },
+   {
+    "text": "website,",
+    "start": 11348,
+    "end": 11846
+   },
+   {
+    "text": "press",
+    "start": 12248,
+    "end": 12553
+   },
+   {
+    "text": "the",
+    "start": 12553,
+    "end": 12618
+   },
+   {
+    "text": "mic,",
+    "start": 12618,
+    "end": 12907
+   },
+   {
+    "text": "and",
+    "start": 13373,
+    "end": 13437
+   },
+   {
+    "text": "its",
+    "start": 13454,
+    "end": 13614
+   },
+   {
+    "text": "tools",
+    "start": 13614,
+    "end": 13984
+   },
+   {
+    "text": "answer",
+    "start": 14080,
+    "end": 14338
+   },
+   {
+    "text": "out",
+    "start": 14402,
+    "end": 14563
+   },
+   {
+    "text": "loud.",
+    "start": 14563,
+    "end": 14868
+   }
+  ],
+  "script": "This is interpres. MCP servers are how AI apps reach tools and data, and thousands of them are public. interpres connects them to AssemblyAI's Voice Agent API. Type a website, press the mic, and its tools answer out loud."
+ },
+ "N2": {
+  "file": "video/voices/N2.wav",
+  "sha256": "a255dec19dd67e87b66200317d9c5f40128c457b0bee3848e02bb45aec057030",
+  "id": "37f7f5b8-dd1f-408f-a569-91051f6ed751",
+  "speechModel": "universal-3-5-pro,universal-2",
+  "text": "AssemblyAI lists its Voice Agent API at $4.50 an hour and OpenAI Realtime at $18. Realtime can call MCP servers by itself. The Voice Agent API has no MCP tool type, so teams that move over for the price lose their MCP tools. Interpreze gives them back.",
+  "words": [
+   {
+    "text": "AssemblyAI",
+    "start": 673,
+    "end": 1475
+   },
+   {
+    "text": "lists",
+    "start": 1539,
+    "end": 1828
+   },
+   {
+    "text": "its",
+    "start": 1876,
+    "end": 2117
+   },
+   {
+    "text": "Voice",
+    "start": 2117,
+    "end": 2422
+   },
+   {
+    "text": "Agent",
+    "start": 2422,
+    "end": 2743
+   },
+   {
+    "text": "API",
+    "start": 2743,
+    "end": 3240
+   },
+   {
+    "text": "at",
+    "start": 3240,
+    "end": 3320
+   },
+   {
+    "text": "$4.50",
+    "start": 3320,
+    "end": 4331
+   },
+   {
+    "text": "an",
+    "start": 4668,
+    "end": 4716
+   },
+   {
+    "text": "hour",
+    "start": 4748,
+    "end": 5053
+   },
+   {
+    "text": "and",
+    "start": 5550,
+    "end": 5614
+   },
+   {
+    "text": "OpenAI",
+    "start": 5726,
+    "end": 6320
+   },
+   {
+    "text": "Realtime",
+    "start": 6368,
+    "end": 6913
+   },
+   {
+    "text": "at",
+    "start": 6913,
+    "end": 6961
+   },
+   {
+    "text": "$18.",
+    "start": 7074,
+    "end": 7379
+   },
+   {
+    "text": "Realtime",
+    "start": 8213,
+    "end": 8678
+   },
+   {
+    "text": "can",
+    "start": 8678,
+    "end": 8822
+   },
+   {
+    "text": "call",
+    "start": 8838,
+    "end": 9079
+   },
+   {
+    "text": "MCP",
+    "start": 9095,
+    "end": 9592
+   },
+   {
+    "text": "servers",
+    "start": 9592,
+    "end": 9993
+   },
+   {
+    "text": "by",
+    "start": 10057,
+    "end": 10202
+   },
+   {
+    "text": "itself.",
+    "start": 10202,
+    "end": 10603
+   },
+   {
+    "text": "The",
+    "start": 11325,
+    "end": 11405
+   },
+   {
+    "text": "Voice",
+    "start": 11405,
+    "end": 11726
+   },
+   {
+    "text": "Agent",
+    "start": 11726,
+    "end": 11982
+   },
+   {
+    "text": "API",
+    "start": 12047,
+    "end": 12432
+   },
+   {
+    "text": "has",
+    "start": 12448,
+    "end": 12592
+   },
+   {
+    "text": "no",
+    "start": 12688,
+    "end": 12833
+   },
+   {
+    "text": "MCP",
+    "start": 12865,
+    "end": 13410
+   },
+   {
+    "text": "tool",
+    "start": 13410,
+    "end": 13651
+   },
+   {
+    "text": "type,",
+    "start": 13651,
+    "end": 13923
+   },
+   {
+    "text": "so",
+    "start": 14308,
+    "end": 14421
+   },
+   {
+    "text": "teams",
+    "start": 14533,
+    "end": 14838
+   },
+   {
+    "text": "that",
+    "start": 14854,
+    "end": 14918
+   },
+   {
+    "text": "move",
+    "start": 14950,
+    "end": 15255
+   },
+   {
+    "text": "over",
+    "start": 15255,
+    "end": 15447
+   },
+   {
+    "text": "for",
+    "start": 15447,
+    "end": 15624
+   },
+   {
+    "text": "the",
+    "start": 15624,
+    "end": 15752
+   },
+   {
+    "text": "price",
+    "start": 15752,
+    "end": 16137
+   },
+   {
+    "text": "lose",
+    "start": 16153,
+    "end": 16281
+   },
+   {
+    "text": "their",
+    "start": 16378,
+    "end": 16554
+   },
+   {
+    "text": "MCP",
+    "start": 16554,
+    "end": 17100
+   },
+   {
+    "text": "tools.",
+    "start": 17100,
+    "end": 17485
+   },
+   {
+    "text": "Interpreze",
+    "start": 17837,
+    "end": 18287
+   },
+   {
+    "text": "gives",
+    "start": 18319,
+    "end": 18527
+   },
+   {
+    "text": "them",
+    "start": 18543,
+    "end": 18640
    },
    {
     "text": "back.",
-    "start": 18560,
-    "end": 18784
+    "start": 18640,
+    "end": 18880
    }
   ],
-  "script": "AssemblyAI lists its Voice Agent API at $4.50 an hour, and OpenAI Realtime at $18. Realtime can call MCP servers by itself. The Voice Agent API has no MCP tool type, so teams that switch for the price lose their MCP tools. interpres gives them back."
+  "script": "AssemblyAI lists its Voice Agent API at $4.50 an hour, and OpenAI Realtime at $18. Realtime can call MCP servers by itself. The Voice Agent API has no MCP tool type, so teams that move over for the price lose their MCP tools. interpres gives them back."
  },
  "N3": {
   "file": "video/voices/N3.wav",
@@ -701,193 +776,188 @@
  },
  "N6": {
   "file": "video/voices/N6.wav",
-  "sha256": "f7cf157b62c4d7f50c8da6d753760056826422af7a203a1274d8cedf09668ea8",
-  "id": "a8e81fdc-5734-4ee2-856a-fee01c0b43d4",
+  "sha256": "ec60ffb635e2f592832767ea575db5b256cf64baa5899bf294bc4f743b692da4",
+  "id": "2481d91a-c00b-471a-8ee9-e85e700eb2b8",
   "speechModel": "universal-3-5-pro,universal-2",
-  "text": "Many servers list more than 10 tools. Interprez shows the agent 10 at a time, and one of them is find tools. Ask for something out of view, and Interprez swaps the right tools in mid-conversation.",
+  "text": "Many servers list more than 10 tools. Interperez shows the agent 10 at a time, and one of them is find tools. Ask for something out of view— Interperez swaps the right tools in mid-conversation.",
   "words": [
    {
     "text": "Many",
-    "start": 738,
-    "end": 915
+    "start": 674,
+    "end": 850
    },
    {
     "text": "servers",
-    "start": 915,
-    "end": 1365
+    "start": 850,
+    "end": 1284
    },
    {
     "text": "list",
-    "start": 1397,
-    "end": 1638
+    "start": 1380,
+    "end": 1621
    },
    {
     "text": "more",
-    "start": 1638,
-    "end": 1799
+    "start": 1621,
+    "end": 1749
    },
    {
     "text": "than",
-    "start": 1799,
-    "end": 1911
+    "start": 1797,
+    "end": 1926
    },
    {
     "text": "10",
-    "start": 1959,
-    "end": 2152
+    "start": 1958,
+    "end": 2150
    },
    {
     "text": "tools.",
-    "start": 2281,
-    "end": 2650
+    "start": 2279,
+    "end": 2648
    },
    {
-    "text": "Interprez",
-    "start": 3405,
-    "end": 3823
+    "text": "Interperez",
+    "start": 3322,
+    "end": 3820
    },
    {
     "text": "shows",
-    "start": 3823,
-    "end": 4096
+    "start": 3820,
+    "end": 4173
    },
    {
     "text": "the",
-    "start": 4144,
-    "end": 4289
+    "start": 4221,
+    "end": 4365
    },
    {
     "text": "agent",
-    "start": 4289,
-    "end": 4610
+    "start": 4365,
+    "end": 4751
    },
    {
     "text": "10",
-    "start": 4610,
-    "end": 4786
+    "start": 4751,
+    "end": 4943
    },
    {
     "text": "at",
-    "start": 4786,
-    "end": 4931
+    "start": 4943,
+    "end": 5088
    },
    {
     "text": "a",
-    "start": 4931,
-    "end": 5011
+    "start": 5088,
+    "end": 5168
    },
    {
     "text": "time,",
-    "start": 5011,
-    "end": 5333
+    "start": 5168,
+    "end": 5505
    },
    {
     "text": "and",
-    "start": 5798,
-    "end": 5863
+    "start": 5970,
+    "end": 6035
    },
    {
     "text": "one",
-    "start": 5895,
-    "end": 6056
+    "start": 6115,
+    "end": 6179
    },
    {
     "text": "of",
-    "start": 6056,
-    "end": 6200
+    "start": 6227,
+    "end": 6340
    },
    {
     "text": "them",
-    "start": 6200,
-    "end": 6313
+    "start": 6372,
+    "end": 6484
    },
    {
     "text": "is",
-    "start": 6313,
-    "end": 6425
+    "start": 6532,
+    "end": 6580
    },
    {
     "text": "find",
-    "start": 6457,
-    "end": 6746
+    "start": 6677,
+    "end": 6934
    },
    {
     "text": "tools.",
-    "start": 6778,
-    "end": 7148
+    "start": 6934,
+    "end": 7303
    },
    {
     "text": "Ask",
-    "start": 7887,
-    "end": 7999
+    "start": 7720,
+    "end": 7961
    },
    {
     "text": "for",
-    "start": 8063,
-    "end": 8128
+    "start": 7961,
+    "end": 8041
    },
    {
     "text": "something",
-    "start": 8144,
-    "end": 8513
+    "start": 8041,
+    "end": 8298
    },
    {
     "text": "out",
-    "start": 8529,
-    "end": 8642
+    "start": 8362,
+    "end": 8539
    },
    {
     "text": "of",
-    "start": 8642,
-    "end": 8706
+    "start": 8539,
+    "end": 8619
    },
    {
-    "text": "view,",
-    "start": 8706,
-    "end": 9011
+    "text": "view—",
+    "start": 8619,
+    "end": 8924
    },
    {
-    "text": "and",
-    "start": 9268,
-    "end": 9333
-   },
-   {
-    "text": "Interprez",
-    "start": 9429,
-    "end": 9830
+    "text": "Interperez",
+    "start": 9486,
+    "end": 10031
    },
    {
     "text": "swaps",
-    "start": 9830,
-    "end": 10312
+    "start": 10063,
+    "end": 10465
    },
    {
     "text": "the",
-    "start": 10312,
-    "end": 10393
+    "start": 10465,
+    "end": 10593
    },
    {
     "text": "right",
-    "start": 10393,
-    "end": 10634
+    "start": 10625,
+    "end": 10866
    },
    {
     "text": "tools",
-    "start": 10634,
-    "end": 10923
+    "start": 10866,
+    "end": 11155
    },
    {
     "text": "in",
-    "start": 11019,
-    "end": 11132
+    "start": 11251,
+    "end": 11428
    },
    {
     "text": "mid-conversation.",
-    "start": 11437,
-    "end": 12288
+    "start": 11428,
+    "end": 12278
    }
   ],
-  "script": "Many servers list more than ten tools. interpres shows the agent ten at a time, and one of them is find tools. Ask for something out of view, and interpres swaps the right tools in, mid-conversation."
+  "script": "Many servers list more than ten tools. interpres shows the agent ten at a time, and one of them is find tools. Ask for something out of view: interpres swaps the right tools in, mid-conversation."
  },
  "N7": {
   "file": "video/voices/N7.wav",
@@ -1684,8 +1754,8 @@
   ],
   "script": "Along the way we found two places where the API behaves differently from its docs, and wrote both up with scripts that reproduce them."
  },
- "N12": {
-  "file": "video/voices/N12.wav",
+ "N13": {
+  "file": "video/voices/N13.wav",
   "sha256": "c7c2ce1ed284c03edb0e45ea6b6ae86a1ce590f66c3a2fa57f31f14b8af95b59",
   "id": "fc2b5dba-56e8-4d17-a4bc-0eb67b68e993",
   "speechModel": "universal-3-5-pro,universal-2",
@@ -1803,5 +1873,255 @@
    }
   ],
   "script": "interpres is open source under MIT, and live now at the address on screen. Type a website, press the mic, and ask."
+ },
+ "N12": {
+  "file": "video/voices/N12.wav",
+  "sha256": "6861a173483379e16ad69a4021515149d53005a13fb5722a5283a9b264fc2fee",
+  "id": "a95bfd32-b003-4748-bf4d-c93138460a96",
+  "speechModel": "universal-3-5-pro,universal-2",
+  "text": "Who is it for? Teams leaving OpenAI Realtime add the library to their agent and keep every MCP server it calls at a quarter of the price. Any public MCP server gets a voice interface with no change on its side. The library ships in the same repo.",
+  "words": [
+   {
+    "text": "Who",
+    "start": 594,
+    "end": 819
+   },
+   {
+    "text": "is",
+    "start": 835,
+    "end": 964
+   },
+   {
+    "text": "it",
+    "start": 996,
+    "end": 1141
+   },
+   {
+    "text": "for?",
+    "start": 1141,
+    "end": 1333
+   },
+   {
+    "text": "Teams",
+    "start": 2105,
+    "end": 2491
+   },
+   {
+    "text": "leaving",
+    "start": 2523,
+    "end": 2812
+   },
+   {
+    "text": "OpenAI",
+    "start": 2989,
+    "end": 3519
+   },
+   {
+    "text": "Realtime",
+    "start": 3551,
+    "end": 4049
+   },
+   {
+    "text": "add",
+    "start": 4114,
+    "end": 4258
+   },
+   {
+    "text": "the",
+    "start": 4274,
+    "end": 4355
+   },
+   {
+    "text": "library",
+    "start": 4371,
+    "end": 4740
+   },
+   {
+    "text": "to",
+    "start": 4757,
+    "end": 4837
+   },
+   {
+    "text": "their",
+    "start": 4853,
+    "end": 5078
+   },
+   {
+    "text": "agent",
+    "start": 5078,
+    "end": 5415
+   },
+   {
+    "text": "and",
+    "start": 5415,
+    "end": 5560
+   },
+   {
+    "text": "keep",
+    "start": 5560,
+    "end": 5801
+   },
+   {
+    "text": "every",
+    "start": 5898,
+    "end": 6187
+   },
+   {
+    "text": "MCP",
+    "start": 6219,
+    "end": 6637
+   },
+   {
+    "text": "server",
+    "start": 6637,
+    "end": 6958
+   },
+   {
+    "text": "it",
+    "start": 6958,
+    "end": 7087
+   },
+   {
+    "text": "calls",
+    "start": 7103,
+    "end": 7392
+   },
+   {
+    "text": "at",
+    "start": 7489,
+    "end": 7585
+   },
+   {
+    "text": "a",
+    "start": 7585,
+    "end": 7665
+   },
+   {
+    "text": "quarter",
+    "start": 7665,
+    "end": 7923
+   },
+   {
+    "text": "of",
+    "start": 7923,
+    "end": 8051
+   },
+   {
+    "text": "the",
+    "start": 8051,
+    "end": 8148
+   },
+   {
+    "text": "price.",
+    "start": 8148,
+    "end": 8437
+   },
+   {
+    "text": "Any",
+    "start": 9112,
+    "end": 9321
+   },
+   {
+    "text": "public",
+    "start": 9337,
+    "end": 9674
+   },
+   {
+    "text": "MCP",
+    "start": 9674,
+    "end": 10172
+   },
+   {
+    "text": "server",
+    "start": 10172,
+    "end": 10542
+   },
+   {
+    "text": "gets",
+    "start": 10558,
+    "end": 10735
+   },
+   {
+    "text": "a",
+    "start": 10735,
+    "end": 10751
+   },
+   {
+    "text": "voice",
+    "start": 10783,
+    "end": 11105
+   },
+   {
+    "text": "interface",
+    "start": 11121,
+    "end": 11715
+   },
+   {
+    "text": "with",
+    "start": 11764,
+    "end": 11924
+   },
+   {
+    "text": "no",
+    "start": 11940,
+    "end": 12165
+   },
+   {
+    "text": "change",
+    "start": 12165,
+    "end": 12503
+   },
+   {
+    "text": "on",
+    "start": 12503,
+    "end": 12631
+   },
+   {
+    "text": "its",
+    "start": 12631,
+    "end": 12744
+   },
+   {
+    "text": "side.",
+    "start": 12744,
+    "end": 13146
+   },
+   {
+    "text": "The",
+    "start": 13837,
+    "end": 13917
+   },
+   {
+    "text": "library",
+    "start": 13933,
+    "end": 14335
+   },
+   {
+    "text": "ships",
+    "start": 14335,
+    "end": 14656
+   },
+   {
+    "text": "in",
+    "start": 14656,
+    "end": 14705
+   },
+   {
+    "text": "the",
+    "start": 14737,
+    "end": 14833
+   },
+   {
+    "text": "same",
+    "start": 14833,
+    "end": 15122
+   },
+   {
+    "text": "repo.",
+    "start": 15122,
+    "end": 15524
+   }
+  ],
+  "script": "Who is it for? Teams leaving OpenAI Realtime add the library to their agent and keep every MCP server it calls, at a quarter of the price. Any public MCP server gets a voice interface, with no change on its side. The library ships in the same repo."
  }
 }

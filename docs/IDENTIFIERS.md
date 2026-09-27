@@ -1,6 +1,6 @@
 # Spoken wallet addresses
 
-Every recorded attempt to speak a wallet address, from every source in `data/`, recounted by `scripts/spoken-identifiers.ts`. "Ran" is whether the address reached an MCP server: a misheard value ran in 5 of them, all from before the gate held spoken identifiers (decision D4).
+Every recorded attempt to speak a wallet address, from every source in `data/`, recounted by `scripts/spoken-identifiers.ts`. "Ran" is whether the address reached an MCP server: a misheard value ran in 5 of them, all from before the gate held spoken identifiers (decision D4). After D4, a spoken address ran only in 3 rehearsals where the same address had been pasted earlier in that session and had already run with the pasted text, which the gate allows.
 
 Exact: 13 of 23.
 
@@ -22,9 +22,9 @@ The 13 exact hearings came from 1 distinct clip: michael's Q5 clip (sha256 9bd03
 | video/capture-C-20260927T064547.json | `sess_3fcf411e656145b0a5b487036ce05e38` | `0x5aaeb605…1beaed` (42) | `0x5aaeb605…1beaed` (42) | yes | nothing ran |
 | video/capture-C-20260927T091639.json | `sess_bad159e000e9412ba713b9dfb8389cf2` | `0x5aaeb605…1beaed` (42) | `0x5aaeb605…1beaed` (42) | yes | nothing ran |
 | video/rehearsals-c.json (brief) | `sess_7207e8d4878241fca8de881aaad6b9f9` | `0x5aaeb605…1beaed` (42) | `0x5aaeb605…1beaed` (42) | yes | nothing ran |
-| video/rehearsals-c.json (brief) | `sess_5d116e8491ce41f894d2dd99061aed65` | `0x5aaeb605…1beaed` (42) | `0x5aaeb605…1beaed` (42) | yes | ran with the spoken value |
-| video/rehearsals-c.json (brief) | `sess_01ca2a290e594b2981fd9b60e845a6ae` | `0x5aaeb605…1beaed` (42) | `0x5aaeb605…1beaed` (42) | yes | ran with the spoken value |
-| video/rehearsals-c.json (brief) | `sess_492217eebd9f4144a7e09a53bba6d4e2` | `0x5aaeb605…1beaed` (42) | `0x5aaeb605…1beaed` (42) | yes | ran with the spoken value |
+| video/rehearsals-c.json (brief) | `sess_5d116e8491ce41f894d2dd99061aed65` | `0x5aaeb605…1beaed` (42) | `0x5aaeb605…1beaed` (42) | yes | ran with the address pasted earlier in the session |
+| video/rehearsals-c.json (brief) | `sess_01ca2a290e594b2981fd9b60e845a6ae` | `0x5aaeb605…1beaed` (42) | `0x5aaeb605…1beaed` (42) | yes | ran with the address pasted earlier in the session |
+| video/rehearsals-c.json (brief) | `sess_492217eebd9f4144a7e09a53bba6d4e2` | `0x5aaeb605…1beaed` (42) | `0x5aaeb605…1beaed` (42) | yes | ran with the address pasted earlier in the session |
 | video/rehearsals-c.json (other-address) | `sess_025ae7e96be84cdb97b39cb823a11d98` | `0x3f9a1c7e…4d6f09` (42) | `0x3f9a1c7e…4d6f09` (42) | no | nothing ran |
 | video/rehearsals-c.json (spoken-first) | `sess_ba2e2e5b1e384e098834b6adfc23a189` | `0x5aaeb605…1beaed` (42) | `0x5aaeb605…1beaed` (42) | yes | nothing ran |
 | latency-ab-h1-2026-09-27.json (balanced, run 1) | `sess_04deb70191094b82a7b2894d877ce224` | `0x5aaeb605…1beaed` (42) | `0x5aaeb605…1beaed` (42) | yes | nothing ran |

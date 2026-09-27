@@ -13,6 +13,8 @@
  *
  * and single values inside a sentence, between <!-- value:name --> markers:
  *   identifiers-exact   docs/IDENTIFIERS.md, the line "Exact: N of M."
+ *   identifiers-clips   docs/IDENTIFIERS.md, the distinct-clip line: "and all N were one
+ *                       recording, replayed", or "from K distinct recordings"
  *
  *   node scripts/docs-quote.ts
  */
@@ -56,6 +58,13 @@ export function fill(doc: string, name: string, block: string): string {
   return doc.replace(re, (_m, open: string, close: string) => `${open}\n${block}\n${close}`);
 }
 
+/** The clause after the identifier count, from the doc's distinct-clip line. */
+export function clipsClause(page: string): string {
+  const m = page.match(/^The (\d+) exact hearings came from (\d+) distinct clips?:/m);
+  if (!m) throw new Error('docs/IDENTIFIERS.md has no distinct-clip line');
+  return Number(m[2]) === 1 ? `and all ${m[1]} were one recording, replayed` : `from ${m[2]} distinct recordings`;
+}
+
 async function main(): Promise<void> {
   const blocks: Record<string, string> = {
     'sweep-headline': tableAfter(await readFile('docs/SWEEP.md', 'utf8'), '## Headline'),
@@ -66,6 +75,7 @@ async function main(): Promise<void> {
   };
   const values: Record<string, string> = {
     'identifiers-exact': valueFrom(await readFile('docs/IDENTIFIERS.md', 'utf8'), /^Exact: (\d+ of \d+)\.$/m, 'identifier count'),
+    'identifiers-clips': clipsClause(await readFile('docs/IDENTIFIERS.md', 'utf8')),
   };
   for (const file of ['README.md', 'JUDGE_GUIDE.md']) {
     let doc = await readFile(file, 'utf8');

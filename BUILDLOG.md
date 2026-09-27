@@ -3588,3 +3588,100 @@ Found line's two lines in round H's take.
 ```
 $ npm test    ℹ tests 424  ℹ pass 424  ℹ fail 0
 ```
+
+## 2026-09-27 - the final round: scene A, the two new lines, the identifiers, the rebuild
+
+**Deploy of 310a0da:** `sh ops/redeploy.sh`, with PM2 read before and after. `data/events.jsonl` was
+stashed for the run.
+
+```
+16c16
+< interpres 3685099 0 online
+---
+> interpres 3689912 0 online
+200 /api/health on 127.0.0.1:3031
+```
+
+- Only `interpres` changed; the other 44 processes, the tunnel included, kept their pids.
+- The public page serves `interpres-index-D6aBBf68.css`, the same file as the local build.
+  `.url-hint` there is `overflow-wrap:anywhere`, and `break-all` appears 0 times (a control string
+  counts 1).
+
+**Scene A, one take**, at 10:30 UTC. It was the first goji lookup after the restart; nothing had
+looked up goji.agency since the deploy.
+- `sess_20ca8ded68e4490bb568b1fcd73fcd53` passes every check, the two new ones included.
+- **The Found line, as shown:** "Found in the official MCP registry: https://mcp.goji.agency/mcp · 9 tools · 1.1 s".
+  It is one line, 18.75 px tall, and does not say "remembered".
+- **Voice to voice:** 4,467 ms. Round H's take was 4,372 ms.
+- **Sync:** -7.2 / -4.0 ms. The page mic got 4 of 4 windows bit-exact.
+- **Session History:** `min_latency`.
+- **The builds per take:** A ran on 310a0da; B and C ran on 18ea86b.
+  `git diff 18ea86b 310a0da` over every shipped path shows only the `.url-hint` line
+  (`data/video/take-builds.json`).
+
+**The narration.** `npm view interpres version` answered E404 twice, so the value line ends "The
+library ships in the same repo." Each line was made in charles's voice and checked as before.
+
+| line | clip | sessions |
+| --- | --- | --- |
+| N1, new | passed try 1, 15.2 s | `sess_fbc7102b…` |
+| N12, the value line, new | 4 of 4 failed on "front end" written "frontend"; reworded to "a voice interface", which passed try 1, 15.8 s | `sess_523af4f8…`, `sess_7e440fa4…`, `sess_5129c7f4…`, `sess_80143326…`, then `sess_1d88a7ab…` |
+| N13, the try line | the same clip as before (sha256 `c7c2ce1e…`), renamed from N12, so the check covers the lines in order | none |
+| N2, reworded | the first render's transcript heard "switch for the price" as "which"; "move over for the price" failed try 1 ("interpres" heard as "enterprise") and passed try 2 | `sess_e00a301f…`, `sess_6cb339d6…` |
+| N6, reworded | the second render's transcript doubled the "and"; ": interpres swaps" passed try 1 | `sess_71b66c8f…` |
+
+- N6's word-timing transcript spelled the name "Interperez" twice. It joins the listed spellings; it
+  is not an English word.
+
+**The kit:**
+- `SHA256SUMS` checks OK, 29 of 29.
+- `slides/speed.png` is picked up as it is.
+- `{EXACTCLIPS}` is filled from the distinct-clip line: "all from one replayed clip".
+  `identifierCount()` throws if that line is missing or disagrees with "Exact: N of M."
+
+**Identifiers:**
+- **Three rows no longer read like a gate leak.** The three `rehearsals-c.json (brief)` rows now say
+  "ran with the address pasted earlier in the session".
+  - Each was confirmed from its own run: Q4's turn read the paste box (`use_pasted_text`) and ran
+    `afg_get_reputation` with the pasted address before Q5.
+  - The intro says so.
+- **A new guard.** The recount exits 1 if a spoken value ever runs after D4 without an earlier paste
+  or tool result. On a copy of `data/` with one run's paste read removed, it flagged that session;
+  the real data has 0.
+- **The sentence.** README and JUDGE_GUIDE, through `docs-quote`, now read "…13 of 23 came through
+  exact, and all 13 were one recording, replayed". The clause comes from the doc's distinct-clip line.
+
+**The video.** Every render kept the Desktop untouched (`--no-desktop`):
+
+| render | length | result |
+| --- | ---: | --- |
+| 1 | 4:13.9 | FAIL N2: "which for the price" |
+| 2 | 4:14.1 | FAIL N6: the "and" doubled |
+| 3 | - | stopped at the edit list: "Interperez" did not align |
+| 4 | 4:14.1 | FAIL N6: "interpres shows" heard as "interplay shows" |
+
+- **Render 4: every other check passes.**
+  - H.264 High 1080p30 CFR; AAC-LC 48 kHz stereo 192 kbps; faststart.
+  - 4:14.1, 32.4 MB, -16 LUFS, -2.3 dBTP, no black spans.
+  - N1-N5 and N7-N13 word for word.
+- **Silences:** the five latency windows, A's 3.0 s connect, 2.5 s between turns in C, and the end
+  card.
+- **By eye:** the contact sheet, the five key frames, the Found line and the value slide. No
+  clipped caption, and no token or secret.
+- **N6 is where rewording stops.** The reworded line still fails, and under the standing rule that
+  is the stop. Neither N6 wording passes in this mix: the old one failed render 2, and the new one
+  failed render 4, on unchanged audio in both cases. No render was redone to get a luckier
+  transcript.
+- **So the Desktop video was not replaced.** It is still round H's `interpres-demo.mp4`, sha256
+  `5b96af90…`. The candidate is `video/out/interpres-demo.mp4`, sha256 `75d96f35fe858ed578d2e208d127ceccdf936d25f7b0b3a57b13f424dda67cd8`
+  (transcript `ce12ea6f-c660-4f76-9b64-8898e9db6f81`). VIDEO.md describes it and says it is not the
+  Desktop one.
+
+**npm:** E404, so there is no install line.
+
+**Voice Agent usage:** 272 sessions, all `completed`, 135.4 min, $10.16, 6.77% of the $150. This round
+used 10: 1 take and 9 narration sessions.
+
+```
+$ npm test    ℹ tests 424  ℹ pass 424  ℹ fail 0
+```
