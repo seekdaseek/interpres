@@ -3362,3 +3362,85 @@ the $150.
 ```
 $ npm test    ℹ tests 422  ℹ pass 422  ℹ fail 0
 ```
+
+## 2026-09-27 - round H, H1 and H2: the follow-up A/B, and min_latency adopted
+
+Brief: `interpres-brief-H.md`. G1's third test (the 800 ms hesitation never splits) failed for both
+modes, so H1 measured where `min_latency` could be worse: shorter pauses, and the spoken address.
+
+**H1, the follow-up A/B.** Same harness (`scripts/latency-ab.ts clips-h1` and `run-h1`), same
+page-exact setup, in-process, 3 runs of each clip in each arm, with the arm order alternating by run.
+It ran 18 sessions and 24 turns, 08:56 to 09:07 UTC, into `data/latency-ab-h1-2026-09-27.json`.
+- **The 400 ms and 600 ms clips** are G1's own two halves in michael's voice, with less silence
+  between them. The halves were recovered at the 800 ms run of zeros, and rebuilding the 800 ms clip
+  from them matched it byte for byte before anything was written. The gaps, measured independently
+  as the longest run of zero samples: 800.0 ms (the control), 600.0 ms and 400.0 ms.
+- **Q5** is the video's spoken-address clip (sha256 `9bd03d7469cc…`), asked after Q3's swap with
+  nothing ever pasted, as in scene C.
+- **Each turn now keeps its event sequence**, times from the clip's last voiced sample. A first start
+  was stopped after two turns to add it: `sess_e14d7e9938b645e884ed65b0152d9872` (balanced, 400 ms)
+  and `sess_a3caba889bfe4e6a8e2336140ff69eaf` (min_latency, 400 ms), both split, plus a third
+  session cut off mid-turn. Their turns are not in the data.
+
+| clip | arm | turns, by run | split | agent audio before the caller finished | heard exactly | median end of turn | median voice to voice |
+| --- | --- | --- | ---: | ---: | ---: | ---: | ---: |
+| 400 ms | balanced | 2, 2, 2 | 3 of 3 | 0 of 3 | 3 of 3 | 1822 ms | 4514 ms |
+| 400 ms | min_latency | 2, 2, 2 | 3 of 3 | 0 of 3 | 3 of 3 | 1144 ms | 3812 ms |
+| 600 ms | balanced | 2, 2, 2 | 3 of 3 | 0 of 3 | 3 of 3 | 1816 ms | 4488 ms |
+| 600 ms | min_latency | 2, 2, 2 | 3 of 3 | 0 of 3 | 3 of 3 | 1141 ms | 3848 ms |
+| Q5 | balanced | 1, 1, 1 | 0 of 3 | 0 of 3 | 3 of 3 | 1999 ms | 6123 ms |
+| Q5 | min_latency | 1, 1, 1 | 0 of 3 | 0 of 3 | 3 of 3 | 1359 ms | 5585 ms |
+
+- **What a split sounds like.** In all 12 split hesitation turns, in both arms:
+  - a reply began on "What is?" but carried no audio;
+  - the first sound came after the tool call, which was `goji_explain_term({"term":"SEO"})` every time.
+  The silent reply's text still reached `transcript.agent`: "I am not sure what you are asking
+  about…".
+- **Q5, all six runs, in both arms:**
+  - one turn;
+  - `needs_paste` on `afg_get_reputation`;
+  - 0 MCP requests;
+  - the agent said "I may have misheard that value. Please paste it into the box under the Talk
+    button, and I will use exactly what you paste."
+  The min_latency sessions are `sess_3f9193f7…`, `sess_6b539ba0…` and `sess_0a06f45f…`; the
+  balanced ones are `sess_04deb701…`, `sess_15a6297c…` and `sess_a82c06b9…`.
+- **Session History records the mode.** The min_latency session `sess_3f9193f7…` shows
+  `config.input.transcription_mode: "min_latency"` in its final config and in all 3 of its
+  `config_changes`: the opening update and the two find_tools swaps. The balanced session
+  `sess_04deb701…` shows `null` in all three.
+
+**H2, the decision:** adopt `min_latency`. Every condition holds (`docs/LATENCY.md`, generated with
+both A/Bs):
+- at 400 ms and at 600 ms, min_latency splits 3 of 3 runs and balanced 3 of 3;
+- Q5 splits 0 of 3 in each arm, and in every min_latency run the gate held it with zero MCP
+  requests, and the agent asked for a paste;
+- G1 stands: 4388 to 3772 ms at the median voice to voice, a gain of 617 ms, and no clip that balanced
+  heard exactly was heard worse, or with other tools or arguments.
+
+**H3.1: the mode in every update.**
+- **`packages/core`** now carries `TRANSCRIPTION_MODE = 'min_latency'`:
+  - `phaseSessionUpdate` sends it with every phase, the opening one and every find_tools swap;
+  - a new `keytermsSessionUpdate` sends it with the paste box's keyterms.
+- **The page** (`apps/web/src/voice.ts`) sets it in the opening `session.update`, in the find_tools
+  update and in the paste update. The built bundle has `transcription_mode` in exactly those three
+  places, all set to the one constant `min_latency`.
+- **The proof harness** (`scripts/lib/session.ts`) sends what the page sends unless told otherwise.
+  `"omit"` sends no mode at all, and the A/B's balanced arm now asks for that explicitly, so both A/Bs
+  still mean what they meant.
+- **The phase-1 snapshot** from before round F still matches byte for byte: its hash leaves out the
+  one new field, and a new test asserts the field for the six presets and goji.
+- **Negative control:** with the constant set to `balanced`, the new test fails. Restored, it passes.
+
+**The recount** counts H1's six spoken Q5 attempts. They are in-process spoken attempts, like the
+scene C rehearsals, and all six were heard exactly.
+- It is now **12 of 22**, and all 12 exact hearings are michael's one Q5 clip, replayed: 1 video
+  take, 5 rehearsals and 6 A/B sessions.
+- "Misheard and reached a server" is still 5.
+- The README and JUDGE_GUIDE were requoted through `docs-quote`.
+- The identifiers slide takes the new total at the next render.
+- **README:** one line under How it works, linking `docs/LATENCY.md`.
+
+```
+$ npm run typecheck    (no errors)
+$ npm test             ℹ tests 424  ℹ pass 424  ℹ fail 0
+```

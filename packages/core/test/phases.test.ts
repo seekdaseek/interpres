@@ -1,8 +1,8 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
-  initialPhase, handleFindTools, assertPhaseValid, phaseSessionUpdate,
-  MAX_TOOLS_PER_PHASE, FIND_TOOLS_NAME, findToolsDefinition,
+  initialPhase, handleFindTools, assertPhaseValid, phaseSessionUpdate, keytermsSessionUpdate,
+  MAX_TOOLS_PER_PHASE, FIND_TOOLS_NAME, findToolsDefinition, TRANSCRIPTION_MODE,
 } from '../src/phases.ts';
 import { convertCatalog } from '../src/convert.ts';
 import { buildSystemPrompt, ANTI_FABRICATION, buildGreeting } from '../src/prompt.ts';
@@ -118,7 +118,19 @@ test('the session.update body carries only mutable fields', () => {
   for (const banned of ['greeting', '"voice"', '"output"']) {
     assert.ok(!blob.includes(banned), `${banned} must not appear in a mid-session update`);
   }
-  assert.deepEqual(Object.keys(upd.session.input as object).sort(), ['keyterms', 'transcription_prompt']);
+  assert.deepEqual(Object.keys(upd.session.input as object).sort(), ['keyterms', 'transcription_mode', 'transcription_prompt']);
+});
+
+test('every update carries the transcription mode: the phase update, after a swap too, and the paste update', () => {
+  // Round H: min_latency, measured against balanced in docs/LATENCY.md. The field is mutable,
+  // and an update that left it out would leave the mode to whatever the API does then.
+  assert.equal(TRANSCRIPTION_MODE, 'min_latency');
+  const input = inputOf(mkTools(30));
+  for (const phase of [initialPhase(input), handleFindTools(input, 'job 3').phase]) {
+    assert.equal((phaseSessionUpdate(phase).session.input as Record<string, unknown>).transcription_mode, 'min_latency');
+  }
+  const paste = keytermsSessionUpdate(['ochinimus', 'AgentFeed']);
+  assert.deepEqual(paste, { type: 'session.update', session: { input: { keyterms: ['ochinimus', 'AgentFeed'], transcription_mode: 'min_latency' } } });
 });
 
 test('tools and system_prompt always move together', () => {

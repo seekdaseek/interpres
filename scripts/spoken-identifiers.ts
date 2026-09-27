@@ -12,6 +12,7 @@
  *                                  (what was said: data/qa-audio/clips.json)
  *   data/video/capture-*.json      the demo video's capture logs, when present
  *   data/video/rehearsals-c.json   the in-process rehearsals of the video's scene C
+ *   data/latency-ab-h1-*.json      round H1's in-process A/B: Q5 spoken once per AFG session
  * Every other file in data/ (and data/video/) that holds an address is listed
  * with the reason it is left out, so nothing is dropped silently.
  */
@@ -127,6 +128,23 @@ function fromRehearsals(dir: string): Attempt[] {
   });
 }
 
+/**
+ * Round H1's A/B (scripts/latency-ab.ts run-h1): Q5, the video's spoken-address
+ * clip, once in each AFG session, after Q3 and with nothing pasted. "Heard" is
+ * the utterance's transcripts joined, so an address split across turns counts
+ * as heard only if the pieces still join up to it.
+ */
+function fromLatencyAbH1(dir: string, file: string): Attempt[] {
+  const d = json(`${dir}/${file}`) as { turns: Array<{ clip: string; mode: string; run: number; sessionId: string; heard: string; mcpRequests?: Array<{ args?: unknown }>; clipSha256?: string }> };
+  const q5 = (json(`${dir}/video/voices.json`) as { lines: Record<string, { text: string; voice: string }> }).lines.Q5!;
+  const said = addresses(q5.text)[0]!;
+  return d.turns.filter((t) => t.clip === 'Q5').map((t) => {
+    const heard = addresses(t.heard ?? '')[0] ?? null;
+    const sent = (t.mcpRequests ?? []).flatMap((m) => [...strings(m.args)].flatMap(addresses));
+    return { source: `${file} (${t.mode}, run ${t.run})`, sessionId: t.sessionId, spoken: said, heard, exact: heard === said, ran: sent[0] ?? null, clip: `${q5.voice} Q5 ${String(t.clipSha256 ?? '').slice(0, 12)}` };
+  });
+}
+
 /** Why a file that holds an address is not counted as a spoken attempt. */
 function leftOutReason(file: string): string | null {
   if (/^e2e-audio-gate-paste/.test(file)) return 'the address was pasted, not spoken';
@@ -134,7 +152,8 @@ function leftOutReason(file: string): string | null {
   if (/^sweep-/.test(file)) return 'an address inside a registry server description; nothing was spoken';
   if (/^qa-audio\//.test(file)) return 'the clip texts themselves, counted through the QA record';
   if (file === 'video/caller-gate.json') return 'the F2a hearing gate: its only address was pasted for Q4, not spoken';
-  if (/^latency-ab-/.test(file)) return 'the transcription-mode A/B (round G1): no clip speaks an address; the only one was pasted for Q4';
+  if (file === 'latency-ab-2026-09-27.json') return 'the transcription-mode A/B (round G1): no clip speaks an address; the only one was pasted for Q4';
+  if (file === 'latency-ab-clips.json') return "the A/B clip manifest: Q5's text itself; the round H1 sessions that spoke it are counted";
   if (file === 'video/voices.json') return 'the caller clip texts themselves; the sessions that spoke them are counted';
   if (/^video\/transcripts\//.test(file)) return 'a capture stem transcript; that take is counted from its capture log';
   return null;
@@ -157,6 +176,10 @@ export function recount(dir = 'data') {
   const rehearsals = fromRehearsals(dir);
   counted.add('video/rehearsals-c.json');
   attempts.push(...rehearsals);
+  for (const f of readdirSync(dir).filter((x) => /^latency-ab-h1-.*\.json$/.test(x)).sort()) {
+    counted.add(f);
+    attempts.push(...fromLatencyAbH1(dir, f));
+  }
 
   // Every other file in data/ that holds a wallet address anywhere.
   const leftOut: Array<{ file: string; reason: string }> = [];
@@ -187,7 +210,7 @@ export function distinctClipLine(attempts: Attempt[]): string {
   if (exact.length === 0) return 'No attempt was heard exactly.';
   const byClip = new Map<string, Attempt[]>();
   for (const a of exact) byClip.set(a.clip, [...(byClip.get(a.clip) ?? []), a]);
-  const kind = (a: Attempt) => (a.source.startsWith('video/rehearsals') ? 'rehearsal' : a.source.startsWith('video/capture') ? 'video take' : a.source.startsWith('qa-public') ? 'round E QA session' : 'e2e-audio session');
+  const kind = (a: Attempt) => (a.source.startsWith('video/rehearsals') ? 'rehearsal' : a.source.startsWith('video/capture') ? 'video take' : a.source.startsWith('qa-public') ? 'round E QA session' : a.source.startsWith('latency-ab-h1') ? 'round H1 A/B session' : 'e2e-audio session');
   const parts = [...byClip].map(([clip, as]) => {
     const kinds = new Map<string, number>();
     for (const a of as) kinds.set(kind(a), (kinds.get(kind(a)) ?? 0) + 1);

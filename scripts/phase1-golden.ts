@@ -4,6 +4,8 @@
  * terms, and a hash of the exact session.update. Written once before round F's
  * paid-tool change; packages/core/test/phase1.test.ts recomputes it and must
  * match, so a change meant for results and starters cannot move a phase.
+ * Round H added `input.transcription_mode` to every update on purpose: the
+ * hash leaves that one field out, and phase1.test.ts asserts it separately.
  *
  *   node scripts/phase1-golden.ts
  */
@@ -18,6 +20,12 @@ export const PHASE1_FIXTURES = [
 ];
 export const GOLDEN_PATH = 'packages/core/test/phase1-golden.json';
 
+/** The update with round H's `input.transcription_mode` taken out, for the pre-round-F hash. */
+function withoutMode(upd: ReturnType<typeof phaseSessionUpdate>) {
+  const { transcription_mode: _mode, ...input } = upd.session.input as Record<string, unknown>;
+  return { ...upd, session: { ...upd.session, input } };
+}
+
 export function phase1(name: string) {
   const f = loadFixture(name);
   const conversion = convertCatalog(f.tools, { reserved: [FIND_TOOLS_NAME] });
@@ -30,7 +38,7 @@ export function phase1(name: string) {
     hasFindTools: phase.hasFindTools,
     reason: phase.reason,
     keyterms: phase.keyterms,
-    sessionUpdateSha256: sha(phaseSessionUpdate(phase)),
+    sessionUpdateSha256: sha(withoutMode(phaseSessionUpdate(phase))),
   };
 }
 

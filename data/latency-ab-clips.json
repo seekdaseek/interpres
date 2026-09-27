@@ -27,5 +27,35 @@
   "recordingOffsetS": 1.52,
   "transcript": "What is SEO in plain English?",
   "speechModel": "universal-3-5-pro,universal-2"
+ },
+ "HES400": {
+  "from": "video/voices/ab-hesitation.wav",
+  "halvesMadeIn": [
+   "sess_6fa0d5fa19b2491daa48e1638444551a",
+   "sess_ada0ba7e74814cd6a0be1cdd6844ab6b"
+  ],
+  "gapMs": 400,
+  "headMs": 734,
+  "tailMs": 1797,
+  "ms": 2931,
+  "sha256": "a4b7698a37feea7e53fce5a3bd7af4d4f550bef5435bd6affffbde3f29ad9fa9"
+ },
+ "HES600": {
+  "from": "video/voices/ab-hesitation.wav",
+  "halvesMadeIn": [
+   "sess_6fa0d5fa19b2491daa48e1638444551a",
+   "sess_ada0ba7e74814cd6a0be1cdd6844ab6b"
+  ],
+  "gapMs": 600,
+  "headMs": 734,
+  "tailMs": 1797,
+  "ms": 3131,
+  "sha256": "9a40d9632bec855df40d2663babaf5e319389b1be08cd373dac6794157f21881"
+ },
+ "Q5": {
+  "file": "video/voices/Q5.wav",
+  "sha256": "9bd03d7469cc072b4282929007a677ad32c30252728f3bd76656a73395b624ab",
+  "text": "What is the reputation of wallet 0 x 5 a a e b 6 0 5 3 f 3 e 9 4 c 9 b 9 a 0 9 f 3 3 6 6 9 4 3 5 e 7 e f 1 b e a e d?",
+  "note": "the video caller clip, unchanged"
  }
 }

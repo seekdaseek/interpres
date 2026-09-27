@@ -65,6 +65,8 @@ flowchart LR
    The LLM Gateway writes three starter questions for the page.
 3. **Talk.** The browser opens the Voice Agent WebSocket with a temporary token.
    The API key never leaves the server. Speech goes in, and tool calls come back.
+   Every session uses `input.transcription_mode: min_latency`, measured against the
+   default `balanced` in two in-process A/Bs ([docs/LATENCY.md](docs/LATENCY.md)).
 4. **Call.** Every tool call passes the gate in the browser, then goes to
    `/api/mcp/call`. The server calls the MCP tool on a warm client through the
    SSRF guard and shapes the result into at most 600 characters of speech. The
@@ -231,7 +233,7 @@ server are different.
 **Voice for intent, keyboard for identifiers, and nothing misheard gets executed.**
 
 Speech-to-text does not reliably carry a long identifier. Of every recorded attempt to speak
-a wallet address, **<!-- value:identifiers-exact -->6 of 16<!-- /value:identifiers-exact -->** came through exact
+a wallet address, **<!-- value:identifiers-exact -->12 of 22<!-- /value:identifiers-exact -->** came through exact
 ([docs/IDENTIFIERS.md](docs/IDENTIFIERS.md) lists each one, recounted from `data/` by
 `node scripts/spoken-identifiers.ts`). It fails in four ways:
 

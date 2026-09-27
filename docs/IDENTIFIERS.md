@@ -2,11 +2,11 @@
 
 Every recorded attempt to speak a wallet address, from every source in `data/`, recounted by `scripts/spoken-identifiers.ts`. "Ran" is whether the address reached an MCP server: a misheard value ran in 5 of them, all from before the gate held spoken identifiers (decision D4).
 
-Exact: 6 of 16.
+Exact: 12 of 22.
 
 Misheard and reached a server: 5.
 
-The 6 exact hearings came from 1 distinct clip: michael's Q5 clip (sha256 9bd03d7469cc…), heard exactly in 1 video take and 5 rehearsals.
+The 12 exact hearings came from 1 distinct clip: michael's Q5 clip (sha256 9bd03d7469cc…), heard exactly in 1 video take and 5 rehearsals and 6 round H1 A/B sessions.
 
 | source | session | spoken | heard | exact | ran |
 | --- | --- | --- | --- | --- | --- |
@@ -26,6 +26,12 @@ The 6 exact hearings came from 1 distinct clip: michael's Q5 clip (sha256 9bd03d
 | video/rehearsals-c.json (brief) | `sess_492217eebd9f4144a7e09a53bba6d4e2` | `0x5aaeb605…1beaed` (42) | `0x5aaeb605…1beaed` (42) | yes | ran with the spoken value |
 | video/rehearsals-c.json (other-address) | `sess_025ae7e96be84cdb97b39cb823a11d98` | `0x3f9a1c7e…4d6f09` (42) | `0x3f9a1c7e…4d6f09` (42) | no | nothing ran |
 | video/rehearsals-c.json (spoken-first) | `sess_ba2e2e5b1e384e098834b6adfc23a189` | `0x5aaeb605…1beaed` (42) | `0x5aaeb605…1beaed` (42) | yes | nothing ran |
+| latency-ab-h1-2026-09-27.json (balanced, run 1) | `sess_04deb70191094b82a7b2894d877ce224` | `0x5aaeb605…1beaed` (42) | `0x5aaeb605…1beaed` (42) | yes | nothing ran |
+| latency-ab-h1-2026-09-27.json (min_latency, run 1) | `sess_3f9193f7624342c3b3c753fe80364b73` | `0x5aaeb605…1beaed` (42) | `0x5aaeb605…1beaed` (42) | yes | nothing ran |
+| latency-ab-h1-2026-09-27.json (min_latency, run 2) | `sess_6b539ba0b8644186ba515aa294c44468` | `0x5aaeb605…1beaed` (42) | `0x5aaeb605…1beaed` (42) | yes | nothing ran |
+| latency-ab-h1-2026-09-27.json (balanced, run 2) | `sess_15a6297c84d54989a18f767dbcf5cd7e` | `0x5aaeb605…1beaed` (42) | `0x5aaeb605…1beaed` (42) | yes | nothing ran |
+| latency-ab-h1-2026-09-27.json (balanced, run 3) | `sess_a82c06b9e3374014be77ddedf64d8cd7` | `0x5aaeb605…1beaed` (42) | `0x5aaeb605…1beaed` (42) | yes | nothing ran |
+| latency-ab-h1-2026-09-27.json (min_latency, run 3) | `sess_0a06f45f3411429ebf0b03ea8463f743` | `0x5aaeb605…1beaed` (42) | `0x5aaeb605…1beaed` (42) | yes | nothing ran |
 
 ## Files in data/ that hold an address but are not counted
 
@@ -35,6 +41,7 @@ The 6 exact hearings came from 1 distinct clip: michael's Q5 clip (sha256 9bd03d
 | `e2e-audio-gate-paste.json` | the address was pasted, not spoken |
 | `e2e-checkpoint-a.json` | text injected with conversation.message (scripts/e2e.ts), not speech |
 | `latency-ab-2026-09-27.json` | the transcription-mode A/B (round G1): no clip speaks an address; the only one was pasted for Q4 |
+| `latency-ab-clips.json` | the A/B clip manifest: Q5's text itself; the round H1 sessions that spoke it are counted |
 | `qa-audio/clips.json` | the clip texts themselves, counted through the QA record |
 | `sweep-2026-09-26T1148Z-summary.json` | an address inside a registry server description; nothing was spoken |
 | `sweep-2026-09-26T1252Z-recheck-summary.json` | an address inside a registry server description; nothing was spoken |

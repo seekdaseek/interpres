@@ -1,0 +1,2543 @@
+{
+ "what": "Round H1: the follow-up A/B. 400 ms and 600 ms hesitations, and Q5 (the spoken address) after Q3's swap with nothing pasted; balanced (nothing sent) against min_latency, in-process, the page's exact session setup. scripts/latency-ab.ts run-h1",
+ "turns": [
+  {
+   "clip": "HES400",
+   "mode": "balanced",
+   "run": 1,
+   "sessionId": "sess_c6e3fbb4705c4fffa0e9dfefe5383df0",
+   "at": "2026-09-27T08:56:02.167Z",
+   "heard": "What is? SEO in plain English.",
+   "exact": true,
+   "transcripts": 2,
+   "split": true,
+   "endOfTurnMs": 1822,
+   "voiceToVoiceMs": 4498,
+   "calls": [
+    {
+     "name": "goji_explain_term",
+     "arguments": {
+      "term": "SEO"
+     }
+    }
+   ],
+   "transcriptTexts": [
+    "What is?",
+    "SEO in plain English."
+   ],
+   "earlyReply": true,
+   "interrupted": false,
+   "agentSaid": "I am not sure what you are asking about. Could you please tell me the term or topic you would like me to explain? SEO stands for Search Engine Optimisation. It is the work of making your website the result that search engines choose to show, by using content that answers what people are looking for and building a reputation that other sites back up. It matters because search is where most buying journeys start, and unlike ads, the results can keep paying for years.",
+   "seq": [
+    [
+     -1486,
+     "input.speech.started"
+    ],
+    [
+     -1184,
+     "input.speech.stopped"
+    ],
+    [
+     -1180,
+     "transcript.user",
+     "What is?"
+    ],
+    [
+     -1180,
+     "reply.started"
+    ],
+    [
+     115,
+     "input.speech.started"
+    ],
+    [
+     1822,
+     "input.speech.stopped"
+    ],
+    [
+     1823,
+     "transcript.user",
+     "SEO in plain English."
+    ],
+    [
+     3762,
+     "transcript.agent",
+     "I am not sure what you are asking about. Could you please tell me the term or topic you would like me to explain?"
+    ],
+    [
+     3770,
+     "tool.call",
+     "goji_explain_term"
+    ],
+    [
+     4026,
+     "reply.done",
+     "completed"
+    ],
+    [
+     4090,
+     "reply.started"
+    ],
+    [
+     4864,
+     "reply.audio"
+    ],
+    [
+     23515,
+     "transcript.agent",
+     "SEO stands for Search Engine Optimisation. It is the work of making your website the result that search engines choose to show, by using content that answers what people are looking for and building a reputation that other sites back up. It matters because search is where most buying journeys start, and unlike ads, the results can keep paying for years."
+    ],
+    [
+     23516,
+     "reply.audio"
+    ],
+    [
+     23816,
+     "reply.done",
+     "completed"
+    ]
+   ],
+   "gate": [],
+   "mcpRequests": [
+    {
+     "tool": "goji_explain_term",
+     "args": {
+      "term": "SEO"
+     }
+    }
+   ],
+   "methods": [
+    "truncated"
+   ],
+   "clipSha256": "a4b7698a37feea7e53fce5a3bd7af4d4f550bef5435bd6affffbde3f29ad9fa9"
+  },
+  {
+   "clip": "HES400",
+   "mode": "min_latency",
+   "run": 1,
+   "sessionId": "sess_6ded7fdd6dc649dcb37b74a459502f53",
+   "at": "2026-09-27T08:56:36.741Z",
+   "heard": "What is? SEO in plain English.",
+   "exact": true,
+   "transcripts": 2,
+   "split": true,
+   "endOfTurnMs": 1212,
+   "voiceToVoiceMs": 3812,
+   "calls": [
+    {
+     "name": "goji_explain_term",
+     "arguments": {
+      "term": "SEO"
+     }
+    }
+   ],
+   "transcriptTexts": [
+    "What is?",
+    "SEO in plain English."
+   ],
+   "earlyReply": true,
+   "interrupted": false,
+   "agentSaid": "I'm not sure what you're referring to. Did you have a specific term or topic in mind? SEO is the work of making your website the result that search engines choose to show. This is done by creating content that answers what people are searching for, ensuring your site is easy for engines to read, and building a reputation that other sites corroborate. You can find more at goji dot agency slash search plus AI visibility.",
+   "seq": [
+    [
+     -1673,
+     "input.speech.started"
+    ],
+    [
+     -1171,
+     "transcript.user",
+     "What is?"
+    ],
+    [
+     -1170,
+     "reply.started"
+    ],
+    [
+     -1170,
+     "input.speech.stopped"
+    ],
+    [
+     126,
+     "input.speech.started"
+    ],
+    [
+     1212,
+     "input.speech.stopped"
+    ],
+    [
+     1213,
+     "transcript.user",
+     "SEO in plain English."
+    ],
+    [
+     3071,
+     "transcript.agent",
+     "I'm not sure what you're referring to. Did you have a specific term or topic in mind?"
+    ],
+    [
+     3077,
+     "tool.call",
+     "goji_explain_term"
+    ],
+    [
+     3319,
+     "reply.done",
+     "completed"
+    ],
+    [
+     3380,
+     "reply.started"
+    ],
+    [
+     4178,
+     "reply.audio"
+    ],
+    [
+     23473,
+     "transcript.agent",
+     "SEO is the work of making your website the result that search engines choose to show. This is done by creating content that answers what people are searching for, ensuring your site is easy for engines to read, and building a reputation that other sites corroborate. You can find more at goji dot agency slash search plus AI visibility."
+    ],
+    [
+     23479,
+     "reply.audio"
+    ],
+    [
+     23779,
+     "reply.done",
+     "completed"
+    ]
+   ],
+   "gate": [],
+   "mcpRequests": [
+    {
+     "tool": "goji_explain_term",
+     "args": {
+      "term": "SEO"
+     }
+    }
+   ],
+   "methods": [
+    "truncated"
+   ],
+   "clipSha256": "a4b7698a37feea7e53fce5a3bd7af4d4f550bef5435bd6affffbde3f29ad9fa9"
+  },
+  {
+   "clip": "HES600",
+   "mode": "balanced",
+   "run": 1,
+   "sessionId": "sess_11961d10788d41d082fcbde3130de0f4",
+   "at": "2026-09-27T08:57:11.203Z",
+   "heard": "What is? SEO in plain English.",
+   "exact": true,
+   "transcripts": 2,
+   "split": true,
+   "endOfTurnMs": 1736,
+   "voiceToVoiceMs": 4424,
+   "calls": [
+    {
+     "name": "goji_explain_term",
+     "arguments": {
+      "term": "SEO"
+     }
+    }
+   ],
+   "transcriptTexts": [
+    "What is?",
+    "SEO in plain English."
+   ],
+   "earlyReply": true,
+   "interrupted": false,
+   "agentSaid": "I am not sure what you are asking about. Could you please tell me the specific term or topic you would like me to explain? SEO stands for Search Engine Optimisation. It is the work of making your website the result that search engines choose to show, by using content that answers what people are looking for and building a reputation that other sites back up. You can read more about it at goji dot agency slash search.",
+   "seq": [
+    [
+     -1770,
+     "input.speech.started"
+    ],
+    [
+     -1368,
+     "input.speech.stopped"
+    ],
+    [
+     -1368,
+     "transcript.user",
+     "What is?"
+    ],
+    [
+     -1368,
+     "reply.started"
+    ],
+    [
+     -469,
+     "input.speech.started"
+    ],
+    [
+     1735,
+     "transcript.user",
+     "SEO in plain English."
+    ],
+    [
+     1736,
+     "input.speech.stopped"
+    ],
+    [
+     3682,
+     "transcript.agent",
+     "I am not sure what you are asking about. Could you please tell me the specific term or topic you would like me to explain?"
+    ],
+    [
+     3685,
+     "tool.call",
+     "goji_explain_term"
+    ],
+    [
+     3944,
+     "reply.done",
+     "completed"
+    ],
+    [
+     4008,
+     "reply.started"
+    ],
+    [
+     4790,
+     "reply.audio"
+    ],
+    [
+     20242,
+     "transcript.agent",
+     "SEO stands for Search Engine Optimisation. It is the work of making your website the result that search engines choose to show, by using content that answers what people are looking for and building a reputation that other sites back up. You can read more about it at goji dot agency slash search."
+    ],
+    [
+     20244,
+     "reply.audio"
+    ],
+    [
+     20545,
+     "reply.done",
+     "completed"
+    ]
+   ],
+   "gate": [],
+   "mcpRequests": [
+    {
+     "tool": "goji_explain_term",
+     "args": {
+      "term": "SEO"
+     }
+    }
+   ],
+   "methods": [
+    "truncated"
+   ],
+   "clipSha256": "9a40d9632bec855df40d2663babaf5e319389b1be08cd373dac6794157f21881"
+  },
+  {
+   "clip": "HES600",
+   "mode": "min_latency",
+   "run": 1,
+   "sessionId": "sess_e9d39a319cb64b36b8a5ccf1bdae0398",
+   "at": "2026-09-27T08:57:42.533Z",
+   "heard": "What is? SEO in plain English.",
+   "exact": true,
+   "transcripts": 2,
+   "split": true,
+   "endOfTurnMs": 1135,
+   "voiceToVoiceMs": 3848,
+   "calls": [
+    {
+     "name": "goji_explain_term",
+     "arguments": {
+      "term": "SEO"
+     }
+    }
+   ],
+   "transcriptTexts": [
+    "What is?",
+    "SEO in plain English."
+   ],
+   "earlyReply": true,
+   "interrupted": false,
+   "agentSaid": "I'm not sure what you're asking about. Did you have a specific term or concept in mind? SEO stands for Search Engine Optimisation. It's the work of making your website the result that search engines choose to show, by using content that answers people's questions, building a site that is easy to read, and creating a reputation that other sites back up. You can read more at goji dot agency slash be-the-answer.",
+   "seq": [
+    [
+     -1868,
+     "input.speech.started"
+    ],
+    [
+     -1366,
+     "input.speech.stopped"
+    ],
+    [
+     -1365,
+     "transcript.user",
+     "What is?"
+    ],
+    [
+     -1365,
+     "reply.started"
+    ],
+    [
+     -668,
+     "input.speech.started"
+    ],
+    [
+     1135,
+     "input.speech.stopped"
+    ],
+    [
+     1135,
+     "transcript.user",
+     "SEO in plain English."
+    ],
+    [
+     3069,
+     "transcript.agent",
+     "I'm not sure what you're asking about. Did you have a specific term or concept in mind?"
+    ],
+    [
+     3073,
+     "tool.call",
+     "goji_explain_term"
+    ],
+    [
+     3331,
+     "reply.done",
+     "completed"
+    ],
+    [
+     3392,
+     "reply.started"
+    ],
+    [
+     4214,
+     "reply.audio"
+    ],
+    [
+     22228,
+     "transcript.agent",
+     "SEO stands for Search Engine Optimisation. It's the work of making your website the result that search engines choose to show, by using content that answers people's questions, building a site that is easy to read, and creating a reputation that other sites back up. You can read more at goji dot agency slash be-the-answer."
+    ],
+    [
+     22230,
+     "reply.audio"
+    ],
+    [
+     22541,
+     "reply.done",
+     "completed"
+    ]
+   ],
+   "gate": [],
+   "mcpRequests": [
+    {
+     "tool": "goji_explain_term",
+     "args": {
+      "term": "SEO"
+     }
+    }
+   ],
+   "methods": [
+    "truncated"
+   ],
+   "clipSha256": "9a40d9632bec855df40d2663babaf5e319389b1be08cd373dac6794157f21881"
+  },
+  {
+   "clip": "Q3",
+   "mode": "balanced",
+   "run": 1,
+   "sessionId": "sess_04deb70191094b82a7b2894d877ce224",
+   "at": "2026-09-27T08:58:21.623Z",
+   "heard": "I want to run a spec check on a job contract.",
+   "exact": true,
+   "transcripts": 1,
+   "split": false,
+   "endOfTurnMs": 778,
+   "voiceToVoiceMs": 2593,
+   "calls": [
+    {
+     "name": "find_tools",
+     "arguments": {
+      "query": "spec check on a job contract"
+     }
+    }
+   ],
+   "transcriptTexts": [
+    "I want to run a spec check on a job contract."
+   ],
+   "earlyReply": false,
+   "interrupted": false,
+   "agentSaid": "I can definitely do that for you. Please provide the job contract you want me to check.",
+   "seq": [
+    [
+     -1125,
+     "input.speech.started"
+    ],
+    [
+     778,
+     "input.speech.stopped"
+    ],
+    [
+     779,
+     "transcript.user",
+     "I want to run a spec check on a job contract."
+    ],
+    [
+     780,
+     "reply.started"
+    ],
+    [
+     1862,
+     "tool.call",
+     "find_tools"
+    ],
+    [
+     1926,
+     "session.updated"
+    ],
+    [
+     2102,
+     "reply.done",
+     "completed"
+    ],
+    [
+     2166,
+     "reply.started"
+    ],
+    [
+     2816,
+     "reply.audio"
+    ],
+    [
+     7146,
+     "transcript.agent",
+     "I can definitely do that for you. Please provide the job contract you want me to check."
+    ],
+    [
+     7151,
+     "reply.audio"
+    ],
+    [
+     7451,
+     "reply.done",
+     "completed"
+    ]
+   ],
+   "gate": [],
+   "mcpRequests": [],
+   "methods": [
+    "phase_change"
+   ],
+   "clipSha256": "23c4977f5f8defc80a72776b8c7bbcc3e8f2c77d4dec10c8f8540f86142e7174"
+  },
+  {
+   "clip": "Q5",
+   "mode": "balanced",
+   "run": 1,
+   "sessionId": "sess_04deb70191094b82a7b2894d877ce224",
+   "at": "2026-09-27T08:58:33.051Z",
+   "heard": "What is the reputation of wallet 0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED?",
+   "exact": false,
+   "transcripts": 1,
+   "split": false,
+   "endOfTurnMs": 2004,
+   "voiceToVoiceMs": 6254,
+   "calls": [
+    {
+     "name": "find_tools",
+     "arguments": {
+      "query": "get reputation of a wallet"
+     }
+    },
+    {
+     "name": "afg_get_reputation",
+     "arguments": {
+      "address": "0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED"
+     }
+    }
+   ],
+   "transcriptTexts": [
+    "What is the reputation of wallet 0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED?"
+   ],
+   "earlyReply": false,
+   "interrupted": false,
+   "agentSaid": "I may have misheard that value. Please paste it into the box under the Talk button, and I will use exactly what you paste.",
+   "seq": [
+    [
+     -12146,
+     "input.speech.started"
+    ],
+    [
+     2004,
+     "input.speech.stopped"
+    ],
+    [
+     2004,
+     "transcript.user",
+     "What is the reputation of wallet 0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED?"
+    ],
+    [
+     2005,
+     "reply.started"
+    ],
+    [
+     4446,
+     "tool.call",
+     "find_tools"
+    ],
+    [
+     4510,
+     "session.updated"
+    ],
+    [
+     4659,
+     "reply.done",
+     "completed"
+    ],
+    [
+     4725,
+     "reply.started"
+    ],
+    [
+     5521,
+     "tool.call",
+     "afg_get_reputation"
+    ],
+    [
+     5790,
+     "reply.done",
+     "completed"
+    ],
+    [
+     5856,
+     "reply.started"
+    ],
+    [
+     6596,
+     "reply.audio"
+    ],
+    [
+     13646,
+     "transcript.agent",
+     "I may have misheard that value. Please paste it into the box under the Talk button, and I will use exactly what you paste."
+    ],
+    [
+     13649,
+     "reply.audio"
+    ],
+    [
+     13950,
+     "reply.done",
+     "completed"
+    ]
+   ],
+   "gate": [
+    {
+     "tool": "afg_get_reputation",
+     "action": "paste",
+     "heard": "0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED"
+    }
+   ],
+   "mcpRequests": [],
+   "methods": [
+    "phase_change",
+    "gate_paste"
+   ],
+   "clipSha256": "9bd03d7469cc072b4282929007a677ad32c30252728f3bd76656a73395b624ab"
+  },
+  {
+   "clip": "Q3",
+   "mode": "min_latency",
+   "run": 1,
+   "sessionId": "sess_3f9193f7624342c3b3c753fe80364b73",
+   "at": "2026-09-27T08:59:14.354Z",
+   "heard": "I want to run a spec check on a job contract.",
+   "exact": true,
+   "transcripts": 1,
+   "split": false,
+   "endOfTurnMs": 1114,
+   "voiceToVoiceMs": 2877,
+   "calls": [
+    {
+     "name": "find_tools",
+     "arguments": {
+      "query": "spec check on a job contract"
+     }
+    }
+   ],
+   "transcriptTexts": [
+    "I want to run a spec check on a job contract."
+   ],
+   "earlyReply": false,
+   "interrupted": false,
+   "agentSaid": "I can certainly do that for you. Please provide the job contract you would like me to check.",
+   "seq": [
+    [
+     -1288,
+     "input.speech.started"
+    ],
+    [
+     1114,
+     "input.speech.stopped"
+    ],
+    [
+     1114,
+     "transcript.user",
+     "I want to run a spec check on a job contract."
+    ],
+    [
+     1115,
+     "reply.started"
+    ],
+    [
+     2102,
+     "tool.call",
+     "find_tools"
+    ],
+    [
+     2167,
+     "session.updated"
+    ],
+    [
+     2356,
+     "reply.done",
+     "completed"
+    ],
+    [
+     2420,
+     "reply.started"
+    ],
+    [
+     3100,
+     "reply.audio"
+    ],
+    [
+     7029,
+     "transcript.agent",
+     "I can certainly do that for you. Please provide the job contract you would like me to check."
+    ],
+    [
+     7035,
+     "reply.audio"
+    ],
+    [
+     7665,
+     "reply.done",
+     "completed"
+    ]
+   ],
+   "gate": [],
+   "mcpRequests": [],
+   "methods": [
+    "phase_change"
+   ],
+   "clipSha256": "23c4977f5f8defc80a72776b8c7bbcc3e8f2c77d4dec10c8f8540f86142e7174"
+  },
+  {
+   "clip": "Q5",
+   "mode": "min_latency",
+   "run": 1,
+   "sessionId": "sess_3f9193f7624342c3b3c753fe80364b73",
+   "at": "2026-09-27T08:59:26.017Z",
+   "heard": "What is the reputation of wallet 0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED?",
+   "exact": false,
+   "transcripts": 1,
+   "split": false,
+   "endOfTurnMs": 2500,
+   "voiceToVoiceMs": 6801,
+   "calls": [
+    {
+     "name": "find_tools",
+     "arguments": {
+      "query": "reputation of a wallet address"
+     }
+    },
+    {
+     "name": "afg_get_reputation",
+     "arguments": {
+      "address": "0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED"
+     }
+    }
+   ],
+   "transcriptTexts": [
+    "What is the reputation of wallet 0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED?"
+   ],
+   "earlyReply": false,
+   "interrupted": false,
+   "agentSaid": "I may have misheard that value. Please paste it into the box under the Talk button, and I will use exactly what you paste.",
+   "seq": [
+    [
+     -11746,
+     "input.speech.started"
+    ],
+    [
+     2500,
+     "input.speech.stopped"
+    ],
+    [
+     2501,
+     "transcript.user",
+     "What is the reputation of wallet 0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED?"
+    ],
+    [
+     2501,
+     "reply.started"
+    ],
+    [
+     4909,
+     "tool.call",
+     "find_tools"
+    ],
+    [
+     4971,
+     "session.updated"
+    ],
+    [
+     5190,
+     "reply.done",
+     "completed"
+    ],
+    [
+     5254,
+     "reply.started"
+    ],
+    [
+     6037,
+     "tool.call",
+     "afg_get_reputation"
+    ],
+    [
+     6339,
+     "reply.done",
+     "completed"
+    ],
+    [
+     6402,
+     "reply.started"
+    ],
+    [
+     7143,
+     "reply.audio"
+    ],
+    [
+     13776,
+     "transcript.agent",
+     "I may have misheard that value. Please paste it into the box under the Talk button, and I will use exactly what you paste."
+    ],
+    [
+     13778,
+     "reply.audio"
+    ],
+    [
+     14468,
+     "reply.done",
+     "completed"
+    ]
+   ],
+   "gate": [
+    {
+     "tool": "afg_get_reputation",
+     "action": "paste",
+     "heard": "0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED"
+    }
+   ],
+   "mcpRequests": [],
+   "methods": [
+    "phase_change",
+    "gate_paste"
+   ],
+   "clipSha256": "9bd03d7469cc072b4282929007a677ad32c30252728f3bd76656a73395b624ab"
+  },
+  {
+   "clip": "HES400",
+   "mode": "min_latency",
+   "run": 2,
+   "sessionId": "sess_47207cb7575547ddac89a7f3255d23aa",
+   "at": "2026-09-27T09:00:02.938Z",
+   "heard": "What is? SEO in plain English.",
+   "exact": true,
+   "transcripts": 2,
+   "split": true,
+   "endOfTurnMs": 1144,
+   "voiceToVoiceMs": 4354,
+   "calls": [
+    {
+     "name": "goji_explain_term",
+     "arguments": {
+      "term": "SEO"
+     }
+    }
+   ],
+   "transcriptTexts": [
+    "What is?",
+    "SEO in plain English."
+   ],
+   "earlyReply": true,
+   "interrupted": false,
+   "agentSaid": "I'm not sure what you're asking about. Could you tell me the term or topic you'd like me to explain? SEO stands for Search Engine Optimisation. It is the work of making your website the result that search engines choose to show, by using content that answers questions, building a site that is easy to read, and creating a reputation that other sites back up. You can read more about it at goji dot agency.",
+   "seq": [
+    [
+     -1541,
+     "input.speech.started"
+    ],
+    [
+     -1138,
+     "input.speech.stopped"
+    ],
+    [
+     -1137,
+     "transcript.user",
+     "What is?"
+    ],
+    [
+     -1135,
+     "reply.started"
+    ],
+    [
+     158,
+     "input.speech.started"
+    ],
+    [
+     1144,
+     "input.speech.stopped"
+    ],
+    [
+     1144,
+     "transcript.user",
+     "SEO in plain English."
+    ],
+    [
+     3003,
+     "transcript.agent",
+     "I'm not sure what you're asking about. Could you tell me the term or topic you'd like me to explain?"
+    ],
+    [
+     3005,
+     "tool.call",
+     "goji_explain_term"
+    ],
+    [
+     3248,
+     "reply.done",
+     "completed"
+    ],
+    [
+     3731,
+     "reply.started"
+    ],
+    [
+     4720,
+     "reply.audio"
+    ],
+    [
+     21530,
+     "transcript.agent",
+     "SEO stands for Search Engine Optimisation. It is the work of making your website the result that search engines choose to show, by using content that answers questions, building a site that is easy to read, and creating a reputation that other sites back up. You can read more about it at goji dot agency."
+    ],
+    [
+     21535,
+     "reply.audio"
+    ],
+    [
+     21834,
+     "reply.done",
+     "completed"
+    ]
+   ],
+   "gate": [],
+   "mcpRequests": [
+    {
+     "tool": "goji_explain_term",
+     "args": {
+      "term": "SEO"
+     }
+    }
+   ],
+   "methods": [
+    "truncated"
+   ],
+   "clipSha256": "a4b7698a37feea7e53fce5a3bd7af4d4f550bef5435bd6affffbde3f29ad9fa9"
+  },
+  {
+   "clip": "HES400",
+   "mode": "balanced",
+   "run": 2,
+   "sessionId": "sess_eef2914f4ce7456797c2157790b2b313",
+   "at": "2026-09-27T09:00:34.954Z",
+   "heard": "What is? SEO in plain English.",
+   "exact": true,
+   "transcripts": 2,
+   "split": true,
+   "endOfTurnMs": 1794,
+   "voiceToVoiceMs": 4514,
+   "calls": [
+    {
+     "name": "goji_explain_term",
+     "arguments": {
+      "term": "SEO"
+     }
+    }
+   ],
+   "transcriptTexts": [
+    "What is?",
+    "SEO in plain English."
+   ],
+   "earlyReply": true,
+   "interrupted": false,
+   "agentSaid": "I am not sure what you are asking about. Could you tell me the specific term or topic you want me to explain? SEO, or Search Engine Optimisation, is the work of making your website the result that search engines choose to show. This is done by creating content that answers what people are searching for, making sure engines can read your site easily, and building a reputation that other sites back up. You can read more about it at goji.agency.",
+   "seq": [
+    [
+     -1409,
+     "input.speech.started"
+    ],
+    [
+     -1109,
+     "input.speech.stopped"
+    ],
+    [
+     -1108,
+     "transcript.user",
+     "What is?"
+    ],
+    [
+     -1108,
+     "reply.started"
+    ],
+    [
+     190,
+     "input.speech.started"
+    ],
+    [
+     1794,
+     "input.speech.stopped"
+    ],
+    [
+     1794,
+     "transcript.user",
+     "SEO in plain English."
+    ],
+    [
+     3731,
+     "transcript.agent",
+     "I am not sure what you are asking about. Could you tell me the specific term or topic you want me to explain?"
+    ],
+    [
+     3736,
+     "tool.call",
+     "goji_explain_term"
+    ],
+    [
+     3990,
+     "reply.done",
+     "completed"
+    ],
+    [
+     4054,
+     "reply.started"
+    ],
+    [
+     4880,
+     "reply.audio"
+    ],
+    [
+     21853,
+     "transcript.agent",
+     "SEO, or Search Engine Optimisation, is the work of making your website the result that search engines choose to show. This is done by creating content that answers what people are searching for, making sure engines can read your site easily, and building a reputation that other sites back up. You can read more about it at goji.agency."
+    ],
+    [
+     21860,
+     "reply.audio"
+    ],
+    [
+     22171,
+     "reply.done",
+     "completed"
+    ]
+   ],
+   "gate": [],
+   "mcpRequests": [
+    {
+     "tool": "goji_explain_term",
+     "args": {
+      "term": "SEO"
+     }
+    }
+   ],
+   "methods": [
+    "truncated"
+   ],
+   "clipSha256": "a4b7698a37feea7e53fce5a3bd7af4d4f550bef5435bd6affffbde3f29ad9fa9"
+  },
+  {
+   "clip": "HES600",
+   "mode": "min_latency",
+   "run": 2,
+   "sessionId": "sess_c485dc0923bf47af9a35cbf643229615",
+   "at": "2026-09-27T09:01:08.459Z",
+   "heard": "What is? SEO in plain English.",
+   "exact": true,
+   "transcripts": 2,
+   "split": true,
+   "endOfTurnMs": 1141,
+   "voiceToVoiceMs": 3810,
+   "calls": [
+    {
+     "name": "goji_explain_term",
+     "arguments": {
+      "term": "SEO"
+     }
+    }
+   ],
+   "transcriptTexts": [
+    "What is?",
+    "SEO in plain English."
+   ],
+   "earlyReply": true,
+   "interrupted": false,
+   "agentSaid": "I'm not sure what you're asking about. Could you tell me the specific term or topic you'd like me to explain? SEO is the work of making your website the result that search engines choose to show. This is done by creating content that answers what people are searching for, making your site easy for engines to read, and building a reputation that other sites back up. \n\nIt is the essential entry ticket to all search surfaces, including AI, and unlike ads, the results can keep paying off for years.",
+   "seq": [
+    [
+     -1860,
+     "input.speech.started"
+    ],
+    [
+     -1360,
+     "input.speech.stopped"
+    ],
+    [
+     -1360,
+     "transcript.user",
+     "What is?"
+    ],
+    [
+     -1359,
+     "reply.started"
+    ],
+    [
+     -661,
+     "input.speech.started"
+    ],
+    [
+     1141,
+     "input.speech.stopped"
+    ],
+    [
+     1142,
+     "transcript.user",
+     "SEO in plain English."
+    ],
+    [
+     3073,
+     "transcript.agent",
+     "I'm not sure what you're asking about. Could you tell me the specific term or topic you'd like me to explain?"
+    ],
+    [
+     3076,
+     "tool.call",
+     "goji_explain_term"
+    ],
+    [
+     3325,
+     "reply.done",
+     "completed"
+    ],
+    [
+     3387,
+     "reply.started"
+    ],
+    [
+     4176,
+     "reply.audio"
+    ],
+    [
+     23791,
+     "transcript.agent",
+     "SEO is the work of making your website the result that search engines choose to show. This is done by creating content that answers what people are searching for, making your site easy for engines to read, and building a reputation that other sites back up. \n\nIt is the essential entry ticket to all search surfaces, including AI, and unlike ads, the results can keep paying off for years."
+    ],
+    [
+     23792,
+     "reply.audio"
+    ],
+    [
+     24104,
+     "reply.done",
+     "completed"
+    ]
+   ],
+   "gate": [],
+   "mcpRequests": [
+    {
+     "tool": "goji_explain_term",
+     "args": {
+      "term": "SEO"
+     }
+    }
+   ],
+   "methods": [
+    "truncated"
+   ],
+   "clipSha256": "9a40d9632bec855df40d2663babaf5e319389b1be08cd373dac6794157f21881"
+  },
+  {
+   "clip": "HES600",
+   "mode": "balanced",
+   "run": 2,
+   "sessionId": "sess_6acc6a51181f460baa7fc6564cd95d1b",
+   "at": "2026-09-27T09:01:42.428Z",
+   "heard": "What is? SEO in plain English.",
+   "exact": true,
+   "transcripts": 2,
+   "split": true,
+   "endOfTurnMs": 1857,
+   "voiceToVoiceMs": 4565,
+   "calls": [
+    {
+     "name": "goji_explain_term",
+     "arguments": {
+      "term": "SEO"
+     }
+    }
+   ],
+   "transcriptTexts": [
+    "What is?",
+    "SEO in plain English."
+   ],
+   "earlyReply": true,
+   "interrupted": false,
+   "agentSaid": "I'm not sure what you're referring to. Could you tell me which term or concept you'd like me to explain? SEO is the work of making your website the result search engines choose to show. It works by using content that answers what people are searching for, building a site that is easy for engines to read, and establishing a reputation that other sites back up. You can learn more at goji dot agency.",
+   "seq": [
+    [
+     -1644,
+     "input.speech.started"
+    ],
+    [
+     -1245,
+     "input.speech.stopped"
+    ],
+    [
+     -1245,
+     "transcript.user",
+     "What is?"
+    ],
+    [
+     -1244,
+     "reply.started"
+    ],
+    [
+     -345,
+     "input.speech.started"
+    ],
+    [
+     1857,
+     "input.speech.stopped"
+    ],
+    [
+     1857,
+     "transcript.user",
+     "SEO in plain English."
+    ],
+    [
+     3798,
+     "transcript.agent",
+     "I'm not sure what you're referring to. Could you tell me which term or concept you'd like me to explain?"
+    ],
+    [
+     3801,
+     "tool.call",
+     "goji_explain_term"
+    ],
+    [
+     4063,
+     "reply.done",
+     "completed"
+    ],
+    [
+     4128,
+     "reply.started"
+    ],
+    [
+     4931,
+     "reply.audio"
+    ],
+    [
+     20703,
+     "transcript.agent",
+     "SEO is the work of making your website the result search engines choose to show. It works by using content that answers what people are searching for, building a site that is easy for engines to read, and establishing a reputation that other sites back up. You can learn more at goji dot agency."
+    ],
+    [
+     20713,
+     "reply.audio"
+    ],
+    [
+     21013,
+     "reply.done",
+     "completed"
+    ]
+   ],
+   "gate": [],
+   "mcpRequests": [
+    {
+     "tool": "goji_explain_term",
+     "args": {
+      "term": "SEO"
+     }
+    }
+   ],
+   "methods": [
+    "truncated"
+   ],
+   "clipSha256": "9a40d9632bec855df40d2663babaf5e319389b1be08cd373dac6794157f21881"
+  },
+  {
+   "clip": "Q3",
+   "mode": "min_latency",
+   "run": 2,
+   "sessionId": "sess_6b539ba0b8644186ba515aa294c44468",
+   "at": "2026-09-27T09:02:19.733Z",
+   "heard": "I want to run a spec check on a job contract.",
+   "exact": true,
+   "transcripts": 1,
+   "split": false,
+   "endOfTurnMs": 793,
+   "voiceToVoiceMs": 2640,
+   "calls": [
+    {
+     "name": "find_tools",
+     "arguments": {
+      "query": "spec check on a job contract"
+     }
+    }
+   ],
+   "transcriptTexts": [
+    "I want to run a spec check on a job contract."
+   ],
+   "earlyReply": false,
+   "interrupted": false,
+   "agentSaid": "I can definitely help you with that. Just paste the job contract here or tell me the details, and I'll run the spec check for you.",
+   "seq": [
+    [
+     -1512,
+     "input.speech.started"
+    ],
+    [
+     792,
+     "transcript.user",
+     "I want to run a spec check on a job contract."
+    ],
+    [
+     793,
+     "reply.started"
+    ],
+    [
+     793,
+     "input.speech.stopped"
+    ],
+    [
+     1850,
+     "tool.call",
+     "find_tools"
+    ],
+    [
+     1917,
+     "session.updated"
+    ],
+    [
+     2106,
+     "reply.done",
+     "completed"
+    ],
+    [
+     2173,
+     "reply.started"
+    ],
+    [
+     2863,
+     "reply.audio"
+    ],
+    [
+     9515,
+     "transcript.agent",
+     "I can definitely help you with that. Just paste the job contract here or tell me the details, and I'll run the spec check for you."
+    ],
+    [
+     9515,
+     "reply.audio"
+    ],
+    [
+     9815,
+     "reply.done",
+     "completed"
+    ]
+   ],
+   "gate": [],
+   "mcpRequests": [],
+   "methods": [
+    "phase_change"
+   ],
+   "clipSha256": "23c4977f5f8defc80a72776b8c7bbcc3e8f2c77d4dec10c8f8540f86142e7174"
+  },
+  {
+   "clip": "Q5",
+   "mode": "min_latency",
+   "run": 2,
+   "sessionId": "sess_6b539ba0b8644186ba515aa294c44468",
+   "at": "2026-09-27T09:02:33.498Z",
+   "heard": "What is the reputation of wallet 0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED?",
+   "exact": false,
+   "transcripts": 1,
+   "split": false,
+   "endOfTurnMs": 1359,
+   "voiceToVoiceMs": 5585,
+   "calls": [
+    {
+     "name": "find_tools",
+     "arguments": {
+      "query": "reputation of a wallet"
+     }
+    },
+    {
+     "name": "afg_get_reputation",
+     "arguments": {
+      "address": "0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED"
+     }
+    }
+   ],
+   "transcriptTexts": [
+    "What is the reputation of wallet 0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED?"
+   ],
+   "earlyReply": false,
+   "interrupted": false,
+   "agentSaid": "I may have misheard that value. Please paste it into the box under the Talk button, and I will use exactly what you paste.",
+   "seq": [
+    [
+     -12093,
+     "input.speech.started"
+    ],
+    [
+     1359,
+     "input.speech.stopped"
+    ],
+    [
+     1360,
+     "transcript.user",
+     "What is the reputation of wallet 0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED?"
+    ],
+    [
+     1360,
+     "reply.started"
+    ],
+    [
+     3757,
+     "tool.call",
+     "find_tools"
+    ],
+    [
+     3883,
+     "session.updated"
+    ],
+    [
+     3975,
+     "reply.done",
+     "completed"
+    ],
+    [
+     4043,
+     "reply.started"
+    ],
+    [
+     4836,
+     "tool.call",
+     "afg_get_reputation"
+    ],
+    [
+     5126,
+     "reply.done",
+     "completed"
+    ],
+    [
+     5192,
+     "reply.started"
+    ],
+    [
+     5927,
+     "reply.audio"
+    ],
+    [
+     12577,
+     "transcript.agent",
+     "I may have misheard that value. Please paste it into the box under the Talk button, and I will use exactly what you paste."
+    ],
+    [
+     12583,
+     "reply.audio"
+    ],
+    [
+     12883,
+     "reply.done",
+     "completed"
+    ]
+   ],
+   "gate": [
+    {
+     "tool": "afg_get_reputation",
+     "action": "paste",
+     "heard": "0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED"
+    }
+   ],
+   "mcpRequests": [],
+   "methods": [
+    "phase_change",
+    "gate_paste"
+   ],
+   "clipSha256": "9bd03d7469cc072b4282929007a677ad32c30252728f3bd76656a73395b624ab"
+  },
+  {
+   "clip": "Q3",
+   "mode": "balanced",
+   "run": 2,
+   "sessionId": "sess_15a6297c84d54989a18f767dbcf5cd7e",
+   "at": "2026-09-27T09:03:13.625Z",
+   "heard": "I want to run a spec check on a job contract.",
+   "exact": true,
+   "transcripts": 1,
+   "split": false,
+   "endOfTurnMs": 767,
+   "voiceToVoiceMs": 2476,
+   "calls": [
+    {
+     "name": "find_tools",
+     "arguments": {
+      "query": "spec check on a job contract"
+     }
+    }
+   ],
+   "transcriptTexts": [
+    "I want to run a spec check on a job contract."
+   ],
+   "earlyReply": false,
+   "interrupted": false,
+   "agentSaid": "I can help with that. Please provide the job contract you'd like me to check.",
+   "seq": [
+    [
+     -1134,
+     "input.speech.started"
+    ],
+    [
+     767,
+     "input.speech.stopped"
+    ],
+    [
+     768,
+     "transcript.user",
+     "I want to run a spec check on a job contract."
+    ],
+    [
+     769,
+     "reply.started"
+    ],
+    [
+     1741,
+     "tool.call",
+     "find_tools"
+    ],
+    [
+     1801,
+     "session.updated"
+    ],
+    [
+     1986,
+     "reply.done",
+     "completed"
+    ],
+    [
+     2048,
+     "reply.started"
+    ],
+    [
+     2699,
+     "reply.audio"
+    ],
+    [
+     6469,
+     "transcript.agent",
+     "I can help with that. Please provide the job contract you'd like me to check."
+    ],
+    [
+     6475,
+     "reply.audio"
+    ],
+    [
+     6786,
+     "reply.done",
+     "completed"
+    ]
+   ],
+   "gate": [],
+   "mcpRequests": [],
+   "methods": [
+    "phase_change"
+   ],
+   "clipSha256": "23c4977f5f8defc80a72776b8c7bbcc3e8f2c77d4dec10c8f8540f86142e7174"
+  },
+  {
+   "clip": "Q5",
+   "mode": "balanced",
+   "run": 2,
+   "sessionId": "sess_15a6297c84d54989a18f767dbcf5cd7e",
+   "at": "2026-09-27T09:03:24.425Z",
+   "heard": "What is the reputation of wallet 0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED?",
+   "exact": false,
+   "transcripts": 1,
+   "split": false,
+   "endOfTurnMs": 1931,
+   "voiceToVoiceMs": 6110,
+   "calls": [
+    {
+     "name": "find_tools",
+     "arguments": {
+      "query": "reputation of a wallet address"
+     }
+    },
+    {
+     "name": "afg_get_reputation",
+     "arguments": {
+      "address": "0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED"
+     }
+    }
+   ],
+   "transcriptTexts": [
+    "What is the reputation of wallet 0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED?"
+   ],
+   "earlyReply": false,
+   "interrupted": false,
+   "agentSaid": "I may have misheard that value. Please paste it into the box under the Talk button, and I will use exactly what you paste.",
+   "seq": [
+    [
+     -12115,
+     "input.speech.started"
+    ],
+    [
+     1931,
+     "input.speech.stopped"
+    ],
+    [
+     1933,
+     "transcript.user",
+     "What is the reputation of wallet 0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED?"
+    ],
+    [
+     1933,
+     "reply.started"
+    ],
+    [
+     4282,
+     "tool.call",
+     "find_tools"
+    ],
+    [
+     4343,
+     "session.updated"
+    ],
+    [
+     4517,
+     "reply.done",
+     "completed"
+    ],
+    [
+     4578,
+     "reply.started"
+    ],
+    [
+     5373,
+     "tool.call",
+     "afg_get_reputation"
+    ],
+    [
+     5648,
+     "reply.done",
+     "completed"
+    ],
+    [
+     5709,
+     "reply.started"
+    ],
+    [
+     6452,
+     "reply.audio"
+    ],
+    [
+     13502,
+     "transcript.agent",
+     "I may have misheard that value. Please paste it into the box under the Talk button, and I will use exactly what you paste."
+    ],
+    [
+     13505,
+     "reply.audio"
+    ],
+    [
+     13826,
+     "reply.done",
+     "completed"
+    ]
+   ],
+   "gate": [
+    {
+     "tool": "afg_get_reputation",
+     "action": "paste",
+     "heard": "0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED"
+    }
+   ],
+   "mcpRequests": [],
+   "methods": [
+    "phase_change",
+    "gate_paste"
+   ],
+   "clipSha256": "9bd03d7469cc072b4282929007a677ad32c30252728f3bd76656a73395b624ab"
+  },
+  {
+   "clip": "HES400",
+   "mode": "balanced",
+   "run": 3,
+   "sessionId": "sess_4cebb2a3a6cf47f185fd1f064fb7ce57",
+   "at": "2026-09-27T09:04:00.214Z",
+   "heard": "What is? SEO in plain English.",
+   "exact": true,
+   "transcripts": 2,
+   "split": true,
+   "endOfTurnMs": 1842,
+   "voiceToVoiceMs": 4601,
+   "calls": [
+    {
+     "name": "goji_explain_term",
+     "arguments": {
+      "term": "SEO"
+     }
+    }
+   ],
+   "transcriptTexts": [
+    "What is?",
+    "SEO in plain English."
+   ],
+   "earlyReply": true,
+   "interrupted": false,
+   "agentSaid": "I'm not sure what you're asking about. Could you tell me the term or topic you'd like me to explain? SEO stands for Search Engine Optimisation. It is the work of making your website the result that search engines choose to show, by using content that answers what people are looking for and building a strong reputation.",
+   "seq": [
+    [
+     -1463,
+     "input.speech.started"
+    ],
+    [
+     -1063,
+     "input.speech.stopped"
+    ],
+    [
+     -1063,
+     "transcript.user",
+     "What is?"
+    ],
+    [
+     -1062,
+     "reply.started"
+    ],
+    [
+     238,
+     "input.speech.started"
+    ],
+    [
+     1839,
+     "transcript.user",
+     "SEO in plain English."
+    ],
+    [
+     1842,
+     "input.speech.stopped"
+    ],
+    [
+     3789,
+     "transcript.agent",
+     "I'm not sure what you're asking about. Could you tell me the term or topic you'd like me to explain?"
+    ],
+    [
+     3794,
+     "tool.call",
+     "goji_explain_term"
+    ],
+    [
+     4052,
+     "reply.done",
+     "completed"
+    ],
+    [
+     4196,
+     "reply.started"
+    ],
+    [
+     4967,
+     "reply.audio"
+    ],
+    [
+     16337,
+     "transcript.agent",
+     "SEO stands for Search Engine Optimisation. It is the work of making your website the result that search engines choose to show, by using content that answers what people are looking for and building a strong reputation."
+    ],
+    [
+     16340,
+     "reply.audio"
+    ],
+    [
+     16644,
+     "reply.done",
+     "completed"
+    ]
+   ],
+   "gate": [],
+   "mcpRequests": [
+    {
+     "tool": "goji_explain_term",
+     "args": {
+      "term": "SEO"
+     }
+    }
+   ],
+   "methods": [
+    "truncated"
+   ],
+   "clipSha256": "a4b7698a37feea7e53fce5a3bd7af4d4f550bef5435bd6affffbde3f29ad9fa9"
+  },
+  {
+   "clip": "HES400",
+   "mode": "min_latency",
+   "run": 3,
+   "sessionId": "sess_27bbdf5a8d9c47ab859309f4c01b331f",
+   "at": "2026-09-27T09:04:27.781Z",
+   "heard": "What is? SEO in plain English.",
+   "exact": true,
+   "transcripts": 2,
+   "split": true,
+   "endOfTurnMs": 1120,
+   "voiceToVoiceMs": 3690,
+   "calls": [
+    {
+     "name": "goji_explain_term",
+     "arguments": {
+      "term": "SEO"
+     }
+    }
+   ],
+   "transcriptTexts": [
+    "What is?",
+    "SEO in plain English."
+   ],
+   "earlyReply": true,
+   "interrupted": false,
+   "agentSaid": "I'm not sure what you're referring to. Did you want me to explain a specific term? SEO stands for Search Engine Optimisation. It's the work of making your website the result that search engines choose to show, by using content that answers questions and building a solid reputation online. You can read more about it at goji dot agency slash glossary slash seo.",
+   "seq": [
+    [
+     -1563,
+     "input.speech.started"
+    ],
+    [
+     -1063,
+     "input.speech.stopped"
+    ],
+    [
+     -1058,
+     "transcript.user",
+     "What is?"
+    ],
+    [
+     -1058,
+     "reply.started"
+    ],
+    [
+     237,
+     "input.speech.started"
+    ],
+    [
+     1120,
+     "input.speech.stopped"
+    ],
+    [
+     1121,
+     "transcript.user",
+     "SEO in plain English."
+    ],
+    [
+     2986,
+     "transcript.agent",
+     "I'm not sure what you're referring to. Did you want me to explain a specific term?"
+    ],
+    [
+     3001,
+     "tool.call",
+     "goji_explain_term"
+    ],
+    [
+     3243,
+     "reply.done",
+     "completed"
+    ],
+    [
+     3305,
+     "reply.started"
+    ],
+    [
+     4056,
+     "reply.audio"
+    ],
+    [
+     19590,
+     "transcript.agent",
+     "SEO stands for Search Engine Optimisation. It's the work of making your website the result that search engines choose to show, by using content that answers questions and building a solid reputation online. You can read more about it at goji dot agency slash glossary slash seo."
+    ],
+    [
+     19592,
+     "reply.audio"
+    ],
+    [
+     19903,
+     "reply.done",
+     "completed"
+    ]
+   ],
+   "gate": [],
+   "mcpRequests": [
+    {
+     "tool": "goji_explain_term",
+     "args": {
+      "term": "SEO"
+     }
+    }
+   ],
+   "methods": [
+    "truncated"
+   ],
+   "clipSha256": "a4b7698a37feea7e53fce5a3bd7af4d4f550bef5435bd6affffbde3f29ad9fa9"
+  },
+  {
+   "clip": "HES600",
+   "mode": "balanced",
+   "run": 3,
+   "sessionId": "sess_3834524abd904239bd7c3d2c0b48381d",
+   "at": "2026-09-27T09:04:58.322Z",
+   "heard": "What is? SEO in plain English.",
+   "exact": true,
+   "transcripts": 2,
+   "split": true,
+   "endOfTurnMs": 1816,
+   "voiceToVoiceMs": 4488,
+   "calls": [
+    {
+     "name": "goji_explain_term",
+     "arguments": {
+      "term": "SEO"
+     }
+    }
+   ],
+   "transcriptTexts": [
+    "What is?",
+    "SEO in plain English."
+   ],
+   "earlyReply": true,
+   "interrupted": false,
+   "agentSaid": "I'm not sure what you're asking about. Could you tell me the term or topic you'd like me to explain? SEO is the work of making your website the result that search engines choose to show. It involves using content that answers what people are looking for, building a site that engines can read easily, and developing a reputation that other sites back up. You can read more about it at goji dot agency slash search plus ai visibility.",
+   "seq": [
+    [
+     -1793,
+     "input.speech.started"
+    ],
+    [
+     -1393,
+     "input.speech.stopped"
+    ],
+    [
+     -1392,
+     "transcript.user",
+     "What is?"
+    ],
+    [
+     -1392,
+     "reply.started"
+    ],
+    [
+     -494,
+     "input.speech.started"
+    ],
+    [
+     1816,
+     "input.speech.stopped"
+    ],
+    [
+     1822,
+     "transcript.user",
+     "SEO in plain English."
+    ],
+    [
+     3780,
+     "transcript.agent",
+     "I'm not sure what you're asking about. Could you tell me the term or topic you'd like me to explain?"
+    ],
+    [
+     3793,
+     "tool.call",
+     "goji_explain_term"
+    ],
+    [
+     4031,
+     "reply.done",
+     "completed"
+    ],
+    [
+     4096,
+     "reply.started"
+    ],
+    [
+     4854,
+     "reply.audio"
+    ],
+    [
+     22548,
+     "transcript.agent",
+     "SEO is the work of making your website the result that search engines choose to show. It involves using content that answers what people are looking for, building a site that engines can read easily, and developing a reputation that other sites back up. You can read more about it at goji dot agency slash search plus ai visibility."
+    ],
+    [
+     22550,
+     "reply.audio"
+    ],
+    [
+     22860,
+     "reply.done",
+     "completed"
+    ]
+   ],
+   "gate": [],
+   "mcpRequests": [
+    {
+     "tool": "goji_explain_term",
+     "args": {
+      "term": "SEO"
+     }
+    }
+   ],
+   "methods": [
+    "truncated"
+   ],
+   "clipSha256": "9a40d9632bec855df40d2663babaf5e319389b1be08cd373dac6794157f21881"
+  },
+  {
+   "clip": "HES600",
+   "mode": "min_latency",
+   "run": 3,
+   "sessionId": "sess_2b551e0805714ded9c0784800fd67f44",
+   "at": "2026-09-27T09:05:31.411Z",
+   "heard": "What is? SEO in plain English.",
+   "exact": true,
+   "transcripts": 2,
+   "split": true,
+   "endOfTurnMs": 1158,
+   "voiceToVoiceMs": 3950,
+   "calls": [
+    {
+     "name": "goji_explain_term",
+     "arguments": {
+      "term": "SEO"
+     }
+    }
+   ],
+   "transcriptTexts": [
+    "What is?",
+    "SEO in plain English."
+   ],
+   "earlyReply": true,
+   "interrupted": false,
+   "agentSaid": "I'm sorry, I didn't catch what you were asking about. Could you please tell me what term or topic you'd like me to explain? SEO, or Search Engine Optimisation, is the work you do to make sure search engines choose your website as a result. This means creating content that answers what people are searching for, making your site easy for engines to read, and building a reputation that other sites back up. It's a way to keep earning visibility for years, unlike ads which stop as soon as you stop paying.",
+   "seq": [
+    [
+     -1845,
+     "input.speech.started"
+    ],
+    [
+     -1344,
+     "input.speech.stopped"
+    ],
+    [
+     -1343,
+     "transcript.user",
+     "What is?"
+    ],
+    [
+     -1343,
+     "reply.started"
+    ],
+    [
+     -845,
+     "input.speech.started"
+    ],
+    [
+     1158,
+     "input.speech.stopped"
+    ],
+    [
+     1158,
+     "transcript.user",
+     "SEO in plain English."
+    ],
+    [
+     3001,
+     "transcript.agent",
+     "I'm sorry, I didn't catch what you were asking about. Could you please tell me what term or topic you'd like me to explain?"
+    ],
+    [
+     3005,
+     "tool.call",
+     "goji_explain_term"
+    ],
+    [
+     3258,
+     "reply.done",
+     "completed"
+    ],
+    [
+     3483,
+     "reply.started"
+    ],
+    [
+     4316,
+     "reply.audio"
+    ],
+    [
+     24411,
+     "transcript.agent",
+     "SEO, or Search Engine Optimisation, is the work you do to make sure search engines choose your website as a result. This means creating content that answers what people are searching for, making your site easy for engines to read, and building a reputation that other sites back up. It's a way to keep earning visibility for years, unlike ads which stop as soon as you stop paying."
+    ],
+    [
+     24417,
+     "reply.audio"
+    ],
+    [
+     24718,
+     "reply.done",
+     "completed"
+    ]
+   ],
+   "gate": [],
+   "mcpRequests": [
+    {
+     "tool": "goji_explain_term",
+     "args": {
+      "term": "SEO"
+     }
+    }
+   ],
+   "methods": [
+    "truncated"
+   ],
+   "clipSha256": "9a40d9632bec855df40d2663babaf5e319389b1be08cd373dac6794157f21881"
+  },
+  {
+   "clip": "Q3",
+   "mode": "balanced",
+   "run": 3,
+   "sessionId": "sess_a82c06b9e3374014be77ddedf64d8cd7",
+   "at": "2026-09-27T09:06:12.725Z",
+   "heard": "I want to run a spec check on a job contract.",
+   "exact": true,
+   "transcripts": 1,
+   "split": false,
+   "endOfTurnMs": 712,
+   "voiceToVoiceMs": 2522,
+   "calls": [
+    {
+     "name": "find_tools",
+     "arguments": {
+      "query": "spec check on a job contract"
+     }
+    }
+   ],
+   "transcriptTexts": [
+    "I want to run a spec check on a job contract."
+   ],
+   "earlyReply": false,
+   "interrupted": false,
+   "agentSaid": "I can do that for you. Please provide the job contract you want me to check.",
+   "seq": [
+    [
+     -1091,
+     "input.speech.started"
+    ],
+    [
+     712,
+     "input.speech.stopped"
+    ],
+    [
+     712,
+     "transcript.user",
+     "I want to run a spec check on a job contract."
+    ],
+    [
+     713,
+     "reply.started"
+    ],
+    [
+     1775,
+     "tool.call",
+     "find_tools"
+    ],
+    [
+     1839,
+     "session.updated"
+    ],
+    [
+     2029,
+     "reply.done",
+     "completed"
+    ],
+    [
+     2093,
+     "reply.started"
+    ],
+    [
+     2745,
+     "reply.audio"
+    ],
+    [
+     6595,
+     "transcript.agent",
+     "I can do that for you. Please provide the job contract you want me to check."
+    ],
+    [
+     6598,
+     "reply.audio"
+    ],
+    [
+     6898,
+     "reply.done",
+     "completed"
+    ]
+   ],
+   "gate": [],
+   "mcpRequests": [],
+   "methods": [
+    "phase_change"
+   ],
+   "clipSha256": "23c4977f5f8defc80a72776b8c7bbcc3e8f2c77d4dec10c8f8540f86142e7174"
+  },
+  {
+   "clip": "Q5",
+   "mode": "balanced",
+   "run": 3,
+   "sessionId": "sess_a82c06b9e3374014be77ddedf64d8cd7",
+   "at": "2026-09-27T09:06:23.595Z",
+   "heard": "What is the reputation of wallet 0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED?",
+   "exact": false,
+   "transcripts": 1,
+   "split": false,
+   "endOfTurnMs": 1999,
+   "voiceToVoiceMs": 6123,
+   "calls": [
+    {
+     "name": "find_tools",
+     "arguments": {
+      "query": "get reputation of a wallet"
+     }
+    },
+    {
+     "name": "afg_get_reputation",
+     "arguments": {
+      "address": "0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED"
+     }
+    }
+   ],
+   "transcriptTexts": [
+    "What is the reputation of wallet 0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED?"
+   ],
+   "earlyReply": false,
+   "interrupted": false,
+   "agentSaid": "I may have misheard that value. Please paste it into the box under the Talk button, and I will use exactly what you paste.",
+   "seq": [
+    [
+     -12153,
+     "input.speech.started"
+    ],
+    [
+     1999,
+     "input.speech.stopped"
+    ],
+    [
+     1999,
+     "transcript.user",
+     "What is the reputation of wallet 0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED?"
+    ],
+    [
+     2000,
+     "reply.started"
+    ],
+    [
+     4317,
+     "tool.call",
+     "find_tools"
+    ],
+    [
+     4379,
+     "session.updated"
+    ],
+    [
+     4546,
+     "reply.done",
+     "completed"
+    ],
+    [
+     4610,
+     "reply.started"
+    ],
+    [
+     5403,
+     "tool.call",
+     "afg_get_reputation"
+    ],
+    [
+     5677,
+     "reply.done",
+     "completed"
+    ],
+    [
+     5742,
+     "reply.started"
+    ],
+    [
+     6465,
+     "reply.audio"
+    ],
+    [
+     12555,
+     "transcript.agent",
+     "I may have misheard that value. Please paste it into the box under the Talk button, and I will use exactly what you paste."
+    ],
+    [
+     12556,
+     "reply.audio"
+    ],
+    [
+     12867,
+     "reply.done",
+     "completed"
+    ]
+   ],
+   "gate": [
+    {
+     "tool": "afg_get_reputation",
+     "action": "paste",
+     "heard": "0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED"
+    }
+   ],
+   "mcpRequests": [],
+   "methods": [
+    "phase_change",
+    "gate_paste"
+   ],
+   "clipSha256": "9bd03d7469cc072b4282929007a677ad32c30252728f3bd76656a73395b624ab"
+  },
+  {
+   "clip": "Q3",
+   "mode": "min_latency",
+   "run": 3,
+   "sessionId": "sess_0a06f45f3411429ebf0b03ea8463f743",
+   "at": "2026-09-27T09:07:03.221Z",
+   "heard": "I want to run a spec check on a job contract.",
+   "exact": true,
+   "transcripts": 1,
+   "split": false,
+   "endOfTurnMs": 734,
+   "voiceToVoiceMs": 2435,
+   "calls": [
+    {
+     "name": "find_tools",
+     "arguments": {
+      "query": "run a spec check on a job contract"
+     }
+    }
+   ],
+   "transcriptTexts": [
+    "I want to run a spec check on a job contract."
+   ],
+   "earlyReply": false,
+   "interrupted": false,
+   "agentSaid": "I can do that for you. Please provide the job contract you want me to check.",
+   "seq": [
+    [
+     -1466,
+     "input.speech.started"
+    ],
+    [
+     734,
+     "input.speech.stopped"
+    ],
+    [
+     734,
+     "transcript.user",
+     "I want to run a spec check on a job contract."
+    ],
+    [
+     735,
+     "reply.started"
+    ],
+    [
+     1703,
+     "tool.call",
+     "find_tools"
+    ],
+    [
+     1766,
+     "session.updated"
+    ],
+    [
+     1942,
+     "reply.done",
+     "completed"
+    ],
+    [
+     2002,
+     "reply.started"
+    ],
+    [
+     2658,
+     "reply.audio"
+    ],
+    [
+     6587,
+     "transcript.agent",
+     "I can do that for you. Please provide the job contract you want me to check."
+    ],
+    [
+     6591,
+     "reply.audio"
+    ],
+    [
+     6901,
+     "reply.done",
+     "completed"
+    ]
+   ],
+   "gate": [],
+   "mcpRequests": [],
+   "methods": [
+    "phase_change"
+   ],
+   "clipSha256": "23c4977f5f8defc80a72776b8c7bbcc3e8f2c77d4dec10c8f8540f86142e7174"
+  },
+  {
+   "clip": "Q5",
+   "mode": "min_latency",
+   "run": 3,
+   "sessionId": "sess_0a06f45f3411429ebf0b03ea8463f743",
+   "at": "2026-09-27T09:07:14.073Z",
+   "heard": "What is the reputation of wallet 0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED?",
+   "exact": false,
+   "transcripts": 1,
+   "split": false,
+   "endOfTurnMs": 1323,
+   "voiceToVoiceMs": 5560,
+   "calls": [
+    {
+     "name": "find_tools",
+     "arguments": {
+      "query": "get reputation of a wallet"
+     }
+    },
+    {
+     "name": "afg_get_reputation",
+     "arguments": {
+      "address": "0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED"
+     }
+    }
+   ],
+   "transcriptTexts": [
+    "What is the reputation of wallet 0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED?"
+   ],
+   "earlyReply": false,
+   "interrupted": false,
+   "agentSaid": "I may have misheard that value. Please paste it into the box under the Talk button, and I will use exactly what you paste.",
+   "seq": [
+    [
+     -12229,
+     "input.speech.started"
+    ],
+    [
+     1323,
+     "input.speech.stopped"
+    ],
+    [
+     1324,
+     "transcript.user",
+     "What is the reputation of wallet 0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED?"
+    ],
+    [
+     1324,
+     "reply.started"
+    ],
+    [
+     3652,
+     "tool.call",
+     "find_tools"
+    ],
+    [
+     3713,
+     "session.updated"
+    ],
+    [
+     3890,
+     "reply.done",
+     "completed"
+    ],
+    [
+     3950,
+     "reply.started"
+    ],
+    [
+     4822,
+     "tool.call",
+     "afg_get_reputation"
+    ],
+    [
+     5110,
+     "reply.done",
+     "completed"
+    ],
+    [
+     5171,
+     "reply.started"
+    ],
+    [
+     5903,
+     "reply.audio"
+    ],
+    [
+     13193,
+     "transcript.agent",
+     "I may have misheard that value. Please paste it into the box under the Talk button, and I will use exactly what you paste."
+    ],
+    [
+     13198,
+     "reply.audio"
+    ],
+    [
+     13509,
+     "reply.done",
+     "completed"
+    ]
+   ],
+   "gate": [
+    {
+     "tool": "afg_get_reputation",
+     "action": "paste",
+     "heard": "0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED"
+    }
+   ],
+   "mcpRequests": [],
+   "methods": [
+    "phase_change",
+    "gate_paste"
+   ],
+   "clipSha256": "9bd03d7469cc072b4282929007a677ad32c30252728f3bd76656a73395b624ab"
+  }
+ ]
+}

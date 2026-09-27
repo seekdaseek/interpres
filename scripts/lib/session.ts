@@ -8,7 +8,7 @@ import {
   AgentProtocol, applyNormalisers, assertPhaseValid, buildNameMap, convertCatalog,
   handleFindTools, initialPhase, phaseSessionUpdate, shapeResult, FIND_TOOLS_NAME,
   ToolGate, gateTools, USE_PASTED_TEXT_NAME, pastedTextResult, pasteKeyterms, mergeKeyterms,
-  isReadOnlyTool, sharedPrefixTokens, buildGreeting,
+  isReadOnlyTool, sharedPrefixTokens, buildGreeting, TRANSCRIPTION_MODE,
 } from '@interpres/core';
 import type { GateDecision } from '@interpres/core';
 import { createHash } from 'node:crypto';
@@ -157,11 +157,12 @@ export type OpenOptions = {
    */
   asPage?: boolean;
   /**
-   * `input.transcription_mode` ("min_latency" | "balanced" | "max_accuracy"). Unset,
-   * nothing is sent, which is what interpres sends today: the API's default, balanced.
-   * When set it rides on every input update the session sends.
+   * `input.transcription_mode` on every input update the session sends. Unset, it
+   * is what the page sends (TRANSCRIPTION_MODE from core, min_latency since round
+   * H). A mode sends that mode instead; "omit" sends no transcription_mode at all,
+   * the API's default (balanced): the A/B's control arm, as rounds G1 and H1 ran it.
    */
-  transcriptionMode?: 'min_latency' | 'balanced' | 'max_accuracy';
+  transcriptionMode?: 'min_latency' | 'balanced' | 'max_accuracy' | 'omit';
 };
 
 /** What `/api/mcp/connect` returns, as far as a session needs it. */
@@ -213,7 +214,7 @@ export class LiveSession {
   /** The opening `session.update`, exactly as sent. */
   sentSetup: Record<string, unknown> = {};
   private readonly asPage: boolean;
-  readonly transcriptionMode?: 'min_latency' | 'balanced' | 'max_accuracy';
+  readonly transcriptionMode?: 'min_latency' | 'balanced' | 'max_accuracy' | 'omit';
   /** Every gate decision that stopped a call, in order. */
   readonly gateLog: Array<{ tool: string; action: GateDecision['action']; trigger?: string; heard?: string; at: number }> = [];
   /** MCP tools/call requests actually made, by tool - the thing the gate must keep at zero. */
@@ -423,7 +424,7 @@ export class LiveSession {
         if (this.sessionId === '') reject(new Error(`socket closed before session.ready (code ${(ev as CloseEvent).code})`));
       });
     });
-    const input = { keyterms: mergeKeyterms(this.phaseKeyterms, this.yourKeyterms), transcription_prompt: this.phase.transcriptionPrompt, ...this.modeField() };
+    const input = this.withMode({ keyterms: mergeKeyterms(this.phaseKeyterms, this.yourKeyterms), transcription_prompt: this.phase.transcriptionPrompt });
     // By default no greeting: "omit it to listen first", which keeps the event
     // flow clean. `asPage` sends what the page sends, greeting and all.
     this.sentSetup = this.asPage
@@ -464,7 +465,7 @@ export class LiveSession {
       this.phaseKeyterms = r.phase.keyterms;
       const keyterms = mergeKeyterms(r.phase.keyterms, this.yourKeyterms);
       this.phase = { ...r.phase, keyterms, visible: [] } as unknown as Phase;
-      const session = { ...r.phase.sessionUpdate.session, input: { ...(r.phase.sessionUpdate.session.input as Record<string, unknown>), keyterms } };
+      const session = { ...r.phase.sessionUpdate.session, input: this.withMode({ ...(r.phase.sessionUpdate.session.input as Record<string, unknown>), keyterms }) };
       if (record) {
         record.phaseAfter = r.available;
         record.method = 'phase_change';
@@ -494,8 +495,7 @@ export class LiveSession {
       }
       this.log(`  PHASE -> ${outcome.available.join(', ')}`);
       if (outcome.carried.length > 0) this.log(`  PHASE carried from the user's turn: ${outcome.carried.join(', ')}`);
-      const withMode = { ...upd.session, input: { ...(upd.session.input as Record<string, unknown>), ...this.modeField() } };
-      return { result: outcome.toolResult, sessionUpdate: { session: withMode } };
+      return { result: outcome.toolResult, sessionUpdate: { session: { ...upd.session, input: this.withMode(upd.session.input as Record<string, unknown>) } } };
     }
 
     const mcpName = this.catalog.nameMap.get(call.name);
@@ -574,9 +574,10 @@ export class LiveSession {
     }
   }
 
-  /** `{ transcription_mode }` when the session was opened with one, else nothing. */
-  private modeField(): Record<string, string> {
-    return this.transcriptionMode ? { transcription_mode: this.transcriptionMode } : {};
+  /** An input update with the session's transcription mode applied: the page's, a chosen one, or none ("omit"). */
+  private withMode(input: Record<string, unknown>): Record<string, unknown> {
+    const { transcription_mode: _dropped, ...rest } = input;
+    return this.transcriptionMode === 'omit' ? rest : { ...rest, transcription_mode: this.transcriptionMode ?? TRANSCRIPTION_MODE };
   }
 
   /**
@@ -591,7 +592,7 @@ export class LiveSession {
     this.yourKeyterms = pasteKeyterms(text);
     const merged = mergeKeyterms(this.phaseKeyterms, this.yourKeyterms);
     this.phase = { ...this.phase, keyterms: merged };
-    this.send({ type: 'session.update', session: { input: { keyterms: merged, ...this.modeField() } } });
+    this.send({ type: 'session.update', session: { input: this.withMode({ keyterms: merged }) } });
     return merged;
   }
 

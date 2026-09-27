@@ -188,6 +188,15 @@ export function handleFindTools(input: PlannerInput, query: string, opts: FindTo
 }
 
 /**
+ * `input.transcription_mode`, sent in every `session.update` interpres makes:
+ * the opening one, every phase change and every paste. The API takes
+ * "min_latency", "balanced" (its default) or "max_accuracy", and the field is
+ * mutable. Round H adopted min_latency from two in-process A/Bs against
+ * balanced, generated in docs/LATENCY.md.
+ */
+export const TRANSCRIPTION_MODE = 'min_latency';
+
+/**
  * The `session.update` body for a phase. Only mutable fields: `greeting` and
  * `output` would raise `immutable_field` after `session.ready`.
  */
@@ -203,9 +212,21 @@ export function phaseSessionUpdate(phase: Phase): {
       input: {
         keyterms: phase.keyterms,
         transcription_prompt: phase.transcriptionPrompt,
+        transcription_mode: TRANSCRIPTION_MODE,
       },
     },
   };
+}
+
+/**
+ * The paste box's mid-session update: the merged keyterms, with the
+ * transcription mode sent again, so no update is left to the default.
+ */
+export function keytermsSessionUpdate(keyterms: string[]): {
+  type: 'session.update';
+  session: Record<string, unknown>;
+} {
+  return { type: 'session.update', session: { input: { keyterms, transcription_mode: TRANSCRIPTION_MODE } } };
 }
 
 /** Never let a malformed phase reach the API, which would not complain. */

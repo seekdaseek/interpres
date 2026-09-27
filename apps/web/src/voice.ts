@@ -3,7 +3,7 @@
  * tool-call protocol from `@interpres/core` - the same `AgentProtocol` class the
  * proof scripts drive.
  */
-import { AgentProtocol, IdleClock, IDLE_LIMIT_MS, ToolGate, USE_PASTED_TEXT_NAME, pastedTextResult, pasteKeyterms, mergeKeyterms } from '@interpres/core';
+import { AgentProtocol, IdleClock, IDLE_LIMIT_MS, ToolGate, USE_PASTED_TEXT_NAME, pastedTextResult, pasteKeyterms, mergeKeyterms, keytermsSessionUpdate, TRANSCRIPTION_MODE } from '@interpres/core';
 import type { ExecResult, GateDecision, GateTool, ServerEvent, ToolCall } from '@interpres/core';
 import { AudioEngine, fromBase64, toBase64 } from './audio.ts';
 import { api, postJson as postJsonSafe } from './http.ts';
@@ -134,7 +134,7 @@ export class VoiceSession {
     this.ui.keyterms(merged, this.yours);
     if (push && this.ready && this.ws?.readyState === WebSocket.OPEN) {
       // Mutable mid-session; takes effect on the next utterance.
-      this.ws.send(JSON.stringify({ type: 'session.update', session: { input: { keyterms: merged } } }));
+      this.ws.send(JSON.stringify(keytermsSessionUpdate(merged)));
     }
   }
 
@@ -192,6 +192,7 @@ export class VoiceSession {
             input: {
               ...(this.conn.phase.sessionUpdate.session.input as Record<string, unknown>),
               keyterms: mergeKeyterms(this.phaseKeyterms, this.yours),
+              transcription_mode: TRANSCRIPTION_MODE,
               format: { encoding: 'audio/pcm' },
             },
             output: { voice: VOICE, format: { encoding: 'audio/pcm' } },
@@ -310,7 +311,7 @@ export class VoiceSession {
       // The person's own terms ride across every phase change.
       this.phaseKeyterms = r.phase.keyterms;
       const merged = mergeKeyterms(r.phase.keyterms, this.yours);
-      const session = { ...r.phase.sessionUpdate.session, input: { ...(r.phase.sessionUpdate.session.input as Record<string, unknown>), keyterms: merged } };
+      const session = { ...r.phase.sessionUpdate.session, input: { ...(r.phase.sessionUpdate.session.input as Record<string, unknown>), keyterms: merged, transcription_mode: TRANSCRIPTION_MODE } };
       this.ui.phase({ ...r.phase, keyterms: merged }, `find_tools("${String(call.arguments.query ?? '')}")`);
       this.ui.keyterms(merged, this.yours);
       return {
