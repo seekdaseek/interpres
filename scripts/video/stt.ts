@@ -62,6 +62,8 @@ export function numberWords(n: number): string {
 export function normaliseSpeech(text: string): string[] {
   let t = ` ${text.toLowerCase()} `;
   t = t.replace(/[‘’]/g, "'");
+  // $0.60 -> 60 cents: an amount under a dollar is said in cents.
+  t = t.replace(/\$0\.(\d{2})\b/g, (_m, b: string) => ` ${Number(b)} cents `);
   // $4.50 -> 4 dollars 50 ; $18 -> 18 dollars
   t = t.replace(/\$(\d[\d,]*)\.(\d{2})\b/g, (_m, a: string, b: string) => ` ${a.replace(/,/g, '')} dollars ${Number(b)} `);
   t = t.replace(/\$(\d[\d,]*)\b/g, (_m, a: string) => ` ${a.replace(/,/g, '')} dollars `);

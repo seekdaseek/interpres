@@ -42,9 +42,9 @@ export function identifierCount(): { exact: number; total: number; ran: number }
   return { exact: Number(m[1]), total: Number(m[2]), ran: Number(r[1]) };
 }
 
-/** The script as written; N7's {EXACT}, {TOTAL} and {RAN} come from F1's count, as digits. */
+/** The script as written; N7's {RAN} comes from F1's count, as digits. */
 export function narration(): Record<string, string> {
-  const { exact: EXACT, total: TOTAL, ran: RAN } = identifierCount();
+  const { ran: RAN } = identifierCount();
   return {
     N1: "This is interpres. It connects AssemblyAI's Voice Agent API to public MCP servers. Type a website, press the mic, and its tools answer out loud.",
     N2: "AssemblyAI lists its Voice Agent API at $4.50 an hour, and OpenAI Realtime at $18. Realtime can call MCP servers by itself. The Voice Agent API has no MCP tool type, so teams that switch for the price lose their MCP tools. interpres gives them back.",
@@ -52,10 +52,10 @@ export function narration(): Record<string, string> {
     N4: "That answer came from goji's own server, through a live tool call.",
     N5: 'No website in mind? Search more than 11,000 public MCP servers right on the page. One click connects.',
     N6: 'Many servers list more than ten tools. interpres shows the agent ten at a time, and one of them is find tools. Ask for something out of view, and interpres swaps the right tools in, mid-conversation.',
-    N7: `Speech gets identifiers wrong. In our tests, ${EXACT} of ${TOTAL} spoken wallet addresses came through exact, and before the gate, ${RAN} wrong ones reached the server. So interpres never runs a tool on an identifier it only heard. Paste it, and the agent uses the exact text.`,
-    N8: 'A spoken address is held back. Nothing runs.',
+    N7: `Speech often gets identifiers wrong. Before this gate, a misheard wallet address reached the server ${RAN} times, and a right hearing looks exactly like a wrong one. So the address comes from the paste box, and the agent uses the exact text.`,
+    N8: 'A spoken address is held back, right or wrong. Nothing runs.',
     N9: "To check it isn't just these three, we probed every remote server in the official MCP registry. 12,012 answered without a login, listing more than 200,000 tools, and every tool converted.",
-    N10: 'Then we gave thirty of them one spoken question each, untuned. Twenty-nine sessions ran. Each one answered out loud, at a median of 2.6 seconds, and fourteen answered from live data. The whole run cost 60 cents.',
+    N10: 'Then we gave thirty of them one spoken question each, untuned. Twenty-nine sessions ran, each one answered out loud, and fourteen answered from live data. When a tool ran, the median was 3.5 seconds voice to voice, and the whole run cost 60 cents.',
     N11: 'Along the way we found two places where the API behaves differently from its docs, and wrote both up with scripts that reproduce them.',
     N12: 'interpres is open source under MIT, and live now at the address on screen. Type a website, press the mic, and ask.',
   };

@@ -1,0 +1,139 @@
+{
+ "file": "video/captures/C-20260927T064547/stems/caller.wav",
+ "sha256": "4fd5c129f9c09c9930669604e6f448b5895d0fbf35c6e1c1a254c42daa99f3e8",
+ "id": "5018b65f-d08a-4a50-ac02-3691736c6e4b",
+ "speechModel": "universal-3-5-pro,universal-2",
+ "text": "I want to run a spec check on a job contract. What is the reputation of wallet 0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED? Check the reputation of the wallet I pasted.",
+ "words": [
+  {
+   "text": "I",
+   "start": 20985,
+   "end": 21050
+  },
+  {
+   "text": "want",
+   "start": 21050,
+   "end": 21210
+  },
+  {
+   "text": "to",
+   "start": 21210,
+   "end": 21307
+  },
+  {
+   "text": "run",
+   "start": 21307,
+   "end": 21419
+  },
+  {
+   "text": "a",
+   "start": 21467,
+   "end": 21483
+  },
+  {
+   "text": "spec",
+   "start": 21483,
+   "end": 21804
+  },
+  {
+   "text": "check",
+   "start": 21869,
+   "end": 22174
+  },
+  {
+   "text": "on",
+   "start": 22190,
+   "end": 22270
+  },
+  {
+   "text": "a",
+   "start": 22270,
+   "end": 22350
+  },
+  {
+   "text": "job",
+   "start": 22350,
+   "end": 22591
+  },
+  {
+   "text": "contract.",
+   "start": 22655,
+   "end": 23041
+  },
+  {
+   "text": "What",
+   "start": 32810,
+   "end": 32908
+  },
+  {
+   "text": "is",
+   "start": 32941,
+   "end": 32974
+  },
+  {
+   "text": "the",
+   "start": 32990,
+   "end": 33040
+  },
+  {
+   "text": "reputation",
+   "start": 33040,
+   "end": 33385
+  },
+  {
+   "text": "of",
+   "start": 33434,
+   "end": 33484
+  },
+  {
+   "text": "wallet",
+   "start": 33500,
+   "end": 33747
+  },
+  {
+   "text": "0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED?",
+   "start": 33747,
+   "end": 35687
+  },
+  {
+   "text": "Check",
+   "start": 82788,
+   "end": 82981
+  },
+  {
+   "text": "the",
+   "start": 83045,
+   "end": 83125
+  },
+  {
+   "text": "reputation",
+   "start": 83125,
+   "end": 83735
+  },
+  {
+   "text": "of",
+   "start": 83768,
+   "end": 83848
+  },
+  {
+   "text": "the",
+   "start": 83848,
+   "end": 83928
+  },
+  {
+   "text": "wallet",
+   "start": 83992,
+   "end": 84314
+  },
+  {
+   "text": "I",
+   "start": 84314,
+   "end": 84410
+  },
+  {
+   "text": "pasted.",
+   "start": 84410,
+   "end": 84892
+  }
+ ]
+}

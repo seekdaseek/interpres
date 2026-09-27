@@ -117,14 +117,20 @@ export function silences(file: string, edl: Edl): Array<{ start: number; end: nu
         for (const ev of logOf(shot.capture).filter((x) => x.t >= c0 - 200 && x.t <= c1)) {
           if (ev.type === 'harness.talk' && ev.label === 'start') seen.add('Talk pressed: the page fetches a token, opens the session and waits for the greeting');
           else if (ev.type === 'harness.talk' && ev.label === 'end') seen.add('the session ended with the Talk button');
-          else if (ev.type === 'ws.in' && ev.msg === 'tool.call') seen.add(`the tool call ${String(ev.name)} runs`);
+          else if (ev.type === 'ws.in' && ev.msg === 'tool.call') {
+            const log = logOf(shot.capture);
+            // Only a call that would reach the MCP server can be held, and its card shows before the next call.
+            const next = log.find((x) => x.type === 'ws.in' && x.msg === 'tool.call' && x.t > ev.t)?.t ?? Infinity;
+            const held = !['find_tools', 'use_pasted_text'].includes(String(ev.name)) && log.some((x) => x.type === 'dom.gate' && x.t >= ev.t && x.t < Math.min(ev.t + 1500, next) && (x.v as { shown: boolean }).shown);
+            seen.add(held ? `the tool call ${String(ev.name)} is held by the gate (no request)` : `the tool call ${String(ev.name)} runs`);
+          }
           else if (ev.type === 'key') seen.add('typing');
           else if (ev.type === 'mousedown') seen.add('clicks');
           else if (ev.type === 'harness.scrolled') seen.add('scrolling');
           else if (ev.type === 'paste') seen.add('the paste');
         }
       }
-      const zooms = edl.punchIns.filter((p) => p.start < e && p.start + p.hold + 800 > s).map((p) => `punch-in on ${p.reason}`);
+      const zooms = edl.punchIns.filter((p) => p.capture === shot.capture && p.start < Math.min(e, shot.end) && p.start + p.hold + 800 > Math.max(s, shot.start)).map((p) => `punch-in on ${p.reason}`);
       parts.push(`${shot.name} (live)${seen.size || zooms.length ? `: ${[...seen, ...zooms].join('; ')}` : ': the page between spoken turns'}`);
     }
     return { start: Math.round(s), end: Math.round(e), what: parts.join(' | ') || 'between scenes' };

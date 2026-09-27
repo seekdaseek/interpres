@@ -31,10 +31,43 @@
  "pageMicFidelity": [
   {
    "id": "Q1",
-   "lag": 523925,
-   "snrDb": 999,
-   "maxErr": 0,
-   "bitExact": true
+   "windows": 4,
+   "bitExactWindows": 4,
+   "slips": [],
+   "worstWindowSnrDb": 999
+  }
+ ],
+ "latency": [
+  {
+   "id": "Q1",
+   "steps": {
+    "callerLastWord": 0,
+    "apiEndOfTurn": 1826,
+    "transcriptFinal": 1827,
+    "tools": [
+     {
+      "name": "goji_explain_term",
+      "toolCallAt": 3602,
+      "fetchMs": 543,
+      "serverMs": 481,
+      "networkMs": 62,
+      "mcpMs": 481,
+      "refine": "not_needed",
+      "refineMs": 0,
+      "method": "truncated",
+      "serverTimingsFrom": "the box's event log (data/video/server-tool-calls.json)",
+      "resultSentAt": 4150
+     }
+    ],
+    "lastToolResultSent": 4150,
+    "firstReplyAudioReceived": 4979,
+    "answerAudioReceived": 4979,
+    "firstAudioPlayed": 5179
+   },
+   "clipTrailingSilenceMs": 242,
+   "e2eStyleMs": 4737,
+   "playoutMs": 200,
+   "videoMs": 5179
   }
  ],
  "sync": [

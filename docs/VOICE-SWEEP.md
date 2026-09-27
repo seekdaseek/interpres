@@ -21,6 +21,7 @@ Every starter was written before any session ran. When the Gateway rate-limited 
 | MCP call succeeded / tool answered with an error / held by the gate | 14 / 3 / 0 |
 | the agent answered out loud | 29 |
 | median voice-to-voice, answered turns | 2597 ms |
+| median voice-to-voice, turns that called a tool | 3540 ms (17 turns) |
 | session time, and its cost at $4.50/hr | 482 s, $0.60 |
 
 ## Every server

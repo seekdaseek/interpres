@@ -18,6 +18,7 @@
  *
  * --dry stops before the Talk button (no session, no token): a harness test.
  */
+import { createHash } from 'node:crypto';
 import { mkdirSync, readFileSync, writeFileSync, appendFileSync, existsSync } from 'node:fs';
 import { chromium } from 'playwright';
 import type { BrowserContext, CDPSession, Page } from 'playwright';
@@ -125,7 +126,9 @@ export class Capture {
     for (const id of ['Q1', 'Q2', 'Q3', 'Q4', 'Q5']) {
       const l = this.lines[id];
       if (!l) continue;
-      const w = parseWav(readFileSync(l.file));
+      const bytes = readFileSync(l.file);
+      await this.mark('clip.loaded', { id, voice: l.voice, sha256: createHash('sha256').update(bytes).digest('hex'), ms: l.ms });
+      const w = parseWav(bytes);
       await this.page.evaluate(([cid, b64, rate]) => (window as unknown as { __cap: { loadClip: (a: string, b: string, c: number) => Promise<unknown> } }).__cap.loadClip(cid as string, b64 as string, rate as number), [id, Buffer.from(w.pcm).toString('base64'), w.sampleRate] as const);
     }
   }
@@ -283,6 +286,9 @@ export class Capture {
   }
 
   async talk(label: string): Promise<void> {
+    // The Talk button may have scrolled away (scene C scrolls to the tool calls): bring it back first.
+    const box = await this.page.locator('#mic').first().boundingBox();
+    if (!box || box.y < 0 || box.y + box.height > VIEWPORT.height) await this.scrollTo('#talk', 12, 700);
     await this.clickAt('#mic', { ms: 600 });
     await this.mark('harness.talk', { label });
   }
@@ -361,33 +367,38 @@ async function sceneC(c: Capture): Promise<void> {
   await sleep(1200);
   await c.scrollTo('#talk', 12, 900);
   if (c.dry) {
+    await c.scrollTo('#paste-row', 12, 700);
     await pasteSample(c);
+    await sleep(900);
+    await c.scrollTo('#panes', 30, 800);
     return;
   }
   await c.talk('start');
   await c.greetingDone();
   await sleep(600);
+  // Scene 6, C1: the swap.
   const q3 = await c.say('Q3');
   await c.agentDone(q3);
-  await sleep(500);
-  // Scene 7: the identifiers slide covers the first 4 s of N7, then the paste.
-  const n7 = await c.narration('N7');
-  await sleep(4600);
-  await pasteSample(c);
-  await c.waitNarration(n7);
-  const q4 = await c.say('Q4');
-  await c.agentDone(q4);
   await sleep(800);
-  // Scene 9: clear the paste box, then say the address.
-  await c.clickAt('#paste', { ms: 600, count: 3 });
-  await c.page.keyboard.press('Backspace');
-  await c.mark('harness.cleared', {});
-  await sleep(1200);
+  // Scene 7, C3: the sample address spoken, with the paste box empty. The gate holds it.
   const q5 = await c.say('Q5');
   await c.agentDone(q5);
   await sleep(500);
   const n8 = await c.narration('N8');
   await c.waitNarration(n8, 600);
+  // Scene 8: the identifiers slide covers the first 4 s of N7, then the paste.
+  const n7 = await c.narration('N7');
+  await sleep(4600);
+  await c.scrollTo('#paste-row', 12, 700);
+  await pasteSample(c);
+  // Still under N7: bring the tool calls into view for Q4 (the pasted value shows in its call card).
+  await sleep(900);
+  await c.scrollTo('#panes', 30, 800);
+  await c.waitNarration(n7);
+  // Scene 9, C2: the pasted wallet.
+  const q4 = await c.say('Q4');
+  await c.agentDone(q4);
+  await sleep(1200);
   await c.talk('end');
   await sleep(1500);
 }

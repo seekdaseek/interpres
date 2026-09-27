@@ -31,10 +31,43 @@
  "pageMicFidelity": [
   {
    "id": "Q2",
-   "lag": 526770,
-   "snrDb": 31.3,
-   "maxErr": 0.06402587890625,
-   "bitExact": false
+   "windows": 3,
+   "bitExactWindows": 2,
+   "slips": [],
+   "worstWindowSnrDb": 21.2
+  }
+ ],
+ "latency": [
+  {
+   "id": "Q2",
+   "steps": {
+    "callerLastWord": 0,
+    "apiEndOfTurn": 1791,
+    "transcriptFinal": 1792,
+    "tools": [
+     {
+      "name": "get_book_recommenders",
+      "toolCallAt": 3848,
+      "fetchMs": 548,
+      "serverMs": 487,
+      "networkMs": 61,
+      "mcpMs": 485,
+      "refine": "circuit_open",
+      "refineMs": 0,
+      "method": "local",
+      "serverTimingsFrom": "the box's event log (data/video/server-tool-calls.json)",
+      "resultSentAt": 4399
+     }
+    ],
+    "lastToolResultSent": 4399,
+    "firstReplyAudioReceived": 5016,
+    "answerAudioReceived": 5016,
+    "firstAudioPlayed": 5280
+   },
+   "clipTrailingSilenceMs": 477,
+   "e2eStyleMs": 4540,
+   "playoutMs": 264,
+   "videoMs": 5280
   }
  ],
  "sync": [

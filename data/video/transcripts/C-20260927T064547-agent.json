@@ -1,0 +1,389 @@
+{
+ "file": "video/captures/C-20260927T064547/stems/agent.wav",
+ "sha256": "0d97af7aa2ba1b682a8f953c808b576135b42b4ccd1085be0f1988d24cb1688f",
+ "id": "2a5871ff-b08e-4a86-b3cb-72e7331784c0",
+ "speechModel": "universal-3-5-pro,universal-2",
+ "text": "Connected to AFG, Agent Fulfillment Guarantee, sandbox, test money only, with 18 tools available. What would you like to do? I can certainly help you with that. Please provide the job contract you'd like me to check. I may have misheard that value. Please paste it into the box under the talk button, and I will use exactly what you paste. That wallet currently has no recorded job outcomes, so it doesn't have a reputation yet.",
+ "words": [
+  {
+   "text": "Connected",
+   "start": 10870,
+   "end": 11368
+  },
+  {
+   "text": "to",
+   "start": 11416,
+   "end": 11560
+  },
+  {
+   "text": "AFG,",
+   "start": 11576,
+   "end": 11914
+  },
+  {
+   "text": "Agent",
+   "start": 12861,
+   "end": 13198
+  },
+  {
+   "text": "Fulfillment",
+   "start": 13262,
+   "end": 13824
+  },
+  {
+   "text": "Guarantee,",
+   "start": 13824,
+   "end": 14274
+  },
+  {
+   "text": "sandbox,",
+   "start": 14820,
+   "end": 15526
+  },
+  {
+   "text": "test",
+   "start": 15751,
+   "end": 15944
+  },
+  {
+   "text": "money",
+   "start": 15992,
+   "end": 16217
+  },
+  {
+   "text": "only,",
+   "start": 16313,
+   "end": 16538
+  },
+  {
+   "text": "with",
+   "start": 16875,
+   "end": 17052
+  },
+  {
+   "text": "18",
+   "start": 17116,
+   "end": 17421
+  },
+  {
+   "text": "tools",
+   "start": 17453,
+   "end": 17742
+  },
+  {
+   "text": "available.",
+   "start": 17774,
+   "end": 18224
+  },
+  {
+   "text": "What",
+   "start": 18738,
+   "end": 18850
+  },
+  {
+   "text": "would",
+   "start": 18882,
+   "end": 18978
+  },
+  {
+   "text": "you",
+   "start": 18978,
+   "end": 19059
+  },
+  {
+   "text": "like",
+   "start": 19059,
+   "end": 19219
+  },
+  {
+   "text": "to",
+   "start": 19219,
+   "end": 19364
+  },
+  {
+   "text": "do?",
+   "start": 19364,
+   "end": 19540
+  },
+  {
+   "text": "I",
+   "start": 26204,
+   "end": 26236
+  },
+  {
+   "text": "can",
+   "start": 26284,
+   "end": 26429
+  },
+  {
+   "text": "certainly",
+   "start": 26445,
+   "end": 26766
+  },
+  {
+   "text": "help",
+   "start": 26766,
+   "end": 27071
+  },
+  {
+   "text": "you",
+   "start": 27071,
+   "end": 27151
+  },
+  {
+   "text": "with",
+   "start": 27151,
+   "end": 27296
+  },
+  {
+   "text": "that.",
+   "start": 27312,
+   "end": 27537
+  },
+  {
+   "text": "Please",
+   "start": 27970,
+   "end": 28179
+  },
+  {
+   "text": "provide",
+   "start": 28211,
+   "end": 28532
+  },
+  {
+   "text": "the",
+   "start": 28532,
+   "end": 28612
+  },
+  {
+   "text": "job",
+   "start": 28612,
+   "end": 28853
+  },
+  {
+   "text": "contract",
+   "start": 28853,
+   "end": 29399
+  },
+  {
+   "text": "you'd",
+   "start": 29399,
+   "end": 29495
+  },
+  {
+   "text": "like",
+   "start": 29560,
+   "end": 29720
+  },
+  {
+   "text": "me",
+   "start": 29720,
+   "end": 29817
+  },
+  {
+   "text": "to",
+   "start": 29817,
+   "end": 29897
+  },
+  {
+   "text": "check.",
+   "start": 29897,
+   "end": 30138
+  },
+  {
+   "text": "I",
+   "start": 53645,
+   "end": 53677
+  },
+  {
+   "text": "may",
+   "start": 53677,
+   "end": 53885
+  },
+  {
+   "text": "have",
+   "start": 53902,
+   "end": 54030
+  },
+  {
+   "text": "misheard",
+   "start": 54062,
+   "end": 54480
+  },
+  {
+   "text": "that",
+   "start": 54480,
+   "end": 54656
+  },
+  {
+   "text": "value.",
+   "start": 54704,
+   "end": 55122
+  },
+  {
+   "text": "Please",
+   "start": 55347,
+   "end": 55636
+  },
+  {
+   "text": "paste",
+   "start": 55748,
+   "end": 56053
+  },
+  {
+   "text": "it",
+   "start": 56053,
+   "end": 56133
+  },
+  {
+   "text": "into",
+   "start": 56214,
+   "end": 56406
+  },
+  {
+   "text": "the",
+   "start": 56406,
+   "end": 56519
+  },
+  {
+   "text": "box",
+   "start": 56535,
+   "end": 57017
+  },
+  {
+   "text": "under",
+   "start": 57033,
+   "end": 57257
+  },
+  {
+   "text": "the",
+   "start": 57257,
+   "end": 57354
+  },
+  {
+   "text": "talk",
+   "start": 57354,
+   "end": 57578
+  },
+  {
+   "text": "button,",
+   "start": 57595,
+   "end": 57884
+  },
+  {
+   "text": "and",
+   "start": 58301,
+   "end": 58446
+  },
+  {
+   "text": "I",
+   "start": 58462,
+   "end": 58526
+  },
+  {
+   "text": "will",
+   "start": 58558,
+   "end": 58702
+  },
+  {
+   "text": "use",
+   "start": 58702,
+   "end": 58879
+  },
+  {
+   "text": "exactly",
+   "start": 58879,
+   "end": 59280
+  },
+  {
+   "text": "what",
+   "start": 59280,
+   "end": 59409
+  },
+  {
+   "text": "you",
+   "start": 59441,
+   "end": 59537
+  },
+  {
+   "text": "paste.",
+   "start": 59537,
+   "end": 59987
+  },
+  {
+   "text": "That",
+   "start": 90657,
+   "end": 90801
+  },
+  {
+   "text": "wallet",
+   "start": 90833,
+   "end": 91138
+  },
+  {
+   "text": "currently",
+   "start": 91138,
+   "end": 91492
+  },
+  {
+   "text": "has",
+   "start": 91540,
+   "end": 91684
+  },
+  {
+   "text": "no",
+   "start": 91781,
+   "end": 91877
+  },
+  {
+   "text": "recorded",
+   "start": 91877,
+   "end": 92327
+  },
+  {
+   "text": "job",
+   "start": 92359,
+   "end": 92744
+  },
+  {
+   "text": "outcomes,",
+   "start": 92744,
+   "end": 93130
+  },
+  {
+   "text": "so",
+   "start": 93162,
+   "end": 93371
+  },
+  {
+   "text": "it",
+   "start": 93387,
+   "end": 93419
+  },
+  {
+   "text": "doesn't",
+   "start": 93419,
+   "end": 93660
+  },
+  {
+   "text": "have",
+   "start": 93660,
+   "end": 93756
+  },
+  {
+   "text": "a",
+   "start": 93788,
+   "end": 93820
+  },
+  {
+   "text": "reputation",
+   "start": 93820,
+   "end": 94430
+  },
+  {
+   "text": "yet.",
+   "start": 94430,
+   "end": 94671
+  }
+ ]
+}

@@ -2,9 +2,11 @@
 
 Every recorded attempt to speak a wallet address, from every source in `data/`, recounted by `scripts/spoken-identifiers.ts`. "Ran" is whether the address reached an MCP server: a misheard value ran in 5 of them, all from before the gate held spoken identifiers (decision D4).
 
-Exact: 5 of 15.
+Exact: 6 of 16.
 
 Misheard and reached a server: 5.
+
+The 6 exact hearings came from 1 distinct clip: michael's Q5 clip (sha256 9bd03d7469cc…), heard exactly in 1 video take and 5 rehearsals.
 
 | source | session | spoken | heard | exact | ran |
 | --- | --- | --- | --- | --- | --- |
@@ -17,6 +19,7 @@ Misheard and reached a server: 5.
 | e2e-audio-gate-spoken.json | `sess_c7ecda9ca1ca4a3f8eebfb18378bd139` | `0x3f9a1c7e…4d6f09` (42) | `0x3f9a1c7e…4d6f09` (42) | no | ran with `0x3f9a1c7e…4d6f09` (42) |
 | qa-public-round-e.json (desktop) | `sess_144a98f5fd3f434f94f2d1628f21d984` | `0x5aaeb605…1beaed` (42) | `0x5aeb6053…f1b8ed` (40) | no | nothing ran |
 | qa-public-round-e.json (mobile375) | `sess_ee5881f4b8074acdabe6137482a8327b` | `0x5aaeb605…1beaed` (42) | `0x5aeb6053…f1b8ed` (40) | no | nothing ran |
+| video/capture-C-20260927T064547.json | `sess_3fcf411e656145b0a5b487036ce05e38` | `0x5aaeb605…1beaed` (42) | `0x5aaeb605…1beaed` (42) | yes | nothing ran |
 | video/rehearsals-c.json (brief) | `sess_7207e8d4878241fca8de881aaad6b9f9` | `0x5aaeb605…1beaed` (42) | `0x5aaeb605…1beaed` (42) | yes | nothing ran |
 | video/rehearsals-c.json (brief) | `sess_5d116e8491ce41f894d2dd99061aed65` | `0x5aaeb605…1beaed` (42) | `0x5aaeb605…1beaed` (42) | yes | ran with the spoken value |
 | video/rehearsals-c.json (brief) | `sess_01ca2a290e594b2981fd9b60e845a6ae` | `0x5aaeb605…1beaed` (42) | `0x5aaeb605…1beaed` (42) | yes | ran with the spoken value |
@@ -35,4 +38,5 @@ Misheard and reached a server: 5.
 | `sweep-2026-09-26T1148Z-summary.json` | an address inside a registry server description; nothing was spoken |
 | `sweep-2026-09-26T1252Z-recheck-summary.json` | an address inside a registry server description; nothing was spoken |
 | `video/caller-gate.json` | the F2a hearing gate: its only address was pasted for Q4, not spoken |
+| `video/transcripts/C-20260927T064547-caller.json` | a capture stem transcript; that take is counted from its capture log |
 | `video/voices.json` | the caller clip texts themselves; the sessions that spoke them are counted |

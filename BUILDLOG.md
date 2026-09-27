@@ -3087,3 +3087,123 @@ the $150 credit.
 ```
 $ npm test    ℹ tests 422  ℹ pass 422  ℹ fail 0
 ```
+
+## 2026-09-27 - round F3: scene C spoken first, the finished video, the latency breakdown
+
+Brief: `interpres-brief-F3.md`. Scene C runs spoken-first. README keeps "does not reliably carry".
+
+**Kit:** `SHA256SUMS` re-checked at 06:37Z, 29 of 29 OK. The template's new headline and footer are
+filled from the final recount.
+
+**`docs/VOICE-SWEEP.md`** gains the row "median voice-to-voice, turns that called a tool | 3540 ms
+(17 turns)".
+- It comes from its own generator, re-rendered from `data/voice-sweep-2026-09-26.json` without
+  running anything; only that row changed.
+- docs-quote carried it into README and JUDGE_GUIDE.
+
+**New narration in charles, each a PASS on try 1:**
+
+| line | length | session |
+| --- | ---: | --- |
+| N7 (RAN = 5) | 14,980 ms | `sess_d87c15ff178e4a1cb5baa6621cb5c1c6` |
+| N8 | 4,470 ms | `sess_0d716136675f4f968c440a62775e1f2d` |
+| N10 | 17,250 ms | `sess_1e097174e2d546949ff6c19a233a5fb0` |
+
+No line needed the standing-rule rewording.
+
+**Scene C, take 1:** `sess_3fcf411e656145b0a5b487036ce05e38`. Every check passes.
+- C1: the swap card lists `afg_speccheck` as new.
+- C3: Q5 was heard **exactly**. `needs_paste` appeared, the agent asked for a paste, and 0
+  `/api/mcp/call` ran before the paste.
+- C2: `afg_get_reputation` ran once, with the pasted value.
+- Start sync −4.5 ms.
+- **Harness bug, after the last exchange:** the Talk button had scrolled off screen, so the End
+  press threw.
+  - The browser closed with the session open. Session History still records `client_end`, 118.4 s.
+  - The end sync did not run.
+  - `talk()` now scrolls the button back into view first.
+
+**Final recount:** Exact: 6 of 16. Misheard and reached a server: 5, unchanged, so N7 was not made
+again. The generated line: "The 6 exact hearings came from 1 distinct clip: michael's Q5 clip
+(sha256 9bd03d7469cc…), heard exactly in 1 video take and 5 rehearsals."
+
+**Latency, from the capture logs** (ms after the caller's last word).
+- The logs are new: `mcp.timing` from each `/api/mcp/call` response, and for A and B the box's
+  tool.call lines in `data/video/server-tool-calls.json`.
+
+| exchange | end of turn | tool calls | last result sent | first audio received | played |
+| --- | ---: | --- | ---: | ---: | ---: |
+| A Q1 | 1826 | goji_explain_term at 3602: 543 = network 62 + server 481 (MCP 481, refine 0) | 4150 | 4979 | 5179 |
+| B Q2 | 1791 | get_book_recommenders at 3848: 548 = network 61 + server 487 (MCP 485, refine circuit open) | 4399 | 5016 | 5280 |
+| C Q3 | 846 | find_tools at 1805: 64 | 2064 | 2842 | 3104 |
+| C Q5 | 1939 | find_tools at 4348: 65; afg_get_reputation at 5455, held by the gate | 5729 | 6521 | 6758 |
+| C Q4 | 1027 | use_pasted_text at 2593; afg_get_reputation at 3688: 1004 = network 87 + server 917 (MCP 913) | 4713 | 5444 | 5683 |
+
+- **How e2e-audio measures:** from the clip's last chunk sent to the first `reply.audio` received.
+- **The video's figure** runs from the last voiced sample to the first sample played. It adds the
+  clip's trailing silence (221-477 ms) and the page's playback buffer (200-264 ms).
+- **Measured the e2e-audio way:** 4,737 / 4,540 / 2,621 / 6,197 / 5,098 ms.
+
+**Where the time goes:**
+- interpres's own tool round trip: 0.54-1.0 s, mostly the MCP server.
+- The API's end of turn: 0.85-1.94 s.
+- The model deciding the next call: 0.96-2.4 s.
+- Answer to first audio: 0.6-0.8 s.
+- No product change this round.
+
+**Page mic, in 0.5 s windows.** The page received every clip bit for bit, apart from bridge slips
+of 1-3 samples (Q5: −1, +1, −3).
+- The whole-clip SNR of 13.2 dB was an alignment artefact; windows are now the measure.
+
+**Captions:**
+- A spoken identifier is printed in groups of four, as the page's gate card prints it.
+- One speaker label per utterance.
+- Long sentences split at the clause end nearest each even split.
+- Q5 (13.8 s) is cut inside: its first 4 s and last 3 s kept, cut between two letters. The caption
+  marks the cut with "…".
+- The video is 4:09.3, down from 4:17.5.
+
+**Render: the process was killed twice.** Both runs died near frame 2,700 with exit 137. The kernel
+log said `memorystatus: killing largest compressed process node … 30938 MB`.
+- `@napi-rs/canvas` 0.1.100 leaks native memory that collection never returns.
+  - `getImageData`: +800 MB per 100 frames.
+  - Each JPEG decode: +974 MB per 100 decodes, with `loadImage` or a reused `Image`.
+  - `canvas.data()` stays flat at 36 MB.
+- **Fix:** `data()`, plus worker processes of 240 frames each, all piped into one ffmpeg.
+
+**Two more fixes the checks found:**
+- **N10 word for word failed** only because "sixty cents" was transcribed as "$0.60". The number
+  format now reads an amount under a dollar as cents; a $0.70 control still fails.
+- **The `needs_paste` punch-in cut the card at both sides.** A target wider than the zoomed window
+  is now read from its left edge.
+
+**Final file** (`scripts/video/build.ts`, one command), `interpres-demo.mp4` sha256
+`2f8cd19d1669c6a62b7bbd960e384d2cb6742ac3d66f20b46b4cc87317fbff7a`:
+
+```
+ok   H.264 High · 1920x1080 · yuv420p · r 30/1, avg 30/1 · AAC LC 48 kHz 2 ch · 192012 b/s · ftyp moov free mdat
+ok   249.301 s (4:09.3) · 34,045,723 bytes (32.5 MB) · -16 LUFS (LRA 5.9 LU) · true peak -2.3 dBTP · 0 black spans
+ok   N1-N12 word for word (listed variants: interprez, interpraze)
+```
+
+**Other outputs:**
+- **Silences:** all 12 are identified in `data/video/final-checks.json` and `docs/VIDEO.md`.
+- **Transcript** of the final audio: AssemblyAI `11d035ad-ad40-4a3f-bd87-0e8be0e36616`.
+- **VIDEO.md** is generated by `scripts/video/video-doc.ts`.
+
+**PROOF.md:** the phone check is generated by `scripts/proof.ts --phone` from Session History and
+`data/phone-check.json`. The screenshot is `docs/phone-test.png`.
+- `sess_a5ba0e6e7f7648ceb26cc31b751f1e08` heard "What is SEO in plain English?" with confidence 1.
+- `goji_explain_term({"term":"SEO"})` returned without error.
+  - The server's own time is 335 ms, MCP 334 ms, from the box's event log. The page prints that
+    figure.
+  - Session History's round trip is 520 ms.
+- The same session has a later turn transcribed in Chinese, and the agent replied in Chinese.
+
+**Voice Agent usage** (`scripts/usage.ts`): 188 sessions, all `completed`, 94.6 min, $7.10, 4.73% of
+the $150.
+- That is 4 since 087f48a, all this round's: 3 narration lines and the scene C take.
+
+```
+$ npm test    ℹ tests 422  ℹ pass 422  ℹ fail 0
+```

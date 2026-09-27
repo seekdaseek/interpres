@@ -891,298 +891,288 @@
  },
  "N7": {
   "file": "video/voices/N7.wav",
-  "sha256": "26c339c557b89b38d8fb2dcadf437fd70d1f19e7afe55339a308b9048628e01f",
-  "id": "c048880e-7e7d-489c-955e-466cbb8fc42d",
+  "sha256": "a0a1532d4db6b6f6289867ad35d5dc9d3219393e74568ee6977cc20f5efd86be",
+  "id": "7a5a71f9-a8b0-4bd9-9dac-60a7fa02ad12",
   "speechModel": "universal-3-5-pro,universal-2",
-  "text": "Speech gets identifiers wrong. In our tests, 0 of 9 spoken wallet addresses came through exact, and before the gate, 5 wrong ones reached the server. So Interprez never runs a tool on an identifier it only heard— paste it, and the agent uses the exact text.",
+  "text": "Speech often gets identifiers wrong. Before this gate, a misheard wallet address reached the server 5 times, and a right hearing looks exactly like a wrong one. So the address comes from the paste box, and the agent uses the exact text.",
   "words": [
    {
     "text": "Speech",
-    "start": 272,
-    "end": 561
+    "start": 289,
+    "end": 563
+   },
+   {
+    "text": "often",
+    "start": 660,
+    "end": 837
    },
    {
     "text": "gets",
-    "start": 673,
-    "end": 898
+    "start": 837,
+    "end": 1079
    },
    {
     "text": "identifiers",
-    "start": 898,
-    "end": 1523
+    "start": 1079,
+    "end": 1691
    },
    {
     "text": "wrong.",
-    "start": 1619,
-    "end": 1763
+    "start": 1787,
+    "end": 1932
    },
    {
-    "text": "In",
-    "start": 2597,
-    "end": 2645
+    "text": "Before",
+    "start": 3253,
+    "end": 3511
    },
    {
-    "text": "our",
-    "start": 2742,
-    "end": 2838
-   },
-   {
-    "text": "tests,",
-    "start": 2838,
-    "end": 3367
-   },
-   {
-    "text": "0",
-    "start": 3736,
-    "end": 4185
-   },
-   {
-    "text": "of",
-    "start": 4201,
-    "end": 4329
-   },
-   {
-    "text": "9",
-    "start": 4377,
-    "end": 4762
-   },
-   {
-    "text": "spoken",
-    "start": 4762,
-    "end": 5163
-   },
-   {
-    "text": "wallet",
-    "start": 5163,
-    "end": 5468
-   },
-   {
-    "text": "addresses",
-    "start": 5468,
-    "end": 5885
-   },
-   {
-    "text": "came",
-    "start": 5885,
-    "end": 6109
-   },
-   {
-    "text": "through",
-    "start": 6125,
-    "end": 6350
-   },
-   {
-    "text": "exact,",
-    "start": 6350,
-    "end": 6927
-   },
-   {
-    "text": "and",
-    "start": 7328,
-    "end": 7392
-   },
-   {
-    "text": "before",
-    "start": 7408,
-    "end": 7681
-   },
-   {
-    "text": "the",
-    "start": 7729,
-    "end": 7809
+    "text": "this",
+    "start": 3511,
+    "end": 3624
    },
    {
     "text": "gate,",
-    "start": 7809,
-    "end": 8114
-   },
-   {
-    "text": "5",
-    "start": 8595,
-    "end": 8996
-   },
-   {
-    "text": "wrong",
-    "start": 8996,
-    "end": 9140
-   },
-   {
-    "text": "ones",
-    "start": 9172,
-    "end": 9461
-   },
-   {
-    "text": "reached",
-    "start": 9493,
-    "end": 9814
-   },
-   {
-    "text": "the",
-    "start": 9814,
-    "end": 9878
-   },
-   {
-    "text": "server.",
-    "start": 9878,
-    "end": 10263
-   },
-   {
-    "text": "So",
-    "start": 10856,
-    "end": 11000
-   },
-   {
-    "text": "Interprez",
-    "start": 11016,
-    "end": 11545
-   },
-   {
-    "text": "never",
-    "start": 11658,
-    "end": 11978
-   },
-   {
-    "text": "runs",
-    "start": 11978,
-    "end": 12187
+    "start": 3736,
+    "end": 3962
    },
    {
     "text": "a",
-    "start": 12235,
-    "end": 12363
+    "start": 4381,
+    "end": 4397
    },
    {
-    "text": "tool",
-    "start": 12363,
-    "end": 12684
+    "text": "misheard",
+    "start": 4397,
+    "end": 4912
    },
    {
-    "text": "on",
-    "start": 12684,
-    "end": 12780
-   },
-   {
-    "text": "an",
-    "start": 12780,
-    "end": 12828
-   },
-   {
-    "text": "identifier",
-    "start": 12925,
-    "end": 13582
-   },
-   {
-    "text": "it",
-    "start": 13582,
-    "end": 13726
-   },
-   {
-    "text": "only",
-    "start": 13726,
-    "end": 13919
-   },
-   {
-    "text": "heard—",
-    "start": 13967,
-    "end": 14272
-   },
-   {
-    "text": "paste",
-    "start": 14544,
-    "end": 14881
-   },
-   {
-    "text": "it,",
-    "start": 14881,
-    "end": 14993
-   },
-   {
-    "text": "and",
-    "start": 15506,
-    "end": 15570
-   },
-   {
-    "text": "the",
-    "start": 15651,
-    "end": 15731
-   },
-   {
-    "text": "agent",
-    "start": 15811,
-    "end": 16212
-   },
-   {
-    "text": "uses",
-    "start": 16212,
-    "end": 16517
-   },
-   {
-    "text": "the",
-    "start": 16533,
-    "end": 16693
-   },
-   {
-    "text": "exact",
-    "start": 16693,
-    "end": 17030
-   },
-   {
-    "text": "text.",
-    "start": 17030,
-    "end": 17527
-   }
-  ],
-  "script": "Speech gets identifiers wrong. In our tests, 0 of 9 spoken wallet addresses came through exact, and before the gate, 5 wrong ones reached the server. So interpres never runs a tool on an identifier it only heard. Paste it, and the agent uses the exact text."
- },
- "N8": {
-  "file": "video/voices/N8.wav",
-  "sha256": "a7b776a10274ee7c5d85e5f33f8d5275fae45d486292820eec5042389e783b7b",
-  "id": "0b4c3a1e-0cad-498e-ab0d-7e5cd2451544",
-  "speechModel": "universal-3-5-pro,universal-2",
-  "text": "A spoken address is held back; nothing runs.",
-  "words": [
-   {
-    "text": "A",
-    "start": 275,
-    "end": 307
-   },
-   {
-    "text": "spoken",
-    "start": 340,
-    "end": 680
+    "text": "wallet",
+    "start": 4928,
+    "end": 5202
    },
    {
     "text": "address",
-    "start": 680,
-    "end": 1020
+    "start": 5267,
+    "end": 5540
+   },
+   {
+    "text": "reached",
+    "start": 5734,
+    "end": 5975
+   },
+   {
+    "text": "the",
+    "start": 5975,
+    "end": 6024
+   },
+   {
+    "text": "server",
+    "start": 6056,
+    "end": 6362
+   },
+   {
+    "text": "5",
+    "start": 6394,
+    "end": 6716
+   },
+   {
+    "text": "times,",
+    "start": 6716,
+    "end": 7167
+   },
+   {
+    "text": "and",
+    "start": 7683,
+    "end": 7747
+   },
+   {
+    "text": "a",
+    "start": 7779,
+    "end": 7908
+   },
+   {
+    "text": "right",
+    "start": 7908,
+    "end": 8037
+   },
+   {
+    "text": "hearing",
+    "start": 8150,
+    "end": 8456
+   },
+   {
+    "text": "looks",
+    "start": 8488,
+    "end": 8714
+   },
+   {
+    "text": "exactly",
+    "start": 8714,
+    "end": 9213
+   },
+   {
+    "text": "like",
+    "start": 9213,
+    "end": 9390
+   },
+   {
+    "text": "a",
+    "start": 9439,
+    "end": 9519
+   },
+   {
+    "text": "wrong",
+    "start": 9519,
+    "end": 9664
+   },
+   {
+    "text": "one.",
+    "start": 9761,
+    "end": 9906
+   },
+   {
+    "text": "So",
+    "start": 10518,
+    "end": 10679
+   },
+   {
+    "text": "the",
+    "start": 10743,
+    "end": 10808
+   },
+   {
+    "text": "address",
+    "start": 10840,
+    "end": 11291
+   },
+   {
+    "text": "comes",
+    "start": 11291,
+    "end": 11516
+   },
+   {
+    "text": "from",
+    "start": 11597,
+    "end": 11677
+   },
+   {
+    "text": "the",
+    "start": 11710,
+    "end": 11790
+   },
+   {
+    "text": "paste",
+    "start": 11790,
+    "end": 12064
+   },
+   {
+    "text": "box,",
+    "start": 12112,
+    "end": 12435
+   },
+   {
+    "text": "and",
+    "start": 12837,
+    "end": 12902
+   },
+   {
+    "text": "the",
+    "start": 12918,
+    "end": 12982
+   },
+   {
+    "text": "agent",
+    "start": 13063,
+    "end": 13401
+   },
+   {
+    "text": "uses",
+    "start": 13401,
+    "end": 13691
+   },
+   {
+    "text": "the",
+    "start": 13723,
+    "end": 13868
+   },
+   {
+    "text": "exact",
+    "start": 13868,
+    "end": 14094
+   },
+   {
+    "text": "text.",
+    "start": 14206,
+    "end": 14673
+   }
+  ],
+  "script": "Speech often gets identifiers wrong. Before this gate, a misheard wallet address reached the server 5 times, and a right hearing looks exactly like a wrong one. So the address comes from the paste box, and the agent uses the exact text."
+ },
+ "N8": {
+  "file": "video/voices/N8.wav",
+  "sha256": "18bd0e122e7dbae9f7a6e9c0c1738689825544dbdd369b67d3354ea36642f83c",
+  "id": "fa768965-819e-4429-a4b9-d8668411d501",
+  "speechModel": "universal-3-5-pro,universal-2",
+  "text": "A spoken address is held back, right or wrong; nothing runs.",
+  "words": [
+   {
+    "text": "A",
+    "start": 455,
+    "end": 471
+   },
+   {
+    "text": "spoken",
+    "start": 520,
+    "end": 861
+   },
+   {
+    "text": "address",
+    "start": 861,
+    "end": 1186
    },
    {
     "text": "is",
-    "start": 1020,
-    "end": 1150
+    "start": 1186,
+    "end": 1267
    },
    {
     "text": "held",
-    "start": 1150,
-    "end": 1345
+    "start": 1316,
+    "end": 1511
    },
    {
-    "text": "back;",
-    "start": 1409,
-    "end": 1669
+    "text": "back,",
+    "start": 1576,
+    "end": 1836
+   },
+   {
+    "text": "right",
+    "start": 2064,
+    "end": 2373
+   },
+   {
+    "text": "or",
+    "start": 2373,
+    "end": 2470
+   },
+   {
+    "text": "wrong;",
+    "start": 2470,
+    "end": 2681
    },
    {
     "text": "nothing",
-    "start": 2058,
-    "end": 2333
+    "start": 3445,
+    "end": 3657
    },
    {
     "text": "runs.",
-    "start": 2382,
-    "end": 2754
+    "start": 3754,
+    "end": 4063
    }
   ],
-  "script": "A spoken address is held back. Nothing runs."
+  "script": "A spoken address is held back, right or wrong. Nothing runs."
  },
  "N9": {
   "file": "video/voices/N9.wav",
@@ -1351,198 +1341,223 @@
  },
  "N10": {
   "file": "video/voices/N10.wav",
-  "sha256": "f42d874ee20418a807a92e7053ef62fb4b7318d68cb64d38cd0bc8d58e3e853a",
-  "id": "7c490dbf-fedf-4b72-99a5-a864417555c6",
+  "sha256": "e925404da89aa16ea1fea2fbe30fb3715abe34dc824a4ab0db92ab21c27e2b20",
+  "id": "b9efba72-5c59-4bd8-9d32-bf0b36e02258",
   "speechModel": "universal-3-5-pro,universal-2",
-  "text": "Then we gave 30 of them one spoken question each, untuned. 29 sessions ran, each one answered out loud at a median of 2.6 seconds, and 14 answered from live data. The whole run cost 60 cents.",
+  "text": "Then we gave 30 of them one spoken question each, untuned. 29 sessions ran, each one answered out loud, and 14 answered from live data. When a tool ran, the median was 3.5 seconds voice-to-voice, and the whole run cost 60 cents.",
   "words": [
    {
     "text": "Then",
-    "start": 673,
-    "end": 754
+    "start": 738,
+    "end": 802
    },
    {
     "text": "we",
-    "start": 754,
-    "end": 850
+    "start": 898,
+    "end": 994
    },
    {
     "text": "gave",
-    "start": 850,
-    "end": 1042
+    "start": 994,
+    "end": 1203
    },
    {
     "text": "30",
-    "start": 1074,
-    "end": 1476
-   },
-   {
-    "text": "of",
-    "start": 1476,
+    "start": 1315,
     "end": 1604
    },
    {
-    "text": "them",
-    "start": 1620,
-    "end": 1732
+    "text": "of",
+    "start": 1652,
+    "end": 1765
    },
    {
-    "text": "one",
-    "start": 1861,
+    "text": "them",
+    "start": 1781,
     "end": 1925
    },
    {
-    "text": "spoken",
+    "text": "one",
     "start": 2021,
-    "end": 2438
+    "end": 2198
+   },
+   {
+    "text": "spoken",
+    "start": 2198,
+    "end": 2567
    },
    {
     "text": "question",
-    "start": 2438,
-    "end": 2887
+    "start": 2599,
+    "end": 3113
    },
    {
     "text": "each,",
-    "start": 2903,
-    "end": 3240
+    "start": 3145,
+    "end": 3289
    },
    {
     "text": "untuned.",
-    "start": 3385,
-    "end": 4010
+    "start": 3482,
+    "end": 4091
    },
    {
     "text": "29",
-    "start": 4829,
-    "end": 5342
+    "start": 4589,
+    "end": 5134
    },
    {
     "text": "sessions",
-    "start": 5342,
-    "end": 5775
+    "start": 5166,
+    "end": 5584
    },
    {
     "text": "ran,",
-    "start": 5807,
-    "end": 6016
+    "start": 5632,
+    "end": 5856
    },
    {
     "text": "each",
-    "start": 6433,
-    "end": 6578
+    "start": 6434,
+    "end": 6579
    },
    {
     "text": "one",
-    "start": 6674,
-    "end": 6738
+    "start": 6611,
+    "end": 6739
    },
    {
     "text": "answered",
-    "start": 6834,
-    "end": 7155
+    "start": 6835,
+    "end": 7156
    },
    {
     "text": "out",
-    "start": 7155,
-    "end": 7332
+    "start": 7156,
+    "end": 7317
    },
    {
-    "text": "loud",
-    "start": 7332,
-    "end": 7781
-   },
-   {
-    "text": "at",
-    "start": 7813,
-    "end": 7909
-   },
-   {
-    "text": "a",
-    "start": 7909,
-    "end": 7925
-   },
-   {
-    "text": "median",
-    "start": 7957,
-    "end": 8374
-   },
-   {
-    "text": "of",
-    "start": 8374,
-    "end": 8519
-   },
-   {
-    "text": "2.6",
-    "start": 8519,
-    "end": 9289
-   },
-   {
-    "text": "seconds,",
-    "start": 9289,
-    "end": 9626
+    "text": "loud,",
+    "start": 7333,
+    "end": 7702
    },
    {
     "text": "and",
-    "start": 10059,
-    "end": 10123
+    "start": 8215,
+    "end": 8280
    },
    {
     "text": "14",
-    "start": 10203,
-    "end": 10685
+    "start": 8296,
+    "end": 8761
    },
    {
     "text": "answered",
-    "start": 10685,
-    "end": 11070
+    "start": 8761,
+    "end": 9082
    },
    {
     "text": "from",
-    "start": 11086,
-    "end": 11198
+    "start": 9082,
+    "end": 9242
    },
    {
     "text": "live",
-    "start": 11262,
-    "end": 11471
+    "start": 9258,
+    "end": 9515
    },
    {
     "text": "data.",
-    "start": 11519,
-    "end": 11920
+    "start": 9563,
+    "end": 9980
    },
    {
-    "text": "The",
-    "start": 12546,
-    "end": 12690
+    "text": "When",
+    "start": 10767,
+    "end": 10831
+   },
+   {
+    "text": "a",
+    "start": 10879,
+    "end": 11007
+   },
+   {
+    "text": "tool",
+    "start": 11007,
+    "end": 11232
+   },
+   {
+    "text": "ran,",
+    "start": 11328,
+    "end": 11553
+   },
+   {
+    "text": "the",
+    "start": 12131,
+    "end": 12211
+   },
+   {
+    "text": "median",
+    "start": 12211,
+    "end": 12628
+   },
+   {
+    "text": "was",
+    "start": 12628,
+    "end": 12756
+   },
+   {
+    "text": "3.5",
+    "start": 12789,
+    "end": 13639
+   },
+   {
+    "text": "seconds",
+    "start": 13655,
+    "end": 13960
+   },
+   {
+    "text": "voice-to-voice,",
+    "start": 14056,
+    "end": 14666
+   },
+   {
+    "text": "and",
+    "start": 15180,
+    "end": 15260
+   },
+   {
+    "text": "the",
+    "start": 15260,
+    "end": 15340
    },
    {
     "text": "whole",
-    "start": 12690,
-    "end": 12819
+    "start": 15340,
+    "end": 15597
    },
    {
     "text": "run",
-    "start": 12947,
-    "end": 13075
+    "start": 15597,
+    "end": 15805
    },
    {
     "text": "cost",
-    "start": 13252,
-    "end": 13444
+    "start": 15902,
+    "end": 16158
    },
    {
     "text": "60",
-    "start": 13444,
-    "end": 13813
+    "start": 16158,
+    "end": 16495
    },
    {
     "text": "cents.",
-    "start": 13813,
-    "end": 14134
+    "start": 16495,
+    "end": 16880
    }
   ],
-  "script": "Then we gave thirty of them one spoken question each, untuned. Twenty-nine sessions ran. Each one answered out loud, at a median of 2.6 seconds, and fourteen answered from live data. The whole run cost 60 cents."
+  "script": "Then we gave thirty of them one spoken question each, untuned. Twenty-nine sessions ran, each one answered out loud, and fourteen answered from live data. When a tool ran, the median was 3.5 seconds voice to voice, and the whole run cost 60 cents."
  },
  "N11": {
   "file": "video/voices/N11.wav",

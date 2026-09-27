@@ -199,37 +199,20 @@
   "N7": {
    "id": "N7",
    "voice": "charles",
-   "text": "Speech gets identifiers wrong. In our tests, 0 of 9 spoken wallet addresses came through exact, and before the gate, 5 wrong ones reached the server. So interpres never runs a tool on an identifier it only heard. Paste it, and the agent uses the exact text.",
+   "text": "Speech often gets identifiers wrong. Before this gate, a misheard wallet address reached the server 5 times, and a right hearing looks exactly like a wrong one. So the address comes from the paste box, and the agent uses the exact text.",
    "file": "video/voices/N7.wav",
    "path": "greeting",
    "parts": 1,
    "attempts": [
     {
      "sessionIds": [
-      "sess_b1cee791708b4229b80e61cb0b3f1831"
+      "sess_d87c15ff178e4a1cb5baa6621cb5c1c6"
      ],
-     "ms": 17780,
-     "transcript": "Speech gets identifiers wrong. In our tests, 0 of 9 spoken wallet addresses came through exact, and before the gate, 5 wrong ones reached the server. So Interprete never runs a tool on an identifier it only heard. Paste it, and the agent uses the exact text.",
-     "speechModel": "universal-3-5-pro,universal-2",
-     "pass": false,
-     "firstDifference": {
-      "at": 27,
-      "expected": "interpres never runs a",
-      "heard": "interprete never runs a"
-     },
-     "variantsUsed": []
-    },
-    {
-     "sessionIds": [
-      "sess_e116b4adba234c9d94cf41100d8bd9c9"
-     ],
-     "ms": 17800,
-     "transcript": "Speech gets identifiers wrong. In our tests, 0 of 9 spoken wallet addresses came through exact, and before the gate, 5 wrong ones reached the server. So Interprez never runs a tool on an identifier it only heard— paste it, and the agent uses the exact text.",
+     "ms": 14980,
+     "transcript": "Speech often gets identifiers wrong. Before this gate, a misheard wallet address reached the server 5 times, and a right hearing looks exactly like a wrong one. So the address comes from the paste box, and the agent uses the exact text.",
      "speechModel": "universal-3-5-pro,universal-2",
      "pass": true,
-     "variantsUsed": [
-      "interprez -> interpres"
-     ]
+     "variantsUsed": []
     }
    ],
    "pass": true,
@@ -238,24 +221,24 @@
   "N8": {
    "id": "N8",
    "voice": "charles",
-   "text": "A spoken address is held back. Nothing runs.",
+   "text": "A spoken address is held back, right or wrong. Nothing runs.",
    "file": "video/voices/N8.wav",
    "path": "greeting",
    "parts": 1,
    "attempts": [
     {
      "sessionIds": [
-      "sess_9a75962584874bff970b4b10b977f09c"
+      "sess_0d716136675f4f968c440a62775e1f2d"
      ],
-     "ms": 3160,
-     "transcript": "A spoken address is held back; nothing runs.",
+     "ms": 4470,
+     "transcript": "A spoken address is held back, right or wrong; nothing runs.",
      "speechModel": "universal-3-5-pro,universal-2",
      "pass": true,
      "variantsUsed": []
     }
    ],
    "pass": true,
-   "checked": true
+   "checked": "strict"
   },
   "N9": {
    "id": "N9",
@@ -282,17 +265,17 @@
   "N10": {
    "id": "N10",
    "voice": "charles",
-   "text": "Then we gave thirty of them one spoken question each, untuned. Twenty-nine sessions ran. Each one answered out loud, at a median of 2.6 seconds, and fourteen answered from live data. The whole run cost 60 cents.",
+   "text": "Then we gave thirty of them one spoken question each, untuned. Twenty-nine sessions ran, each one answered out loud, and fourteen answered from live data. When a tool ran, the median was 3.5 seconds voice to voice, and the whole run cost 60 cents.",
    "file": "video/voices/N10.wav",
    "path": "greeting",
    "parts": 1,
    "attempts": [
     {
      "sessionIds": [
-      "sess_3d08fefdfa6f44ca814af336758f9a62"
+      "sess_1e097174e2d546949ff6c19a233a5fb0"
      ],
-     "ms": 14600,
-     "transcript": "Then we gave 30 of them one spoken question each, untuned. 29 sessions ran, each one answered out loud at a median of 2.6 seconds, and 14 answered from live data. The whole run cost 60 cents.",
+     "ms": 17250,
+     "transcript": "Then we gave 30 of them one spoken question each, untuned. 29 sessions ran, each one answered out loud, and 14 answered from live data. When a tool ran, the median was 3.5 seconds voice-to-voice, and the whole run cost 60 cents.",
      "speechModel": "universal-3-5-pro,universal-2",
      "pass": true,
      "variantsUsed": []

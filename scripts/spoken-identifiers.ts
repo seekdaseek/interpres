@@ -28,6 +28,8 @@ export type Attempt = {
   exact: boolean;
   /** The identifier that reached an MCP server, or null when nothing ran. */
   ran: string | null;
+  /** Which recording was played: the same clip replayed counts once in the distinct-clip line. */
+  clip: string;
 };
 
 function* strings(v: unknown): Generator<string> {
@@ -43,6 +45,7 @@ const json = (path: string) => JSON.parse(readFileSync(path, 'utf8'));
 /** The e2e-audio runs: one address spoken per session. */
 function fromE2eAudio(dir: string, file: string): Attempt[] {
   const d = json(`${dir}/${file}`);
+  const voice = String(d.voice ?? 'Samantha');
   const sessions: Array<{ sessionId: string; turns: Turn[]; mcpRequests?: Array<{ args: Record<string, unknown> }> }> = [];
   if (Array.isArray(d.results)) for (const r of d.results) sessions.push({ sessionId: r.sessionId, turns: r.turns ?? [] });
   else if (Array.isArray(d.turns)) sessions.push({ sessionId: d.sessionId, turns: d.turns, mcpRequests: d.mcpRequests });
@@ -61,6 +64,8 @@ function fromE2eAudio(dir: string, file: string): Attempt[] {
         source: file, sessionId: s.sessionId, spoken: said, heard: heard[0] ?? null, exact: heard.includes(said),
         // One address is spoken per session, so whatever address was sent is its outcome.
         ran: spoken.length === 1 ? (sent[0] ?? null) : null,
+        // Synthesised afresh by macOS say each run: the same voice and text give the same clip.
+        clip: `say ${voice}: ${s.turns.find((t) => t.said && addresses(t.said).includes(said))?.said ?? said}`,
       });
     }
   }
@@ -84,7 +89,7 @@ function fromQaRoundE(dir: string): Attempt[] {
     const sessionId = sessionFor(label);
     if (!sa || !sessionId) throw new Error(`qa-public-round-e.json: no spoken address or session for ${view}`);
     const heard = addresses(String(sa.heard))[0] ?? null;
-    return { source: `qa-public-round-e.json (${view})`, sessionId, spoken: said, heard, exact: heard === said, ran: sa.mcpCallsAfter === 0 ? null : 'a call ran' };
+    return { source: `qa-public-round-e.json (${view})`, sessionId, spoken: said, heard, exact: heard === said, ran: sa.mcpCallsAfter === 0 ? null : 'a call ran', clip: 'say Samantha: round E clip afg-spoken-address' };
   });
 }
 
@@ -95,12 +100,12 @@ function fromVideo(dir: string): Attempt[] {
   const out: Attempt[] = [];
   for (const f of readdirSync(vdir).filter((x) => /^capture-.*\.json$/.test(x)).sort()) {
     const d = json(`${vdir}/${f}`);
-    for (const a of (d.spokenAddresses ?? []) as Array<{ sessionId: string; said: string; heard: string; mcpCalls: Array<{ arguments?: unknown }> }>) {
+    for (const a of (d.spokenAddresses ?? []) as Array<{ sessionId: string; said: string; heard: string; clip?: { voice: string; id: string; sha256: string }; mcpCalls: Array<{ arguments?: unknown }> }>) {
       const said = addresses(a.said)[0];
       if (!said) continue;
       const heard = addresses(a.heard ?? '')[0] ?? null;
       const sent = a.mcpCalls.flatMap((c) => [...strings(c.arguments)].flatMap(addresses));
-      out.push({ source: `video/${f}`, sessionId: a.sessionId, spoken: said, heard, exact: heard === said, ran: sent[0] ?? null });
+      out.push({ source: `video/${f}`, sessionId: a.sessionId, spoken: said, heard, exact: heard === said, ran: sent[0] ?? null, clip: a.clip ? `${a.clip.voice} ${a.clip.id} ${a.clip.sha256.slice(0, 12)}` : 'unknown clip' });
     }
   }
   return out;
@@ -110,14 +115,15 @@ function fromVideo(dir: string): Attempt[] {
 function fromRehearsals(dir: string): Attempt[] {
   const f = `${dir}/video/rehearsals-c.json`;
   if (!existsSync(f)) return [];
-  const d = json(f) as { otherAddressText: string; runs: Array<{ variant: string; sessionId: string; turns: Array<{ id: string; heard: string }>; c3?: { clip?: string; mcpRequestsAfterQ5?: Array<{ args?: unknown }> } }> };
+  const d = json(f) as { otherAddressText: string; clips: Record<string, { voice: string; sha256: string }>; runs: Array<{ variant: string; sessionId: string; turns: Array<{ id: string; heard: string }>; c3?: { clip?: string; mcpRequestsAfterQ5?: Array<{ args?: unknown }> } }> };
   const q5 = (json(`${dir}/video/voices.json`) as { lines: Record<string, { text: string }> }).lines.Q5!.text;
   return d.runs.map((r) => {
     const clip = r.c3?.clip ?? 'Q5';
     const said = addresses(clip === 'Q5b' ? d.otherAddressText : q5)[0]!;
     const heard = addresses(r.turns.find((t) => t.id === clip)?.heard ?? '')[0] ?? null;
     const sent = (r.c3?.mcpRequestsAfterQ5 ?? []).flatMap((c) => [...strings(c.args)].flatMap(addresses));
-    return { source: `video/rehearsals-c.json (${r.variant})`, sessionId: r.sessionId, spoken: said, heard, exact: heard === said, ran: sent[0] ?? null };
+    const c = d.clips[clip]!;
+    return { source: `video/rehearsals-c.json (${r.variant})`, sessionId: r.sessionId, spoken: said, heard, exact: heard === said, ran: sent[0] ?? null, clip: `${c.voice} ${clip === 'Q5b' ? 'Q5b' : 'Q5'} ${c.sha256.slice(0, 12)}` };
   });
 }
 
@@ -171,6 +177,27 @@ export function recount(dir = 'data') {
 
 const short = (v: string) => (v.length > 24 ? `\`${v.slice(0, 10)}…${v.slice(-6)}\` (${v.length})` : `\`${v}\``);
 
+/**
+ * How many distinct recordings the exact hearings came from: one clip replayed
+ * in several sessions is one clip, and the line says where it was replayed.
+ */
+export function distinctClipLine(attempts: Attempt[]): string {
+  const exact = attempts.filter((a) => a.exact);
+  if (exact.length === 0) return 'No attempt was heard exactly.';
+  const byClip = new Map<string, Attempt[]>();
+  for (const a of exact) byClip.set(a.clip, [...(byClip.get(a.clip) ?? []), a]);
+  const kind = (a: Attempt) => (a.source.startsWith('video/rehearsals') ? 'rehearsal' : a.source.startsWith('video/capture') ? 'video take' : a.source.startsWith('qa-public') ? 'round E QA session' : 'e2e-audio session');
+  const parts = [...byClip].map(([clip, as]) => {
+    const kinds = new Map<string, number>();
+    for (const a of as) kinds.set(kind(a), (kinds.get(kind(a)) ?? 0) + 1);
+    const where = [...kinds].map(([k, n]) => `${n} ${k}${n === 1 ? '' : 's'}`).join(' and ');
+    const m = clip.match(/^(\w+) (Q5b?) ([0-9a-f]{12})$/);
+    const label = m ? `${m[1]}'s ${m[2]} clip (sha256 ${m[3]}…)` : `the clip "${clip}"`;
+    return `${label}, heard exactly in ${where}`;
+  });
+  return `The ${exact.length} exact hearings came from ${byClip.size} distinct clip${byClip.size === 1 ? '' : 's'}: ${parts.join('; ')}.`;
+}
+
 export function report(r = recount()): string {
   const rows = r.attempts.map((a) =>
     `| ${a.source} | \`${a.sessionId}\` | ${short(a.spoken)} | ${a.heard ? short(a.heard) : '(nothing)'} | ${a.exact ? 'yes' : 'no'} | ${a.ran === null ? 'nothing ran' : a.ran === a.spoken ? `ran with the spoken value` : a.ran === 'a call ran' ? 'a call ran' : `ran with ${short(a.ran)}`} |`);
@@ -183,6 +210,8 @@ export function report(r = recount()): string {
     `Exact: ${r.exact} of ${r.total}.`,
     '',
     `Misheard and reached a server: ${misheardRan}.`,
+    '',
+    distinctClipLine(r.attempts),
     '',
     '| source | session | spoken | heard | exact | ran |',
     '| --- | --- | --- | --- | --- | --- |',

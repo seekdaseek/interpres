@@ -125,6 +125,7 @@ servers with a read-only tool, in registry order, each asked a question out loud
 | MCP call succeeded / tool answered with an error / held by the gate | 14 / 3 / 0 |
 | the agent answered out loud | 29 |
 | median voice-to-voice, answered turns | 2597 ms |
+| median voice-to-voice, turns that called a tool | 3540 ms (17 turns) |
 | session time, and its cost at $4.50/hr | 482 s, $0.60 |
 <!-- /quote:voice-sweep-counts -->
 
@@ -230,7 +231,7 @@ server are different.
 **Voice for intent, keyboard for identifiers, and nothing misheard gets executed.**
 
 Speech-to-text does not reliably carry a long identifier. Of every recorded attempt to speak
-a wallet address, **<!-- value:identifiers-exact -->5 of 15<!-- /value:identifiers-exact -->** came through exact
+a wallet address, **<!-- value:identifiers-exact -->6 of 16<!-- /value:identifiers-exact -->** came through exact
 ([docs/IDENTIFIERS.md](docs/IDENTIFIERS.md) lists each one, recounted from `data/` by
 `node scripts/spoken-identifiers.ts`). It fails in four ways:
 

@@ -1,0 +1,1084 @@
+{
+ "fps": 30,
+ "durationMs": 249302,
+ "shots": [
+  {
+   "kind": "still",
+   "image": "/Users/ochinimus/Desktop/interpres-cover.png",
+   "start": 0,
+   "end": 12630,
+   "name": "cover"
+  },
+  {
+   "kind": "still",
+   "image": "/Users/ochinimus/Desktop/interpres-video-kit/slides/gap.png",
+   "start": 12330,
+   "end": 32780,
+   "name": "gap"
+  },
+  {
+   "kind": "live",
+   "capture": "A-20260926T215425",
+   "start": 32480,
+   "end": 80513,
+   "name": "A",
+   "segments": [
+    {
+     "at": 32480,
+     "from": 3306,
+     "to": 51339
+    }
+   ]
+  },
+  {
+   "kind": "live",
+   "capture": "B-20260926T221242",
+   "start": 80213,
+   "end": 109227.0625,
+   "name": "B",
+   "segments": [
+    {
+     "at": 80213,
+     "from": 3391,
+     "to": 16086
+    },
+    {
+     "at": 92708,
+     "from": 21600.9375,
+     "to": 38120
+    }
+   ]
+  },
+  {
+   "kind": "still",
+   "image": "/Users/ochinimus/Desktop/interpres-video-kit/slides/phases.png",
+   "start": 108927.0625,
+   "end": 122737.0625,
+   "name": "phases"
+  },
+  {
+   "kind": "live",
+   "capture": "C-20260927T064547",
+   "start": 122437.0625,
+   "end": 167319.5625,
+   "name": "C1+C3",
+   "segments": [
+    {
+     "at": 122437.0625,
+     "from": 4218,
+     "to": 10600
+    },
+    {
+     "at": 128619.0625,
+     "from": 20297.5,
+     "to": 36190
+    },
+    {
+     "at": 144311.5625,
+     "from": 44180,
+     "to": 67188
+    }
+   ]
+  },
+  {
+   "kind": "still",
+   "image": "video/out/identifiers.png",
+   "start": 167019.5625,
+   "end": 171319.5625,
+   "name": "identifiers"
+  },
+  {
+   "kind": "live",
+   "capture": "C-20260927T064547",
+   "start": 171019.5625,
+   "end": 196051.5625,
+   "name": "C2",
+   "segments": [
+    {
+     "at": 171019.5625,
+     "from": 70888,
+     "to": 95920
+    }
+   ]
+  },
+  {
+   "kind": "still",
+   "image": "/Users/ochinimus/Desktop/interpres-video-kit/slides/registry.png",
+   "start": 195751.5625,
+   "end": 209631.5625,
+   "name": "registry"
+  },
+  {
+   "kind": "still",
+   "image": "/Users/ochinimus/Desktop/interpres-video-kit/slides/spoken.png",
+   "start": 209331.5625,
+   "end": 227781.5625,
+   "name": "spoken"
+  },
+  {
+   "kind": "still",
+   "image": "/Users/ochinimus/Desktop/interpres-video-kit/slides/speed.png",
+   "start": 227481.5625,
+   "end": 236491.5625,
+   "name": "speed"
+  },
+  {
+   "kind": "still",
+   "image": "/Users/ochinimus/Desktop/interpres-video-kit/slides/try.png",
+   "start": 236191.5625,
+   "end": 249301.5625,
+   "name": "try"
+  }
+ ],
+ "narration": [
+  {
+   "id": "N1",
+   "at": 600,
+   "ms": 11230,
+   "file": "video/voices/N1.wav"
+  },
+  {
+   "id": "N2",
+   "at": 12830,
+   "ms": 19250,
+   "file": "video/voices/N2.wav"
+  },
+  {
+   "id": "N3",
+   "at": 33480,
+   "ms": 10590,
+   "file": "video/voices/N3.wav"
+  },
+  {
+   "id": "N4",
+   "at": 74246,
+   "ms": 3940,
+   "file": "video/voices/N4.wav"
+  },
+  {
+   "id": "N5",
+   "at": 81213,
+   "ms": 7890,
+   "file": "video/voices/N5.wav"
+  },
+  {
+   "id": "N6",
+   "at": 109427.0625,
+   "ms": 12610,
+   "file": "video/voices/N6.wav"
+  },
+  {
+   "id": "N8",
+   "at": 162095.5625,
+   "ms": 4470,
+   "file": "video/voices/N8.wav"
+  },
+  {
+   "id": "N7",
+   "at": 167169.5625,
+   "ms": 14980,
+   "file": "video/voices/N7.wav"
+  },
+  {
+   "id": "N9",
+   "at": 196251.5625,
+   "ms": 12680,
+   "file": "video/voices/N9.wav"
+  },
+  {
+   "id": "N10",
+   "at": 209831.5625,
+   "ms": 17250,
+   "file": "video/voices/N10.wav"
+  },
+  {
+   "id": "N11",
+   "at": 227981.5625,
+   "ms": 7810,
+   "file": "video/voices/N11.wav"
+  },
+  {
+   "id": "N12",
+   "at": 236691.5625,
+   "ms": 7810,
+   "file": "video/voices/N12.wav"
+  }
+ ],
+ "audio": [
+  {
+   "capture": "A-20260926T215425",
+   "stem": "caller",
+   "from": 3306,
+   "to": 51339,
+   "at": 32480,
+   "fadeIn": 300,
+   "fadeOut": 300
+  },
+  {
+   "capture": "A-20260926T215425",
+   "stem": "agent",
+   "from": 3306,
+   "to": 51339,
+   "at": 32480,
+   "fadeIn": 300,
+   "fadeOut": 300
+  },
+  {
+   "capture": "B-20260926T221242",
+   "stem": "caller",
+   "from": 3391,
+   "to": 16086,
+   "at": 80213,
+   "fadeIn": 300,
+   "fadeOut": 200
+  },
+  {
+   "capture": "B-20260926T221242",
+   "stem": "agent",
+   "from": 3391,
+   "to": 16086,
+   "at": 80213,
+   "fadeIn": 300,
+   "fadeOut": 200
+  },
+  {
+   "capture": "B-20260926T221242",
+   "stem": "caller",
+   "from": 21600.9375,
+   "to": 38120,
+   "at": 92708,
+   "fadeIn": 200,
+   "fadeOut": 300
+  },
+  {
+   "capture": "B-20260926T221242",
+   "stem": "agent",
+   "from": 21600.9375,
+   "to": 38120,
+   "at": 92708,
+   "fadeIn": 200,
+   "fadeOut": 300
+  },
+  {
+   "capture": "C-20260927T064547",
+   "stem": "caller",
+   "from": 4218,
+   "to": 10600,
+   "at": 122437.0625,
+   "fadeIn": 300,
+   "fadeOut": 200
+  },
+  {
+   "capture": "C-20260927T064547",
+   "stem": "agent",
+   "from": 4218,
+   "to": 10600,
+   "at": 122437.0625,
+   "fadeIn": 300,
+   "fadeOut": 200
+  },
+  {
+   "capture": "C-20260927T064547",
+   "stem": "caller",
+   "from": 20297.5,
+   "to": 36190,
+   "at": 128619.0625,
+   "fadeIn": 200,
+   "fadeOut": 200
+  },
+  {
+   "capture": "C-20260927T064547",
+   "stem": "agent",
+   "from": 20297.5,
+   "to": 36190,
+   "at": 128619.0625,
+   "fadeIn": 200,
+   "fadeOut": 200
+  },
+  {
+   "capture": "C-20260927T064547",
+   "stem": "caller",
+   "from": 44180,
+   "to": 67188,
+   "at": 144311.5625,
+   "fadeIn": 200,
+   "fadeOut": 300
+  },
+  {
+   "capture": "C-20260927T064547",
+   "stem": "agent",
+   "from": 44180,
+   "to": 67188,
+   "at": 144311.5625,
+   "fadeIn": 200,
+   "fadeOut": 300
+  },
+  {
+   "capture": "C-20260927T064547",
+   "stem": "caller",
+   "from": 70888,
+   "to": 95920,
+   "at": 171019.5625,
+   "fadeIn": 300,
+   "fadeOut": 300
+  },
+  {
+   "capture": "C-20260927T064547",
+   "stem": "agent",
+   "from": 70888,
+   "to": 95920,
+   "at": 171019.5625,
+   "fadeIn": 300,
+   "fadeOut": 300
+  }
+ ],
+ "captions": [
+  {
+   "start": 1117,
+   "end": 2492,
+   "who": "narration",
+   "lines": [
+    "This is interpres."
+   ]
+  },
+  {
+   "start": 2716,
+   "end": 7582,
+   "who": "narration",
+   "lines": [
+    "It connects AssemblyAI's Voice",
+    "Agent API to public MCP servers."
+   ]
+  },
+  {
+   "start": 7725,
+   "end": 12252,
+   "who": "narration",
+   "lines": [
+    "Type a website, press the mic,",
+    "and its tools answer out loud."
+   ]
+  },
+  {
+   "start": 13648,
+   "end": 20616,
+   "who": "narration",
+   "lines": [
+    "AssemblyAI lists its Voice Agent API at",
+    "$4.50 an hour, and OpenAI Realtime at $18."
+   ]
+  },
+  {
+   "start": 21107,
+   "end": 23995,
+   "who": "narration",
+   "lines": [
+    "Realtime can call MCP servers by itself."
+   ]
+  },
+  {
+   "start": 23995,
+   "end": 27155,
+   "who": "narration",
+   "lines": [
+    "The Voice Agent API has no MCP tool type,"
+   ]
+  },
+  {
+   "start": 27155,
+   "end": 30427,
+   "who": "narration",
+   "lines": [
+    "so teams that switch for the",
+    "price lose their MCP tools."
+   ]
+  },
+  {
+   "start": 30427,
+   "end": 32214,
+   "who": "narration",
+   "lines": [
+    "interpres gives them back."
+   ]
+  },
+  {
+   "start": 33981,
+   "end": 36422,
+   "who": "narration",
+   "lines": [
+    "Here's a real website with an MCP server."
+   ]
+  },
+  {
+   "start": 36422,
+   "end": 40787,
+   "who": "narration",
+   "lines": [
+    "interpres looks in the official",
+    "MCP registry, finds the server,"
+   ]
+  },
+  {
+   "start": 40787,
+   "end": 44265,
+   "who": "narration",
+   "lines": [
+    "and turns each of its tools into",
+    "a Voice Agent function tool."
+   ]
+  },
+  {
+   "start": 46788,
+   "end": 49116,
+   "who": "agent",
+   "lines": [
+    "Agent: Connected to Goji",
+    "with 9 tools available."
+   ]
+  },
+  {
+   "start": 49116,
+   "end": 50406,
+   "who": "agent",
+   "lines": [
+    "What would you like to do?"
+   ]
+  },
+  {
+   "start": 51283,
+   "end": 53602,
+   "who": "caller",
+   "lines": [
+    "Caller: What is SEO in plain English?"
+   ]
+  },
+  {
+   "start": 58056,
+   "end": 60736,
+   "who": "agent",
+   "lines": [
+    "Agent: SEO stands for",
+    "search engine optimization."
+   ]
+  },
+  {
+   "start": 60736,
+   "end": 62837,
+   "who": "agent",
+   "lines": [
+    "It is the work of making",
+    "your website the result"
+   ]
+  },
+  {
+   "start": 62837,
+   "end": 64843,
+   "who": "agent",
+   "lines": [
+    "that search engines choose to show,"
+   ]
+  },
+  {
+   "start": 64843,
+   "end": 67891,
+   "who": "agent",
+   "lines": [
+    "by using content that answers",
+    "what people are looking for and"
+   ]
+  },
+  {
+   "start": 67891,
+   "end": 70442,
+   "who": "agent",
+   "lines": [
+    "making sure your site is",
+    "easy for engines to read."
+   ]
+  },
+  {
+   "start": 70442,
+   "end": 72790,
+   "who": "agent",
+   "lines": [
+    "You can learn more at goji.agency."
+   ]
+  },
+  {
+   "start": 74508,
+   "end": 78392,
+   "who": "narration",
+   "lines": [
+    "That answer came from goji's own server,",
+    "through a live tool call."
+   ]
+  },
+  {
+   "start": 81728,
+   "end": 83535,
+   "who": "narration",
+   "lines": [
+    "No website in mind?"
+   ]
+  },
+  {
+   "start": 83579,
+   "end": 87766,
+   "who": "narration",
+   "lines": [
+    "Search more than 11,000 public",
+    "MCP servers right on the page."
+   ]
+  },
+  {
+   "start": 87766,
+   "end": 89300,
+   "who": "narration",
+   "lines": [
+    "One click connects."
+   ]
+  },
+  {
+   "start": 93361.0625,
+   "end": 95069.0625,
+   "who": "caller",
+   "lines": [
+    "Caller: Who recommends Sapiens?"
+   ]
+  },
+  {
+   "start": 99864.0625,
+   "end": 102851.0625,
+   "who": "agent",
+   "lines": [
+    "Agent: Sapiens is recommended",
+    "by 32 verified people,"
+   ]
+  },
+  {
+   "start": 102851.0625,
+   "end": 105394.0625,
+   "who": "agent",
+   "lines": [
+    "including Joe Rogan and Lex Fridman."
+   ]
+  },
+  {
+   "start": 110165.0625,
+   "end": 112677.0625,
+   "who": "narration",
+   "lines": [
+    "Many servers list more than ten tools."
+   ]
+  },
+  {
+   "start": 112832.0625,
+   "end": 117175.0625,
+   "who": "narration",
+   "lines": [
+    "interpres shows the agent ten at a time,",
+    "and one of them is find tools."
+   ]
+  },
+  {
+   "start": 117314.0625,
+   "end": 118695.0625,
+   "who": "narration",
+   "lines": [
+    "Ask for something out of view,"
+   ]
+  },
+  {
+   "start": 118695.0625,
+   "end": 122315.0625,
+   "who": "narration",
+   "lines": [
+    "and interpres swaps the right",
+    "tools in, mid-conversation."
+   ]
+  },
+  {
+   "start": 129306.5625,
+   "end": 131962.5625,
+   "who": "caller",
+   "lines": [
+    "Caller: I want to run a spec",
+    "check on a job contract."
+   ]
+  },
+  {
+   "start": 134525.5625,
+   "end": 136291.5625,
+   "who": "agent",
+   "lines": [
+    "Agent: I can certainly help you with that."
+   ]
+  },
+  {
+   "start": 136291.5625,
+   "end": 139059.5625,
+   "who": "agent",
+   "lines": [
+    "Please provide the job contract",
+    "you'd like me to check."
+   ]
+  },
+  {
+   "start": 141131.5625,
+   "end": 144782.5625,
+   "who": "caller",
+   "lines": [
+    "Caller: What is the reputation",
+    "of wallet 0x5A AEB6…"
+   ]
+  },
+  {
+   "start": 144782.5625,
+   "end": 147563.5625,
+   "who": "caller",
+   "lines": [
+    "…1BEA ED?"
+   ]
+  },
+  {
+   "start": 153776.5625,
+   "end": 155478.5625,
+   "who": "agent",
+   "lines": [
+    "Agent: I may have misheard that value."
+   ]
+  },
+  {
+   "start": 155478.5625,
+   "end": 158432.5625,
+   "who": "agent",
+   "lines": [
+    "Please paste it into the",
+    "box under the talk button,"
+   ]
+  },
+  {
+   "start": 158432.5625,
+   "end": 160718.5625,
+   "who": "agent",
+   "lines": [
+    "and I will use exactly what you paste."
+   ]
+  },
+  {
+   "start": 162550.5625,
+   "end": 166758.5625,
+   "who": "narration",
+   "lines": [
+    "A spoken address is held back,",
+    "right or wrong. Nothing runs."
+   ]
+  },
+  {
+   "start": 167458.5625,
+   "end": 169701.5625,
+   "who": "narration",
+   "lines": [
+    "Speech often gets identifiers wrong."
+   ]
+  },
+  {
+   "start": 170422.5625,
+   "end": 174852.5625,
+   "who": "narration",
+   "lines": [
+    "Before this gate, a misheard wallet",
+    "address reached the server 5 times,"
+   ]
+  },
+  {
+   "start": 174852.5625,
+   "end": 177675.5625,
+   "who": "narration",
+   "lines": [
+    "and a right hearing looks",
+    "exactly like a wrong one."
+   ]
+  },
+  {
+   "start": 177687.5625,
+   "end": 182442.5625,
+   "who": "narration",
+   "lines": [
+    "So the address comes from the paste box,",
+    "and the agent uses the exact text."
+   ]
+  },
+  {
+   "start": 182919.5625,
+   "end": 185623.5625,
+   "who": "caller",
+   "lines": [
+    "Caller: Check the reputation",
+    "of the wallet I pasted."
+   ]
+  },
+  {
+   "start": 190788.5625,
+   "end": 193293.5625,
+   "who": "agent",
+   "lines": [
+    "Agent: That wallet currently",
+    "has no recorded job outcomes,"
+   ]
+  },
+  {
+   "start": 193293.5625,
+   "end": 195402.5625,
+   "who": "agent",
+   "lines": [
+    "so it doesn't have a reputation yet."
+   ]
+  },
+  {
+   "start": 196925.5625,
+   "end": 198369.5625,
+   "who": "narration",
+   "lines": [
+    "To check it isn't just these three,"
+   ]
+  },
+  {
+   "start": 198369.5625,
+   "end": 202308.5625,
+   "who": "narration",
+   "lines": [
+    "we probed every remote server",
+    "in the official MCP registry."
+   ]
+  },
+  {
+   "start": 202382.5625,
+   "end": 204950.5625,
+   "who": "narration",
+   "lines": [
+    "12,012 answered without a login,"
+   ]
+  },
+  {
+   "start": 204950.5625,
+   "end": 209129.5625,
+   "who": "narration",
+   "lines": [
+    "listing more than 200,000 tools,",
+    "and every tool converted."
+   ]
+  },
+  {
+   "start": 210569.5625,
+   "end": 214420.5625,
+   "who": "narration",
+   "lines": [
+    "Then we gave thirty of them one",
+    "spoken question each, untuned."
+   ]
+  },
+  {
+   "start": 214420.5625,
+   "end": 218046.5625,
+   "who": "narration",
+   "lines": [
+    "Twenty-nine sessions ran,",
+    "each one answered out loud,"
+   ]
+  },
+  {
+   "start": 218046.5625,
+   "end": 220411.5625,
+   "who": "narration",
+   "lines": [
+    "and fourteen answered from live data."
+   ]
+  },
+  {
+   "start": 220598.5625,
+   "end": 225011.5625,
+   "who": "narration",
+   "lines": [
+    "When a tool ran, the median",
+    "was 3.5 seconds voice to voice,"
+   ]
+  },
+  {
+   "start": 225011.5625,
+   "end": 227311.5625,
+   "who": "narration",
+   "lines": [
+    "and the whole run cost 60 cents."
+   ]
+  },
+  {
+   "start": 228737.5625,
+   "end": 233166.5625,
+   "who": "narration",
+   "lines": [
+    "Along the way we found two places where",
+    "the API behaves differently from its docs,"
+   ]
+  },
+  {
+   "start": 233166.5625,
+   "end": 235940.5625,
+   "who": "narration",
+   "lines": [
+    "and wrote both up with",
+    "scripts that reproduce them."
+   ]
+  },
+  {
+   "start": 236964.5625,
+   "end": 241976.5625,
+   "who": "narration",
+   "lines": [
+    "interpres is open source under MIT,",
+    "and live now at the address on screen."
+   ]
+  },
+  {
+   "start": 242037.5625,
+   "end": 244746.5625,
+   "who": "narration",
+   "lines": [
+    "Type a website, press the mic, and ask."
+   ]
+  }
+ ],
+ "punchIns": [
+  {
+   "capture": "A-20260926T215425",
+   "start": 36886,
+   "hold": 3000,
+   "rect": {
+    "x": 28,
+    "y": 363.0390625,
+    "w": 760,
+    "h": 18.75
+   },
+   "zoom": 1.4,
+   "reason": "\"Found in the official MCP registry\""
+  },
+  {
+   "capture": "A-20260926T215425",
+   "start": 74346,
+   "hold": 3000,
+   "rect": {
+    "x": 603.7890625,
+    "y": 327.6875,
+    "w": 443.203125,
+    "h": 262.375
+   },
+   "zoom": 1.4,
+   "reason": "the goji_explain_term call, under N4"
+  },
+  {
+   "capture": "B-20260926T221242",
+   "start": 98605.0625,
+   "hold": 3000,
+   "rect": {
+    "x": 603.7890625,
+    "y": 327.8828125,
+    "w": 443.203125,
+    "h": 63.5
+   },
+   "zoom": 1.4,
+   "reason": "the get_book_recommenders call"
+  },
+  {
+   "capture": "C-20260927T064547",
+   "start": 133505.5625,
+   "hold": 3000,
+   "rect": {
+    "x": 603.7890625,
+    "y": 330.53125,
+    "w": 443.203125,
+    "h": 155.1875
+   },
+   "zoom": 1.4,
+   "reason": "find_tools and the swap"
+  },
+  {
+   "capture": "C-20260927T064547",
+   "start": 152613.5625,
+   "hold": 3000,
+   "rect": {
+    "x": 24,
+    "y": 366.53125,
+    "w": 1040,
+    "h": 128.1171875
+   },
+   "zoom": 1.4,
+   "reason": "needs_paste"
+  },
+  {
+   "capture": "C-20260927T064547",
+   "start": 187851.5625,
+   "hold": 3000,
+   "rect": {
+    "x": 618.7890625,
+    "y": 210.5703125,
+    "w": 415.203125,
+    "h": 18
+   },
+   "zoom": 1.4,
+   "reason": "afg_get_reputation and its argument"
+  }
+ ],
+ "labels": [
+  {
+   "start": 0,
+   "end": 12630,
+   "text": "every voice: AssemblyAI Voice Agent API"
+  },
+  {
+   "start": 32480,
+   "end": 80513,
+   "text": "live session · scripted caller"
+  },
+  {
+   "start": 80213,
+   "end": 109227.0625,
+   "text": "live session · scripted caller"
+  },
+  {
+   "start": 122437.0625,
+   "end": 167319.5625,
+   "text": "live session · scripted caller"
+  },
+  {
+   "start": 171019.5625,
+   "end": 196051.5625,
+   "text": "live session · scripted caller"
+  }
+ ],
+ "endCard": {
+  "start": 245301.5625,
+  "end": 249301.5625,
+  "lines": [
+   "Recorded live on interpres.ochinimus.app on 26 and 27 September 2026 (UTC).",
+   "Every voice is an AssemblyAI Voice Agent voice; the caller is scripted.",
+   "Session IDs: docs/VIDEO.md"
+  ]
+ },
+ "cuts": [
+  {
+   "shot": "B",
+   "at": 92708,
+   "fromMs": 15986,
+   "toMs": 21700.9375,
+   "reason": "the greeting (greetings after scene A may be cut)"
+  },
+  {
+   "shot": "C1+C3",
+   "at": 128619.0625,
+   "fromMs": 10500,
+   "toMs": 20397.5,
+   "reason": "the greeting (greetings after scene A may be cut)"
+  },
+  {
+   "shot": "C1+C3",
+   "at": 144311.5625,
+   "fromMs": 36090,
+   "toMs": 44280,
+   "reason": "inside Q5, which runs 13.8 s: its first 4 s and last 3 s kept, cut between two letters"
+  }
+ ],
+ "exchanges": [
+  {
+   "capture": "A-20260926T215425",
+   "id": "Q1",
+   "voiceToVoiceMs": 5179,
+   "callerEndAt": 53031.229248046875,
+   "agentStartAt": 58210.0625
+  },
+  {
+   "capture": "B-20260926T221242",
+   "id": "Q2",
+   "voiceToVoiceMs": 5280,
+   "callerEndAt": 94524.47924804688,
+   "agentStartAt": 99804.8125
+  },
+  {
+   "capture": "C-20260927T064547",
+   "id": "Q3",
+   "voiceToVoiceMs": 3104,
+   "callerEndAt": 131398.54174804688,
+   "agentStartAt": 134502.08333333334
+  },
+  {
+   "capture": "C-20260927T064547",
+   "id": "Q5",
+   "voiceToVoiceMs": 6758,
+   "callerEndAt": 146963.54174804688,
+   "agentStartAt": 153721.27083333334
+  },
+  {
+   "capture": "C-20260927T064547",
+   "id": "Q4",
+   "voiceToVoiceMs": 5683,
+   "callerEndAt": 185026.5625,
+   "agentStartAt": 190709.25
+  }
+ ],
+ "checks": [
+  {
+   "check": "scene A greeting is 7 s or less, kept whole",
+   "ok": true,
+   "detail": "3110 ms"
+  },
+  {
+   "check": "N3 overlaps no caller or agent audio",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "N4 overlaps no caller or agent audio",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "Q1: nothing cut between the caller's last word and the agent's first",
+   "ok": true,
+   "detail": "23857-29036 ms"
+  },
+  {
+   "check": "N5 overlaps no caller or agent audio",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "Q2: nothing cut between the caller's last word and the agent's first",
+   "ok": true,
+   "detail": "23417-28698 ms"
+  },
+  {
+   "check": "N8 overlaps no caller or agent audio",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "Q3: nothing cut between the caller's last word and the agent's first",
+   "ok": true,
+   "detail": "23077-26181 ms"
+  },
+  {
+   "check": "Q5: nothing cut between the caller's last word and the agent's first",
+   "ok": true,
+   "detail": "46832-53590 ms"
+  },
+  {
+   "check": "Q4: nothing cut between the caller's last word and the agent's first",
+   "ok": true,
+   "detail": "84895-90578 ms"
+  },
+  {
+   "check": "captions fit 2 lines of 42 characters",
+   "ok": true,
+   "detail": ""
+  }
+ ]
+}

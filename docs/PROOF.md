@@ -152,3 +152,16 @@ Session History reports time to first audio for greetings and tool-free turns on
 | `sess_dfbc837097ad430792fe521c9708011c` | voice-sweep-2026-09-26.json | completed | 14.6 | 0 | 0 | - |
 | `sess_f8950109e8bf47eabef70cb945caca6b` | voice-sweep-2026-09-26.json | completed | 11.1 | 0 | 0 | - |
 
+<!-- phone-check -->
+## A phone check by hand
+
+Sergiu opened the public site on an iPhone and asked goji "What is SEO in plain English?", in Sergiu's own voice. Read back from Session History at 2026-09-27T06:55:48.514Z:
+
+- Session `sess_a5ba0e6e7f7648ceb26cc31b751f1e08`: completed, 147.0 s, created 2026-09-26T20:44:25.286739Z, closed by client_end.
+- Heard: "What is SEO in plain English?" (confidence 1), word for word what was said.
+- Tool: `goji_explain_term({"term":"SEO"})`, no error. Session History times its round trip, from the tool call to the result reaching the agent, at 520 ms. The server's own time for the call, the number the page prints on the call card, is 335 ms (the MCP request 334 ms, truncated, refine not_needed), from the box's event log.
+- Answer: "SEO is the work of making your website the result that search engines choose to show. This is done through content that answers user questio…"
+- A later turn in the same session was transcribed as "对的哈。", and the agent replied "没问题。有什么我可以帮您的吗？".
+
+![The phone check](phone-test.png)
+<!-- /phone-check -->

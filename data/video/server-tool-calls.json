@@ -1,0 +1,36 @@
+[
+ {
+  "at": "2026-09-26T21:54:55.189Z",
+  "kind": "tool.call",
+  "url": "https://mcp.goji.agency/mcp",
+  "voiceName": "goji_explain_term",
+  "mcpName": "goji_explain_term",
+  "ok": true,
+  "ms": 481,
+  "mcpMs": 481,
+  "normalisersApplied": [],
+  "rawChars": 1480,
+  "spokenChars": 508,
+  "shaped": false,
+  "method": "truncated",
+  "refine": "not_needed",
+  "refineMs": 0
+ },
+ {
+  "at": "2026-09-26T22:13:15.929Z",
+  "kind": "tool.call",
+  "url": "https://mostrecommendedbooks.com/api/mcp",
+  "voiceName": "get_book_recommenders",
+  "mcpName": "get_book_recommenders",
+  "ok": true,
+  "ms": 487,
+  "mcpMs": 485,
+  "normalisersApplied": [],
+  "rawChars": 5889,
+  "spokenChars": 363,
+  "shaped": true,
+  "method": "local",
+  "refine": "circuit_open",
+  "refineMs": 0
+ }
+]

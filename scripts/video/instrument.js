@@ -259,6 +259,10 @@
     try {
       const res = await origFetch(input, init);
       log('fetch.done', { id, path, status: res.status, ms: Math.round(now() - t0) });
+      // The server's own timings for a tool call, for the latency breakdown; never the result text.
+      if (path === '/api/mcp/call') {
+        res.clone().json().then((j) => log('mcp.timing', { id, mcpMs: j.mcpMs, totalMs: j.totalMs, refineMs: j.refineMs, refine: j.refine, method: j.method, shaped: j.shaped, isError: j.isError })).catch(() => undefined);
+      }
       return res;
     } catch (e) {
       log('fetch.fail', { id, path, message: String(e), ms: Math.round(now() - t0) });

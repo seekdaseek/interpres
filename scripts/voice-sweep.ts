@@ -187,6 +187,9 @@ async function renderPage(out: Saved, dataFile: string): Promise<void> {
   md.push(`| MCP call succeeded / tool answered with an error / held by the gate | ${count((r) => r.mcp === 'ok')} / ${count((r) => r.mcp === 'error')} / ${count((r) => r.mcp === 'held')} |`);
   md.push(`| the agent answered out loud | ${answered.length} |`);
   md.push(`| median voice-to-voice, answered turns | ${Number.isNaN(median(v2v)) ? '-' : `${Math.round(median(v2v))} ms`} |`);
+  // The fair figure for a turn the video shows: only the turns in which a tool ran.
+  const toolV2v = called.map((r) => r.voiceToVoiceMs).filter((x): x is number => typeof x === 'number');
+  md.push(`| median voice-to-voice, turns that called a tool | ${Number.isNaN(median(toolV2v)) ? '-' : `${Math.round(median(toolV2v))} ms (${toolV2v.length} turns)`} |`);
   md.push(`| session time, and its cost at $4.50/hr | ${Math.round(spentS)} s, $${(spentS * USD_PER_S).toFixed(2)} |`, '');
   md.push('## Every server', '');
   md.push('| # | server | read-only tools | starter | tool called | MCP | answer | voice-to-voice | session_id |');

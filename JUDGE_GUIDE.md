@@ -44,7 +44,7 @@ and tool calls appear at their real times, with the `session_id` shown.
 3. Now clear the box and read the sample address aloud instead. The card shows
    what was heard and asks for a paste. Nothing heard by speech-to-text is ever executed, even after
    "yes, that's right". Of every recorded attempt to speak a wallet address,
-   <!-- value:identifiers-exact -->5 of 15<!-- /value:identifiers-exact --> came through exact ([docs/IDENTIFIERS.md](docs/IDENTIFIERS.md)).
+   <!-- value:identifiers-exact -->6 of 16<!-- /value:identifiers-exact --> came through exact ([docs/IDENTIFIERS.md](docs/IDENTIFIERS.md)).
 
 ## 4. Check the numbers (1 minute)
 
@@ -85,6 +85,7 @@ The spoken sweep ([docs/VOICE-SWEEP.md](docs/VOICE-SWEEP.md)): every `session_id
 | MCP call succeeded / tool answered with an error / held by the gate | 14 / 3 / 0 |
 | the agent answered out loud | 29 |
 | median voice-to-voice, answered turns | 2597 ms |
+| median voice-to-voice, turns that called a tool | 3540 ms (17 turns) |
 | session time, and its cost at $4.50/hr | 482 s, $0.60 |
 <!-- /quote:voice-sweep-counts -->
 

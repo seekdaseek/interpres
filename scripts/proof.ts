@@ -92,10 +92,51 @@ async function main(): Promise<void> {
   for (const r of rows) {
     md.push(`| \`${r.id}\` | ${r.file} | ${r.error ? `not read: ${r.error}` : r.status ?? '-'} | ${r.seconds ? r.seconds.toFixed(1) : '-'} | ${r.toolCalls} | ${r.toolErrors} | ${Number.isNaN(median(r.toolMs)) ? '-' : Math.round(median(r.toolMs))} |`);
   }
-  md.push('');
+  md.push('', ...(await phoneSection()), '');
   await writeFile('docs/PROOF.md', `${md.join('\n')}\n`);
   console.log(`docs/PROOF.md: ${read.length} sessions, ${calls} tool calls (${errors} errors), median tool ${Math.round(median(toolMs))} ms, median ttfa ${Math.round(median(ttfa))} ms, ${Math.round(seconds)} s, $${((seconds / 3600) * USD_PER_HOUR).toFixed(2)}`);
 }
 
+/**
+ * Sergiu's phone check (round F2), read back from Session History. The device,
+ * the voice and the screenshot come from data/phone-check.json; the server's
+ * own timing is the box's event log line kept there.
+ */
+export async function phoneSection(): Promise<string[]> {
+  const d = JSON.parse(await readFile('data/phone-check.json', 'utf8')) as { sessionId: string; device: string; voice: string; said: string; tool: string; screenshot: string; server: { ms: number; mcpMs: number; method: string; refine: string } };
+  const s = await getSession(d.sessionId);
+  const tl = await getTimeline(s);
+  const turns = tl?.turns ?? [];
+  const asked = turns.find((t) => t.trigger === 'user_speech' && t.user_transcript);
+  const call = turns.flatMap((t) => t.tool_calls ?? []).find((c) => c.name === d.tool);
+  const answer = turns.find((t) => t.trigger === 'tool_result' && t.agent_text);
+  const later = turns.filter((t) => t.trigger === 'user_speech' && t !== asked && t.user_transcript);
+  const exact = asked?.user_transcript === d.said;
+  return [
+    '<!-- phone-check -->',
+    '## A phone check by hand',
+    '',
+    `Sergiu opened the public site on ${d.device} and asked goji "${d.said}", in ${d.voice}. Read back from Session History at ${new Date().toISOString()}:`,
+    '',
+    `- Session \`${s.id}\`: ${s.status}, ${Number(s.duration_seconds).toFixed(1)} s, created ${s.created_at}, closed by ${s.public_close_reason}.`,
+    `- Heard: "${asked?.user_transcript ?? '(nothing)'}" (confidence ${asked?.user_confidence ?? '?'}), ${exact ? 'word for word what was said' : 'NOT what was said'}.`,
+    call
+      ? `- Tool: \`${call.name}(${JSON.stringify(call.arguments)})\`, ${call.is_error ? 'an error' : 'no error'}. Session History times its round trip, from the tool call to the result reaching the agent, at ${call.duration_ms} ms. The server's own time for the call, the number the page prints on the call card, is ${d.server.ms} ms (the MCP request ${d.server.mcpMs} ms, ${d.server.method}, refine ${d.server.refine}), from the box's event log.`
+      : `- Tool: no call to ${d.tool} in the timeline.`,
+    `- Answer: "${(answer?.agent_text ?? '').slice(0, 140)}${(answer?.agent_text ?? '').length > 140 ? '…' : ''}"`,
+    ...later.map((t) => `- A later turn in the same session was transcribed as "${t.user_transcript}", and the agent replied "${t.agent_text}".`),
+    '',
+    `![The phone check](${d.screenshot.replace(/^docs\//, '')})`,
+    '<!-- /phone-check -->',
+  ];
+}
+
 const isMain = process.argv[1] !== undefined && import.meta.url === `file://${process.argv[1]}`;
-if (isMain) await main();
+if (isMain && process.argv.includes('--phone')) {
+  // Only the phone section, in place: the rest of the page keeps its own read-back.
+  const page = await readFile('docs/PROOF.md', 'utf8');
+  const section = (await phoneSection()).join('\n');
+  const re = /<!-- phone-check -->[\s\S]*?<!-- \/phone-check -->/;
+  await writeFile('docs/PROOF.md', re.test(page) ? page.replace(re, section) : `${page.trimEnd()}\n\n${section}\n`);
+  console.log('docs/PROOF.md: phone section written');
+} else if (isMain) await main();

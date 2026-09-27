@@ -1,0 +1,10 @@
+{
+ "what": "Sergiu's own check of the public site from his phone, round F2 (Sep 26 2026, 23:45 EEST). What Session History cannot say is recorded here: the device, whose voice, and the screenshot. Everything else in docs/PROOF.md's phone section is read back from Session History and the box's event log.",
+ "sessionId": "sess_a5ba0e6e7f7648ceb26cc31b751f1e08",
+ "device": "an iPhone",
+ "voice": "Sergiu's own voice",
+ "said": "What is SEO in plain English?",
+ "tool": "goji_explain_term",
+ "screenshot": "docs/phone-test.png",
+ "server": { "source": "the box's event log, /opt/interpres/data/raw/events.jsonl", "at": "2026-09-26T20:44:39.162Z", "kind": "tool.call", "voiceName": "goji_explain_term", "ok": true, "ms": 335, "mcpMs": 334, "method": "truncated", "refine": "not_needed", "refineMs": 0 }
+}

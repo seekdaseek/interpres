@@ -443,5 +443,22 @@
     ]
    }
   }
- ]
+ ],
+ "clips": {
+  "Q5": {
+   "voice": "michael",
+   "file": "video/voices/Q5.wav",
+   "sha256": "9bd03d7469cc072b4282929007a677ad32c30252728f3bd76656a73395b624ab",
+   "madeIn": "sess_156d76e4c73742a6afca5a053d303f29",
+   "fileWritten": "2026-09-26T20:59:40.413Z"
+  },
+  "Q5b": {
+   "voice": "michael",
+   "file": "video/voices/Q5b.wav",
+   "sha256": "343ac9f43fc58441ff3a79e1714e5a84898d5118079bf13f9abd812b7861244c",
+   "madeIn": "sess_857017ff0686422c8e48976e363670f5",
+   "fileWritten": "2026-09-26T22:17:12.597Z"
+  }
+ },
+ "clipsNote": "Each clip file was written before the first run that used it (compare fileWritten with the runs' at) and was not made again afterwards."
 }

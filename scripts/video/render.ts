@@ -92,7 +92,7 @@ class Captures {
     const img = await loadImage(readFileSync(path));
     this.cache.set(path, img);
     this.order.push(path);
-    if (this.order.length > 12) this.cache.delete(this.order.shift()!);
+    while (this.order.length > 6) this.cache.delete(this.order.shift()!);
     return img;
   }
 
@@ -149,7 +149,12 @@ function zoomAt(edl: Edl, capture: string, t: number): { z: number; fx: number; 
     const u1 = (t - (p.start + 400 + p.hold)) / 400;
     if (t < p.start || t > p.start + 800 + p.hold) continue;
     const k = u1 > 0 ? 1 - ease(u1) : ease(u0);
-    return { z: 1 + (p.zoom - 1) * k, fx: (p.rect.x + p.rect.w / 2) * 2, fy: (p.rect.y + p.rect.h / 2) * 2 };
+    // A target wider than the zoomed window (the needs_paste card spans the page) is read
+    // from its left edge, so the window starts 12 CSS px left of it instead of centring.
+    const winW = SRC.w / p.zoom;
+    const wide = p.rect.w * 2 > winW - 48;
+    const fx = wide ? (p.rect.x - 12) * 2 + winW / 2 : (p.rect.x + p.rect.w / 2) * 2;
+    return { z: 1 + (p.zoom - 1) * k, fx, fy: (p.rect.y + p.rect.h / 2) * 2 };
   }
   return { z: 1, fx: SRC.w / 2, fy: SRC.h / 2 };
 }
@@ -217,6 +222,9 @@ async function drawLive(g: SKRSContext2D, caps: Captures, edl: Edl, capture: str
   g.stroke();
 }
 
+/** One reusable layer for cut crossfades: a new 8 MB canvas per frame would pile up. */
+let cutLayer: Canvas | null = null;
+
 async function drawShot(g: SKRSContext2D, caps: Captures, edl: Edl, shot: Shot, t: number, stills: Map<string, Image>): Promise<void> {
   if (shot.kind === 'still') {
     g.drawImage(stills.get(shot.image)!, BOX.x, BOX.y, BOX.w, BOX.h);
@@ -232,8 +240,10 @@ async function drawShot(g: SKRSContext2D, caps: Captures, edl: Edl, shot: Shot, 
   if (active.length === 1) { const s = active[0]!; await drawLive(g, caps, edl, shot.capture, s.from + (t - s.at), t); return; }
   const [a, b] = active as [typeof active[0], typeof active[0]];
   const k = (t - b.at) / 200;
-  const layer = createCanvas(W, H);
+  cutLayer ??= createCanvas(W, H);
+  const layer = cutLayer;
   const lg = layer.getContext('2d');
+  lg.clearRect(0, 0, W, H);
   await drawLive(g, caps, edl, shot.capture, a.from + (t - a.at), t);
   await drawLive(lg, caps, edl, shot.capture, b.from + (t - b.at), t);
   g.globalAlpha = Math.max(0, Math.min(1, k));
@@ -357,10 +367,14 @@ export function mix(edl: Edl, outWav: string): { gains: Record<string, number>; 
 
 // ------------------------------------------------------------------ render
 
-export async function render(edl: Edl, out: string, opts: { from?: number; to?: number } = {}): Promise<{ frames: number; mix: ReturnType<typeof mix> }> {
-  mkdirSync('video/out', { recursive: true });
-  const wav = out.replace(/\.mp4$/, '.wav');
-  const m = mix(edl, wav);
+/** Frames per worker process. Each decoded JPEG keeps about 10 MB of native memory that
+ * @napi-rs/canvas 0.1.100 never frees (measured: the footprint grew 974 MB per 100 decodes,
+ * with or without a reused Image and forced collections), so a single process died at
+ * frame 2,700 with a 31 GB footprint. A worker renders 8 s and exits, which frees it all. */
+export const CHUNK = 240;
+
+/** Draw frames [f0, f1) and hand each one's raw RGBA to `write`. */
+export async function renderFrames(edl: Edl, f0: number, f1: number, write: (buf: Buffer) => Promise<void>): Promise<void> {
   const caps = new Captures();
   const bg = background();
   const stills = new Map<string, Image>();
@@ -368,29 +382,10 @@ export async function render(edl: Edl, out: string, opts: { from?: number; to?: 
     if (!existsSync(s.image)) throw new Error(`missing still ${s.image}`);
     stills.set(s.image, await loadImage(readFileSync(s.image)));
   }
-  const total = Math.round((edl.durationMs / 1000) * edl.fps);
-  const f0 = opts.from ?? 0;
-  const f1 = opts.to ?? total;
-  const ff = spawn('ffmpeg', [
-    '-v', 'error', '-y',
-    '-f', 'rawvideo', '-pix_fmt', 'rgba', '-s', `${W}x${H}`, '-r', String(edl.fps), '-i', 'pipe:0',
-    '-ss', String(f0 / edl.fps), '-i', wav,
-    '-map', '0:v', '-map', '1:a',
-    '-vf', 'scale=out_color_matrix=bt709:out_range=tv,format=yuv420p',
-    '-c:v', 'libx264', '-profile:v', 'high', '-preset', 'slow', '-crf', '18', '-g', '60',
-    '-colorspace', 'bt709', '-color_primaries', 'bt709', '-color_trc', 'bt709', '-color_range', 'tv',
-    '-r', String(edl.fps), '-fps_mode', 'cfr',
-    // AudioToolbox AAC-LC at a constant 192 kbps: ffmpeg's own encoder ran 142 kbps on this speech.
-    '-c:a', 'aac_at', '-aac_at_mode', 'cbr', '-b:a', '192k', '-ar', String(RATE), '-ac', '2',
-    '-t', String((f1 - f0) / edl.fps),
-    '-movflags', '+faststart', out,
-  ], { stdio: ['pipe', 'inherit', 'inherit'] });
-  const done = new Promise<void>((res, rej) => ff.on('close', (code) => (code === 0 ? res() : rej(new Error(`ffmpeg exited ${code}`)))));
   const cv = createCanvas(W, H);
   const g = cv.getContext('2d');
   const layer = createCanvas(W, H);
   const lg = layer.getContext('2d');
-  const t0 = Date.now();
   for (let f = f0; f < f1; f++) {
     const t = (f * 1000) / edl.fps;
     g.globalAlpha = 1;
@@ -427,14 +422,53 @@ export async function render(edl: Edl, out: string, opts: { from?: number; to?: 
       g.textAlign = 'left';
       g.globalAlpha = 1;
     }
-    const px = g.getImageData(0, 0, W, H).data;
-    if (!ff.stdin.write(Buffer.from(px.buffer, px.byteOffset, px.byteLength))) await new Promise((r) => ff.stdin.once('drain', r));
-    if ((f - f0) % 300 === 0) process.stdout.write(`\r  frame ${f - f0}/${f1 - f0} (${((f - f0) / Math.max(1, (Date.now() - t0) / 1000)).toFixed(1)} fps)`);
+    // canvas.data(), not getImageData: the latter leaked 8 MB a frame (measured).
+    await write(cv.data());
   }
+}
+
+export async function render(edl: Edl, out: string): Promise<{ frames: number; chunks: number; mix: ReturnType<typeof mix> }> {
+  mkdirSync('video/out', { recursive: true });
+  const wav = out.replace(/\.mp4$/, '.wav');
+  const m = mix(edl, wav);
+  const edlFile = out.replace(/\.mp4$/, '-edl.json');
+  writeFileSync(edlFile, JSON.stringify(edl));
+  const total = Math.round((edl.durationMs / 1000) * edl.fps);
+  const ff = spawn('ffmpeg', [
+    '-v', 'error', '-y',
+    '-f', 'rawvideo', '-pix_fmt', 'rgba', '-s', `${W}x${H}`, '-r', String(edl.fps), '-i', 'pipe:0',
+    '-i', wav,
+    '-map', '0:v', '-map', '1:a',
+    '-vf', 'scale=out_color_matrix=bt709:out_range=tv,format=yuv420p',
+    '-c:v', 'libx264', '-profile:v', 'high', '-preset', 'slow', '-crf', '18', '-g', '60',
+    '-colorspace', 'bt709', '-color_primaries', 'bt709', '-color_trc', 'bt709', '-color_range', 'tv',
+    '-r', String(edl.fps), '-fps_mode', 'cfr',
+    // AudioToolbox AAC-LC at a constant 192 kbps: ffmpeg's own encoder ran 142 kbps on this speech.
+    '-c:a', 'aac_at', '-aac_at_mode', 'cbr', '-b:a', '192k', '-ar', String(RATE), '-ac', '2',
+    '-t', String(total / edl.fps),
+    '-movflags', '+faststart', out,
+  ], { stdio: ['pipe', 'inherit', 'inherit'] });
+  const done = new Promise<void>((res, rej) => ff.on('close', (code) => (code === 0 ? res() : rej(new Error(`ffmpeg exited ${code}`)))));
+  const t0 = Date.now();
+  let bytes = 0;
+  let chunks = 0;
+  for (let a = 0; a < total; a += CHUNK) {
+    const b = Math.min(total, a + CHUNK);
+    const worker = spawn(process.execPath, ['--expose-gc', 'scripts/video/render.ts', '--worker', edlFile, String(a), String(b)], { stdio: ['ignore', 'pipe', 'inherit'] });
+    worker.stdout.on('data', (d: Buffer) => {
+      bytes += d.length;
+      if (!ff.stdin.write(d)) { worker.stdout.pause(); ff.stdin.once('drain', () => worker.stdout.resume()); }
+    });
+    const code = await new Promise<number | null>((res) => worker.on('close', res));
+    if (code !== 0) { ff.stdin.destroy(); throw new Error(`render worker for frames ${a}-${b} exited ${code}`); }
+    chunks++;
+    process.stdout.write(`\r  frame ${b}/${total} (${(b / Math.max(1, (Date.now() - t0) / 1000)).toFixed(1)} fps, ${chunks} workers)`);
+  }
+  if (bytes !== total * W * H * 4) throw new Error(`sent ${bytes} bytes for ${total} frames`);
   ff.stdin.end();
   await done;
   process.stdout.write('\n');
-  return { frames: f1 - f0, mix: m };
+  return { frames: total, chunks, mix: m };
 }
 
 /** The captions as SubRip, labels included. */
@@ -447,7 +481,14 @@ export function srt(edl: Edl): string {
 }
 
 const isMain = process.argv[1] !== undefined && import.meta.url === `file://${process.argv[1]}`;
-if (isMain) {
+if (isMain && process.argv[2] === '--worker') {
+  // A render worker: frames [from, to) of the edit list as raw RGBA on stdout.
+  const [, , , file, from, to] = process.argv;
+  const edl = JSON.parse(readFileSync(file!, 'utf8')) as Edl;
+  const out = process.stdout;
+  await renderFrames(edl, Number(from), Number(to), (buf) => new Promise<void>((res) => { if (out.write(buf)) res(); else out.once('drain', () => res()); }));
+  await new Promise<void>((res) => out.end(res));
+} else if (isMain) {
   const arg = (n: string) => { const i = process.argv.indexOf(n); return i > 0 ? process.argv[i + 1] : undefined; };
   const edl = JSON.parse(readFileSync(arg('--edl') ?? 'video/out/edl.json', 'utf8')) as Edl;
   const out = arg('--out') ?? 'video/out/interpres-demo.mp4';

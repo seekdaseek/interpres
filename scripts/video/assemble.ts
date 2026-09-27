@@ -23,6 +23,10 @@ import { createCanvas, loadImage } from '@napi-rs/canvas';
 import { PROPER_NOUN_VARIANTS, callerLines } from './config.ts';
 import { matchWords } from './stt.ts';
 import { SAMPLE_ADDRESS } from './capture.ts';
+import { collapseSpelled, findIdentifiers } from '../../packages/core/src/index.ts';
+
+/** The first wallet address in a text, spelled-out characters joined up, lower case. */
+const findAddr = (text: string): string | null => findIdentifiers(collapseSpelled(text)).map((h) => h.normalized).find((n) => /^0x[0-9a-f]{8,}$/i.test(n))?.toLowerCase() ?? null;
 
 export type Ev = { t: number; type: string; [k: string]: unknown };
 export const RATE = 48_000;
@@ -159,6 +163,31 @@ export function matchClip(rec: Float32Array, clip: Float32Array, from: number, t
   return { lag, snrDb: Number.isFinite(snrDb) ? Math.round(snrDb * 10) / 10 : 999, maxErr, bitExact: maxErr === 0 };
 }
 
+/**
+ * A clip against a recording in 0.5 s windows, each aligned on its own (within
+ * 2 ms of the last window's alignment). A MediaStream bridge between two audio
+ * clocks can drop or repeat a few samples; one whole-clip alignment then reads
+ * as a low SNR although every window arrived bit for bit.
+ */
+export function windowed(rec: Float32Array, clip: Float32Array, lag0: number): { windows: number; bitExactWindows: number; slips: Array<{ atMs: number; samples: number }>; worstWindowSnrDb: number } {
+  const W = 12_000;
+  let lag = lag0;
+  let exact = 0;
+  let worst = Infinity;
+  const slips: Array<{ atMs: number; samples: number }> = [];
+  let windows = 0;
+  for (let off = 0; off + W <= clip.length; off += W) {
+    const r = matchClip(rec, clip.subarray(off, off + W), lag + off - 48, lag + off + 49);
+    const newLag = r.lag - off;
+    if (newLag !== lag && windows > 0) slips.push({ atMs: Math.round((off / 24_000) * 1000), samples: newLag - lag });
+    lag = newLag;
+    windows++;
+    if (r.bitExact) exact++;
+    worst = Math.min(worst, r.snrDb);
+  }
+  return { windows, bitExactWindows: exact, slips, worstWindowSnrDb: worst };
+}
+
 export async function assemble(dir: string): Promise<Record<string, unknown>> {
   const events = (JSON.parse(readFileSync(`${dir}/events.json`, 'utf8')) as Ev[]).sort((x, y) => x.t - y.t);
   const chunks = JSON.parse(readFileSync(`${dir}/raw/index.json`, 'utf8')) as RawChunk[];
@@ -196,6 +225,7 @@ export async function assemble(dir: string): Promise<Record<string, unknown>> {
   let agent: Float32Array = agentS?.data ?? new Float32Array(caller.data.length);
   if (!agentS) writeFileSync(`${dir}/stems/agent.wav`, wavF32(agent, RATE));
   const pagemic = placeStem(dir, 'pagemic', chunks, fits, t0, lengthMs);
+  if (pagemic) writeFileSync(`${dir}/stems/pagemic-${pagemic.rate}.wav`, wavF32(pagemic.data, pagemic.rate));
   const at = (t: number) => Math.round(((t - t0) * RATE) / 1000);
   const ms = (i: number) => (i * 1000) / RATE;
 
@@ -246,8 +276,73 @@ export async function assemble(dir: string): Promise<Record<string, unknown>> {
     const clip = clipPcm(String(c.id));
     const r = pagemic.rate;
     const expect = Math.round(((startT - t0) / 1000) * r);
-    return { id: String(c.id), ...matchClip(pagemic.data, clip, expect - Math.round(r * 0.3), expect + Math.round(r * 0.5)) };
+    const whole = matchClip(pagemic.data, clip, expect - Math.round(r * 0.3), expect + Math.round(r * 0.5));
+    return { id: String(c.id), ...windowed(pagemic.data, clip, whole.lag) };
   }) : [];
+
+  // Latency, step by step, for each exchange (brief F3, section 4): every time is ms after
+  // the caller's last voiced sample, the video's start point.
+  const serverCalls = existsSync('data/video/server-tool-calls.json') ? (JSON.parse(readFileSync('data/video/server-tool-calls.json', 'utf8')) as Array<{ at: string; voiceName: string; ms: number; mcpMs: number; refine: string; refineMs: number; method: string }>) : [];
+  const latency = exchanges.map((x, k) => {
+    const c = clipStarts[k]!;
+    const fit = fits.get(0)!;
+    const clipStartT = fit.a + fit.b * Number(c.contextTime) * 1000;
+    const clipEndT = clipStartT + Number(c.seconds) * 1000;
+    const lastWord = t0 + x.callerEndMs;
+    const nextClip = clipStarts[k + 1] ? fit.a + fit.b * Number(clipStarts[k + 1]!.contextTime) * 1000 : Infinity;
+    const inTurn = (e: Ev) => e.t >= clipStartT && e.t < nextClip;
+    const rel2 = (t: number | undefined) => (t === undefined ? null : Math.round(t - lastWord));
+    const stopped = events.find((e) => inTurn(e) && e.type === 'ws.in' && e.msg === 'input.speech.stopped');
+    const userFinal = events.find((e) => inTurn(e) && e.type === 'ws.in' && e.msg === 'transcript.user');
+    const calls = events.filter((e) => inTurn(e) && e.type === 'ws.in' && e.msg === 'tool.call').map((call) => {
+      const result = events.find((e) => e.type === 'ws.out' && e.msg === 'tool.result' && e.call_id === call.call_id);
+      const path = call.name === 'find_tools' ? '/api/mcp/find-tools' : call.name === 'use_pasted_text' ? null : '/api/mcp/call';
+      // The request this call made, if any: sent after the call and before its own result.
+      // A call the gate held makes none.
+      const fs0 = path ? events.find((e) => e.type === 'fetch.start' && e.path === path && e.t >= call.t && e.t <= (result?.t ?? Infinity)) : undefined;
+      const held = events.some((e) => e.type === 'dom.gate' && e.t >= call.t && e.t <= (result?.t ?? call.t + 3000) + 300 && (e.v as { shown: boolean }).shown);
+      const fd = fs0 ? events.find((e) => e.type === 'fetch.done' && e.id === fs0.id) : undefined;
+      const timing = fs0 ? events.find((e) => e.type === 'mcp.timing' && e.id === fs0.id) : undefined;
+      const server = path === '/api/mcp/call' && !timing && fd ? serverCalls.find((sc) => sc.voiceName === call.name && Math.abs(Date.parse(sc.at) - fd.t) < 3000) : undefined;
+      const serverMs = timing ? Number(timing.totalMs) : server?.ms;
+      return {
+        name: String(call.name),
+        heldByGate: path === '/api/mcp/call' && !fs0 && held,
+        toolCallAt: rel2(call.t),
+        fetchMs: fd ? Number(fd.ms) : null,
+        serverMs: serverMs ?? null,
+        networkMs: fd && serverMs !== undefined ? Number(fd.ms) - serverMs : null,
+        mcpMs: timing ? Number(timing.mcpMs) : server?.mcpMs ?? null,
+        refine: timing ? String(timing.refine) : server?.refine ?? null,
+        refineMs: timing ? Number(timing.refineMs) : server?.refineMs ?? null,
+        method: timing ? String(timing.method) : server?.method ?? null,
+        serverTimingsFrom: timing ? 'the page (the /api/mcp/call response)' : server ? 'the box\'s event log (data/video/server-tool-calls.json)' : null,
+        resultSentAt: rel2(result?.t),
+      };
+    });
+    const lastResult = [...events].reverse().find((e) => inTurn(e) && e.type === 'ws.out' && e.msg === 'tool.result');
+    const firstAudioRx = events.find((e) => inTurn(e) && e.type === 'ws.in' && e.msg === 'reply.audio.first' && e.t >= (lastResult?.t ?? lastWord));
+    const firstAnyAudioRx = events.find((e) => inTurn(e) && e.type === 'ws.in' && e.msg === 'reply.audio.first' && e.t >= lastWord);
+    const played = x.agentStartMs === null ? null : t0 + x.agentStartMs;
+    return {
+      id: x.id,
+      steps: {
+        callerLastWord: 0,
+        apiEndOfTurn: rel2(stopped?.t),
+        transcriptFinal: rel2(userFinal?.t),
+        tools: calls,
+        lastToolResultSent: rel2(lastResult?.t),
+        firstReplyAudioReceived: rel2(firstAnyAudioRx?.t),
+        answerAudioReceived: rel2(firstAudioRx?.t),
+        firstAudioPlayed: played === null ? null : Math.round(played - lastWord),
+      },
+      // e2e-audio measures from the end of the clip as sent to the first reply.audio received.
+      clipTrailingSilenceMs: Math.round(clipEndT - lastWord),
+      e2eStyleMs: firstAnyAudioRx ? Math.round(firstAnyAudioRx.t - clipEndT) : null,
+      playoutMs: played !== null && firstAnyAudioRx ? Math.round(played - firstAnyAudioRx.t) : null,
+      videoMs: x.voiceToVoiceMs,
+    };
+  });
 
   const rel = (e: Ev) => Math.round(e.t - t0);
   const log = events.filter((e) => e.type !== 'frame' && e.type !== 'clock').map((e) => ({ ...e, t: rel(e) }));
@@ -267,6 +362,7 @@ export async function assemble(dir: string): Promise<Record<string, unknown>> {
       pagemic: pagemic ? `the page's mic input, recorded at ${pagemic.rate} Hz, evidence only` : 'not recorded',
     },
     pageMicFidelity: fidelity,
+    latency,
     sync,
     exchanges,
     consoleErrors: events.filter((e) => e.type === 'console.error' || e.type === 'page.error' || e.type === 'page.rejection').map((e) => String(e.text ?? e.message)),
@@ -324,6 +420,7 @@ function sceneChecks(scene: string, events: Ev[], exchanges: Array<{ id: string;
     answered('Q2');
   }
   if (scene === 'C') {
+    // Round F3 order: C1 (Q3, the swap), C3 (Q5 spoken, held), the paste, C2 (Q4).
     heard('Q3');
     const ft = inTurn('Q3').filter((c) => c.name === 'find_tools');
     const chips = [...events].reverse().find((e) => e.type === 'dom.chips' && e.t > saidAt('Q3') && e.t < nextSay('Q3'));
@@ -331,32 +428,39 @@ function sceneChecks(scene: string, events: Ev[], exchanges: Array<{ id: string;
     add('C1: find_tools is called', ft.length >= 1, JSON.stringify(ft.map((c) => c.arguments)));
     add('C1: the swap card lists afg_speccheck as new', isNew, JSON.stringify((chips?.v as { chips?: unknown[] } | undefined)?.chips ?? []));
     answered('Q3');
+    const q5 = saidAt('Q5');
+    const paste = events.find((e) => e.type === 'paste' && e.t > q5)?.t ?? Infinity;
+    const gate = events.find((e) => e.type === 'dom.gate' && e.t > q5 && e.t < paste && (e.v as { shown: boolean; kind: string }).shown && (e.v as { kind: string }).kind === 'paste');
+    add('C3: needs_paste appears', !!gate, gate ? `${String((gate.v as { kindText: string }).kindText)} | ${String((gate.v as { value: string }).value)}` : 'no paste card');
+    const before = mcp.filter((f) => f.t > q5 && f.t < paste);
+    add('C3: zero /api/mcp/call from Q5 until the paste', before.length === 0 && paste !== Infinity, `${before.length} request(s); paste at ${paste === Infinity ? 'never' : 'after the agent'}`);
+    const a5 = events.filter((e) => e.type === 'ws.in' && e.msg === 'transcript.agent' && e.t > q5 && e.t < paste && String(e.text).trim() !== '');
+    add('C3: the agent asks for a paste', a5.some((e) => /paste/i.test(String(e.text))), a5.map((e) => String(e.text)).join(' ').slice(0, 160));
+    const heard5 = exchanges.find((x) => x.id === 'Q5')?.heard ?? '';
+    const said5 = findAddr(lines.Q5!);
+    const got5 = findAddr(heard5);
+    add('C3: Q5 heard exactly (recorded, not required)', true, `${got5 === said5 ? 'exact' : 'not exact'}: heard "${heard5}"`);
     heard('Q4');
     const rep = inTurn('Q4').filter((c) => c.name === 'afg_get_reputation');
-    const repMcp = mcp.filter((f) => f.t > saidAt('Q4') && f.t < nextSay('Q4') && (f.body as { tool?: string } | undefined)?.tool === 'afg_get_reputation');
+    const repMcp = mcp.filter((f) => f.t > saidAt('Q4') && (f.body as { tool?: string } | undefined)?.tool === 'afg_get_reputation');
     const exact = rep.length === 1 && JSON.stringify(rep[0]!.arguments) === JSON.stringify({ address: SAMPLE_ADDRESS }) && repMcp.length === 1 && (repMcp[0]!.body as { arguments: { address: string } }).arguments.address === SAMPLE_ADDRESS;
-    add('C2: afg_get_reputation called exactly once, with exactly the pasted value', exact, `${rep.length} call(s) ${JSON.stringify(rep.map((c) => c.arguments))}; ${repMcp.length} /api/mcp/call`);
+    add('C2: afg_get_reputation called exactly once, with exactly the pasted value', exact, `${rep.length} call(s) ${JSON.stringify(rep.map((c) => c.arguments))}; ${repMcp.length} /api/mcp/call; turn calls: ${inTurn('Q4').map((c) => c.name).join(', ')}`);
     answered('Q4');
-    const q5 = saidAt('Q5');
-    const gate = events.find((e) => e.type === 'dom.gate' && e.t > q5 && (e.v as { shown: boolean; kind: string }).shown && (e.v as { kind: string }).kind === 'paste');
-    add('C3: needs_paste appears', !!gate, gate ? `${String((gate.v as { kindText: string }).kindText)} | ${String((gate.v as { value: string }).value)}` : 'no paste card');
-    const after = mcp.filter((f) => f.t > q5);
-    add('C3: zero /api/mcp/call from Q5 to the end of the session', after.length === 0, `${after.length} request(s)`);
-    const a = answered('Q5');
-    add('C3: the agent asks for a paste', a.some((e) => /paste/i.test(String(e.text))), '');
   }
   add('no console errors', errors.length === 0, errors.join(' | ').slice(0, 300));
   add('sync within one frame', sync.length > 0 && sync.every((s) => s.ok), '');
   return out;
 }
 
-/** Scene C's spoken-address take, in the shape scripts/spoken-identifiers.ts reads. */
+/** Scene C's spoken-address take, in the shape scripts/spoken-identifiers.ts reads: calls count until the paste. */
 function spokenAddresses(events: Ev[], sessionId: string): unknown[] {
   const q5 = events.find((e) => e.type === 'say' && e.id === 'Q5');
   if (!q5) return [];
+  const paste = events.find((e) => e.type === 'paste' && e.t > q5.t)?.t ?? Infinity;
   const heardEv = events.find((e) => e.type === 'ws.in' && e.msg === 'transcript.user' && e.t > q5.t);
-  const mcpCalls = events.filter((e) => e.type === 'fetch.start' && e.path === '/api/mcp/call' && e.t > q5.t).map((e) => ({ arguments: (e.body as { arguments?: unknown } | undefined)?.arguments }));
-  return [{ sessionId, said: callerLines().Q5, heard: heardEv ? String(heardEv.text) : '', mcpCalls }];
+  const mcpCalls = events.filter((e) => e.type === 'fetch.start' && e.path === '/api/mcp/call' && e.t > q5.t && e.t < paste).map((e) => ({ arguments: (e.body as { arguments?: unknown } | undefined)?.arguments }));
+  const loaded = events.find((e) => e.type === 'clip.loaded' && e.id === 'Q5');
+  return [{ sessionId, said: callerLines().Q5, heard: heardEv ? String(heardEv.text) : '', clip: loaded ? { voice: String(loaded.voice), id: 'Q5', sha256: String(loaded.sha256) } : undefined, mcpCalls }];
 }
 
 const isMain = process.argv[1] !== undefined && import.meta.url === `file://${process.argv[1]}`;
