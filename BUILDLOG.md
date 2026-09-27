@@ -3558,3 +3558,33 @@ the $150. That is 28 since 1d09616:
 ```
 $ npm test    ℹ tests 424  ℹ pass 424  ℹ fail 0
 ```
+
+## 2026-09-27 - the final round: the Found line, deployed
+
+Brief: `interpres-brief-FINAL.md`, which replaces round I. Round I had not been started (HEAD was
+781887d).
+
+**The kit.** `SHA256SUMS` hashes to `b405a1fee4bcbfd0a6b51679a344962b3e89cc6b2ce98e6a3c60203af918cfaa`,
+and all 29 of its entries check OK. `npm view interpres version` answers E404.
+
+**The glitch at 0:40.** `.url-hint` used `word-break: break-all`, which split "an" across the
+Found line's two lines in round H's take.
+- It is now `overflow-wrap: anywhere`, the rule the page's other mono text already uses. No
+  `break-all` is left in `apps/web/src`.
+- **Checked on the local server** with `mostrecommendedbooks.com`, not goji. The lines were read
+  back character by character from the rendered page:
+  - At 375 px, it wraps at spaces only: "Found in the official MCP registry:" / "https://mostrecommendedbooks.com/api/mcp · 6" / "tools · 886 ms".
+  - With `break-all` put back on the same element as a control, the line broke after "https://"
+    instead.
+  - At 1280 px, it is one line, 18.75 px tall.
+- **`assemble.ts` checks two more things in scene A:**
+  - the Found line is one line (its logged height is under 1.5 lines of 12.5px/1.5);
+  - it does not say "remembered".
+  Tried on the two earlier takes: round G's fresh take (18.75 px) passes both, and round H's cache
+  hit (37.5 px) fails both.
+- **The discovery cache cannot survive the deploy.** It is an in-memory `Map` created when the
+  server starts (`apps/server/src/index.ts:51`), and the redeploy is `pm2 delete` then `start`.
+
+```
+$ npm test    ℹ tests 424  ℹ pass 424  ℹ fail 0
+```

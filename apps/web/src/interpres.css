@@ -69,7 +69,7 @@ button { font: inherit; color: inherit; }
 .error-detail { margin-top: 6px; color: var(--muted); }
 .error-detail summary { cursor: pointer; font-size: 12px; }
 .error-detail code { display: block; margin-top: 4px; font-size: 11.5px; white-space: pre-wrap; word-break: break-word; }
-.url-hint { color: var(--muted); font: 12.5px/1.5 var(--mono); margin: 10px 4px 0; max-width: 760px; word-break: break-all; }
+.url-hint { color: var(--muted); font: 12.5px/1.5 var(--mono); margin: 10px 4px 0; max-width: 760px; overflow-wrap: anywhere; }
 
 /* ------------------------------------------- discovery pick list, search */
 .choices { margin: 12px 0 0; max-width: 760px; display: grid; gap: 8px; }

@@ -400,6 +400,12 @@ function sceneChecks(scene: string, events: Ev[], exchanges: Array<{ id: string;
   if (scene === 'A') {
     const hint = [...events].reverse().find((e) => e.type === 'dom.hint' && /Found in the official MCP registry/.test(String((e.v as { text: string }).text)));
     add('discovery connects to https://mcp.goji.agency/mcp', !!hint && String((hint.v as { text: string }).text).includes('https://mcp.goji.agency/mcp'), hint ? String((hint.v as { text: string }).text) : 'no hint');
+    // The final round: the Found line is a fresh lookup, on one line. `.url-hint` is 12.5px/1.5,
+    // so one line is 18.75 px tall (round G's fresh take) and two are 37.5 (round H's cache hit).
+    const hv = hint?.v as { text: string; rect: { h: number } | null; font: string | null } | undefined;
+    const lineH = parseFloat(hv?.font ?? '12.5') * 1.5;
+    add('the Found line is one line', !!hv?.rect && hv.rect.h < lineH * 1.5, hv?.rect ? `${hv.rect.h} px tall, one line is ${lineH} px` : 'no rect');
+    add('the Found line does not say "remembered"', !!hv && !/remembered/i.test(hv.text), hv ? hv.text : 'no hint');
     heard('Q1');
     const g = inTurn('Q1').filter((c) => c.name === 'goji_explain_term');
     const ok = mcpDone.filter((d) => d.t > saidAt('Q1') && d.status === 200);
