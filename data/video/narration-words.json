@@ -891,223 +891,218 @@
  },
  "N7": {
   "file": "video/voices/N7.wav",
-  "sha256": "a0a1532d4db6b6f6289867ad35d5dc9d3219393e74568ee6977cc20f5efd86be",
-  "id": "7a5a71f9-a8b0-4bd9-9dac-60a7fa02ad12",
+  "sha256": "37faecffbd017eef4e05b70b626006d629c7f5bcfaf89ec34cec2d6b5a37ba82",
+  "id": "357c18fb-3225-4941-bc0c-c54cbfb0a1fb",
   "speechModel": "universal-3-5-pro,universal-2",
-  "text": "Speech often gets identifiers wrong. Before this gate, a misheard wallet address reached the server 5 times, and a right hearing looks exactly like a wrong one. So the address comes from the paste box, and the agent uses the exact text.",
+  "text": "Speech often mishears identifiers. Before this gate, a misheard wallet address reached the server 5 times, and a right hearing looks exactly like a wrong one. So the address comes from the paste box, and the agent uses the exact text.",
   "words": [
    {
     "text": "Speech",
-    "start": 289,
-    "end": 563
+    "start": 353,
+    "end": 673
    },
    {
     "text": "often",
-    "start": 660,
-    "end": 837
+    "start": 673,
+    "end": 898
    },
    {
-    "text": "gets",
-    "start": 837,
-    "end": 1079
+    "text": "mishears",
+    "start": 914,
+    "end": 1363
    },
    {
-    "text": "identifiers",
-    "start": 1079,
-    "end": 1691
-   },
-   {
-    "text": "wrong.",
-    "start": 1787,
-    "end": 1932
+    "text": "identifiers.",
+    "start": 1396,
+    "end": 2086
    },
    {
     "text": "Before",
-    "start": 3253,
-    "end": 3511
+    "start": 2840,
+    "end": 3097
    },
    {
     "text": "this",
-    "start": 3511,
-    "end": 3624
+    "start": 3097,
+    "end": 3209
    },
    {
     "text": "gate,",
-    "start": 3736,
-    "end": 3962
+    "start": 3321,
+    "end": 3642
    },
    {
     "text": "a",
-    "start": 4381,
-    "end": 4397
+    "start": 3883,
+    "end": 3899
    },
    {
     "text": "misheard",
-    "start": 4397,
-    "end": 4912
+    "start": 3899,
+    "end": 4412
    },
    {
     "text": "wallet",
-    "start": 4928,
-    "end": 5202
+    "start": 4444,
+    "end": 4765
    },
    {
     "text": "address",
-    "start": 5267,
-    "end": 5540
+    "start": 4765,
+    "end": 5151
    },
    {
     "text": "reached",
-    "start": 5734,
-    "end": 5975
+    "start": 5151,
+    "end": 5391
    },
    {
     "text": "the",
-    "start": 5975,
-    "end": 6024
+    "start": 5391,
+    "end": 5471
    },
    {
     "text": "server",
-    "start": 6056,
-    "end": 6362
+    "start": 5471,
+    "end": 5776
    },
    {
     "text": "5",
-    "start": 6394,
-    "end": 6716
+    "start": 5808,
+    "end": 6097
    },
    {
     "text": "times,",
-    "start": 6716,
-    "end": 7167
+    "start": 6129,
+    "end": 6579
    },
    {
     "text": "and",
-    "start": 7683,
-    "end": 7747
+    "start": 7092,
+    "end": 7156
    },
    {
     "text": "a",
-    "start": 7779,
-    "end": 7908
+    "start": 7188,
+    "end": 7253
    },
    {
     "text": "right",
-    "start": 7908,
-    "end": 8037
+    "start": 7253,
+    "end": 7558
    },
    {
     "text": "hearing",
-    "start": 8150,
-    "end": 8456
+    "start": 7558,
+    "end": 7782
    },
    {
     "text": "looks",
-    "start": 8488,
-    "end": 8714
+    "start": 7814,
+    "end": 8007
    },
    {
     "text": "exactly",
-    "start": 8714,
-    "end": 9213
+    "start": 8055,
+    "end": 8520
    },
    {
     "text": "like",
-    "start": 9213,
-    "end": 9390
+    "start": 8536,
+    "end": 8697
    },
    {
     "text": "a",
-    "start": 9439,
-    "end": 9519
+    "start": 8697,
+    "end": 8777
    },
    {
     "text": "wrong",
-    "start": 9519,
-    "end": 9664
+    "start": 8777,
+    "end": 8986
    },
    {
     "text": "one.",
-    "start": 9761,
-    "end": 9906
+    "start": 9018,
+    "end": 9226
    },
    {
     "text": "So",
-    "start": 10518,
-    "end": 10679
+    "start": 9916,
+    "end": 9997
    },
    {
     "text": "the",
-    "start": 10743,
-    "end": 10808
+    "start": 10061,
+    "end": 10157
    },
    {
     "text": "address",
-    "start": 10840,
-    "end": 11291
+    "start": 10157,
+    "end": 10414
    },
    {
     "text": "comes",
-    "start": 11291,
-    "end": 11516
+    "start": 10526,
+    "end": 10719
    },
    {
     "text": "from",
-    "start": 11597,
-    "end": 11677
+    "start": 10735,
+    "end": 10847
    },
    {
     "text": "the",
-    "start": 11710,
-    "end": 11790
+    "start": 10847,
+    "end": 10943
    },
    {
     "text": "paste",
-    "start": 11790,
-    "end": 12064
+    "start": 10943,
+    "end": 11184
    },
    {
     "text": "box,",
-    "start": 12112,
-    "end": 12435
+    "start": 11184,
+    "end": 11505
    },
    {
     "text": "and",
-    "start": 12837,
-    "end": 12902
+    "start": 11585,
+    "end": 11649
    },
    {
     "text": "the",
-    "start": 12918,
-    "end": 12982
+    "start": 11666,
+    "end": 11810
    },
    {
     "text": "agent",
-    "start": 13063,
-    "end": 13401
+    "start": 11890,
+    "end": 12115
    },
    {
     "text": "uses",
-    "start": 13401,
-    "end": 13691
+    "start": 12147,
+    "end": 12436
    },
    {
     "text": "the",
-    "start": 13723,
-    "end": 13868
+    "start": 12468,
+    "end": 12612
    },
    {
     "text": "exact",
-    "start": 13868,
-    "end": 14094
+    "start": 12612,
+    "end": 12885
    },
    {
     "text": "text.",
-    "start": 14206,
-    "end": 14673
+    "start": 13013,
+    "end": 13366
    }
   ],
-  "script": "Speech often gets identifiers wrong. Before this gate, a misheard wallet address reached the server 5 times, and a right hearing looks exactly like a wrong one. So the address comes from the paste box, and the agent uses the exact text."
+  "script": "Speech often mishears identifiers. Before this gate, a misheard wallet address reached the server 5 times, and a right hearing looks exactly like a wrong one. So the address comes from the paste box, and the agent uses the exact text."
  },
  "N8": {
   "file": "video/voices/N8.wav",

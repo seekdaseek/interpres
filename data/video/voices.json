@@ -199,17 +199,32 @@
   "N7": {
    "id": "N7",
    "voice": "charles",
-   "text": "Speech often gets identifiers wrong. Before this gate, a misheard wallet address reached the server 5 times, and a right hearing looks exactly like a wrong one. So the address comes from the paste box, and the agent uses the exact text.",
+   "text": "Speech often mishears identifiers. Before this gate, a misheard wallet address reached the server 5 times, and a right hearing looks exactly like a wrong one. So the address comes from the paste box, and the agent uses the exact text.",
    "file": "video/voices/N7.wav",
    "path": "greeting",
    "parts": 1,
    "attempts": [
     {
      "sessionIds": [
-      "sess_d87c15ff178e4a1cb5baa6621cb5c1c6"
+      "sess_6e0d4c5413344520b3f497ec8c19ebe7"
      ],
-     "ms": 14980,
-     "transcript": "Speech often gets identifiers wrong. Before this gate, a misheard wallet address reached the server 5 times, and a right hearing looks exactly like a wrong one. So the address comes from the paste box, and the agent uses the exact text.",
+     "ms": 14550,
+     "transcript": "Speech often mishars identifiers. Before this gate, a misheard wallet address reached the server 5 times, and a right hearing looks exactly like a wrong one. So the address comes from the paste box and the agent uses the exact text.",
+     "speechModel": "universal-3-5-pro,universal-2",
+     "pass": false,
+     "firstDifference": {
+      "at": 2,
+      "expected": "mishears identifiers before this",
+      "heard": "mishars identifiers before this"
+     },
+     "variantsUsed": []
+    },
+    {
+     "sessionIds": [
+      "sess_573e8fd085ee43c78e6af8418df82fee"
+     ],
+     "ms": 13720,
+     "transcript": "Speech often mishears identifiers. Before this gate, a misheard wallet address reached the server 5 times, and a right hearing looks exactly like a wrong one. So the address comes from the paste box, and the agent uses the exact text.",
      "speechModel": "universal-3-5-pro,universal-2",
      "pass": true,
      "variantsUsed": []

@@ -1,0 +1,149 @@
+{
+ "file": "video/captures/B-20260927T091537/stems/agent.wav",
+ "sha256": "7c06ad87550031276006bce0b06399c69dc8467be5620e926818c69104e455d3",
+ "id": "f8a6fe71-7312-4a4a-8ef2-24ce23cc14e6",
+ "speechModel": "universal-3-5-pro,universal-2",
+ "text": "Connected to most recommended books with 6 tools available. What would you like to do? Sapiens is recommended by 32 verified people, including Joe Rogan and Lex Fridman.",
+ "words": [
+  {
+   "text": "Connected",
+   "start": 15510,
+   "end": 15912
+  },
+  {
+   "text": "to",
+   "start": 15912,
+   "end": 16008
+  },
+  {
+   "text": "most",
+   "start": 16008,
+   "end": 16233
+  },
+  {
+   "text": "recommended",
+   "start": 16233,
+   "end": 16747
+  },
+  {
+   "text": "books",
+   "start": 16795,
+   "end": 17132
+  },
+  {
+   "text": "with",
+   "start": 17373,
+   "end": 17710
+  },
+  {
+   "text": "6",
+   "start": 17790,
+   "end": 18095
+  },
+  {
+   "text": "tools",
+   "start": 18095,
+   "end": 18384
+  },
+  {
+   "text": "available.",
+   "start": 18416,
+   "end": 18786
+  },
+  {
+   "text": "What",
+   "start": 19364,
+   "end": 19476
+  },
+  {
+   "text": "would",
+   "start": 19476,
+   "end": 19605
+  },
+  {
+   "text": "you",
+   "start": 19605,
+   "end": 19701
+  },
+  {
+   "text": "like",
+   "start": 19701,
+   "end": 19845
+  },
+  {
+   "text": "to",
+   "start": 19845,
+   "end": 19942
+  },
+  {
+   "text": "do?",
+   "start": 19942,
+   "end": 20086
+  },
+  {
+   "text": "Sapiens",
+   "start": 27631,
+   "end": 28257
+  },
+  {
+   "text": "is",
+   "start": 28353,
+   "end": 28418
+  },
+  {
+   "text": "recommended",
+   "start": 28514,
+   "end": 29011
+  },
+  {
+   "text": "by",
+   "start": 29011,
+   "end": 29124
+  },
+  {
+   "text": "32",
+   "start": 29236,
+   "end": 29621
+  },
+  {
+   "text": "verified",
+   "start": 29717,
+   "end": 30102
+  },
+  {
+   "text": "people,",
+   "start": 30134,
+   "end": 30471
+  },
+  {
+   "text": "including",
+   "start": 30856,
+   "end": 31209
+  },
+  {
+   "text": "Joe",
+   "start": 31322,
+   "end": 31434
+  },
+  {
+   "text": "Rogan",
+   "start": 31498,
+   "end": 31787
+  },
+  {
+   "text": "and",
+   "start": 31980,
+   "end": 32204
+  },
+  {
+   "text": "Lex",
+   "start": 32204,
+   "end": 32461
+  },
+  {
+   "text": "Fridman.",
+   "start": 32461,
+   "end": 32798
+  }
+ ]
+}

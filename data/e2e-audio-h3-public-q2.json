@@ -1,0 +1,105 @@
+{
+  "at": "2026-09-27T09:13:12.895Z",
+  "voice": "Samantha",
+  "carry": true,
+  "results": [
+    {
+      "url": "https://mostrecommendedbooks.com/api/mcp",
+      "sessionId": "sess_b7aac8424c634d239cbf8ed6e5586654",
+      "turns": [
+        {
+          "said": "Who recommends Sapiens?",
+          "heard": [
+            "Who recommends Sapiens?"
+          ],
+          "calls": [
+            {
+              "callId": "chatcmpl-tool-920fffa0b81758b2",
+              "name": "get_book_recommenders",
+              "arguments": {
+                "title": "Sapiens"
+              },
+              "callAt": 1790500384752,
+              "transitionReply": 0,
+              "mcpName": "get_book_recommenders",
+              "normalisersApplied": [],
+              "rawChars": 5889,
+              "spokenChars": 363,
+              "spoken": "\"Sapiens\" by Yuval Noah Harari is recommended by 32 verified people:. Joe Rogan (Comedian) — \"\"It really puts in perspective how bizarre human beings are. It’s an awesome overview of our species.\" - Joe Rogan\" (source:. Lex Fridman (Scientist) — \"\"Basically one of the things we've created here is we've imagined ideas that we all share.\" - Lex Fridman\" (source:.",
+              "method": "local",
+              "refine": "circuit_open",
+              "refineMs": 0,
+              "mcpMs": 522,
+              "isError": false,
+              "readyAt": 1790500385397,
+              "execMs": 644,
+              "sentAt": 1790500385398,
+              "answerReply": 1,
+              "transitionDoneAt": 1790500385008,
+              "agentWaitMs": 390,
+              "transitionAudioMs": 0,
+              "silenceOnUsMs": 646
+            }
+          ],
+          "agentReply": "Sapiens is recommended by thirty-two verified people, including Joe Rogan and Lex Fridman.",
+          "interrupted": false,
+          "startedAt": 1790500380825,
+          "speechEndAt": 1790500382266,
+          "firstAudioAt": 1790500386035,
+          "voiceToVoiceMs": 3769,
+          "idleAt": 1790500391327,
+          "ms": 10502,
+          "timeToAnswerMs": 3769
+        }
+      ],
+      "events": {
+        "session.updated": 1,
+        "session.ready": 1,
+        "input.speech.started": 1,
+        "transcript.user.delta": 2,
+        "input.speech.stopped": 1,
+        "transcript.user": 1,
+        "reply.started": 2,
+        "tool.call": 1,
+        "reply.done": 2,
+        "reply.audio": 532,
+        "transcript.agent.delta": 13,
+        "transcript.agent": 1,
+        "session.ended": 1
+      },
+      "failures": [],
+      "audio": {
+        "chunksSent": 293,
+        "reanchors": 0
+      },
+      "shaper": {
+        "calls": 0,
+        "used": 0,
+        "failures": 0,
+        "rateLimited": 0,
+        "timeouts": 0,
+        "totalMs": 0
+      },
+      "replies": [
+        {
+          "startedAt": 1790500383351,
+          "audioMs": 0,
+          "doneAt": 1790500385007
+        },
+        {
+          "startedAt": 1790500385460,
+          "firstAudioAt": 1790500386035,
+          "audioMs": 5320,
+          "doneAt": 1790500391326
+        }
+      ],
+      "ended": {
+        "session_duration_seconds": 12.10267,
+        "type": "session.ended",
+        "timestamp": 1790500392.340843,
+        "audio_duration_seconds": null
+      },
+      "ok": true
+    }
+  ]
+}

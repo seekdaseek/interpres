@@ -1,0 +1,3150 @@
+{
+ "capture": "A-20260927T091341",
+ "scene": "A",
+ "sessionId": "sess_2df644020f0f4646ae311f71e61a0bec",
+ "t0": 1790500424593.7778,
+ "lengthMs": 56653,
+ "frames": 1636,
+ "frameSize": "2176x1170 px",
+ "clockFits": {
+  "0": {
+   "samples": 224,
+   "driftPpm": -12,
+   "maxResidualMs": 0.1
+  },
+  "1": {
+   "samples": 142,
+   "driftPpm": -17,
+   "maxResidualMs": 3.88
+  },
+  "2": {
+   "samples": 142,
+   "driftPpm": -11,
+   "maxResidualMs": 1.44
+  }
+ },
+ "stems": {
+  "caller": "recorded at 24000 Hz in the harness context, upsampled to 48000 Hz, 57.7 s",
+  "agent": "recorded at 24000 Hz in the page's context, upsampled to 48000 Hz",
+  "pagemic": "the page's mic input, recorded at 24000 Hz, evidence only"
+ },
+ "pageMicFidelity": [
+  {
+   "id": "Q1",
+   "windows": 4,
+   "bitExactWindows": 4,
+   "slips": [],
+   "worstWindowSnrDb": 999
+  }
+ ],
+ "latency": [
+  {
+   "id": "Q1",
+   "steps": {
+    "callerLastWord": 0,
+    "apiEndOfTurn": 1179,
+    "transcriptFinal": 1180,
+    "tools": [
+     {
+      "name": "goji_explain_term",
+      "heldByGate": false,
+      "toolCallAt": 2982,
+      "fetchMs": 354,
+      "serverMs": 294,
+      "networkMs": 60,
+      "mcpMs": 293,
+      "refine": "not_needed",
+      "refineMs": 0,
+      "method": "truncated",
+      "serverTimingsFrom": "the page (the /api/mcp/call response)",
+      "resultSentAt": 3342
+     }
+    ],
+    "lastToolResultSent": 3342,
+    "firstReplyAudioReceived": 4153,
+    "answerAudioReceived": 4153,
+    "firstAudioPlayed": 4372
+   },
+   "clipTrailingSilenceMs": 242,
+   "e2eStyleMs": 3911,
+   "playoutMs": 220,
+   "videoMs": 4372
+  }
+ ],
+ "sync": [
+  {
+   "label": "start",
+   "flashMs": 1824.218994140625,
+   "beepMs": 1827.520751953125,
+   "offsetMs": 3.3,
+   "ok": true
+  },
+  {
+   "label": "end",
+   "flashMs": 55120.42822265625,
+   "beepMs": 55117.5625,
+   "offsetMs": -2.9,
+   "ok": true
+  }
+ ],
+ "exchanges": [
+  {
+   "id": "Q1",
+   "callerStartMs": 23570.916666666668,
+   "callerEndMs": 25349.645751953125,
+   "agentStartMs": 29722,
+   "voiceToVoiceMs": 4372,
+   "heard": "What is SEO in plain English?"
+  }
+ ],
+ "consoleErrors": [],
+ "checks": [
+  {
+   "check": "discovery connects to https://mcp.goji.agency/mcp",
+   "ok": true,
+   "detail": "Found in the official MCP registry: https://mcp.goji.agency/mcp · 9 tools · 757 ms, remembered from an earlier look"
+  },
+  {
+   "check": "Q1 heard as said",
+   "ok": true,
+   "detail": "heard \"What is SEO in plain English?\""
+  },
+  {
+   "check": "goji_explain_term called once and succeeds",
+   "ok": true,
+   "detail": "1 call(s) [{\"term\":\"SEO\"}]; /api/mcp/call 200"
+  },
+  {
+   "check": "Q1: the agent answers",
+   "ok": true,
+   "detail": "SEO stands for Search Engine Optimisation. It is the work of making your website the result that search engines choose to show, by using content that answers wh"
+  },
+  {
+   "check": "no console errors",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "sync within one frame",
+   "ok": true,
+   "detail": ""
+  }
+ ],
+ "spokenAddresses": [],
+ "log": [
+  {
+   "t": -716,
+   "type": "fetch.start",
+   "id": "2zs8ms",
+   "path": "/api/presets"
+  },
+  {
+   "t": -707,
+   "type": "url",
+   "href": "https://interpres.ochinimus.app/"
+  },
+  {
+   "t": -675,
+   "type": "dom.hint",
+   "v": {
+    "shown": false,
+    "text": "",
+    "rect": {
+     "x": 0,
+     "y": 0,
+     "w": 0,
+     "h": 0
+    },
+    "font": "12.5px"
+   }
+  },
+  {
+   "t": -675,
+   "type": "dom.calls",
+   "v": []
+  },
+  {
+   "t": -674,
+   "type": "dom.gate",
+   "v": {
+    "shown": false,
+    "kindText": "",
+    "tool": "",
+    "value": "",
+    "say": "",
+    "rect": {
+     "x": 0,
+     "y": 0,
+     "w": 0,
+     "h": 0
+    }
+   }
+  },
+  {
+   "t": -674,
+   "type": "dom.chips",
+   "v": {
+    "chips": [],
+    "rect": {
+     "x": 0,
+     "y": 0,
+     "w": 0,
+     "h": 0
+    }
+   }
+  },
+  {
+   "t": -674,
+   "type": "dom.lines",
+   "v": []
+  },
+  {
+   "t": -674,
+   "type": "dom.ui",
+   "v": {
+    "status": "Press to talk",
+    "server": "",
+    "connect": "Connect",
+    "sample": "",
+    "paste": "",
+    "scrollY": 0,
+    "results": []
+   }
+  },
+  {
+   "t": -653,
+   "type": "fetch.done",
+   "id": "2zs8ms",
+   "path": "/api/presets",
+   "status": 200,
+   "ms": 63
+  },
+  {
+   "t": 302,
+   "type": "audio.recorder",
+   "ctx": 0,
+   "stem": "caller",
+   "rate": 24000
+  },
+  {
+   "t": 667,
+   "type": "capture.start",
+   "scene": "A",
+   "dry": false,
+   "ready": {
+    "state": "running",
+    "rate": 24000,
+    "waitedMs": 358
+   },
+   "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.0.0 Safari/537.36"
+  },
+  {
+   "t": 669,
+   "type": "clock.node",
+   "nodeMid": 1790500425262,
+   "roundTripMs": 2
+  },
+  {
+   "t": 674,
+   "type": "clip.loaded",
+   "id": "Q1",
+   "voice": "michael",
+   "sha256": "0ee22445f1969b19ae4d9b8e61a70b0b4d5cee791291545ff2928012697e5aa5",
+   "ms": 2290
+  },
+  {
+   "t": 688,
+   "type": "clip.loaded",
+   "id": "Q2",
+   "voice": "michael",
+   "sha256": "c6df75b263c388e8fcc62e208483f83b752365d5df531b3949b5ec8ecaf7932a",
+   "ms": 1960
+  },
+  {
+   "t": 696,
+   "type": "clip.loaded",
+   "id": "Q3",
+   "voice": "michael",
+   "sha256": "23c4977f5f8defc80a72776b8c7bbcc3e8f2c77d4dec10c8f8540f86142e7174",
+   "ms": 2690
+  },
+  {
+   "t": 703,
+   "type": "clip.loaded",
+   "id": "Q4",
+   "voice": "michael",
+   "sha256": "82bce38c71f5127e08451ebe1207bd0198abe4069791d690890adf01000ce53f",
+   "ms": 2730
+  },
+  {
+   "t": 711,
+   "type": "clip.loaded",
+   "id": "Q5",
+   "voice": "michael",
+   "sha256": "9bd03d7469cc072b4282929007a677ad32c30252728f3bd76656a73395b624ab",
+   "ms": 14490
+  },
+  {
+   "t": 1547,
+   "type": "sync.beep",
+   "label": "start",
+   "ctx": 0,
+   "contextTime": 1.3966666666666667,
+   "heardAt": 1790500426421.2964
+  },
+  {
+   "t": 1816,
+   "type": "sync.flash.on",
+   "label": "start"
+  },
+  {
+   "t": 1840,
+   "type": "sync.flash.off",
+   "label": "start"
+  },
+  {
+   "t": 4456,
+   "type": "narration",
+   "id": "N3",
+   "ms": 10590
+  },
+  {
+   "t": 4530,
+   "type": "mouse",
+   "x": 674,
+   "y": 321
+  },
+  {
+   "t": 4549,
+   "type": "mouse",
+   "x": 673,
+   "y": 321
+  },
+  {
+   "t": 4568,
+   "type": "mouse",
+   "x": 672,
+   "y": 321
+  },
+  {
+   "t": 4585,
+   "type": "mouse",
+   "x": 670,
+   "y": 321
+  },
+  {
+   "t": 4607,
+   "type": "mouse",
+   "x": 668,
+   "y": 321
+  },
+  {
+   "t": 4625,
+   "type": "mouse",
+   "x": 665,
+   "y": 321
+  },
+  {
+   "t": 4643,
+   "type": "mouse",
+   "x": 661,
+   "y": 321
+  },
+  {
+   "t": 4662,
+   "type": "mouse",
+   "x": 657,
+   "y": 321
+  },
+  {
+   "t": 4680,
+   "type": "mouse",
+   "x": 653,
+   "y": 321
+  },
+  {
+   "t": 4696,
+   "type": "mouse",
+   "x": 648,
+   "y": 321
+  },
+  {
+   "t": 4714,
+   "type": "mouse",
+   "x": 642,
+   "y": 322
+  },
+  {
+   "t": 4733,
+   "type": "mouse",
+   "x": 636,
+   "y": 322
+  },
+  {
+   "t": 4750,
+   "type": "mouse",
+   "x": 630,
+   "y": 322
+  },
+  {
+   "t": 4767,
+   "type": "mouse",
+   "x": 623,
+   "y": 322
+  },
+  {
+   "t": 4784,
+   "type": "mouse",
+   "x": 615,
+   "y": 322
+  },
+  {
+   "t": 4803,
+   "type": "mouse",
+   "x": 607,
+   "y": 322
+  },
+  {
+   "t": 4821,
+   "type": "mouse",
+   "x": 599,
+   "y": 322
+  },
+  {
+   "t": 4839,
+   "type": "mouse",
+   "x": 589,
+   "y": 322
+  },
+  {
+   "t": 4874,
+   "type": "mouse",
+   "x": 580,
+   "y": 322
+  },
+  {
+   "t": 4893,
+   "type": "mouse",
+   "x": 569,
+   "y": 322
+  },
+  {
+   "t": 4913,
+   "type": "mouse",
+   "x": 559,
+   "y": 322
+  },
+  {
+   "t": 4932,
+   "type": "mouse",
+   "x": 548,
+   "y": 322
+  },
+  {
+   "t": 4951,
+   "type": "mouse",
+   "x": 536,
+   "y": 322
+  },
+  {
+   "t": 4970,
+   "type": "mouse",
+   "x": 523,
+   "y": 322
+  },
+  {
+   "t": 4990,
+   "type": "mouse",
+   "x": 511,
+   "y": 323
+  },
+  {
+   "t": 5010,
+   "type": "mouse",
+   "x": 498,
+   "y": 323
+  },
+  {
+   "t": 5030,
+   "type": "mouse",
+   "x": 486,
+   "y": 323
+  },
+  {
+   "t": 5049,
+   "type": "mouse",
+   "x": 474,
+   "y": 323
+  },
+  {
+   "t": 5069,
+   "type": "mouse",
+   "x": 463,
+   "y": 323
+  },
+  {
+   "t": 5087,
+   "type": "mouse",
+   "x": 452,
+   "y": 323
+  },
+  {
+   "t": 5123,
+   "type": "mouse",
+   "x": 442,
+   "y": 323
+  },
+  {
+   "t": 5142,
+   "type": "mouse",
+   "x": 432,
+   "y": 323
+  },
+  {
+   "t": 5162,
+   "type": "mouse",
+   "x": 423,
+   "y": 323
+  },
+  {
+   "t": 5182,
+   "type": "mouse",
+   "x": 414,
+   "y": 323
+  },
+  {
+   "t": 5203,
+   "type": "mouse",
+   "x": 406,
+   "y": 323
+  },
+  {
+   "t": 5223,
+   "type": "mouse",
+   "x": 399,
+   "y": 323
+  },
+  {
+   "t": 5243,
+   "type": "mouse",
+   "x": 391,
+   "y": 324
+  },
+  {
+   "t": 5263,
+   "type": "mouse",
+   "x": 385,
+   "y": 324
+  },
+  {
+   "t": 5283,
+   "type": "mouse",
+   "x": 379,
+   "y": 324
+  },
+  {
+   "t": 5303,
+   "type": "mouse",
+   "x": 373,
+   "y": 324
+  },
+  {
+   "t": 5324,
+   "type": "mouse",
+   "x": 368,
+   "y": 324
+  },
+  {
+   "t": 5343,
+   "type": "mouse",
+   "x": 364,
+   "y": 324
+  },
+  {
+   "t": 5362,
+   "type": "mouse",
+   "x": 360,
+   "y": 324
+  },
+  {
+   "t": 5382,
+   "type": "mouse",
+   "x": 357,
+   "y": 324
+  },
+  {
+   "t": 5399,
+   "type": "mouse",
+   "x": 354,
+   "y": 324
+  },
+  {
+   "t": 5419,
+   "type": "mouse",
+   "x": 351,
+   "y": 324
+  },
+  {
+   "t": 5438,
+   "type": "mouse",
+   "x": 350,
+   "y": 324
+  },
+  {
+   "t": 5473,
+   "type": "mouse",
+   "x": 348,
+   "y": 324
+  },
+  {
+   "t": 5496,
+   "type": "mouse",
+   "x": 348,
+   "y": 324
+  },
+  {
+   "t": 5516,
+   "type": "mouse",
+   "x": 347,
+   "y": 324
+  },
+  {
+   "t": 5658,
+   "type": "mousedown",
+   "x": 347,
+   "y": 324
+  },
+  {
+   "t": 5736,
+   "type": "mouseup",
+   "x": 347,
+   "y": 324
+  },
+  {
+   "t": 5894,
+   "type": "key",
+   "key": "g",
+   "meta": false,
+   "ctrl": false
+  },
+  {
+   "t": 6054,
+   "type": "key",
+   "key": "o",
+   "meta": false,
+   "ctrl": false
+  },
+  {
+   "t": 6157,
+   "type": "key",
+   "key": "j",
+   "meta": false,
+   "ctrl": false
+  },
+  {
+   "t": 6237,
+   "type": "key",
+   "key": "i",
+   "meta": false,
+   "ctrl": false
+  },
+  {
+   "t": 6322,
+   "type": "key",
+   "key": ".",
+   "meta": false,
+   "ctrl": false
+  },
+  {
+   "t": 6426,
+   "type": "key",
+   "key": "a",
+   "meta": false,
+   "ctrl": false
+  },
+  {
+   "t": 6458,
+   "type": "dom.hint",
+   "v": {
+    "shown": true,
+    "text": "Will connect to https://goji.a/ (added https://)",
+    "rect": {
+     "x": 28,
+     "y": 363.0390625,
+     "w": 760,
+     "h": 18.75
+    },
+    "font": "12.5px"
+   }
+  },
+  {
+   "t": 6512,
+   "type": "key",
+   "key": "g",
+   "meta": false,
+   "ctrl": false
+  },
+  {
+   "t": 6544,
+   "type": "dom.hint",
+   "v": {
+    "shown": true,
+    "text": "Will connect to https://goji.ag/ (added https://)",
+    "rect": {
+     "x": 28,
+     "y": 363.0390625,
+     "w": 760,
+     "h": 18.75
+    },
+    "font": "12.5px"
+   }
+  },
+  {
+   "t": 6611,
+   "type": "key",
+   "key": "e",
+   "meta": false,
+   "ctrl": false
+  },
+  {
+   "t": 6643,
+   "type": "dom.hint",
+   "v": {
+    "shown": true,
+    "text": "Will connect to https://goji.age/ (added https://)",
+    "rect": {
+     "x": 28,
+     "y": 363.0390625,
+     "w": 760,
+     "h": 18.75
+    },
+    "font": "12.5px"
+   }
+  },
+  {
+   "t": 6710,
+   "type": "key",
+   "key": "n",
+   "meta": false,
+   "ctrl": false
+  },
+  {
+   "t": 6742,
+   "type": "dom.hint",
+   "v": {
+    "shown": true,
+    "text": "Will connect to https://goji.agen/ (added https://)",
+    "rect": {
+     "x": 28,
+     "y": 363.0390625,
+     "w": 760,
+     "h": 18.75
+    },
+    "font": "12.5px"
+   }
+  },
+  {
+   "t": 6809,
+   "type": "key",
+   "key": "c",
+   "meta": false,
+   "ctrl": false
+  },
+  {
+   "t": 6840,
+   "type": "dom.hint",
+   "v": {
+    "shown": true,
+    "text": "Will connect to https://goji.agenc/ (added https://)",
+    "rect": {
+     "x": 28,
+     "y": 363.0390625,
+     "w": 760,
+     "h": 18.75
+    },
+    "font": "12.5px"
+   }
+  },
+  {
+   "t": 6907,
+   "type": "key",
+   "key": "y",
+   "meta": false,
+   "ctrl": false
+  },
+  {
+   "t": 6939,
+   "type": "dom.hint",
+   "v": {
+    "shown": true,
+    "text": "Will connect to https://goji.agency/ (added https://)",
+    "rect": {
+     "x": 28,
+     "y": 363.0390625,
+     "w": 760,
+     "h": 18.75
+    },
+    "font": "12.5px"
+   }
+  },
+  {
+   "t": 7250,
+   "type": "key",
+   "key": "Enter",
+   "meta": false,
+   "ctrl": false
+  },
+  {
+   "t": 7254,
+   "type": "fetch.start",
+   "id": "4hx3j1",
+   "path": "/api/mcp/connect",
+   "body": {
+    "url": "goji.agency"
+   }
+  },
+  {
+   "t": 7288,
+   "type": "dom.ui",
+   "v": {
+    "status": "Press to talk",
+    "server": "",
+    "connect": "Looking…",
+    "sample": "",
+    "paste": "",
+    "scrollY": 0,
+    "results": []
+   }
+  },
+  {
+   "t": 7327,
+   "type": "fetch.done",
+   "id": "4hx3j1",
+   "path": "/api/mcp/connect",
+   "status": 200,
+   "ms": 73
+  },
+  {
+   "t": 7334,
+   "type": "fetch.start",
+   "id": "s05066",
+   "path": "/api/mcp/starters"
+  },
+  {
+   "t": 7336,
+   "type": "url",
+   "href": "https://interpres.ochinimus.app/?url=https%3A%2F%2Fmcp.goji.agency%2Fmcp"
+  },
+  {
+   "t": 7367,
+   "type": "dom.hint",
+   "v": {
+    "shown": true,
+    "text": "Found in the official MCP registry: https://mcp.goji.agency/mcp · 9 tools · 757 ms, remembered from an earlier look",
+    "rect": {
+     "x": 28,
+     "y": 363.0390625,
+     "w": 760,
+     "h": 37.5
+    },
+    "font": "12.5px"
+   }
+  },
+  {
+   "t": 7368,
+   "type": "dom.chips",
+   "v": {
+    "chips": [
+     {
+      "name": "use_pasted_text",
+      "isNew": false
+     },
+     {
+      "name": "goji_search",
+      "isNew": false
+     },
+     {
+      "name": "goji_explain_term",
+      "isNew": false
+     },
+     {
+      "name": "goji_browse_glossary",
+      "isNew": false
+     },
+     {
+      "name": "goji_get_service",
+      "isNew": false
+     },
+     {
+      "name": "goji_answer_faq",
+      "isNew": false
+     },
+     {
+      "name": "goji_guide_contents",
+      "isNew": false
+     },
+     {
+      "name": "goji_read_guide_chapter",
+      "isNew": false
+     },
+     {
+      "name": "goji_read_guide",
+      "isNew": false
+     },
+     {
+      "name": "goji_start_enquiry",
+      "isNew": false
+     }
+    ],
+    "rect": {
+     "x": 41,
+     "y": 1366.3125,
+     "w": 514.7890625,
+     "h": 128
+    }
+   }
+  },
+  {
+   "t": 7368,
+   "type": "dom.ui",
+   "v": {
+    "status": "Press to talk",
+    "server": "goji",
+    "connect": "Connect",
+    "sample": "",
+    "paste": "",
+    "scrollY": 0,
+    "results": []
+   }
+  },
+  {
+   "t": 8113,
+   "type": "fetch.done",
+   "id": "s05066",
+   "path": "/api/mcp/starters",
+   "status": 200,
+   "ms": 780
+  },
+  {
+   "t": 8146,
+   "type": "dom.chips",
+   "v": {
+    "chips": [
+     {
+      "name": "use_pasted_text",
+      "isNew": false
+     },
+     {
+      "name": "goji_search",
+      "isNew": false
+     },
+     {
+      "name": "goji_explain_term",
+      "isNew": false
+     },
+     {
+      "name": "goji_browse_glossary",
+      "isNew": false
+     },
+     {
+      "name": "goji_get_service",
+      "isNew": false
+     },
+     {
+      "name": "goji_answer_faq",
+      "isNew": false
+     },
+     {
+      "name": "goji_guide_contents",
+      "isNew": false
+     },
+     {
+      "name": "goji_read_guide_chapter",
+      "isNew": false
+     },
+     {
+      "name": "goji_read_guide",
+      "isNew": false
+     },
+     {
+      "name": "goji_start_enquiry",
+      "isNew": false
+     }
+    ],
+    "rect": {
+     "x": 41,
+     "y": 1409.234375,
+     "w": 514.7890625,
+     "h": 128
+    }
+   }
+  },
+  {
+   "t": 11753,
+   "type": "scroll",
+   "y": 94
+  },
+  {
+   "t": 11784,
+   "type": "dom.hint",
+   "v": {
+    "shown": true,
+    "text": "Found in the official MCP registry: https://mcp.goji.agency/mcp · 9 tools · 757 ms, remembered from an earlier look",
+    "rect": {
+     "x": 28,
+     "y": 222.0390625,
+     "w": 760,
+     "h": 37.5
+    },
+    "font": "12.5px"
+   }
+  },
+  {
+   "t": 11784,
+   "type": "dom.chips",
+   "v": {
+    "chips": [
+     {
+      "name": "use_pasted_text",
+      "isNew": false
+     },
+     {
+      "name": "goji_search",
+      "isNew": false
+     },
+     {
+      "name": "goji_explain_term",
+      "isNew": false
+     },
+     {
+      "name": "goji_browse_glossary",
+      "isNew": false
+     },
+     {
+      "name": "goji_get_service",
+      "isNew": false
+     },
+     {
+      "name": "goji_answer_faq",
+      "isNew": false
+     },
+     {
+      "name": "goji_guide_contents",
+      "isNew": false
+     },
+     {
+      "name": "goji_read_guide_chapter",
+      "isNew": false
+     },
+     {
+      "name": "goji_read_guide",
+      "isNew": false
+     },
+     {
+      "name": "goji_start_enquiry",
+      "isNew": false
+     }
+    ],
+    "rect": {
+     "x": 41,
+     "y": 1268.234375,
+     "w": 514.7890625,
+     "h": 128
+    }
+   }
+  },
+  {
+   "t": 11784,
+   "type": "dom.ui",
+   "v": {
+    "status": "Press to talk",
+    "server": "goji",
+    "connect": "Connect",
+    "sample": "",
+    "paste": "",
+    "scrollY": 141,
+    "results": []
+   }
+  },
+  {
+   "t": 11819,
+   "type": "scroll",
+   "y": 141
+  },
+  {
+   "t": 11850,
+   "type": "dom.hint",
+   "v": {
+    "shown": true,
+    "text": "Found in the official MCP registry: https://mcp.goji.agency/mcp · 9 tools · 757 ms, remembered from an earlier look",
+    "rect": {
+     "x": 28,
+     "y": 175.0390625,
+     "w": 760,
+     "h": 37.5
+    },
+    "font": "12.5px"
+   }
+  },
+  {
+   "t": 11851,
+   "type": "dom.chips",
+   "v": {
+    "chips": [
+     {
+      "name": "use_pasted_text",
+      "isNew": false
+     },
+     {
+      "name": "goji_search",
+      "isNew": false
+     },
+     {
+      "name": "goji_explain_term",
+      "isNew": false
+     },
+     {
+      "name": "goji_browse_glossary",
+      "isNew": false
+     },
+     {
+      "name": "goji_get_service",
+      "isNew": false
+     },
+     {
+      "name": "goji_answer_faq",
+      "isNew": false
+     },
+     {
+      "name": "goji_guide_contents",
+      "isNew": false
+     },
+     {
+      "name": "goji_read_guide_chapter",
+      "isNew": false
+     },
+     {
+      "name": "goji_read_guide",
+      "isNew": false
+     },
+     {
+      "name": "goji_start_enquiry",
+      "isNew": false
+     }
+    ],
+    "rect": {
+     "x": 41,
+     "y": 1221.234375,
+     "w": 514.7890625,
+     "h": 128
+    }
+   }
+  },
+  {
+   "t": 11851,
+   "type": "dom.ui",
+   "v": {
+    "status": "Press to talk",
+    "server": "goji",
+    "connect": "Connect",
+    "sample": "",
+    "paste": "",
+    "scrollY": 188,
+    "results": []
+   }
+  },
+  {
+   "t": 11884,
+   "type": "scroll",
+   "y": 188
+  },
+  {
+   "t": 11916,
+   "type": "dom.hint",
+   "v": {
+    "shown": true,
+    "text": "Found in the official MCP registry: https://mcp.goji.agency/mcp · 9 tools · 757 ms, remembered from an earlier look",
+    "rect": {
+     "x": 28,
+     "y": 127.5390625,
+     "w": 760,
+     "h": 37.5
+    },
+    "font": "12.5px"
+   }
+  },
+  {
+   "t": 11916,
+   "type": "dom.chips",
+   "v": {
+    "chips": [
+     {
+      "name": "use_pasted_text",
+      "isNew": false
+     },
+     {
+      "name": "goji_search",
+      "isNew": false
+     },
+     {
+      "name": "goji_explain_term",
+      "isNew": false
+     },
+     {
+      "name": "goji_browse_glossary",
+      "isNew": false
+     },
+     {
+      "name": "goji_get_service",
+      "isNew": false
+     },
+     {
+      "name": "goji_answer_faq",
+      "isNew": false
+     },
+     {
+      "name": "goji_guide_contents",
+      "isNew": false
+     },
+     {
+      "name": "goji_read_guide_chapter",
+      "isNew": false
+     },
+     {
+      "name": "goji_read_guide",
+      "isNew": false
+     },
+     {
+      "name": "goji_start_enquiry",
+      "isNew": false
+     }
+    ],
+    "rect": {
+     "x": 41,
+     "y": 1173.734375,
+     "w": 514.7890625,
+     "h": 128
+    }
+   }
+  },
+  {
+   "t": 11916,
+   "type": "dom.ui",
+   "v": {
+    "status": "Press to talk",
+    "server": "goji",
+    "connect": "Connect",
+    "sample": "",
+    "paste": "",
+    "scrollY": 235.5,
+    "results": []
+   }
+  },
+  {
+   "t": 11951,
+   "type": "scroll",
+   "y": 235.5
+  },
+  {
+   "t": 11981,
+   "type": "dom.hint",
+   "v": {
+    "shown": true,
+    "text": "Found in the official MCP registry: https://mcp.goji.agency/mcp · 9 tools · 757 ms, remembered from an earlier look",
+    "rect": {
+     "x": 28,
+     "y": 80.5390625,
+     "w": 760,
+     "h": 37.5
+    },
+    "font": "12.5px"
+   }
+  },
+  {
+   "t": 11981,
+   "type": "dom.chips",
+   "v": {
+    "chips": [
+     {
+      "name": "use_pasted_text",
+      "isNew": false
+     },
+     {
+      "name": "goji_search",
+      "isNew": false
+     },
+     {
+      "name": "goji_explain_term",
+      "isNew": false
+     },
+     {
+      "name": "goji_browse_glossary",
+      "isNew": false
+     },
+     {
+      "name": "goji_get_service",
+      "isNew": false
+     },
+     {
+      "name": "goji_answer_faq",
+      "isNew": false
+     },
+     {
+      "name": "goji_guide_contents",
+      "isNew": false
+     },
+     {
+      "name": "goji_read_guide_chapter",
+      "isNew": false
+     },
+     {
+      "name": "goji_read_guide",
+      "isNew": false
+     },
+     {
+      "name": "goji_start_enquiry",
+      "isNew": false
+     }
+    ],
+    "rect": {
+     "x": 41,
+     "y": 1126.734375,
+     "w": 514.7890625,
+     "h": 128
+    }
+   }
+  },
+  {
+   "t": 11982,
+   "type": "dom.ui",
+   "v": {
+    "status": "Press to talk",
+    "server": "goji",
+    "connect": "Connect",
+    "sample": "",
+    "paste": "",
+    "scrollY": 282.5,
+    "results": []
+   }
+  },
+  {
+   "t": 12018,
+   "type": "scroll",
+   "y": 282.5
+  },
+  {
+   "t": 12049,
+   "type": "dom.hint",
+   "v": {
+    "shown": true,
+    "text": "Found in the official MCP registry: https://mcp.goji.agency/mcp · 9 tools · 757 ms, remembered from an earlier look",
+    "rect": {
+     "x": 28,
+     "y": 33.5390625,
+     "w": 760,
+     "h": 37.5
+    },
+    "font": "12.5px"
+   }
+  },
+  {
+   "t": 12049,
+   "type": "dom.chips",
+   "v": {
+    "chips": [
+     {
+      "name": "use_pasted_text",
+      "isNew": false
+     },
+     {
+      "name": "goji_search",
+      "isNew": false
+     },
+     {
+      "name": "goji_explain_term",
+      "isNew": false
+     },
+     {
+      "name": "goji_browse_glossary",
+      "isNew": false
+     },
+     {
+      "name": "goji_get_service",
+      "isNew": false
+     },
+     {
+      "name": "goji_answer_faq",
+      "isNew": false
+     },
+     {
+      "name": "goji_guide_contents",
+      "isNew": false
+     },
+     {
+      "name": "goji_read_guide_chapter",
+      "isNew": false
+     },
+     {
+      "name": "goji_read_guide",
+      "isNew": false
+     },
+     {
+      "name": "goji_start_enquiry",
+      "isNew": false
+     }
+    ],
+    "rect": {
+     "x": 41,
+     "y": 1079.734375,
+     "w": 514.7890625,
+     "h": 128
+    }
+   }
+  },
+  {
+   "t": 12050,
+   "type": "dom.ui",
+   "v": {
+    "status": "Press to talk",
+    "server": "goji",
+    "connect": "Connect",
+    "sample": "",
+    "paste": "",
+    "scrollY": 329.5,
+    "results": []
+   }
+  },
+  {
+   "t": 12084,
+   "type": "scroll",
+   "y": 329.5
+  },
+  {
+   "t": 12115,
+   "type": "dom.hint",
+   "v": {
+    "shown": true,
+    "text": "Found in the official MCP registry: https://mcp.goji.agency/mcp · 9 tools · 757 ms, remembered from an earlier look",
+    "rect": {
+     "x": 28,
+     "y": -13.4609375,
+     "w": 760,
+     "h": 37.5
+    },
+    "font": "12.5px"
+   }
+  },
+  {
+   "t": 12115,
+   "type": "dom.chips",
+   "v": {
+    "chips": [
+     {
+      "name": "use_pasted_text",
+      "isNew": false
+     },
+     {
+      "name": "goji_search",
+      "isNew": false
+     },
+     {
+      "name": "goji_explain_term",
+      "isNew": false
+     },
+     {
+      "name": "goji_browse_glossary",
+      "isNew": false
+     },
+     {
+      "name": "goji_get_service",
+      "isNew": false
+     },
+     {
+      "name": "goji_answer_faq",
+      "isNew": false
+     },
+     {
+      "name": "goji_guide_contents",
+      "isNew": false
+     },
+     {
+      "name": "goji_read_guide_chapter",
+      "isNew": false
+     },
+     {
+      "name": "goji_read_guide",
+      "isNew": false
+     },
+     {
+      "name": "goji_start_enquiry",
+      "isNew": false
+     }
+    ],
+    "rect": {
+     "x": 41,
+     "y": 1032.734375,
+     "w": 514.7890625,
+     "h": 128
+    }
+   }
+  },
+  {
+   "t": 12115,
+   "type": "dom.ui",
+   "v": {
+    "status": "Press to talk",
+    "server": "goji",
+    "connect": "Connect",
+    "sample": "",
+    "paste": "",
+    "scrollY": 376.5,
+    "results": []
+   }
+  },
+  {
+   "t": 12752,
+   "type": "scroll",
+   "y": 941
+  },
+  {
+   "t": 12783,
+   "type": "dom.hint",
+   "v": {
+    "shown": true,
+    "text": "Found in the official MCP registry: https://mcp.goji.agency/mcp · 9 tools · 757 ms, remembered from an earlier look",
+    "rect": {
+     "x": 28,
+     "y": -577.9609375,
+     "w": 760,
+     "h": 37.5
+    },
+    "font": "12.5px"
+   }
+  },
+  {
+   "t": 12783,
+   "type": "dom.chips",
+   "v": {
+    "chips": [
+     {
+      "name": "use_pasted_text",
+      "isNew": false
+     },
+     {
+      "name": "goji_search",
+      "isNew": false
+     },
+     {
+      "name": "goji_explain_term",
+      "isNew": false
+     },
+     {
+      "name": "goji_browse_glossary",
+      "isNew": false
+     },
+     {
+      "name": "goji_get_service",
+      "isNew": false
+     },
+     {
+      "name": "goji_answer_faq",
+      "isNew": false
+     },
+     {
+      "name": "goji_guide_contents",
+      "isNew": false
+     },
+     {
+      "name": "goji_read_guide_chapter",
+      "isNew": false
+     },
+     {
+      "name": "goji_read_guide",
+      "isNew": false
+     },
+     {
+      "name": "goji_start_enquiry",
+      "isNew": false
+     }
+    ],
+    "rect": {
+     "x": 41,
+     "y": 468.234375,
+     "w": 514.7890625,
+     "h": 128
+    }
+   }
+  },
+  {
+   "t": 12783,
+   "type": "dom.ui",
+   "v": {
+    "status": "Press to talk",
+    "server": "goji",
+    "connect": "Connect",
+    "sample": "",
+    "paste": "",
+    "scrollY": 941,
+    "results": []
+   }
+  },
+  {
+   "t": 12978,
+   "type": "harness.scrolled",
+   "selector": "#talk",
+   "y": 941
+  },
+  {
+   "t": 12992,
+   "type": "mouse",
+   "x": 347,
+   "y": 324
+  },
+  {
+   "t": 13010,
+   "type": "mouse",
+   "x": 346,
+   "y": 323
+  },
+  {
+   "t": 13027,
+   "type": "mouse",
+   "x": 345,
+   "y": 322
+  },
+  {
+   "t": 13045,
+   "type": "mouse",
+   "x": 343,
+   "y": 320
+  },
+  {
+   "t": 13061,
+   "type": "mouse",
+   "x": 341,
+   "y": 317
+  },
+  {
+   "t": 13077,
+   "type": "mouse",
+   "x": 338,
+   "y": 315
+  },
+  {
+   "t": 13093,
+   "type": "mouse",
+   "x": 334,
+   "y": 311
+  },
+  {
+   "t": 13109,
+   "type": "mouse",
+   "x": 330,
+   "y": 307
+  },
+  {
+   "t": 13129,
+   "type": "mouse",
+   "x": 325,
+   "y": 303
+  },
+  {
+   "t": 13147,
+   "type": "mouse",
+   "x": 320,
+   "y": 298
+  },
+  {
+   "t": 13165,
+   "type": "mouse",
+   "x": 315,
+   "y": 292
+  },
+  {
+   "t": 13186,
+   "type": "mouse",
+   "x": 308,
+   "y": 287
+  },
+  {
+   "t": 13223,
+   "type": "mouse",
+   "x": 302,
+   "y": 280
+  },
+  {
+   "t": 13245,
+   "type": "mouse",
+   "x": 294,
+   "y": 273
+  },
+  {
+   "t": 13265,
+   "type": "mouse",
+   "x": 287,
+   "y": 265
+  },
+  {
+   "t": 13283,
+   "type": "mouse",
+   "x": 278,
+   "y": 257
+  },
+  {
+   "t": 13302,
+   "type": "mouse",
+   "x": 269,
+   "y": 249
+  },
+  {
+   "t": 13323,
+   "type": "mouse",
+   "x": 260,
+   "y": 240
+  },
+  {
+   "t": 13357,
+   "type": "mouse",
+   "x": 250,
+   "y": 230
+  },
+  {
+   "t": 13378,
+   "type": "mouse",
+   "x": 240,
+   "y": 220
+  },
+  {
+   "t": 13398,
+   "type": "mouse",
+   "x": 228,
+   "y": 209
+  },
+  {
+   "t": 13418,
+   "type": "mouse",
+   "x": 217,
+   "y": 198
+  },
+  {
+   "t": 13440,
+   "type": "mouse",
+   "x": 205,
+   "y": 187
+  },
+  {
+   "t": 13458,
+   "type": "mouse",
+   "x": 194,
+   "y": 176
+  },
+  {
+   "t": 13478,
+   "type": "mouse",
+   "x": 184,
+   "y": 166
+  },
+  {
+   "t": 13497,
+   "type": "mouse",
+   "x": 174,
+   "y": 157
+  },
+  {
+   "t": 13515,
+   "type": "mouse",
+   "x": 164,
+   "y": 148
+  },
+  {
+   "t": 13534,
+   "type": "mouse",
+   "x": 155,
+   "y": 139
+  },
+  {
+   "t": 13577,
+   "type": "mouse",
+   "x": 147,
+   "y": 131
+  },
+  {
+   "t": 13633,
+   "type": "mouse",
+   "x": 139,
+   "y": 123
+  },
+  {
+   "t": 13650,
+   "type": "mouse",
+   "x": 132,
+   "y": 116
+  },
+  {
+   "t": 13667,
+   "type": "mouse",
+   "x": 125,
+   "y": 110
+  },
+  {
+   "t": 13685,
+   "type": "mouse",
+   "x": 119,
+   "y": 104
+  },
+  {
+   "t": 13706,
+   "type": "mouse",
+   "x": 113,
+   "y": 99
+  },
+  {
+   "t": 13724,
+   "type": "mouse",
+   "x": 108,
+   "y": 94
+  },
+  {
+   "t": 13743,
+   "type": "mouse",
+   "x": 104,
+   "y": 89
+  },
+  {
+   "t": 13762,
+   "type": "mouse",
+   "x": 100,
+   "y": 85
+  },
+  {
+   "t": 13780,
+   "type": "mouse",
+   "x": 96,
+   "y": 82
+  },
+  {
+   "t": 13799,
+   "type": "mouse",
+   "x": 93,
+   "y": 79
+  },
+  {
+   "t": 13818,
+   "type": "mouse",
+   "x": 91,
+   "y": 77
+  },
+  {
+   "t": 13837,
+   "type": "mouse",
+   "x": 89,
+   "y": 75
+  },
+  {
+   "t": 13857,
+   "type": "mouse",
+   "x": 88,
+   "y": 74
+  },
+  {
+   "t": 13876,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 13895,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 15469,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 15486,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 15503,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 15520,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 15537,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 15555,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 15571,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 15589,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 15606,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 15625,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 15644,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 15662,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 15706,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 15725,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 15742,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 15759,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 15777,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 15796,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 15815,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 15833,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 15855,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 15873,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 15891,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 15907,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 15924,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 15943,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 15961,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 15980,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 15997,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 16015,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 16033,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 16051,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 16068,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 16086,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 16104,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 16140,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 16158,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 16177,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 16321,
+   "type": "mousedown",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 16399,
+   "type": "mouseup",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 16400,
+   "type": "fetch.start",
+   "id": "l6wszh",
+   "path": "/api/token"
+  },
+  {
+   "t": 16431,
+   "type": "dom.ui",
+   "v": {
+    "status": "Connecting",
+    "server": "goji",
+    "connect": "Connect",
+    "sample": "",
+    "paste": "",
+    "scrollY": 941,
+    "results": []
+   }
+  },
+  {
+   "t": 16554,
+   "type": "harness.talk",
+   "label": "start"
+  },
+  {
+   "t": 16608,
+   "type": "fetch.done",
+   "id": "l6wszh",
+   "path": "/api/token",
+   "status": 200,
+   "ms": 208
+  },
+  {
+   "t": 16614,
+   "type": "audio.context",
+   "ctx": 1,
+   "rate": 24000
+  },
+  {
+   "t": 16614,
+   "type": "audio.context",
+   "ctx": 2,
+   "rate": 24000
+  },
+  {
+   "t": 16639,
+   "type": "mic.getUserMedia",
+   "audio": true
+  },
+  {
+   "t": 16644,
+   "type": "audio.recorder",
+   "ctx": 2,
+   "stem": "agent",
+   "rate": 24000
+  },
+  {
+   "t": 16644,
+   "type": "agent.tap",
+   "ctx": 2
+  },
+  {
+   "t": 16650,
+   "type": "ws.open",
+   "url": "wss://agents.assemblyai.com/v1/ws?token=STRIPPED"
+  },
+  {
+   "t": 16655,
+   "type": "audio.recorder",
+   "ctx": 1,
+   "stem": "pagemic",
+   "rate": 24000
+  },
+  {
+   "t": 16655,
+   "type": "pagemic.tap",
+   "ctx": 1,
+   "rate": 24000
+  },
+  {
+   "t": 16864,
+   "type": "ws.out",
+   "msg": "session.update",
+   "tools": [
+    "use_pasted_text",
+    "goji_search",
+    "goji_explain_term",
+    "goji_browse_glossary",
+    "goji_get_service",
+    "goji_answer_faq",
+    "goji_guide_contents",
+    "goji_read_guide_chapter",
+    "goji_read_guide",
+    "goji_start_enquiry"
+   ],
+   "keyterms": [
+    "AI Visibility",
+    "AI Builds",
+    "goji",
+    "glossary",
+    "faq",
+    "enquiry"
+   ],
+   "greeting": "Connected to goji, with 9 tools available. What would you like to do?",
+   "voice": "alba"
+  },
+  {
+   "t": 17309,
+   "type": "ws.in",
+   "msg": "session.updated"
+  },
+  {
+   "t": 17311,
+   "type": "ws.in",
+   "msg": "session.ready",
+   "session_id": "sess_2df644020f0f4646ae311f71e61a0bec"
+  },
+  {
+   "t": 17317,
+   "type": "ws.in",
+   "msg": "reply.started",
+   "reply_id": "resp_4060afbdf04748399fb6a9cb546f8c1c"
+  },
+  {
+   "t": 17344,
+   "type": "dom.ui",
+   "v": {
+    "status": "Listening",
+    "server": "goji",
+    "connect": "Connect",
+    "sample": "",
+    "paste": "",
+    "scrollY": 941,
+    "results": []
+   }
+  },
+  {
+   "t": 17616,
+   "type": "ws.in",
+   "msg": "reply.audio.first",
+   "reply_id": "resp_4060afbdf04748399fb6a9cb546f8c1c"
+  },
+  {
+   "t": 17651,
+   "type": "dom.ui",
+   "v": {
+    "status": "Speaking",
+    "server": "goji",
+    "connect": "Connect",
+    "sample": "",
+    "paste": "",
+    "scrollY": 941,
+    "results": []
+   }
+  },
+  {
+   "t": 17843,
+   "type": "dom.chips",
+   "v": {
+    "chips": [
+     {
+      "name": "use_pasted_text",
+      "isNew": false
+     },
+     {
+      "name": "goji_search",
+      "isNew": false
+     },
+     {
+      "name": "goji_explain_term",
+      "isNew": false
+     },
+     {
+      "name": "goji_browse_glossary",
+      "isNew": false
+     },
+     {
+      "name": "goji_get_service",
+      "isNew": false
+     },
+     {
+      "name": "goji_answer_faq",
+      "isNew": false
+     },
+     {
+      "name": "goji_guide_contents",
+      "isNew": false
+     },
+     {
+      "name": "goji_read_guide_chapter",
+      "isNew": false
+     },
+     {
+      "name": "goji_read_guide",
+      "isNew": false
+     },
+     {
+      "name": "goji_start_enquiry",
+      "isNew": false
+     }
+    ],
+    "rect": {
+     "x": 41,
+     "y": 470.4375,
+     "w": 514.7890625,
+     "h": 128
+    }
+   }
+  },
+  {
+   "t": 17844,
+   "type": "dom.lines",
+   "v": [
+    {
+     "who": "agent live",
+     "text": "Connected to goji, with 9 tools available. What would you like to do?"
+    }
+   ]
+  },
+  {
+   "t": 22182,
+   "type": "ws.in",
+   "msg": "transcript.agent",
+   "text": "Connected to goji, with 9 tools available. What would you like to do?",
+   "reply_id": "resp_4060afbdf04748399fb6a9cb546f8c1c",
+   "interrupted": false
+  },
+  {
+   "t": 22215,
+   "type": "dom.lines",
+   "v": [
+    {
+     "who": "agent",
+     "text": "Connected to goji, with 9 tools available. What would you like to do?"
+    }
+   ]
+  },
+  {
+   "t": 22557,
+   "type": "ws.in",
+   "msg": "reply.done",
+   "reply_id": "resp_4060afbdf04748399fb6a9cb546f8c1c",
+   "status": "completed",
+   "audioBytes": 236160
+  },
+  {
+   "t": 22572,
+   "type": "dom.ui",
+   "v": {
+    "status": "Listening",
+    "server": "goji",
+    "connect": "Connect",
+    "sample": "",
+    "paste": "",
+    "scrollY": 941,
+    "results": []
+   }
+  },
+  {
+   "t": 23212,
+   "type": "say",
+   "id": "Q1"
+  },
+  {
+   "t": 23214,
+   "type": "clip.start",
+   "id": "Q1",
+   "ctx": 0,
+   "contextTime": 22.871333333333332,
+   "seconds": 2.29
+  },
+  {
+   "t": 24443,
+   "type": "ws.in",
+   "msg": "input.speech.started"
+  },
+  {
+   "t": 24474,
+   "type": "dom.chips",
+   "v": {
+    "chips": [
+     {
+      "name": "use_pasted_text",
+      "isNew": false
+     },
+     {
+      "name": "goji_search",
+      "isNew": false
+     },
+     {
+      "name": "goji_explain_term",
+      "isNew": false
+     },
+     {
+      "name": "goji_browse_glossary",
+      "isNew": false
+     },
+     {
+      "name": "goji_get_service",
+      "isNew": false
+     },
+     {
+      "name": "goji_answer_faq",
+      "isNew": false
+     },
+     {
+      "name": "goji_guide_contents",
+      "isNew": false
+     },
+     {
+      "name": "goji_read_guide_chapter",
+      "isNew": false
+     },
+     {
+      "name": "goji_read_guide",
+      "isNew": false
+     },
+     {
+      "name": "goji_start_enquiry",
+      "isNew": false
+     }
+    ],
+    "rect": {
+     "x": 41,
+     "y": 503.6875,
+     "w": 514.7890625,
+     "h": 128
+    }
+   }
+  },
+  {
+   "t": 24474,
+   "type": "dom.lines",
+   "v": [
+    {
+     "who": "agent",
+     "text": "Connected to goji, with 9 tools available. What would you like to do?"
+    },
+    {
+     "who": "you live",
+     "text": "What is AI?"
+    }
+   ]
+  },
+  {
+   "t": 24475,
+   "type": "dom.ui",
+   "v": {
+    "status": "Hearing you",
+    "server": "goji",
+    "connect": "Connect",
+    "sample": "",
+    "paste": "",
+    "scrollY": 941,
+    "results": []
+   }
+  },
+  {
+   "t": 24573,
+   "type": "dom.lines",
+   "v": [
+    {
+     "who": "agent",
+     "text": "Connected to goji, with 9 tools available. What would you like to do?"
+    },
+    {
+     "who": "you live",
+     "text": "What is easy?"
+    }
+   ]
+  },
+  {
+   "t": 25555,
+   "type": "clip.end",
+   "id": "Q1"
+  },
+  {
+   "t": 25845,
+   "type": "dom.lines",
+   "v": [
+    {
+     "who": "agent",
+     "text": "Connected to goji, with 9 tools available. What would you like to do?"
+    },
+    {
+     "who": "you live",
+     "text": "What is SEO in plain English?"
+    }
+   ]
+  },
+  {
+   "t": 26529,
+   "type": "ws.in",
+   "msg": "input.speech.stopped"
+  },
+  {
+   "t": 26529,
+   "type": "ws.in",
+   "msg": "transcript.user",
+   "text": "What is SEO in plain English?"
+  },
+  {
+   "t": 26530,
+   "type": "ws.in",
+   "msg": "reply.started",
+   "reply_id": "resp_f62454ba6a264484be6aa44fd56349ca"
+  },
+  {
+   "t": 26561,
+   "type": "dom.lines",
+   "v": [
+    {
+     "who": "agent",
+     "text": "Connected to goji, with 9 tools available. What would you like to do?"
+    },
+    {
+     "who": "you",
+     "text": "What is SEO in plain English?"
+    }
+   ]
+  },
+  {
+   "t": 26561,
+   "type": "dom.ui",
+   "v": {
+    "status": "Thinking",
+    "server": "goji",
+    "connect": "Connect",
+    "sample": "",
+    "paste": "",
+    "scrollY": 941,
+    "results": []
+   }
+  },
+  {
+   "t": 28331,
+   "type": "ws.in",
+   "msg": "tool.call",
+   "call_id": "chatcmpl-tool-9e34eaf4e4c414a8",
+   "name": "goji_explain_term",
+   "arguments": {
+    "term": "SEO"
+   }
+  },
+  {
+   "t": 28334,
+   "type": "fetch.start",
+   "id": "w078eu",
+   "path": "/api/mcp/call",
+   "body": {
+    "tool": "goji_explain_term",
+    "arguments": {
+     "term": "SEO"
+    },
+    "session": "sess_2df644020f0f4646ae311f71e61a0bec"
+   }
+  },
+  {
+   "t": 28346,
+   "type": "dom.calls",
+   "v": [
+    {
+     "name": "goji_explain_term",
+     "meta": "calling…",
+     "args": "{\"term\":\"SEO\"}",
+     "spoken": "",
+     "cls": "call pending",
+     "rect": {
+      "x": 603.7890625,
+      "y": 327.9375,
+      "w": 443.203125,
+      "h": 63.5
+     },
+     "argsRect": {
+      "x": 618.7890625,
+      "y": 362.4375,
+      "w": 415.203125,
+      "h": 18
+     }
+    }
+   ]
+  },
+  {
+   "t": 28346,
+   "type": "dom.ui",
+   "v": {
+    "status": "Calling goji_explain_term",
+    "server": "goji",
+    "connect": "Connect",
+    "sample": "",
+    "paste": "",
+    "scrollY": 941,
+    "results": []
+   }
+  },
+  {
+   "t": 28587,
+   "type": "ws.in",
+   "msg": "reply.done",
+   "reply_id": "resp_f62454ba6a264484be6aa44fd56349ca",
+   "status": "completed",
+   "audioBytes": 0
+  },
+  {
+   "t": 28688,
+   "type": "fetch.done",
+   "id": "w078eu",
+   "path": "/api/mcp/call",
+   "status": 200,
+   "ms": 354
+  },
+  {
+   "t": 28692,
+   "type": "ws.out",
+   "msg": "tool.result",
+   "call_id": "chatcmpl-tool-9e34eaf4e4c414a8",
+   "chars": 521
+  },
+  {
+   "t": 28692,
+   "type": "mcp.timing",
+   "id": "w078eu",
+   "mcpMs": 293,
+   "totalMs": 294,
+   "refineMs": 0,
+   "refine": "not_needed",
+   "method": "truncated",
+   "shaped": false,
+   "isError": false
+  },
+  {
+   "t": 28723,
+   "type": "dom.calls",
+   "v": [
+    {
+     "name": "goji_explain_term",
+     "meta": "294 ms · truncated",
+     "args": "{\"term\":\"SEO\"}",
+     "spoken": "# SEO (Search Engine Optimisation) SEO is the work of making your website the result search engines choose to show: through content that answers what people search for, a site engines can read easily, and a reputation other sites corroborate. It remains the entry ticket to every search-shaped surface, including the AI ones. ## Why it matters Search is still where buying journeys start, and the habit compounds: pages that earn positions keep paying for years, unlike ads that stop the day the budget does.",
+     "cls": "call",
+     "rect": {
+      "x": 603.7890625,
+      "y": 327.9375,
+      "w": 443.203125,
+      "h": 262.375
+     },
+     "argsRect": {
+      "x": 618.7890625,
+      "y": 362.4375,
+      "w": 415.203125,
+      "h": 18
+     }
+    }
+   ]
+  },
+  {
+   "t": 28723,
+   "type": "dom.chips",
+   "v": {
+    "chips": [
+     {
+      "name": "use_pasted_text",
+      "isNew": false
+     },
+     {
+      "name": "goji_search",
+      "isNew": false
+     },
+     {
+      "name": "goji_explain_term",
+      "isNew": false
+     },
+     {
+      "name": "goji_browse_glossary",
+      "isNew": false
+     },
+     {
+      "name": "goji_get_service",
+      "isNew": false
+     },
+     {
+      "name": "goji_answer_faq",
+      "isNew": false
+     },
+     {
+      "name": "goji_guide_contents",
+      "isNew": false
+     },
+     {
+      "name": "goji_read_guide_chapter",
+      "isNew": false
+     },
+     {
+      "name": "goji_read_guide",
+      "isNew": false
+     },
+     {
+      "name": "goji_start_enquiry",
+      "isNew": false
+     }
+    ],
+    "rect": {
+     "x": 41,
+     "y": 686.3125,
+     "w": 514.7890625,
+     "h": 128
+    }
+   }
+  },
+  {
+   "t": 28753,
+   "type": "ws.in",
+   "msg": "reply.started",
+   "reply_id": "resp_8d2a5264920d49f79a945d06ba14f61e"
+  },
+  {
+   "t": 29502,
+   "type": "ws.in",
+   "msg": "reply.audio.first",
+   "reply_id": "resp_8d2a5264920d49f79a945d06ba14f61e"
+  },
+  {
+   "t": 29538,
+   "type": "dom.ui",
+   "v": {
+    "status": "Speaking",
+    "server": "goji",
+    "connect": "Connect",
+    "sample": "",
+    "paste": "",
+    "scrollY": 941,
+    "results": []
+   }
+  },
+  {
+   "t": 30224,
+   "type": "dom.lines",
+   "v": [
+    {
+     "who": "agent",
+     "text": "Connected to goji, with 9 tools available. What would you like to do?"
+    },
+    {
+     "who": "you",
+     "text": "What is SEO in plain English?"
+    },
+    {
+     "who": "agent live",
+     "text": "SEO  stands for Search Engine Optimisation. It is the work of making your website the result that search engines choose to show, by using content that answers what people are looking for and building a reputation that other sites corroborate. You can find more at"
+    }
+   ]
+  },
+  {
+   "t": 30256,
+   "type": "dom.lines",
+   "v": [
+    {
+     "who": "agent",
+     "text": "Connected to goji, with 9 tools available. What would you like to do?"
+    },
+    {
+     "who": "you",
+     "text": "What is SEO in plain English?"
+    },
+    {
+     "who": "agent live",
+     "text": "SEO  stands for Search Engine Optimisation. It is the work of making your website the result that search engines choose to show, by using content that answers what people are looking for and building a reputation that other sites corroborate. You can find more at goji dot agency slash glossary."
+    }
+   ]
+  },
+  {
+   "t": 44875,
+   "type": "ws.in",
+   "msg": "transcript.agent",
+   "text": "SEO stands for Search Engine Optimisation. It is the work of making your website the result that search engines choose to show, by using content that answers what people are looking for and building a reputation that other sites corroborate. You can find more at goji dot agency slash glossary.",
+   "reply_id": "resp_8d2a5264920d49f79a945d06ba14f61e",
+   "interrupted": false
+  },
+  {
+   "t": 44905,
+   "type": "dom.lines",
+   "v": [
+    {
+     "who": "agent",
+     "text": "Connected to goji, with 9 tools available. What would you like to do?"
+    },
+    {
+     "who": "you",
+     "text": "What is SEO in plain English?"
+    },
+    {
+     "who": "agent",
+     "text": "SEO stands for Search Engine Optimisation. It is the work of making your website the result that search engines choose to show, by using content that answers what people are looking for and building a reputation that other sites corroborate. You can find more at goji dot agency slash glossary."
+    }
+   ]
+  },
+  {
+   "t": 45177,
+   "type": "ws.in",
+   "msg": "reply.done",
+   "reply_id": "resp_8d2a5264920d49f79a945d06ba14f61e",
+   "status": "completed",
+   "audioBytes": 754560
+  },
+  {
+   "t": 45261,
+   "type": "dom.ui",
+   "v": {
+    "status": "Listening",
+    "server": "goji",
+    "connect": "Connect",
+    "sample": "",
+    "paste": "",
+    "scrollY": 941,
+    "results": []
+   }
+  },
+  {
+   "t": 46933,
+   "type": "narration",
+   "id": "N4",
+   "ms": 3940
+  },
+  {
+   "t": 51488,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 51505,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 51522,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 51540,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 51557,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 51588,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 51604,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 51621,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 51638,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 51655,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 51672,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 51688,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 51705,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 51722,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 51739,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 51757,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 51775,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 51793,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 51811,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 51838,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 51855,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 51872,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 51888,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 51905,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 51921,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 51938,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 51955,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 51972,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 51988,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 52004,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 52022,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 52039,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 52056,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 52088,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 52105,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 52122,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 52139,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 52156,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 52295,
+   "type": "mousedown",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 52368,
+   "type": "mouseup",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 52368,
+   "type": "ws.out",
+   "msg": "session.end"
+  },
+  {
+   "t": 52374,
+   "type": "audio.closed",
+   "ctx": 2,
+   "stem": "agent"
+  },
+  {
+   "t": 52374,
+   "type": "audio.closed",
+   "ctx": 1,
+   "stem": "pagemic"
+  },
+  {
+   "t": 52402,
+   "type": "dom.lines",
+   "v": [
+    {
+     "who": "agent",
+     "text": "Connected to goji, with 9 tools available. What would you like to do?"
+    },
+    {
+     "who": "you",
+     "text": "What is SEO in plain English?"
+    },
+    {
+     "who": "agent",
+     "text": "SEO stands for Search Engine Optimisation. It is the work of making your website the result that search engines choose to show, by using content that answers what people are looking for and building a reputation that other sites corroborate. You can find more at goji dot agency slash glossary."
+    },
+    {
+     "who": "note",
+     "text": "Session ended: ended by you."
+    }
+   ]
+  },
+  {
+   "t": 52402,
+   "type": "dom.ui",
+   "v": {
+    "status": "Session ended",
+    "server": "goji",
+    "connect": "Connect",
+    "sample": "",
+    "paste": "",
+    "scrollY": 941,
+    "results": []
+   }
+  },
+  {
+   "t": 52523,
+   "type": "harness.talk",
+   "label": "end"
+  },
+  {
+   "t": 52553,
+   "type": "ws.in",
+   "msg": "session.ended"
+  },
+  {
+   "t": 53212,
+   "type": "ws.close",
+   "code": 1000
+  },
+  {
+   "t": 54832,
+   "type": "sync.beep",
+   "label": "end",
+   "ctx": 0,
+   "contextTime": 54.687333333333335,
+   "heardAt": 1790500479711.2803
+  },
+  {
+   "t": 55108,
+   "type": "sync.flash.on",
+   "label": "end"
+  },
+  {
+   "t": 55138,
+   "type": "sync.flash.off",
+   "label": "end"
+  }
+ ]
+}

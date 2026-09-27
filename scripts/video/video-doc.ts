@@ -7,6 +7,7 @@
  *   data/video/capture-*.json     each take's log, checks, sync and latency
  *   data/video/edl.json           the edit: shots, cuts, punch-ins
  *   data/video/final-checks.json  F2.7's checks on the rendered file
+ *   data/video/previous-takes.json the takes the video used before round H (balanced)
  *   docs/VOICE-SWEEP.md           the sweep's tool-call median
  *   data/e2e-audio-warm-on.json   the warm suite's median (scripts/warm-ab.ts)
  *
@@ -26,7 +27,7 @@ type Capture = {
   sync: Array<{ label: string; offsetMs: number | null; ok: boolean }>;
   exchanges: Array<{ id: string; voiceToVoiceMs: number | null; heard: string | null }>;
   checks: Array<{ check: string; ok: boolean; detail: string }>;
-  pageMicFidelity: Array<{ id: string; windows: number; bitExactWindows: number; slips: Array<{ atMs: number; samples: number }> }>;
+  pageMicFidelity: Array<{ id: string; windows: number; bitExactWindows: number; slips: Array<{ atMs: number; samples: number }>; worstWindowSnrDb?: number }>;
   latency?: Array<{ id: string; clipTrailingSilenceMs: number; e2eStyleMs: number | null; playoutMs: number | null; videoMs: number | null; steps: { apiEndOfTurn: number | null; tools: Array<{ name: string; heldByGate?: boolean; toolCallAt: number | null; fetchMs: number | null; serverMs: number | null; networkMs: number | null; mcpMs: number | null; refine: string | null; refineMs: number | null; method: string | null; resultSentAt: number | null }>; lastToolResultSent: number | null; firstReplyAudioReceived: number | null; firstAudioPlayed: number | null } }>;
   log: Array<{ t: number; type: string; [k: string]: unknown }>;
 };
@@ -61,7 +62,9 @@ export async function videoDoc(): Promise<string> {
     md.push(`| ${id} | ${l.voice} | ${ms(a.ms)} | \`${a.sessionIds.join('`, `')}\` | ${verdict} |`);
   }
   md.push('');
-  md.push('Rewordings under the standing rule (a line that fails only because the transcriber spells a word differently): none were needed this round. Earlier, N10\'s "Every one answered out loud" was heard as "Everyone" on 4 of 4 tries; Sergiu changed it to "Each one answered out loud" (BUILDLOG, round F2).', '');
+  md.push('Rewordings under the standing rule (a line that fails only because the transcriber spells a word differently):', '');
+  md.push('- **N7, round H.** The clip that read "Speech often gets identifiers wrong" passed its own check and round G\'s final file. In round H\'s final file, with the same audio, it was heard as "gets identified as wrong". The phrase became "Speech often mishears identifiers": the same meaning, and the number is unchanged. The new clip passed on its second try, after "mishars" on the first.');
+  md.push('- **N10, round F2.** "Every one answered out loud" was heard as "Everyone" on 4 of 4 tries. Sergiu changed it to "Each one answered out loud" (BUILDLOG, round F2).', '');
 
   md.push('## The caller', '');
   md.push('Caller clips are judged where they are heard: each streamed into a live Voice Agent session set up exactly as the page sets up that scene (the page\'s own `session.update`, compared with the public site\'s), passing when two sessions in a row hear it word for word (`scripts/video/caller-gate.ts`). The pre-recorded check is kept for them as information only.', '');
@@ -89,6 +92,9 @@ export async function videoDoc(): Promise<string> {
     md.push(`**Scene ${scene}** (\`${c.sessionId}\`): ${calls.join(', ') || 'no tool calls'}.`, '');
     for (const x of c.checks) md.push(`- ${x.ok ? 'ok' : 'FAIL'}: ${x.check}${x.detail ? ` (${x.detail.replace(/\|/g, '/').slice(0, 140)})` : ''}`);
     md.push('');
+    if (c.checks.some((x) => /remembered from an earlier look/.test(x.detail))) {
+      md.push('The page says the discovery was "remembered from an earlier look". The server keeps a discovery answer for 10 minutes (`DISCOVERY_CACHE_MS`), and the same lookup had run about 2 minutes before this take, in the post-deploy check of `/api/mcp/connect` (BUILDLOG, round H). The time shown is that first lookup\'s. The take passed every check and was the first to do so, so it is the one used.', '');
+    }
   }
 
   md.push('## Voice to voice, each exchange', '');
@@ -99,6 +105,22 @@ export async function videoDoc(): Promise<string> {
     for (const l of caps.get(name)!.latency ?? []) md.push(`| ${scene} | ${l.id} | ${ms(l.videoMs)} | ${ms(l.e2eStyleMs)} | ${ms(l.clipTrailingSilenceMs)} | ${ms(l.playoutMs)} |`);
   }
   md.push('');
+  if (existsSync('data/video/previous-takes.json')) {
+    const prev = j<{ what: string; takes: Record<string, string> }>('data/video/previous-takes.json');
+    md.push('### Against the takes before min_latency', '');
+    md.push(`${prev.what} The same measure, last word to first sound, exchange by exchange:`, '');
+    md.push('| exchange | this video (min_latency) | session | before (balanced) | session | difference |', '| --- | ---: | --- | ---: | --- | ---: |');
+    for (const [scene, name] of Object.entries(takes)) {
+      const now = caps.get(name);
+      const before = prev.takes[scene] ? caps.get(prev.takes[scene]!) : undefined;
+      for (const l of now?.latency ?? []) {
+        const b = before?.latency?.find((x) => x.id === l.id);
+        const diff = l.videoMs !== null && b?.videoMs !== null && b?.videoMs !== undefined ? Math.round(l.videoMs - b.videoMs) : null;
+        md.push(`| ${scene} ${l.id} | ${ms(l.videoMs)} | \`${now!.sessionId}\` | ${ms(b?.videoMs)} | ${before ? `\`${before.sessionId}\`` : '-'} | ${diff === null ? '-' : `${diff > 0 ? '+' : ''}${diff.toLocaleString('en-US')} ms`} |`);
+      }
+    }
+    md.push('');
+  }
   md.push('### Where the time goes', '');
   md.push('Each step in ms after the caller\'s last word, from the take\'s log. A tool\'s page round trip is split into the network and the server\'s own time, with the MCP request and the Gateway refine inside it.', '');
   md.push('| exchange | API end of turn | tool calls | last result sent | first audio received | first audio played |', '| --- | ---: | --- | ---: | ---: | ---: |');
@@ -126,8 +148,8 @@ export async function videoDoc(): Promise<string> {
   for (const [, name] of Object.entries(takes)) md.push(`| \`${name}\` | ${caps.get(name)!.sync.map((x) => `${x.label} ${x.offsetMs} ms ${x.ok ? '(within a frame)' : '(OVER a frame)'}`).join(', ')} |`);
   md.push('');
   md.push('What the page\'s own microphone path received, against each clip as made, in 0.5 s windows:', '');
-  md.push('| take | clip | bit-exact windows | sample slips |', '| --- | --- | ---: | --- |');
-  for (const [, name] of Object.entries(takes)) for (const f of caps.get(name)!.pageMicFidelity) md.push(`| \`${name}\` | ${f.id} | ${f.bitExactWindows} of ${f.windows} | ${f.slips.length ? f.slips.map((x) => `${x.samples > 0 ? '+' : ''}${x.samples} at ${x.atMs} ms`).join(', ') : 'none'} |`);
+  md.push('| take | clip | bit-exact windows | sample slips | worst window SNR |', '| --- | --- | ---: | --- | ---: |');
+  for (const [, name] of Object.entries(takes)) for (const f of caps.get(name)!.pageMicFidelity) md.push(`| \`${name}\` | ${f.id} | ${f.bitExactWindows} of ${f.windows} | ${f.slips.length ? f.slips.map((x) => `${x.samples > 0 ? '+' : ''}${x.samples} at ${x.atMs} ms`).join(', ') : 'none'} | ${f.worstWindowSnrDb === undefined ? '-' : f.worstWindowSnrDb >= 999 ? 'exact' : `${f.worstWindowSnrDb} dB`} |`);
   md.push('');
 
   if (final) {

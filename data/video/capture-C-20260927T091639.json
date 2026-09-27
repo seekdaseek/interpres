@@ -1,0 +1,7066 @@
+{
+ "capture": "C-20260927T091639",
+ "scene": "C",
+ "sessionId": "sess_bad159e000e9412ba713b9dfb8389cf2",
+ "t0": 1790500602272.486,
+ "lengthMs": 102725,
+ "frames": 2810,
+ "frameSize": "2176x1170 px",
+ "clockFits": {
+  "0": {
+   "samples": 407,
+   "driftPpm": -12,
+   "maxResidualMs": 0.1
+  },
+  "1": {
+   "samples": 349,
+   "driftPpm": -12,
+   "maxResidualMs": 1.44
+  },
+  "2": {
+   "samples": 348,
+   "driftPpm": -12,
+   "maxResidualMs": 0.1
+  }
+ },
+ "stems": {
+  "caller": "recorded at 24000 Hz in the harness context, upsampled to 48000 Hz, 103.7 s",
+  "agent": "recorded at 24000 Hz in the page's context, upsampled to 48000 Hz",
+  "pagemic": "the page's mic input, recorded at 24000 Hz, evidence only"
+ },
+ "pageMicFidelity": [
+  {
+   "id": "Q3",
+   "windows": 5,
+   "bitExactWindows": 4,
+   "slips": [],
+   "worstWindowSnrDb": 54.9
+  },
+  {
+   "id": "Q5",
+   "windows": 28,
+   "bitExactWindows": 0,
+   "slips": [
+    {
+     "atMs": 3500,
+     "samples": -1
+    },
+    {
+     "atMs": 4000,
+     "samples": 1
+    },
+    {
+     "atMs": 9500,
+     "samples": -3
+    }
+   ],
+   "worstWindowSnrDb": 15.6
+  },
+  {
+   "id": "Q4",
+   "windows": 5,
+   "bitExactWindows": 0,
+   "slips": [],
+   "worstWindowSnrDb": 217.3
+  }
+ ],
+ "latency": [
+  {
+   "id": "Q3",
+   "steps": {
+    "callerLastWord": 0,
+    "apiEndOfTurn": 671,
+    "transcriptFinal": 672,
+    "tools": [
+     {
+      "name": "find_tools",
+      "heldByGate": false,
+      "toolCallAt": 1652,
+      "fetchMs": 63,
+      "serverMs": null,
+      "networkMs": null,
+      "mcpMs": null,
+      "refine": null,
+      "refineMs": null,
+      "method": null,
+      "serverTimingsFrom": null,
+      "resultSentAt": 1903
+     }
+    ],
+    "lastToolResultSent": 1903,
+    "firstReplyAudioReceived": 2611,
+    "answerAudioReceived": 2611,
+    "firstAudioPlayed": 2875
+   },
+   "clipTrailingSilenceMs": 221,
+   "e2eStyleMs": 2390,
+   "playoutMs": 264,
+   "videoMs": 2875
+  },
+  {
+   "id": "Q5",
+   "steps": {
+    "callerLastWord": 0,
+    "apiEndOfTurn": 1228,
+    "transcriptFinal": 1229,
+    "tools": [
+     {
+      "name": "find_tools",
+      "heldByGate": false,
+      "toolCallAt": 3612,
+      "fetchMs": 69,
+      "serverMs": null,
+      "networkMs": null,
+      "mcpMs": null,
+      "refine": null,
+      "refineMs": null,
+      "method": null,
+      "serverTimingsFrom": null,
+      "resultSentAt": 3856
+     },
+     {
+      "name": "afg_get_reputation",
+      "heldByGate": true,
+      "toolCallAt": 4673,
+      "fetchMs": null,
+      "serverMs": null,
+      "networkMs": null,
+      "mcpMs": null,
+      "refine": null,
+      "refineMs": null,
+      "method": null,
+      "serverTimingsFrom": null,
+      "resultSentAt": 4947
+     }
+    ],
+    "lastToolResultSent": 4947,
+    "firstReplyAudioReceived": 5711,
+    "answerAudioReceived": 5711,
+    "firstAudioPlayed": 5949
+   },
+   "clipTrailingSilenceMs": 324,
+   "e2eStyleMs": 5387,
+   "playoutMs": 237,
+   "videoMs": 5949
+  },
+  {
+   "id": "Q4",
+   "steps": {
+    "callerLastWord": 0,
+    "apiEndOfTurn": 957,
+    "transcriptFinal": 955,
+    "tools": [
+     {
+      "name": "use_pasted_text",
+      "heldByGate": false,
+      "toolCallAt": 2677,
+      "fetchMs": null,
+      "serverMs": null,
+      "networkMs": null,
+      "mcpMs": null,
+      "refine": null,
+      "refineMs": null,
+      "method": null,
+      "serverTimingsFrom": null,
+      "resultSentAt": 2879
+     },
+     {
+      "name": "afg_get_reputation",
+      "heldByGate": false,
+      "toolCallAt": 3721,
+      "fetchMs": 1071,
+      "serverMs": 898,
+      "networkMs": 173,
+      "mcpMs": 862,
+      "refine": "circuit_open",
+      "refineMs": 0,
+      "method": "local",
+      "serverTimingsFrom": "the page (the /api/mcp/call response)",
+      "resultSentAt": 4798
+     }
+    ],
+    "lastToolResultSent": 4798,
+    "firstReplyAudioReceived": 5536,
+    "answerAudioReceived": 5536,
+    "firstAudioPlayed": 5780
+   },
+   "clipTrailingSilenceMs": 346,
+   "e2eStyleMs": 5190,
+   "playoutMs": 245,
+   "videoMs": 5780
+  }
+ ],
+ "sync": [
+  {
+   "label": "start",
+   "flashMs": 1746.8876953125,
+   "beepMs": 1745.895751953125,
+   "offsetMs": -1,
+   "ok": true
+  },
+  {
+   "label": "end",
+   "flashMs": 101146.39575195312,
+   "beepMs": 101142.10424804688,
+   "offsetMs": -4.3,
+   "ok": true
+  }
+ ],
+ "exchanges": [
+  {
+   "id": "Q3",
+   "callerStartMs": 20918.125,
+   "callerEndMs": 23097.604248046875,
+   "agentStartMs": 25972.395833333332,
+   "voiceToVoiceMs": 2875,
+   "heard": "I want to run a spec check on a job contract."
+  },
+  {
+   "id": "Q5",
+   "callerStartMs": 32997,
+   "callerEndMs": 46793.9375,
+   "agentStartMs": 52742.541666666664,
+   "voiceToVoiceMs": 5949,
+   "heard": "What is the reputation of wallet 0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED?"
+  },
+  {
+   "id": "Q4",
+   "callerStartMs": 81685.64583333333,
+   "callerEndMs": 83811.625,
+   "agentStartMs": 89591.77083333333,
+   "voiceToVoiceMs": 5780,
+   "heard": "Check the reputation of the wallet I pasted."
+  }
+ ],
+ "consoleErrors": [],
+ "checks": [
+  {
+   "check": "Q3 heard as said",
+   "ok": true,
+   "detail": "heard \"I want to run a spec check on a job contract.\""
+  },
+  {
+   "check": "C1: find_tools is called",
+   "ok": true,
+   "detail": "[{\"query\":\"run a spec check on a job contract\"}]"
+  },
+  {
+   "check": "C1: the swap card lists afg_speccheck as new",
+   "ok": true,
+   "detail": "[{\"name\":\"find_tools\",\"isNew\":false},{\"name\":\"use_pasted_text\",\"isNew\":false},{\"name\":\"afg_post_job\",\"isNew\":true},{\"name\":\"afg_speccheck\",\"isNew\":true},{\"name\":\"afg_dispute\",\"isNew\":false},{\"name\":\"afg_submit\",\"isNew\":true},{\"name\":\"afg_sign_contract\",\"isNew\":false},{\"name\":\"afg_contract_template\",\"isNew\":false},{\"name\":\"afg_get_job\",\"isNew\":true},{\"name\":\"afg_prepare_signed_request\",\"isNew\":false}]"
+  },
+  {
+   "check": "Q3: the agent answers",
+   "ok": true,
+   "detail": "I can certainly help with that. Please provide the job contract you would like me to check."
+  },
+  {
+   "check": "C3: needs_paste appears",
+   "ok": true,
+   "detail": "Heard from speech, may be wrong - paste it to run | 0x5A AEB6 053F 3E94 C9B9 A09F 3366 9435 E7EF 1BEA ED"
+  },
+  {
+   "check": "C3: zero /api/mcp/call from Q5 until the paste",
+   "ok": true,
+   "detail": "0 request(s); paste at after the agent"
+  },
+  {
+   "check": "C3: the agent asks for a paste",
+   "ok": true,
+   "detail": "I may have misheard that value. Please paste it into the box under the Talk button, and I will use exactly what you paste."
+  },
+  {
+   "check": "C3: Q5 heard exactly (recorded, not required)",
+   "ok": true,
+   "detail": "exact: heard \"What is the reputation of wallet 0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED?\""
+  },
+  {
+   "check": "Q4 heard as said",
+   "ok": true,
+   "detail": "heard \"Check the reputation of the wallet I pasted.\""
+  },
+  {
+   "check": "C2: afg_get_reputation called exactly once, with exactly the pasted value",
+   "ok": true,
+   "detail": "1 call(s) [{\"address\":\"0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed\"}]; 1 /api/mcp/call; turn calls: use_pasted_text, afg_get_reputation"
+  },
+  {
+   "check": "Q4: the agent answers",
+   "ok": true,
+   "detail": "That wallet has no recorded job outcomes yet, either as a provider or as a buyer."
+  },
+  {
+   "check": "no console errors",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "sync within one frame",
+   "ok": true,
+   "detail": ""
+  }
+ ],
+ "spokenAddresses": [
+  {
+   "sessionId": "sess_bad159e000e9412ba713b9dfb8389cf2",
+   "said": "What is the reputation of wallet 0 x 5 a a e b 6 0 5 3 f 3 e 9 4 c 9 b 9 a 0 9 f 3 3 6 6 9 4 3 5 e 7 e f 1 b e a e d?",
+   "heard": "What is the reputation of wallet 0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED?",
+   "clip": {
+    "voice": "michael",
+    "id": "Q5",
+    "sha256": "9bd03d7469cc072b4282929007a677ad32c30252728f3bd76656a73395b624ab"
+   },
+   "mcpCalls": []
+  }
+ ],
+ "log": [
+  {
+   "t": -735,
+   "type": "fetch.start",
+   "id": "wez2wt",
+   "path": "/api/presets"
+  },
+  {
+   "t": -691,
+   "type": "url",
+   "href": "https://interpres.ochinimus.app/"
+  },
+  {
+   "t": -673,
+   "type": "fetch.done",
+   "id": "wez2wt",
+   "path": "/api/presets",
+   "status": 200,
+   "ms": 62
+  },
+  {
+   "t": -642,
+   "type": "dom.hint",
+   "v": {
+    "shown": false,
+    "text": "",
+    "rect": {
+     "x": 0,
+     "y": 0,
+     "w": 0,
+     "h": 0
+    },
+    "font": "12.5px"
+   }
+  },
+  {
+   "t": -642,
+   "type": "dom.calls",
+   "v": []
+  },
+  {
+   "t": -642,
+   "type": "dom.gate",
+   "v": {
+    "shown": false,
+    "kindText": "",
+    "tool": "",
+    "value": "",
+    "say": "",
+    "rect": {
+     "x": 0,
+     "y": 0,
+     "w": 0,
+     "h": 0
+    }
+   }
+  },
+  {
+   "t": -641,
+   "type": "dom.chips",
+   "v": {
+    "chips": [],
+    "rect": {
+     "x": 0,
+     "y": 0,
+     "w": 0,
+     "h": 0
+    }
+   }
+  },
+  {
+   "t": -641,
+   "type": "dom.lines",
+   "v": []
+  },
+  {
+   "t": -641,
+   "type": "dom.ui",
+   "v": {
+    "status": "Press to talk",
+    "server": "",
+    "connect": "Connect",
+    "sample": "",
+    "paste": "",
+    "scrollY": 0,
+    "results": []
+   }
+  },
+  {
+   "t": 275,
+   "type": "audio.recorder",
+   "ctx": 0,
+   "stem": "caller",
+   "rate": 24000
+  },
+  {
+   "t": 588,
+   "type": "capture.start",
+   "scene": "C",
+   "dry": false,
+   "ready": {
+    "state": "running",
+    "rate": 24000,
+    "waitedMs": 307
+   },
+   "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.0.0 Safari/537.36"
+  },
+  {
+   "t": 589,
+   "type": "clock.node",
+   "nodeMid": 1790500602861.5,
+   "roundTripMs": 1
+  },
+  {
+   "t": 594,
+   "type": "clip.loaded",
+   "id": "Q1",
+   "voice": "michael",
+   "sha256": "0ee22445f1969b19ae4d9b8e61a70b0b4d5cee791291545ff2928012697e5aa5",
+   "ms": 2290
+  },
+  {
+   "t": 607,
+   "type": "clip.loaded",
+   "id": "Q2",
+   "voice": "michael",
+   "sha256": "c6df75b263c388e8fcc62e208483f83b752365d5df531b3949b5ec8ecaf7932a",
+   "ms": 1960
+  },
+  {
+   "t": 613,
+   "type": "clip.loaded",
+   "id": "Q3",
+   "voice": "michael",
+   "sha256": "23c4977f5f8defc80a72776b8c7bbcc3e8f2c77d4dec10c8f8540f86142e7174",
+   "ms": 2690
+  },
+  {
+   "t": 620,
+   "type": "clip.loaded",
+   "id": "Q4",
+   "voice": "michael",
+   "sha256": "82bce38c71f5127e08451ebe1207bd0198abe4069791d690890adf01000ce53f",
+   "ms": 2730
+  },
+  {
+   "t": 627,
+   "type": "clip.loaded",
+   "id": "Q5",
+   "voice": "michael",
+   "sha256": "9bd03d7469cc072b4282929007a677ad32c30252728f3bd76656a73395b624ab",
+   "ms": 14490
+  },
+  {
+   "t": 1464,
+   "type": "sync.beep",
+   "label": "start",
+   "ctx": 0,
+   "contextTime": 1.386,
+   "heardAt": 1790500604018.2773
+  },
+  {
+   "t": 1735,
+   "type": "sync.flash.on",
+   "label": "start"
+  },
+  {
+   "t": 1762,
+   "type": "sync.flash.off",
+   "label": "start"
+  },
+  {
+   "t": 4425,
+   "type": "mouse",
+   "x": 674,
+   "y": 321
+  },
+  {
+   "t": 4462,
+   "type": "mouse",
+   "x": 673,
+   "y": 322
+  },
+  {
+   "t": 4481,
+   "type": "mouse",
+   "x": 673,
+   "y": 322
+  },
+  {
+   "t": 4498,
+   "type": "mouse",
+   "x": 671,
+   "y": 322
+  },
+  {
+   "t": 4516,
+   "type": "mouse",
+   "x": 670,
+   "y": 323
+  },
+  {
+   "t": 4534,
+   "type": "mouse",
+   "x": 668,
+   "y": 324
+  },
+  {
+   "t": 4551,
+   "type": "mouse",
+   "x": 666,
+   "y": 325
+  },
+  {
+   "t": 4569,
+   "type": "mouse",
+   "x": 664,
+   "y": 326
+  },
+  {
+   "t": 4588,
+   "type": "mouse",
+   "x": 661,
+   "y": 327
+  },
+  {
+   "t": 4606,
+   "type": "mouse",
+   "x": 658,
+   "y": 329
+  },
+  {
+   "t": 4623,
+   "type": "mouse",
+   "x": 655,
+   "y": 330
+  },
+  {
+   "t": 4662,
+   "type": "mouse",
+   "x": 651,
+   "y": 332
+  },
+  {
+   "t": 4680,
+   "type": "mouse",
+   "x": 647,
+   "y": 334
+  },
+  {
+   "t": 4697,
+   "type": "mouse",
+   "x": 643,
+   "y": 336
+  },
+  {
+   "t": 4716,
+   "type": "mouse",
+   "x": 638,
+   "y": 338
+  },
+  {
+   "t": 4733,
+   "type": "mouse",
+   "x": 633,
+   "y": 340
+  },
+  {
+   "t": 4751,
+   "type": "mouse",
+   "x": 628,
+   "y": 343
+  },
+  {
+   "t": 4769,
+   "type": "mouse",
+   "x": 622,
+   "y": 345
+  },
+  {
+   "t": 4787,
+   "type": "mouse",
+   "x": 616,
+   "y": 348
+  },
+  {
+   "t": 4804,
+   "type": "mouse",
+   "x": 610,
+   "y": 351
+  },
+  {
+   "t": 4822,
+   "type": "mouse",
+   "x": 603,
+   "y": 354
+  },
+  {
+   "t": 4840,
+   "type": "mouse",
+   "x": 596,
+   "y": 357
+  },
+  {
+   "t": 4860,
+   "type": "mouse",
+   "x": 589,
+   "y": 361
+  },
+  {
+   "t": 4896,
+   "type": "mouse",
+   "x": 582,
+   "y": 364
+  },
+  {
+   "t": 4915,
+   "type": "mouse",
+   "x": 574,
+   "y": 368
+  },
+  {
+   "t": 4937,
+   "type": "mouse",
+   "x": 566,
+   "y": 372
+  },
+  {
+   "t": 4997,
+   "type": "mouse",
+   "x": 558,
+   "y": 375
+  },
+  {
+   "t": 5030,
+   "type": "mouse",
+   "x": 551,
+   "y": 378
+  },
+  {
+   "t": 5062,
+   "type": "mouse",
+   "x": 544,
+   "y": 382
+  },
+  {
+   "t": 5096,
+   "type": "mouse",
+   "x": 538,
+   "y": 385
+  },
+  {
+   "t": 5179,
+   "type": "mouse",
+   "x": 531,
+   "y": 388
+  },
+  {
+   "t": 5200,
+   "type": "mouse",
+   "x": 525,
+   "y": 390
+  },
+  {
+   "t": 5219,
+   "type": "mouse",
+   "x": 520,
+   "y": 393
+  },
+  {
+   "t": 5237,
+   "type": "mouse",
+   "x": 515,
+   "y": 395
+  },
+  {
+   "t": 5255,
+   "type": "mouse",
+   "x": 510,
+   "y": 398
+  },
+  {
+   "t": 5272,
+   "type": "mouse",
+   "x": 505,
+   "y": 400
+  },
+  {
+   "t": 5289,
+   "type": "mouse",
+   "x": 501,
+   "y": 402
+  },
+  {
+   "t": 5305,
+   "type": "mouse",
+   "x": 497,
+   "y": 404
+  },
+  {
+   "t": 5322,
+   "type": "mouse",
+   "x": 493,
+   "y": 405
+  },
+  {
+   "t": 5340,
+   "type": "mouse",
+   "x": 490,
+   "y": 407
+  },
+  {
+   "t": 5358,
+   "type": "mouse",
+   "x": 486,
+   "y": 408
+  },
+  {
+   "t": 5375,
+   "type": "mouse",
+   "x": 484,
+   "y": 410
+  },
+  {
+   "t": 5393,
+   "type": "mouse",
+   "x": 481,
+   "y": 411
+  },
+  {
+   "t": 5410,
+   "type": "mouse",
+   "x": 479,
+   "y": 412
+  },
+  {
+   "t": 5429,
+   "type": "mouse",
+   "x": 478,
+   "y": 413
+  },
+  {
+   "t": 5448,
+   "type": "mouse",
+   "x": 476,
+   "y": 413
+  },
+  {
+   "t": 5467,
+   "type": "mouse",
+   "x": 475,
+   "y": 414
+  },
+  {
+   "t": 5486,
+   "type": "mouse",
+   "x": 474,
+   "y": 414
+  },
+  {
+   "t": 5507,
+   "type": "mouse",
+   "x": 474,
+   "y": 414
+  },
+  {
+   "t": 5526,
+   "type": "mouse",
+   "x": 473,
+   "y": 415
+  },
+  {
+   "t": 5669,
+   "type": "mousedown",
+   "x": 473,
+   "y": 415
+  },
+  {
+   "t": 5747,
+   "type": "mouseup",
+   "x": 473,
+   "y": 415
+  },
+  {
+   "t": 5750,
+   "type": "fetch.start",
+   "id": "v3dq5t",
+   "path": "/api/mcp/connect",
+   "body": {
+    "url": "https://afg.ai/mcp"
+   }
+  },
+  {
+   "t": 5782,
+   "type": "dom.ui",
+   "v": {
+    "status": "Press to talk",
+    "server": "",
+    "connect": "Connecting…",
+    "sample": "",
+    "paste": "",
+    "scrollY": 0,
+    "results": []
+   }
+  },
+  {
+   "t": 6983,
+   "type": "fetch.done",
+   "id": "v3dq5t",
+   "path": "/api/mcp/connect",
+   "status": 200,
+   "ms": 1233
+  },
+  {
+   "t": 6991,
+   "type": "fetch.start",
+   "id": "6k5dgg",
+   "path": "/api/mcp/starters"
+  },
+  {
+   "t": 6992,
+   "type": "url",
+   "href": "https://interpres.ochinimus.app/?url=https%3A%2F%2Fafg.ai%2Fmcp"
+  },
+  {
+   "t": 7025,
+   "type": "dom.chips",
+   "v": {
+    "chips": [
+     {
+      "name": "find_tools",
+      "isNew": false
+     },
+     {
+      "name": "use_pasted_text",
+      "isNew": false
+     },
+     {
+      "name": "afg_set_leaderboard_profile",
+      "isNew": false
+     },
+     {
+      "name": "afg_get_reputation",
+      "isNew": false
+     },
+     {
+      "name": "afg_leaderboard",
+      "isNew": false
+     },
+     {
+      "name": "afg_dispute",
+      "isNew": false
+     },
+     {
+      "name": "afg_prepare_signed_request",
+      "isNew": false
+     },
+     {
+      "name": "afg_sign_contract",
+      "isNew": false
+     },
+     {
+      "name": "afg_contract_template",
+      "isNew": false
+     },
+     {
+      "name": "afg_appeal",
+      "isNew": false
+     }
+    ],
+    "rect": {
+     "x": 41,
+     "y": 1413.40625,
+     "w": 514.7890625,
+     "h": 128
+    }
+   }
+  },
+  {
+   "t": 7025,
+   "type": "dom.ui",
+   "v": {
+    "status": "Press to talk",
+    "server": "AFG: Agent Fulfillment Guarantee (sandbox, test money only)",
+    "connect": "Connect",
+    "sample": "Copy sample address",
+    "paste": "",
+    "scrollY": 0,
+    "results": []
+   }
+  },
+  {
+   "t": 7795,
+   "type": "fetch.done",
+   "id": "6k5dgg",
+   "path": "/api/mcp/starters",
+   "status": 200,
+   "ms": 804
+  },
+  {
+   "t": 7828,
+   "type": "dom.chips",
+   "v": {
+    "chips": [
+     {
+      "name": "find_tools",
+      "isNew": false
+     },
+     {
+      "name": "use_pasted_text",
+      "isNew": false
+     },
+     {
+      "name": "afg_set_leaderboard_profile",
+      "isNew": false
+     },
+     {
+      "name": "afg_get_reputation",
+      "isNew": false
+     },
+     {
+      "name": "afg_leaderboard",
+      "isNew": false
+     },
+     {
+      "name": "afg_dispute",
+      "isNew": false
+     },
+     {
+      "name": "afg_prepare_signed_request",
+      "isNew": false
+     },
+     {
+      "name": "afg_sign_contract",
+      "isNew": false
+     },
+     {
+      "name": "afg_contract_template",
+      "isNew": false
+     },
+     {
+      "name": "afg_appeal",
+      "isNew": false
+     }
+    ],
+    "rect": {
+     "x": 41,
+     "y": 1456.328125,
+     "w": 514.7890625,
+     "h": 128
+    }
+   }
+  },
+  {
+   "t": 8309,
+   "type": "scroll",
+   "y": 49.5
+  },
+  {
+   "t": 8340,
+   "type": "dom.chips",
+   "v": {
+    "chips": [
+     {
+      "name": "find_tools",
+      "isNew": false
+     },
+     {
+      "name": "use_pasted_text",
+      "isNew": false
+     },
+     {
+      "name": "afg_set_leaderboard_profile",
+      "isNew": false
+     },
+     {
+      "name": "afg_get_reputation",
+      "isNew": false
+     },
+     {
+      "name": "afg_leaderboard",
+      "isNew": false
+     },
+     {
+      "name": "afg_dispute",
+      "isNew": false
+     },
+     {
+      "name": "afg_prepare_signed_request",
+      "isNew": false
+     },
+     {
+      "name": "afg_sign_contract",
+      "isNew": false
+     },
+     {
+      "name": "afg_contract_template",
+      "isNew": false
+     },
+     {
+      "name": "afg_appeal",
+      "isNew": false
+     }
+    ],
+    "rect": {
+     "x": 41,
+     "y": 1357.828125,
+     "w": 514.7890625,
+     "h": 128
+    }
+   }
+  },
+  {
+   "t": 8340,
+   "type": "dom.ui",
+   "v": {
+    "status": "Press to talk",
+    "server": "AFG: Agent Fulfillment Guarantee (sandbox, test money only)",
+    "connect": "Connect",
+    "sample": "Copy sample address",
+    "paste": "",
+    "scrollY": 98.5,
+    "results": []
+   }
+  },
+  {
+   "t": 8391,
+   "type": "scroll",
+   "y": 98.5
+  },
+  {
+   "t": 8423,
+   "type": "dom.chips",
+   "v": {
+    "chips": [
+     {
+      "name": "find_tools",
+      "isNew": false
+     },
+     {
+      "name": "use_pasted_text",
+      "isNew": false
+     },
+     {
+      "name": "afg_set_leaderboard_profile",
+      "isNew": false
+     },
+     {
+      "name": "afg_get_reputation",
+      "isNew": false
+     },
+     {
+      "name": "afg_leaderboard",
+      "isNew": false
+     },
+     {
+      "name": "afg_dispute",
+      "isNew": false
+     },
+     {
+      "name": "afg_prepare_signed_request",
+      "isNew": false
+     },
+     {
+      "name": "afg_sign_contract",
+      "isNew": false
+     },
+     {
+      "name": "afg_contract_template",
+      "isNew": false
+     },
+     {
+      "name": "afg_appeal",
+      "isNew": false
+     }
+    ],
+    "rect": {
+     "x": 41,
+     "y": 1308.328125,
+     "w": 514.7890625,
+     "h": 128
+    }
+   }
+  },
+  {
+   "t": 8423,
+   "type": "dom.ui",
+   "v": {
+    "status": "Press to talk",
+    "server": "AFG: Agent Fulfillment Guarantee (sandbox, test money only)",
+    "connect": "Connect",
+    "sample": "Copy sample address",
+    "paste": "",
+    "scrollY": 148,
+    "results": []
+   }
+  },
+  {
+   "t": 8457,
+   "type": "scroll",
+   "y": 148
+  },
+  {
+   "t": 8488,
+   "type": "dom.chips",
+   "v": {
+    "chips": [
+     {
+      "name": "find_tools",
+      "isNew": false
+     },
+     {
+      "name": "use_pasted_text",
+      "isNew": false
+     },
+     {
+      "name": "afg_set_leaderboard_profile",
+      "isNew": false
+     },
+     {
+      "name": "afg_get_reputation",
+      "isNew": false
+     },
+     {
+      "name": "afg_leaderboard",
+      "isNew": false
+     },
+     {
+      "name": "afg_dispute",
+      "isNew": false
+     },
+     {
+      "name": "afg_prepare_signed_request",
+      "isNew": false
+     },
+     {
+      "name": "afg_sign_contract",
+      "isNew": false
+     },
+     {
+      "name": "afg_contract_template",
+      "isNew": false
+     },
+     {
+      "name": "afg_appeal",
+      "isNew": false
+     }
+    ],
+    "rect": {
+     "x": 41,
+     "y": 1259.328125,
+     "w": 514.7890625,
+     "h": 128
+    }
+   }
+  },
+  {
+   "t": 8488,
+   "type": "dom.ui",
+   "v": {
+    "status": "Press to talk",
+    "server": "AFG: Agent Fulfillment Guarantee (sandbox, test money only)",
+    "connect": "Connect",
+    "sample": "Copy sample address",
+    "paste": "",
+    "scrollY": 197,
+    "results": []
+   }
+  },
+  {
+   "t": 8524,
+   "type": "scroll",
+   "y": 197
+  },
+  {
+   "t": 8555,
+   "type": "dom.chips",
+   "v": {
+    "chips": [
+     {
+      "name": "find_tools",
+      "isNew": false
+     },
+     {
+      "name": "use_pasted_text",
+      "isNew": false
+     },
+     {
+      "name": "afg_set_leaderboard_profile",
+      "isNew": false
+     },
+     {
+      "name": "afg_get_reputation",
+      "isNew": false
+     },
+     {
+      "name": "afg_leaderboard",
+      "isNew": false
+     },
+     {
+      "name": "afg_dispute",
+      "isNew": false
+     },
+     {
+      "name": "afg_prepare_signed_request",
+      "isNew": false
+     },
+     {
+      "name": "afg_sign_contract",
+      "isNew": false
+     },
+     {
+      "name": "afg_contract_template",
+      "isNew": false
+     },
+     {
+      "name": "afg_appeal",
+      "isNew": false
+     }
+    ],
+    "rect": {
+     "x": 41,
+     "y": 1209.828125,
+     "w": 514.7890625,
+     "h": 128
+    }
+   }
+  },
+  {
+   "t": 8555,
+   "type": "dom.ui",
+   "v": {
+    "status": "Press to talk",
+    "server": "AFG: Agent Fulfillment Guarantee (sandbox, test money only)",
+    "connect": "Connect",
+    "sample": "Copy sample address",
+    "paste": "",
+    "scrollY": 246.5,
+    "results": []
+   }
+  },
+  {
+   "t": 9341,
+   "type": "scroll",
+   "y": 985.5
+  },
+  {
+   "t": 9373,
+   "type": "dom.chips",
+   "v": {
+    "chips": [
+     {
+      "name": "find_tools",
+      "isNew": false
+     },
+     {
+      "name": "use_pasted_text",
+      "isNew": false
+     },
+     {
+      "name": "afg_set_leaderboard_profile",
+      "isNew": false
+     },
+     {
+      "name": "afg_get_reputation",
+      "isNew": false
+     },
+     {
+      "name": "afg_leaderboard",
+      "isNew": false
+     },
+     {
+      "name": "afg_dispute",
+      "isNew": false
+     },
+     {
+      "name": "afg_prepare_signed_request",
+      "isNew": false
+     },
+     {
+      "name": "afg_sign_contract",
+      "isNew": false
+     },
+     {
+      "name": "afg_contract_template",
+      "isNew": false
+     },
+     {
+      "name": "afg_appeal",
+      "isNew": false
+     }
+    ],
+    "rect": {
+     "x": 41,
+     "y": 470.828125,
+     "w": 514.7890625,
+     "h": 128
+    }
+   }
+  },
+  {
+   "t": 9373,
+   "type": "dom.ui",
+   "v": {
+    "status": "Press to talk",
+    "server": "AFG: Agent Fulfillment Guarantee (sandbox, test money only)",
+    "connect": "Connect",
+    "sample": "Copy sample address",
+    "paste": "",
+    "scrollY": 985.5,
+    "results": []
+   }
+  },
+  {
+   "t": 9563,
+   "type": "harness.scrolled",
+   "selector": "#talk",
+   "y": 985.5
+  },
+  {
+   "t": 9578,
+   "type": "mouse",
+   "x": 473,
+   "y": 414
+  },
+  {
+   "t": 9596,
+   "type": "mouse",
+   "x": 471,
+   "y": 413
+  },
+  {
+   "t": 9612,
+   "type": "mouse",
+   "x": 469,
+   "y": 410
+  },
+  {
+   "t": 9630,
+   "type": "mouse",
+   "x": 465,
+   "y": 407
+  },
+  {
+   "t": 9648,
+   "type": "mouse",
+   "x": 460,
+   "y": 403
+  },
+  {
+   "t": 9666,
+   "type": "mouse",
+   "x": 454,
+   "y": 397
+  },
+  {
+   "t": 9682,
+   "type": "mouse",
+   "x": 447,
+   "y": 391
+  },
+  {
+   "t": 9700,
+   "type": "mouse",
+   "x": 439,
+   "y": 384
+  },
+  {
+   "t": 9718,
+   "type": "mouse",
+   "x": 430,
+   "y": 376
+  },
+  {
+   "t": 9734,
+   "type": "mouse",
+   "x": 420,
+   "y": 367
+  },
+  {
+   "t": 9752,
+   "type": "mouse",
+   "x": 409,
+   "y": 357
+  },
+  {
+   "t": 9770,
+   "type": "mouse",
+   "x": 396,
+   "y": 346
+  },
+  {
+   "t": 9788,
+   "type": "mouse",
+   "x": 383,
+   "y": 334
+  },
+  {
+   "t": 9806,
+   "type": "mouse",
+   "x": 368,
+   "y": 322
+  },
+  {
+   "t": 9825,
+   "type": "mouse",
+   "x": 353,
+   "y": 308
+  },
+  {
+   "t": 9843,
+   "type": "mouse",
+   "x": 336,
+   "y": 293
+  },
+  {
+   "t": 9861,
+   "type": "mouse",
+   "x": 319,
+   "y": 278
+  },
+  {
+   "t": 9896,
+   "type": "mouse",
+   "x": 300,
+   "y": 261
+  },
+  {
+   "t": 9915,
+   "type": "mouse",
+   "x": 280,
+   "y": 243
+  },
+  {
+   "t": 9934,
+   "type": "mouse",
+   "x": 260,
+   "y": 226
+  },
+  {
+   "t": 9953,
+   "type": "mouse",
+   "x": 241,
+   "y": 209
+  },
+  {
+   "t": 9972,
+   "type": "mouse",
+   "x": 224,
+   "y": 194
+  },
+  {
+   "t": 9991,
+   "type": "mouse",
+   "x": 207,
+   "y": 179
+  },
+  {
+   "t": 10009,
+   "type": "mouse",
+   "x": 192,
+   "y": 165
+  },
+  {
+   "t": 10028,
+   "type": "mouse",
+   "x": 177,
+   "y": 152
+  },
+  {
+   "t": 10045,
+   "type": "mouse",
+   "x": 164,
+   "y": 141
+  },
+  {
+   "t": 10063,
+   "type": "mouse",
+   "x": 151,
+   "y": 130
+  },
+  {
+   "t": 10080,
+   "type": "mouse",
+   "x": 140,
+   "y": 120
+  },
+  {
+   "t": 10098,
+   "type": "mouse",
+   "x": 130,
+   "y": 111
+  },
+  {
+   "t": 10115,
+   "type": "mouse",
+   "x": 121,
+   "y": 103
+  },
+  {
+   "t": 10131,
+   "type": "mouse",
+   "x": 113,
+   "y": 96
+  },
+  {
+   "t": 10148,
+   "type": "mouse",
+   "x": 106,
+   "y": 89
+  },
+  {
+   "t": 10165,
+   "type": "mouse",
+   "x": 100,
+   "y": 84
+  },
+  {
+   "t": 10183,
+   "type": "mouse",
+   "x": 95,
+   "y": 80
+  },
+  {
+   "t": 10201,
+   "type": "mouse",
+   "x": 91,
+   "y": 77
+  },
+  {
+   "t": 10218,
+   "type": "mouse",
+   "x": 89,
+   "y": 74
+  },
+  {
+   "t": 10235,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 10253,
+   "type": "mouse",
+   "x": 87,
+   "y": 72
+  },
+  {
+   "t": 10393,
+   "type": "mousedown",
+   "x": 87,
+   "y": 72
+  },
+  {
+   "t": 10468,
+   "type": "mouseup",
+   "x": 87,
+   "y": 72
+  },
+  {
+   "t": 10469,
+   "type": "fetch.start",
+   "id": "p8ldg7",
+   "path": "/api/token"
+  },
+  {
+   "t": 10501,
+   "type": "dom.ui",
+   "v": {
+    "status": "Connecting",
+    "server": "AFG: Agent Fulfillment Guarantee (sandbox, test money only)",
+    "connect": "Connect",
+    "sample": "Copy sample address",
+    "paste": "",
+    "scrollY": 985.5,
+    "results": []
+   }
+  },
+  {
+   "t": 10621,
+   "type": "harness.talk",
+   "label": "start"
+  },
+  {
+   "t": 10659,
+   "type": "fetch.done",
+   "id": "p8ldg7",
+   "path": "/api/token",
+   "status": 200,
+   "ms": 190
+  },
+  {
+   "t": 10663,
+   "type": "audio.context",
+   "ctx": 1,
+   "rate": 24000
+  },
+  {
+   "t": 10663,
+   "type": "audio.context",
+   "ctx": 2,
+   "rate": 24000
+  },
+  {
+   "t": 10673,
+   "type": "mic.getUserMedia",
+   "audio": true
+  },
+  {
+   "t": 10674,
+   "type": "audio.recorder",
+   "ctx": 2,
+   "stem": "agent",
+   "rate": 24000
+  },
+  {
+   "t": 10674,
+   "type": "agent.tap",
+   "ctx": 2
+  },
+  {
+   "t": 10681,
+   "type": "ws.open",
+   "url": "wss://agents.assemblyai.com/v1/ws?token=STRIPPED"
+  },
+  {
+   "t": 10688,
+   "type": "audio.recorder",
+   "ctx": 1,
+   "stem": "pagemic",
+   "rate": 24000
+  },
+  {
+   "t": 10688,
+   "type": "pagemic.tap",
+   "ctx": 1,
+   "rate": 24000
+  },
+  {
+   "t": 10886,
+   "type": "ws.out",
+   "msg": "session.update",
+   "tools": [
+    "find_tools",
+    "use_pasted_text",
+    "afg_set_leaderboard_profile",
+    "afg_get_reputation",
+    "afg_leaderboard",
+    "afg_dispute",
+    "afg_prepare_signed_request",
+    "afg_sign_contract",
+    "afg_contract_template",
+    "afg_appeal"
+   ],
+   "keyterms": [
+    "mainnet",
+    "testnet",
+    "sandbox",
+    "30d",
+    "schema valid",
+    "AFG",
+    "fulfillment",
+    "leaderboard"
+   ],
+   "greeting": "Connected to AFG: Agent Fulfillment Guarantee (sandbox, test money only), with 18 tools available. What would you like to do?",
+   "voice": "alba"
+  },
+  {
+   "t": 11316,
+   "type": "ws.in",
+   "msg": "session.updated"
+  },
+  {
+   "t": 11317,
+   "type": "ws.in",
+   "msg": "session.ready",
+   "session_id": "sess_bad159e000e9412ba713b9dfb8389cf2"
+  },
+  {
+   "t": 11320,
+   "type": "ws.in",
+   "msg": "reply.started",
+   "reply_id": "resp_2342f65092274e438683945dfe5307da"
+  },
+  {
+   "t": 11351,
+   "type": "dom.ui",
+   "v": {
+    "status": "Listening",
+    "server": "AFG: Agent Fulfillment Guarantee (sandbox, test money only)",
+    "connect": "Connect",
+    "sample": "Copy sample address",
+    "paste": "",
+    "scrollY": 985.5,
+    "results": []
+   }
+  },
+  {
+   "t": 11646,
+   "type": "ws.in",
+   "msg": "reply.audio.first",
+   "reply_id": "resp_2342f65092274e438683945dfe5307da"
+  },
+  {
+   "t": 11681,
+   "type": "dom.ui",
+   "v": {
+    "status": "Speaking",
+    "server": "AFG: Agent Fulfillment Guarantee (sandbox, test money only)",
+    "connect": "Connect",
+    "sample": "Copy sample address",
+    "paste": "",
+    "scrollY": 985.5,
+    "results": []
+   }
+  },
+  {
+   "t": 12028,
+   "type": "dom.chips",
+   "v": {
+    "chips": [
+     {
+      "name": "find_tools",
+      "isNew": false
+     },
+     {
+      "name": "use_pasted_text",
+      "isNew": false
+     },
+     {
+      "name": "afg_set_leaderboard_profile",
+      "isNew": false
+     },
+     {
+      "name": "afg_get_reputation",
+      "isNew": false
+     },
+     {
+      "name": "afg_leaderboard",
+      "isNew": false
+     },
+     {
+      "name": "afg_dispute",
+      "isNew": false
+     },
+     {
+      "name": "afg_prepare_signed_request",
+      "isNew": false
+     },
+     {
+      "name": "afg_sign_contract",
+      "isNew": false
+     },
+     {
+      "name": "afg_contract_template",
+      "isNew": false
+     },
+     {
+      "name": "afg_appeal",
+      "isNew": false
+     }
+    ],
+    "rect": {
+     "x": 41,
+     "y": 473.03125,
+     "w": 514.7890625,
+     "h": 128
+    }
+   }
+  },
+  {
+   "t": 12028,
+   "type": "dom.lines",
+   "v": [
+    {
+     "who": "agent live",
+     "text": "Connected to AFG: Agent Fulfillment Guarantee (sandbox, test money only), with 18 tools available. What would you like to do?"
+    }
+   ]
+  },
+  {
+   "t": 19493,
+   "type": "ws.in",
+   "msg": "transcript.agent",
+   "text": "Connected to AFG: Agent Fulfillment Guarantee (sandbox, test money only), with 18 tools available. What would you like to do?",
+   "reply_id": "resp_2342f65092274e438683945dfe5307da",
+   "interrupted": false
+  },
+  {
+   "t": 19524,
+   "type": "dom.lines",
+   "v": [
+    {
+     "who": "agent",
+     "text": "Connected to AFG: Agent Fulfillment Guarantee (sandbox, test money only), with 18 tools available. What would you like to do?"
+    }
+   ]
+  },
+  {
+   "t": 19851,
+   "type": "ws.in",
+   "msg": "reply.done",
+   "reply_id": "resp_2342f65092274e438683945dfe5307da",
+   "status": "completed",
+   "audioBytes": 393600
+  },
+  {
+   "t": 19884,
+   "type": "dom.ui",
+   "v": {
+    "status": "Listening",
+    "server": "AFG: Agent Fulfillment Guarantee (sandbox, test money only)",
+    "connect": "Connect",
+    "sample": "Copy sample address",
+    "paste": "",
+    "scrollY": 985.5,
+    "results": []
+   }
+  },
+  {
+   "t": 20538,
+   "type": "say",
+   "id": "Q3"
+  },
+  {
+   "t": 20542,
+   "type": "clip.start",
+   "id": "Q3",
+   "ctx": 0,
+   "contextTime": 20.268666666666668,
+   "seconds": 2.69
+  },
+  {
+   "t": 21866,
+   "type": "ws.in",
+   "msg": "input.speech.started"
+  },
+  {
+   "t": 21898,
+   "type": "dom.chips",
+   "v": {
+    "chips": [
+     {
+      "name": "find_tools",
+      "isNew": false
+     },
+     {
+      "name": "use_pasted_text",
+      "isNew": false
+     },
+     {
+      "name": "afg_set_leaderboard_profile",
+      "isNew": false
+     },
+     {
+      "name": "afg_get_reputation",
+      "isNew": false
+     },
+     {
+      "name": "afg_leaderboard",
+      "isNew": false
+     },
+     {
+      "name": "afg_dispute",
+      "isNew": false
+     },
+     {
+      "name": "afg_prepare_signed_request",
+      "isNew": false
+     },
+     {
+      "name": "afg_sign_contract",
+      "isNew": false
+     },
+     {
+      "name": "afg_contract_template",
+      "isNew": false
+     },
+     {
+      "name": "afg_appeal",
+      "isNew": false
+     }
+    ],
+    "rect": {
+     "x": 41,
+     "y": 506.28125,
+     "w": 514.7890625,
+     "h": 128
+    }
+   }
+  },
+  {
+   "t": 21898,
+   "type": "dom.lines",
+   "v": [
+    {
+     "who": "agent",
+     "text": "Connected to AFG: Agent Fulfillment Guarantee (sandbox, test money only), with 18 tools available. What would you like to do?"
+    },
+    {
+     "who": "you live",
+     "text": "I want to run a"
+    }
+   ]
+  },
+  {
+   "t": 21898,
+   "type": "dom.ui",
+   "v": {
+    "status": "Hearing you",
+    "server": "AFG: Agent Fulfillment Guarantee (sandbox, test money only)",
+    "connect": "Connect",
+    "sample": "Copy sample address",
+    "paste": "",
+    "scrollY": 985.5,
+    "results": []
+   }
+  },
+  {
+   "t": 23198,
+   "type": "dom.lines",
+   "v": [
+    {
+     "who": "agent",
+     "text": "Connected to AFG: Agent Fulfillment Guarantee (sandbox, test money only), with 18 tools available. What would you like to do?"
+    },
+    {
+     "who": "you live",
+     "text": "I want to run a spec check on a job contract."
+    }
+   ]
+  },
+  {
+   "t": 23281,
+   "type": "clip.end",
+   "id": "Q3"
+  },
+  {
+   "t": 23768,
+   "type": "ws.in",
+   "msg": "input.speech.stopped"
+  },
+  {
+   "t": 23769,
+   "type": "ws.in",
+   "msg": "transcript.user",
+   "text": "I want to run a spec check on a job contract."
+  },
+  {
+   "t": 23770,
+   "type": "ws.in",
+   "msg": "reply.started",
+   "reply_id": "resp_000eb133f1164cbb99bc6d7fe8822c6a"
+  },
+  {
+   "t": 23801,
+   "type": "dom.lines",
+   "v": [
+    {
+     "who": "agent",
+     "text": "Connected to AFG: Agent Fulfillment Guarantee (sandbox, test money only), with 18 tools available. What would you like to do?"
+    },
+    {
+     "who": "you",
+     "text": "I want to run a spec check on a job contract."
+    }
+   ]
+  },
+  {
+   "t": 23801,
+   "type": "dom.ui",
+   "v": {
+    "status": "Thinking",
+    "server": "AFG: Agent Fulfillment Guarantee (sandbox, test money only)",
+    "connect": "Connect",
+    "sample": "Copy sample address",
+    "paste": "",
+    "scrollY": 985.5,
+    "results": []
+   }
+  },
+  {
+   "t": 24749,
+   "type": "ws.in",
+   "msg": "tool.call",
+   "call_id": "chatcmpl-tool-a7a40fa6aee3cac7",
+   "name": "find_tools",
+   "arguments": {
+    "query": "run a spec check on a job contract"
+   }
+  },
+  {
+   "t": 24750,
+   "type": "fetch.start",
+   "id": "wilvx1",
+   "path": "/api/mcp/find-tools",
+   "body": {
+    "query": "run a spec check on a job contract"
+   }
+  },
+  {
+   "t": 24782,
+   "type": "dom.calls",
+   "v": [
+    {
+     "name": "find_tools",
+     "meta": "calling…",
+     "args": "{\"query\":\"run a spec check on a job contract\"}",
+     "spoken": "",
+     "cls": "call pending phase-call",
+     "rect": {
+      "x": 603.7890625,
+      "y": 330.53125,
+      "w": 443.203125,
+      "h": 63.5
+     },
+     "argsRect": {
+      "x": 618.7890625,
+      "y": 365.03125,
+      "w": 415.203125,
+      "h": 18
+     }
+    }
+   ]
+  },
+  {
+   "t": 24782,
+   "type": "dom.ui",
+   "v": {
+    "status": "Calling find_tools",
+    "server": "AFG: Agent Fulfillment Guarantee (sandbox, test money only)",
+    "connect": "Connect",
+    "sample": "Copy sample address",
+    "paste": "",
+    "scrollY": 985.5,
+    "results": []
+   }
+  },
+  {
+   "t": 24813,
+   "type": "fetch.done",
+   "id": "wilvx1",
+   "path": "/api/mcp/find-tools",
+   "status": 200,
+   "ms": 63
+  },
+  {
+   "t": 24818,
+   "type": "ws.out",
+   "msg": "session.update",
+   "tools": [
+    "find_tools",
+    "use_pasted_text",
+    "afg_post_job",
+    "afg_speccheck",
+    "afg_dispute",
+    "afg_submit",
+    "afg_sign_contract",
+    "afg_contract_template",
+    "afg_get_job",
+    "afg_prepare_signed_request"
+   ],
+   "keyterms": [
+    "buyer",
+    "schema valid",
+    "AFG",
+    "fulfillment",
+    "sandbox",
+    "speccheck"
+   ]
+  },
+  {
+   "t": 24849,
+   "type": "dom.calls",
+   "v": [
+    {
+     "name": "find_tools",
+     "meta": "68 ms · phase swap",
+     "args": "{\"query\":\"run a spec check on a job contract\"}",
+     "spoken": "Swapped in 9 tools: use_pasted_text, afg_post_job, afg_speccheck, afg_dispute, afg_submit, afg_sign_contract, afg_contract_template, afg_get_job, afg_prepare_signed_request",
+     "cls": "call phase-call",
+     "rect": {
+      "x": 603.7890625,
+      "y": 330.53125,
+      "w": 443.203125,
+      "h": 155.1875
+     },
+     "argsRect": {
+      "x": 618.7890625,
+      "y": 365.03125,
+      "w": 415.203125,
+      "h": 18
+     }
+    }
+   ]
+  },
+  {
+   "t": 24849,
+   "type": "dom.chips",
+   "v": {
+    "chips": [
+     {
+      "name": "find_tools",
+      "isNew": false
+     },
+     {
+      "name": "use_pasted_text",
+      "isNew": false
+     },
+     {
+      "name": "afg_post_job",
+      "isNew": true
+     },
+     {
+      "name": "afg_speccheck",
+      "isNew": true
+     },
+     {
+      "name": "afg_dispute",
+      "isNew": false
+     },
+     {
+      "name": "afg_submit",
+      "isNew": true
+     },
+     {
+      "name": "afg_sign_contract",
+      "isNew": false
+     },
+     {
+      "name": "afg_contract_template",
+      "isNew": false
+     },
+     {
+      "name": "afg_get_job",
+      "isNew": true
+     },
+     {
+      "name": "afg_prepare_signed_request",
+      "isNew": false
+     }
+    ],
+    "rect": {
+     "x": 41,
+     "y": 581.71875,
+     "w": 514.7890625,
+     "h": 94.5
+    }
+   }
+  },
+  {
+   "t": 24878,
+   "type": "ws.in",
+   "msg": "session.updated"
+  },
+  {
+   "t": 25000,
+   "type": "ws.in",
+   "msg": "reply.done",
+   "reply_id": "resp_000eb133f1164cbb99bc6d7fe8822c6a",
+   "status": "completed",
+   "audioBytes": 0
+  },
+  {
+   "t": 25000,
+   "type": "ws.out",
+   "msg": "tool.result",
+   "call_id": "chatcmpl-tool-a7a40fa6aee3cac7",
+   "chars": 229
+  },
+  {
+   "t": 25063,
+   "type": "ws.in",
+   "msg": "reply.started",
+   "reply_id": "resp_0067e7cb285040339f6b364feba22b94"
+  },
+  {
+   "t": 25709,
+   "type": "ws.in",
+   "msg": "reply.audio.first",
+   "reply_id": "resp_0067e7cb285040339f6b364feba22b94"
+  },
+  {
+   "t": 25745,
+   "type": "dom.ui",
+   "v": {
+    "status": "Speaking",
+    "server": "AFG: Agent Fulfillment Guarantee (sandbox, test money only)",
+    "connect": "Connect",
+    "sample": "Copy sample address",
+    "paste": "",
+    "scrollY": 985.5,
+    "results": []
+   }
+  },
+  {
+   "t": 25936,
+   "type": "dom.lines",
+   "v": [
+    {
+     "who": "agent",
+     "text": "Connected to AFG: Agent Fulfillment Guarantee (sandbox, test money only), with 18 tools available. What would you like to do?"
+    },
+    {
+     "who": "you",
+     "text": "I want to run a spec check on a job contract."
+    },
+    {
+     "who": "agent live",
+     "text": "I  can certainly help with that. Please provide the job contract you would like me to check."
+    }
+   ]
+  },
+  {
+   "t": 30197,
+   "type": "ws.in",
+   "msg": "transcript.agent",
+   "text": "I can certainly help with that. Please provide the job contract you would like me to check.",
+   "reply_id": "resp_0067e7cb285040339f6b364feba22b94",
+   "interrupted": false
+  },
+  {
+   "t": 30228,
+   "type": "dom.lines",
+   "v": [
+    {
+     "who": "agent",
+     "text": "Connected to AFG: Agent Fulfillment Guarantee (sandbox, test money only), with 18 tools available. What would you like to do?"
+    },
+    {
+     "who": "you",
+     "text": "I want to run a spec check on a job contract."
+    },
+    {
+     "who": "agent",
+     "text": "I can certainly help with that. Please provide the job contract you would like me to check."
+    }
+   ]
+  },
+  {
+   "t": 30510,
+   "type": "ws.in",
+   "msg": "reply.done",
+   "reply_id": "resp_0067e7cb285040339f6b364feba22b94",
+   "status": "completed",
+   "audioBytes": 232320
+  },
+  {
+   "t": 30588,
+   "type": "dom.ui",
+   "v": {
+    "status": "Listening",
+    "server": "AFG: Agent Fulfillment Guarantee (sandbox, test money only)",
+    "connect": "Connect",
+    "sample": "Copy sample address",
+    "paste": "",
+    "scrollY": 985.5,
+    "results": []
+   }
+  },
+  {
+   "t": 32539,
+   "type": "say",
+   "id": "Q5"
+  },
+  {
+   "t": 32541,
+   "type": "clip.start",
+   "id": "Q5",
+   "ctx": 0,
+   "contextTime": 32.26866666666666,
+   "seconds": 14.49
+  },
+  {
+   "t": 34567,
+   "type": "ws.in",
+   "msg": "input.speech.started"
+  },
+  {
+   "t": 34598,
+   "type": "dom.chips",
+   "v": {
+    "chips": [
+     {
+      "name": "find_tools",
+      "isNew": false
+     },
+     {
+      "name": "use_pasted_text",
+      "isNew": false
+     },
+     {
+      "name": "afg_post_job",
+      "isNew": true
+     },
+     {
+      "name": "afg_speccheck",
+      "isNew": true
+     },
+     {
+      "name": "afg_dispute",
+      "isNew": false
+     },
+     {
+      "name": "afg_submit",
+      "isNew": true
+     },
+     {
+      "name": "afg_sign_contract",
+      "isNew": false
+     },
+     {
+      "name": "afg_contract_template",
+      "isNew": false
+     },
+     {
+      "name": "afg_get_job",
+      "isNew": true
+     },
+     {
+      "name": "afg_prepare_signed_request",
+      "isNew": false
+     }
+    ],
+    "rect": {
+     "x": 41,
+     "y": 596.03125,
+     "w": 514.7890625,
+     "h": 94.5
+    }
+   }
+  },
+  {
+   "t": 34598,
+   "type": "dom.lines",
+   "v": [
+    {
+     "who": "agent",
+     "text": "Connected to AFG: Agent Fulfillment Guarantee (sandbox, test money only), with 18 tools available. What would you like to do?"
+    },
+    {
+     "who": "you",
+     "text": "I want to run a spec check on a job contract."
+    },
+    {
+     "who": "agent",
+     "text": "I can certainly help with that. Please provide the job contract you would like me to check."
+    },
+    {
+     "who": "you live",
+     "text": "What is the reputation?"
+    }
+   ]
+  },
+  {
+   "t": 34598,
+   "type": "dom.ui",
+   "v": {
+    "status": "Hearing you",
+    "server": "AFG: Agent Fulfillment Guarantee (sandbox, test money only)",
+    "connect": "Connect",
+    "sample": "Copy sample address",
+    "paste": "",
+    "scrollY": 985.5,
+    "results": []
+   }
+  },
+  {
+   "t": 35898,
+   "type": "dom.lines",
+   "v": [
+    {
+     "who": "agent",
+     "text": "Connected to AFG: Agent Fulfillment Guarantee (sandbox, test money only), with 18 tools available. What would you like to do?"
+    },
+    {
+     "who": "you",
+     "text": "I want to run a spec check on a job contract."
+    },
+    {
+     "who": "agent",
+     "text": "I can certainly help with that. Please provide the job contract you would like me to check."
+    },
+    {
+     "who": "you live",
+     "text": "What is the reputation of Wallet0 by"
+    }
+   ]
+  },
+  {
+   "t": 37098,
+   "type": "dom.lines",
+   "v": [
+    {
+     "who": "agent",
+     "text": "Connected to AFG: Agent Fulfillment Guarantee (sandbox, test money only), with 18 tools available. What would you like to do?"
+    },
+    {
+     "who": "you",
+     "text": "I want to run a spec check on a job contract."
+    },
+    {
+     "who": "agent",
+     "text": "I can certainly help with that. Please provide the job contract you would like me to check."
+    },
+    {
+     "who": "you live",
+     "text": "What is the reputation of wallet 0x5aae?"
+    }
+   ]
+  },
+  {
+   "t": 38397,
+   "type": "dom.lines",
+   "v": [
+    {
+     "who": "agent",
+     "text": "Connected to AFG: Agent Fulfillment Guarantee (sandbox, test money only), with 18 tools available. What would you like to do?"
+    },
+    {
+     "who": "you",
+     "text": "I want to run a spec check on a job contract."
+    },
+    {
+     "who": "agent",
+     "text": "I can certainly help with that. Please provide the job contract you would like me to check."
+    },
+    {
+     "who": "you live",
+     "text": "What is the reputation of wallet 0x5AAEB6053?"
+    }
+   ]
+  },
+  {
+   "t": 39598,
+   "type": "dom.lines",
+   "v": [
+    {
+     "who": "agent",
+     "text": "Connected to AFG: Agent Fulfillment Guarantee (sandbox, test money only), with 18 tools available. What would you like to do?"
+    },
+    {
+     "who": "you",
+     "text": "I want to run a spec check on a job contract."
+    },
+    {
+     "who": "agent",
+     "text": "I can certainly help with that. Please provide the job contract you would like me to check."
+    },
+    {
+     "who": "you live",
+     "text": "What is the reputation of wallet 0x5AAEB6053F3E94?"
+    }
+   ]
+  },
+  {
+   "t": 40898,
+   "type": "dom.lines",
+   "v": [
+    {
+     "who": "agent",
+     "text": "Connected to AFG: Agent Fulfillment Guarantee (sandbox, test money only), with 18 tools available. What would you like to do?"
+    },
+    {
+     "who": "you",
+     "text": "I want to run a spec check on a job contract."
+    },
+    {
+     "who": "agent",
+     "text": "I can certainly help with that. Please provide the job contract you would like me to check."
+    },
+    {
+     "who": "you live",
+     "text": "What is the reputation of wallet 0x5AAEB6053F3E94C9B?"
+    }
+   ]
+  },
+  {
+   "t": 42299,
+   "type": "dom.chips",
+   "v": {
+    "chips": [
+     {
+      "name": "find_tools",
+      "isNew": false
+     },
+     {
+      "name": "use_pasted_text",
+      "isNew": false
+     },
+     {
+      "name": "afg_post_job",
+      "isNew": true
+     },
+     {
+      "name": "afg_speccheck",
+      "isNew": true
+     },
+     {
+      "name": "afg_dispute",
+      "isNew": false
+     },
+     {
+      "name": "afg_submit",
+      "isNew": true
+     },
+     {
+      "name": "afg_sign_contract",
+      "isNew": false
+     },
+     {
+      "name": "afg_contract_template",
+      "isNew": false
+     },
+     {
+      "name": "afg_get_job",
+      "isNew": true
+     },
+     {
+      "name": "afg_prepare_signed_request",
+      "isNew": false
+     }
+    ],
+    "rect": {
+     "x": 41,
+     "y": 619.28125,
+     "w": 514.7890625,
+     "h": 94.5
+    }
+   }
+  },
+  {
+   "t": 42299,
+   "type": "dom.lines",
+   "v": [
+    {
+     "who": "agent",
+     "text": "Connected to AFG: Agent Fulfillment Guarantee (sandbox, test money only), with 18 tools available. What would you like to do?"
+    },
+    {
+     "who": "you",
+     "text": "I want to run a spec check on a job contract."
+    },
+    {
+     "who": "agent",
+     "text": "I can certainly help with that. Please provide the job contract you would like me to check."
+    },
+    {
+     "who": "you live",
+     "text": "What is the reputation of wallet 0x5AAEB6053F3E94C9B9A09F?"
+    }
+   ]
+  },
+  {
+   "t": 43597,
+   "type": "dom.lines",
+   "v": [
+    {
+     "who": "agent",
+     "text": "Connected to AFG: Agent Fulfillment Guarantee (sandbox, test money only), with 18 tools available. What would you like to do?"
+    },
+    {
+     "who": "you",
+     "text": "I want to run a spec check on a job contract."
+    },
+    {
+     "who": "agent",
+     "text": "I can certainly help with that. Please provide the job contract you would like me to check."
+    },
+    {
+     "who": "you live",
+     "text": "What is the reputation of wallet 0x5AAEB6053F3E94C9B9A09F33669?"
+    }
+   ]
+  },
+  {
+   "t": 44897,
+   "type": "dom.lines",
+   "v": [
+    {
+     "who": "agent",
+     "text": "Connected to AFG: Agent Fulfillment Guarantee (sandbox, test money only), with 18 tools available. What would you like to do?"
+    },
+    {
+     "who": "you",
+     "text": "I want to run a spec check on a job contract."
+    },
+    {
+     "who": "agent",
+     "text": "I can certainly help with that. Please provide the job contract you would like me to check."
+    },
+    {
+     "who": "you live",
+     "text": "What is the reputation of wallet 0x5AAEB6053F3E94C9B9A09F33669435E?"
+    }
+   ]
+  },
+  {
+   "t": 46298,
+   "type": "dom.lines",
+   "v": [
+    {
+     "who": "agent",
+     "text": "Connected to AFG: Agent Fulfillment Guarantee (sandbox, test money only), with 18 tools available. What would you like to do?"
+    },
+    {
+     "who": "you",
+     "text": "I want to run a spec check on a job contract."
+    },
+    {
+     "who": "agent",
+     "text": "I can certainly help with that. Please provide the job contract you would like me to check."
+    },
+    {
+     "who": "you live",
+     "text": "What is the reputation of wallet 0x5AAEB6053F3E94C9B9A09F33669435E7EF1D?"
+    }
+   ]
+  },
+  {
+   "t": 47083,
+   "type": "clip.end",
+   "id": "Q5"
+  },
+  {
+   "t": 47699,
+   "type": "dom.lines",
+   "v": [
+    {
+     "who": "agent",
+     "text": "Connected to AFG: Agent Fulfillment Guarantee (sandbox, test money only), with 18 tools available. What would you like to do?"
+    },
+    {
+     "who": "you",
+     "text": "I want to run a spec check on a job contract."
+    },
+    {
+     "who": "agent",
+     "text": "I can certainly help with that. Please provide the job contract you would like me to check."
+    },
+    {
+     "who": "you live",
+     "text": "What is the reputation of wallet 0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED?"
+    }
+   ]
+  },
+  {
+   "t": 48022,
+   "type": "ws.in",
+   "msg": "input.speech.stopped"
+  },
+  {
+   "t": 48023,
+   "type": "ws.in",
+   "msg": "transcript.user",
+   "text": "What is the reputation of wallet 0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED?"
+  },
+  {
+   "t": 48023,
+   "type": "ws.in",
+   "msg": "reply.started",
+   "reply_id": "resp_0671cd00b1c24cd09b8d55746a053f83"
+  },
+  {
+   "t": 48056,
+   "type": "dom.lines",
+   "v": [
+    {
+     "who": "agent",
+     "text": "Connected to AFG: Agent Fulfillment Guarantee (sandbox, test money only), with 18 tools available. What would you like to do?"
+    },
+    {
+     "who": "you",
+     "text": "I want to run a spec check on a job contract."
+    },
+    {
+     "who": "agent",
+     "text": "I can certainly help with that. Please provide the job contract you would like me to check."
+    },
+    {
+     "who": "you",
+     "text": "What is the reputation of wallet 0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED?"
+    }
+   ]
+  },
+  {
+   "t": 48056,
+   "type": "dom.ui",
+   "v": {
+    "status": "Thinking",
+    "server": "AFG: Agent Fulfillment Guarantee (sandbox, test money only)",
+    "connect": "Connect",
+    "sample": "Copy sample address",
+    "paste": "",
+    "scrollY": 985.5,
+    "results": []
+   }
+  },
+  {
+   "t": 50406,
+   "type": "ws.in",
+   "msg": "tool.call",
+   "call_id": "chatcmpl-tool-9b8a2f62b4a0d180",
+   "name": "find_tools",
+   "arguments": {
+    "query": "get reputation of a wallet"
+   }
+  },
+  {
+   "t": 50407,
+   "type": "fetch.start",
+   "id": "memdcn",
+   "path": "/api/mcp/find-tools",
+   "body": {
+    "query": "get reputation of a wallet"
+   }
+  },
+  {
+   "t": 50438,
+   "type": "dom.calls",
+   "v": [
+    {
+     "name": "find_tools",
+     "meta": "calling…",
+     "args": "{\"query\":\"get reputation of a wallet\"}",
+     "spoken": "",
+     "cls": "call pending phase-call",
+     "rect": {
+      "x": 603.7890625,
+      "y": 330.53125,
+      "w": 443.203125,
+      "h": 63.5
+     },
+     "argsRect": {
+      "x": 618.7890625,
+      "y": 365.03125,
+      "w": 415.203125,
+      "h": 18
+     }
+    },
+    {
+     "name": "find_tools",
+     "meta": "68 ms · phase swap",
+     "args": "{\"query\":\"run a spec check on a job contract\"}",
+     "spoken": "Swapped in 9 tools: use_pasted_text, afg_post_job, afg_speccheck, afg_dispute, afg_submit, afg_sign_contract, afg_contract_template, afg_get_job, afg_prepare_signed_request",
+     "cls": "call phase-call",
+     "rect": {
+      "x": 603.7890625,
+      "y": 404.03125,
+      "w": 443.203125,
+      "h": 155.1875
+     },
+     "argsRect": {
+      "x": 618.7890625,
+      "y": 438.53125,
+      "w": 415.203125,
+      "h": 18
+     }
+    }
+   ]
+  },
+  {
+   "t": 50438,
+   "type": "dom.chips",
+   "v": {
+    "chips": [
+     {
+      "name": "find_tools",
+      "isNew": false
+     },
+     {
+      "name": "use_pasted_text",
+      "isNew": false
+     },
+     {
+      "name": "afg_post_job",
+      "isNew": true
+     },
+     {
+      "name": "afg_speccheck",
+      "isNew": true
+     },
+     {
+      "name": "afg_dispute",
+      "isNew": false
+     },
+     {
+      "name": "afg_submit",
+      "isNew": true
+     },
+     {
+      "name": "afg_sign_contract",
+      "isNew": false
+     },
+     {
+      "name": "afg_contract_template",
+      "isNew": false
+     },
+     {
+      "name": "afg_get_job",
+      "isNew": true
+     },
+     {
+      "name": "afg_prepare_signed_request",
+      "isNew": false
+     }
+    ],
+    "rect": {
+     "x": 41,
+     "y": 655.21875,
+     "w": 514.7890625,
+     "h": 94.5
+    }
+   }
+  },
+  {
+   "t": 50438,
+   "type": "dom.ui",
+   "v": {
+    "status": "Calling find_tools",
+    "server": "AFG: Agent Fulfillment Guarantee (sandbox, test money only)",
+    "connect": "Connect",
+    "sample": "Copy sample address",
+    "paste": "",
+    "scrollY": 985.5,
+    "results": []
+   }
+  },
+  {
+   "t": 50476,
+   "type": "fetch.done",
+   "id": "memdcn",
+   "path": "/api/mcp/find-tools",
+   "status": 200,
+   "ms": 69
+  },
+  {
+   "t": 50480,
+   "type": "ws.out",
+   "msg": "session.update",
+   "tools": [
+    "find_tools",
+    "use_pasted_text",
+    "afg_get_reputation",
+    "afg_get_job",
+    "afg_discard_wallet",
+    "afg_create_wallet",
+    "afg_sign_contract",
+    "afg_leaderboard",
+    "afg_post_job",
+    "afg_fund"
+   ],
+   "keyterms": [
+    "0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED",
+    "mainnet",
+    "testnet",
+    "sandbox",
+    "30d",
+    "buyer",
+    "AFG",
+    "fulfillment",
+    "discard",
+    "wallet",
+    "leaderboard"
+   ]
+  },
+  {
+   "t": 50511,
+   "type": "dom.calls",
+   "v": [
+    {
+     "name": "find_tools",
+     "meta": "73 ms · phase swap",
+     "args": "{\"query\":\"get reputation of a wallet\"}",
+     "spoken": "Swapped in 9 tools: use_pasted_text, afg_get_reputation, afg_get_job, afg_discard_wallet, afg_create_wallet, afg_sign_contract, afg_leaderboard, afg_post_job, afg_fund",
+     "cls": "call phase-call",
+     "rect": {
+      "x": 603.7890625,
+      "y": 330.53125,
+      "w": 443.203125,
+      "h": 171.265625
+     },
+     "argsRect": {
+      "x": 618.7890625,
+      "y": 365.03125,
+      "w": 415.203125,
+      "h": 18
+     }
+    },
+    {
+     "name": "find_tools",
+     "meta": "68 ms · phase swap",
+     "args": "{\"query\":\"run a spec check on a job contract\"}",
+     "spoken": "Swapped in 9 tools: use_pasted_text, afg_post_job, afg_speccheck, afg_dispute, afg_submit, afg_sign_contract, afg_contract_template, afg_get_job, afg_prepare_signed_request",
+     "cls": "call phase-call",
+     "rect": {
+      "x": 603.7890625,
+      "y": 511.796875,
+      "w": 443.203125,
+      "h": 155.1875
+     },
+     "argsRect": {
+      "x": 618.7890625,
+      "y": 546.296875,
+      "w": 415.203125,
+      "h": 18
+     }
+    }
+   ]
+  },
+  {
+   "t": 50511,
+   "type": "dom.chips",
+   "v": {
+    "chips": [
+     {
+      "name": "find_tools",
+      "isNew": false
+     },
+     {
+      "name": "use_pasted_text",
+      "isNew": false
+     },
+     {
+      "name": "afg_get_reputation",
+      "isNew": true
+     },
+     {
+      "name": "afg_get_job",
+      "isNew": false
+     },
+     {
+      "name": "afg_discard_wallet",
+      "isNew": true
+     },
+     {
+      "name": "afg_create_wallet",
+      "isNew": true
+     },
+     {
+      "name": "afg_sign_contract",
+      "isNew": false
+     },
+     {
+      "name": "afg_leaderboard",
+      "isNew": true
+     },
+     {
+      "name": "afg_post_job",
+      "isNew": false
+     },
+     {
+      "name": "afg_fund",
+      "isNew": true
+     }
+    ],
+    "rect": {
+     "x": 41,
+     "y": 762.984375,
+     "w": 514.7890625,
+     "h": 94.5
+    }
+   }
+  },
+  {
+   "t": 50597,
+   "type": "ws.in",
+   "msg": "session.updated"
+  },
+  {
+   "t": 50650,
+   "type": "ws.in",
+   "msg": "reply.done",
+   "reply_id": "resp_0671cd00b1c24cd09b8d55746a053f83",
+   "status": "completed",
+   "audioBytes": 0
+  },
+  {
+   "t": 50650,
+   "type": "ws.out",
+   "msg": "tool.result",
+   "call_id": "chatcmpl-tool-9b8a2f62b4a0d180",
+   "chars": 386
+  },
+  {
+   "t": 50712,
+   "type": "ws.in",
+   "msg": "reply.started",
+   "reply_id": "resp_2b42fa913a27448aab3efd592c3e0d88"
+  },
+  {
+   "t": 51467,
+   "type": "ws.in",
+   "msg": "tool.call",
+   "call_id": "chatcmpl-tool-a01e172bdc1f6808",
+   "name": "afg_get_reputation",
+   "arguments": {
+    "address": "0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED"
+   }
+  },
+  {
+   "t": 51507,
+   "type": "dom.calls",
+   "v": [
+    {
+     "name": "afg_get_reputation",
+     "meta": "held: heard, needs a paste",
+     "args": "{\"address\":\"0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED\"}",
+     "spoken": "I may have misheard that value. Please paste it into the box under the Talk button, and I will use exactly what you paste.",
+     "cls": "call held",
+     "rect": {
+      "x": 603.7890625,
+      "y": 556.1484375,
+      "w": 443.203125,
+      "h": 113.34375
+     },
+     "argsRect": {
+      "x": 618.7890625,
+      "y": 590.6484375,
+      "w": 415.203125,
+      "h": 18
+     }
+    },
+    {
+     "name": "find_tools",
+     "meta": "73 ms · phase swap",
+     "args": "{\"query\":\"get reputation of a wallet\"}",
+     "spoken": "Swapped in 9 tools: use_pasted_text, afg_get_reputation, afg_get_job, afg_discard_wallet, afg_create_wallet, afg_sign_contract, afg_leaderboard, afg_post_job, afg_fund",
+     "cls": "call phase-call",
+     "rect": {
+      "x": 603.7890625,
+      "y": 679.4921875,
+      "w": 443.203125,
+      "h": 171.265625
+     },
+     "argsRect": {
+      "x": 618.7890625,
+      "y": 713.9921875,
+      "w": 415.203125,
+      "h": 18
+     }
+    },
+    {
+     "name": "find_tools",
+     "meta": "68 ms · phase swap",
+     "args": "{\"query\":\"run a spec check on a job contract\"}",
+     "spoken": "Swapped in 9 tools: use_pasted_text, afg_post_job, afg_speccheck, afg_dispute, afg_submit, afg_sign_contract, afg_contract_template, afg_get_job, afg_prepare_signed_request",
+     "cls": "call phase-call",
+     "rect": {
+      "x": 603.7890625,
+      "y": 860.7578125,
+      "w": 443.203125,
+      "h": 155.1875
+     },
+     "argsRect": {
+      "x": 618.7890625,
+      "y": 895.2578125,
+      "w": 415.203125,
+      "h": 18
+     }
+    }
+   ]
+  },
+  {
+   "t": 51508,
+   "type": "dom.gate",
+   "v": {
+    "shown": true,
+    "kind": "paste",
+    "kindText": "Heard from speech, may be wrong - paste it to run",
+    "tool": "afg_get_reputation",
+    "value": "0x5A AEB6 053F 3E94 C9B9 A09F 3366 9435 E7EF 1BEA ED",
+    "say": "I may have misheard that value. Please paste it into the box under the Talk button, and I will use exactly what you paste.",
+    "rect": {
+     "x": 24,
+     "y": 366.53125,
+     "w": 1040,
+     "h": 128.1171875
+    }
+   }
+  },
+  {
+   "t": 51508,
+   "type": "dom.chips",
+   "v": {
+    "chips": [
+     {
+      "name": "find_tools",
+      "isNew": false
+     },
+     {
+      "name": "use_pasted_text",
+      "isNew": false
+     },
+     {
+      "name": "afg_get_reputation",
+      "isNew": true
+     },
+     {
+      "name": "afg_get_job",
+      "isNew": false
+     },
+     {
+      "name": "afg_discard_wallet",
+      "isNew": true
+     },
+     {
+      "name": "afg_create_wallet",
+      "isNew": true
+     },
+     {
+      "name": "afg_sign_contract",
+      "isNew": false
+     },
+     {
+      "name": "afg_leaderboard",
+      "isNew": true
+     },
+     {
+      "name": "afg_post_job",
+      "isNew": false
+     },
+     {
+      "name": "afg_fund",
+      "isNew": true
+     }
+    ],
+    "rect": {
+     "x": 41,
+     "y": 1092.1484375,
+     "w": 514.7890625,
+     "h": 94.5
+    }
+   }
+  },
+  {
+   "t": 51508,
+   "type": "dom.ui",
+   "v": {
+    "status": "Calling afg_get_reputation",
+    "server": "AFG: Agent Fulfillment Guarantee (sandbox, test money only)",
+    "connect": "Connect",
+    "sample": "Copy sample address",
+    "paste": "",
+    "scrollY": 900,
+    "results": []
+   }
+  },
+  {
+   "t": 51542,
+   "type": "scroll",
+   "y": 900
+  },
+  {
+   "t": 51741,
+   "type": "ws.in",
+   "msg": "reply.done",
+   "reply_id": "resp_2b42fa913a27448aab3efd592c3e0d88",
+   "status": "completed",
+   "audioBytes": 0
+  },
+  {
+   "t": 51741,
+   "type": "ws.out",
+   "msg": "tool.result",
+   "call_id": "chatcmpl-tool-a01e172bdc1f6808",
+   "chars": 472
+  },
+  {
+   "t": 51803,
+   "type": "ws.in",
+   "msg": "reply.started",
+   "reply_id": "resp_352fd6eae27841a4936349146e7e0570"
+  },
+  {
+   "t": 52505,
+   "type": "ws.in",
+   "msg": "reply.audio.first",
+   "reply_id": "resp_352fd6eae27841a4936349146e7e0570"
+  },
+  {
+   "t": 52541,
+   "type": "dom.ui",
+   "v": {
+    "status": "Speaking",
+    "server": "AFG: Agent Fulfillment Guarantee (sandbox, test money only)",
+    "connect": "Connect",
+    "sample": "Copy sample address",
+    "paste": "",
+    "scrollY": 900,
+    "results": []
+   }
+  },
+  {
+   "t": 52808,
+   "type": "dom.lines",
+   "v": [
+    {
+     "who": "agent",
+     "text": "Connected to AFG: Agent Fulfillment Guarantee (sandbox, test money only), with 18 tools available. What would you like to do?"
+    },
+    {
+     "who": "you",
+     "text": "I want to run a spec check on a job contract."
+    },
+    {
+     "who": "agent",
+     "text": "I can certainly help with that. Please provide the job contract you would like me to check."
+    },
+    {
+     "who": "you",
+     "text": "What is the reputation of wallet 0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED?"
+    },
+    {
+     "who": "agent live",
+     "text": "I  may have misheard that value. Please paste it into the box under the Talk button, and I will use exactly what you paste."
+    }
+   ]
+  },
+  {
+   "t": 58832,
+   "type": "ws.in",
+   "msg": "transcript.agent",
+   "text": "I may have misheard that value. Please paste it into the box under the Talk button, and I will use exactly what you paste.",
+   "reply_id": "resp_352fd6eae27841a4936349146e7e0570",
+   "interrupted": false
+  },
+  {
+   "t": 58850,
+   "type": "dom.lines",
+   "v": [
+    {
+     "who": "agent",
+     "text": "Connected to AFG: Agent Fulfillment Guarantee (sandbox, test money only), with 18 tools available. What would you like to do?"
+    },
+    {
+     "who": "you",
+     "text": "I want to run a spec check on a job contract."
+    },
+    {
+     "who": "agent",
+     "text": "I can certainly help with that. Please provide the job contract you would like me to check."
+    },
+    {
+     "who": "you",
+     "text": "What is the reputation of wallet 0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED?"
+    },
+    {
+     "who": "agent",
+     "text": "I may have misheard that value. Please paste it into the box under the Talk button, and I will use exactly what you paste."
+    }
+   ]
+  },
+  {
+   "t": 59131,
+   "type": "ws.in",
+   "msg": "reply.done",
+   "reply_id": "resp_352fd6eae27841a4936349146e7e0570",
+   "status": "completed",
+   "audioBytes": 320640
+  },
+  {
+   "t": 59222,
+   "type": "dom.ui",
+   "v": {
+    "status": "Listening",
+    "server": "AFG: Agent Fulfillment Guarantee (sandbox, test money only)",
+    "connect": "Connect",
+    "sample": "Copy sample address",
+    "paste": "",
+    "scrollY": 900,
+    "results": []
+   }
+  },
+  {
+   "t": 60878,
+   "type": "narration",
+   "id": "N8",
+   "ms": 4470
+  },
+  {
+   "t": 65953,
+   "type": "narration",
+   "id": "N7",
+   "ms": 14980
+  },
+  {
+   "t": 70601,
+   "type": "dom.calls",
+   "v": [
+    {
+     "name": "afg_get_reputation",
+     "meta": "held: heard, needs a paste",
+     "args": "{\"address\":\"0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED\"}",
+     "spoken": "I may have misheard that value. Please paste it into the box under the Talk button, and I will use exactly what you paste.",
+     "cls": "call held",
+     "rect": {
+      "x": 603.7890625,
+      "y": 542.6484375,
+      "w": 443.203125,
+      "h": 113.34375
+     },
+     "argsRect": {
+      "x": 618.7890625,
+      "y": 577.1484375,
+      "w": 415.203125,
+      "h": 18
+     }
+    },
+    {
+     "name": "find_tools",
+     "meta": "73 ms · phase swap",
+     "args": "{\"query\":\"get reputation of a wallet\"}",
+     "spoken": "Swapped in 9 tools: use_pasted_text, afg_get_reputation, afg_get_job, afg_discard_wallet, afg_create_wallet, afg_sign_contract, afg_leaderboard, afg_post_job, afg_fund",
+     "cls": "call phase-call",
+     "rect": {
+      "x": 603.7890625,
+      "y": 665.9921875,
+      "w": 443.203125,
+      "h": 171.265625
+     },
+     "argsRect": {
+      "x": 618.7890625,
+      "y": 700.4921875,
+      "w": 415.203125,
+      "h": 18
+     }
+    },
+    {
+     "name": "find_tools",
+     "meta": "68 ms · phase swap",
+     "args": "{\"query\":\"run a spec check on a job contract\"}",
+     "spoken": "Swapped in 9 tools: use_pasted_text, afg_post_job, afg_speccheck, afg_dispute, afg_submit, afg_sign_contract, afg_contract_template, afg_get_job, afg_prepare_signed_request",
+     "cls": "call phase-call",
+     "rect": {
+      "x": 603.7890625,
+      "y": 847.2578125,
+      "w": 443.203125,
+      "h": 155.1875
+     },
+     "argsRect": {
+      "x": 618.7890625,
+      "y": 881.7578125,
+      "w": 415.203125,
+      "h": 18
+     }
+    }
+   ]
+  },
+  {
+   "t": 70601,
+   "type": "dom.gate",
+   "v": {
+    "shown": true,
+    "kind": "paste",
+    "kindText": "Heard from speech, may be wrong - paste it to run",
+    "tool": "afg_get_reputation",
+    "value": "0x5A AEB6 053F 3E94 C9B9 A09F 3366 9435 E7EF 1BEA ED",
+    "say": "I may have misheard that value. Please paste it into the box under the Talk button, and I will use exactly what you paste.",
+    "rect": {
+     "x": 24,
+     "y": 353.03125,
+     "w": 1040,
+     "h": 128.1171875
+    }
+   }
+  },
+  {
+   "t": 70601,
+   "type": "dom.chips",
+   "v": {
+    "chips": [
+     {
+      "name": "find_tools",
+      "isNew": false
+     },
+     {
+      "name": "use_pasted_text",
+      "isNew": false
+     },
+     {
+      "name": "afg_get_reputation",
+      "isNew": true
+     },
+     {
+      "name": "afg_get_job",
+      "isNew": false
+     },
+     {
+      "name": "afg_discard_wallet",
+      "isNew": true
+     },
+     {
+      "name": "afg_create_wallet",
+      "isNew": true
+     },
+     {
+      "name": "afg_sign_contract",
+      "isNew": false
+     },
+     {
+      "name": "afg_leaderboard",
+      "isNew": true
+     },
+     {
+      "name": "afg_post_job",
+      "isNew": false
+     },
+     {
+      "name": "afg_fund",
+      "isNew": true
+     }
+    ],
+    "rect": {
+     "x": 41,
+     "y": 1078.6484375,
+     "w": 514.7890625,
+     "h": 94.5
+    }
+   }
+  },
+  {
+   "t": 70601,
+   "type": "dom.ui",
+   "v": {
+    "status": "Listening",
+    "server": "AFG: Agent Fulfillment Guarantee (sandbox, test money only)",
+    "connect": "Connect",
+    "sample": "Copy sample address",
+    "paste": "",
+    "scrollY": 913.5,
+    "results": []
+   }
+  },
+  {
+   "t": 70852,
+   "type": "dom.calls",
+   "v": [
+    {
+     "name": "afg_get_reputation",
+     "meta": "held: heard, needs a paste",
+     "args": "{\"address\":\"0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED\"}",
+     "spoken": "I may have misheard that value. Please paste it into the box under the Talk button, and I will use exactly what you paste.",
+     "cls": "call held",
+     "rect": {
+      "x": 603.7890625,
+      "y": 473.1484375,
+      "w": 443.203125,
+      "h": 113.34375
+     },
+     "argsRect": {
+      "x": 618.7890625,
+      "y": 507.6484375,
+      "w": 415.203125,
+      "h": 18
+     }
+    },
+    {
+     "name": "find_tools",
+     "meta": "73 ms · phase swap",
+     "args": "{\"query\":\"get reputation of a wallet\"}",
+     "spoken": "Swapped in 9 tools: use_pasted_text, afg_get_reputation, afg_get_job, afg_discard_wallet, afg_create_wallet, afg_sign_contract, afg_leaderboard, afg_post_job, afg_fund",
+     "cls": "call phase-call",
+     "rect": {
+      "x": 603.7890625,
+      "y": 596.4921875,
+      "w": 443.203125,
+      "h": 171.265625
+     },
+     "argsRect": {
+      "x": 618.7890625,
+      "y": 630.9921875,
+      "w": 415.203125,
+      "h": 18
+     }
+    },
+    {
+     "name": "find_tools",
+     "meta": "68 ms · phase swap",
+     "args": "{\"query\":\"run a spec check on a job contract\"}",
+     "spoken": "Swapped in 9 tools: use_pasted_text, afg_post_job, afg_speccheck, afg_dispute, afg_submit, afg_sign_contract, afg_contract_template, afg_get_job, afg_prepare_signed_request",
+     "cls": "call phase-call",
+     "rect": {
+      "x": 603.7890625,
+      "y": 777.7578125,
+      "w": 443.203125,
+      "h": 155.1875
+     },
+     "argsRect": {
+      "x": 618.7890625,
+      "y": 812.2578125,
+      "w": 415.203125,
+      "h": 18
+     }
+    }
+   ]
+  },
+  {
+   "t": 70852,
+   "type": "dom.gate",
+   "v": {
+    "shown": true,
+    "kind": "paste",
+    "kindText": "Heard from speech, may be wrong - paste it to run",
+    "tool": "afg_get_reputation",
+    "value": "0x5A AEB6 053F 3E94 C9B9 A09F 3366 9435 E7EF 1BEA ED",
+    "say": "I may have misheard that value. Please paste it into the box under the Talk button, and I will use exactly what you paste.",
+    "rect": {
+     "x": 24,
+     "y": 283.53125,
+     "w": 1040,
+     "h": 128.1171875
+    }
+   }
+  },
+  {
+   "t": 70852,
+   "type": "dom.chips",
+   "v": {
+    "chips": [
+     {
+      "name": "find_tools",
+      "isNew": false
+     },
+     {
+      "name": "use_pasted_text",
+      "isNew": false
+     },
+     {
+      "name": "afg_get_reputation",
+      "isNew": true
+     },
+     {
+      "name": "afg_get_job",
+      "isNew": false
+     },
+     {
+      "name": "afg_discard_wallet",
+      "isNew": true
+     },
+     {
+      "name": "afg_create_wallet",
+      "isNew": true
+     },
+     {
+      "name": "afg_sign_contract",
+      "isNew": false
+     },
+     {
+      "name": "afg_leaderboard",
+      "isNew": true
+     },
+     {
+      "name": "afg_post_job",
+      "isNew": false
+     },
+     {
+      "name": "afg_fund",
+      "isNew": true
+     }
+    ],
+    "rect": {
+     "x": 41,
+     "y": 1009.1484375,
+     "w": 514.7890625,
+     "h": 94.5
+    }
+   }
+  },
+  {
+   "t": 70852,
+   "type": "dom.ui",
+   "v": {
+    "status": "Listening",
+    "server": "AFG: Agent Fulfillment Guarantee (sandbox, test money only)",
+    "connect": "Connect",
+    "sample": "Copy sample address",
+    "paste": "",
+    "scrollY": 983,
+    "results": []
+   }
+  },
+  {
+   "t": 71101,
+   "type": "dom.calls",
+   "v": [
+    {
+     "name": "afg_get_reputation",
+     "meta": "held: heard, needs a paste",
+     "args": "{\"address\":\"0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED\"}",
+     "spoken": "I may have misheard that value. Please paste it into the box under the Talk button, and I will use exactly what you paste.",
+     "cls": "call held",
+     "rect": {
+      "x": 603.7890625,
+      "y": 404.1484375,
+      "w": 443.203125,
+      "h": 113.34375
+     },
+     "argsRect": {
+      "x": 618.7890625,
+      "y": 438.6484375,
+      "w": 415.203125,
+      "h": 18
+     }
+    },
+    {
+     "name": "find_tools",
+     "meta": "73 ms · phase swap",
+     "args": "{\"query\":\"get reputation of a wallet\"}",
+     "spoken": "Swapped in 9 tools: use_pasted_text, afg_get_reputation, afg_get_job, afg_discard_wallet, afg_create_wallet, afg_sign_contract, afg_leaderboard, afg_post_job, afg_fund",
+     "cls": "call phase-call",
+     "rect": {
+      "x": 603.7890625,
+      "y": 527.4921875,
+      "w": 443.203125,
+      "h": 171.265625
+     },
+     "argsRect": {
+      "x": 618.7890625,
+      "y": 561.9921875,
+      "w": 415.203125,
+      "h": 18
+     }
+    },
+    {
+     "name": "find_tools",
+     "meta": "68 ms · phase swap",
+     "args": "{\"query\":\"run a spec check on a job contract\"}",
+     "spoken": "Swapped in 9 tools: use_pasted_text, afg_post_job, afg_speccheck, afg_dispute, afg_submit, afg_sign_contract, afg_contract_template, afg_get_job, afg_prepare_signed_request",
+     "cls": "call phase-call",
+     "rect": {
+      "x": 603.7890625,
+      "y": 708.7578125,
+      "w": 443.203125,
+      "h": 155.1875
+     },
+     "argsRect": {
+      "x": 618.7890625,
+      "y": 743.2578125,
+      "w": 415.203125,
+      "h": 18
+     }
+    }
+   ]
+  },
+  {
+   "t": 71101,
+   "type": "dom.gate",
+   "v": {
+    "shown": true,
+    "kind": "paste",
+    "kindText": "Heard from speech, may be wrong - paste it to run",
+    "tool": "afg_get_reputation",
+    "value": "0x5A AEB6 053F 3E94 C9B9 A09F 3366 9435 E7EF 1BEA ED",
+    "say": "I may have misheard that value. Please paste it into the box under the Talk button, and I will use exactly what you paste.",
+    "rect": {
+     "x": 24,
+     "y": 214.53125,
+     "w": 1040,
+     "h": 128.1171875
+    }
+   }
+  },
+  {
+   "t": 71101,
+   "type": "dom.chips",
+   "v": {
+    "chips": [
+     {
+      "name": "find_tools",
+      "isNew": false
+     },
+     {
+      "name": "use_pasted_text",
+      "isNew": false
+     },
+     {
+      "name": "afg_get_reputation",
+      "isNew": true
+     },
+     {
+      "name": "afg_get_job",
+      "isNew": false
+     },
+     {
+      "name": "afg_discard_wallet",
+      "isNew": true
+     },
+     {
+      "name": "afg_create_wallet",
+      "isNew": true
+     },
+     {
+      "name": "afg_sign_contract",
+      "isNew": false
+     },
+     {
+      "name": "afg_leaderboard",
+      "isNew": true
+     },
+     {
+      "name": "afg_post_job",
+      "isNew": false
+     },
+     {
+      "name": "afg_fund",
+      "isNew": true
+     }
+    ],
+    "rect": {
+     "x": 41,
+     "y": 940.1484375,
+     "w": 514.7890625,
+     "h": 94.5
+    }
+   }
+  },
+  {
+   "t": 71101,
+   "type": "dom.ui",
+   "v": {
+    "status": "Listening",
+    "server": "AFG: Agent Fulfillment Guarantee (sandbox, test money only)",
+    "connect": "Connect",
+    "sample": "Copy sample address",
+    "paste": "",
+    "scrollY": 1052,
+    "results": []
+   }
+  },
+  {
+   "t": 71350,
+   "type": "dom.calls",
+   "v": [
+    {
+     "name": "afg_get_reputation",
+     "meta": "held: heard, needs a paste",
+     "args": "{\"address\":\"0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED\"}",
+     "spoken": "I may have misheard that value. Please paste it into the box under the Talk button, and I will use exactly what you paste.",
+     "cls": "call held",
+     "rect": {
+      "x": 603.7890625,
+      "y": 334.6484375,
+      "w": 443.203125,
+      "h": 113.34375
+     },
+     "argsRect": {
+      "x": 618.7890625,
+      "y": 369.1484375,
+      "w": 415.203125,
+      "h": 18
+     }
+    },
+    {
+     "name": "find_tools",
+     "meta": "73 ms · phase swap",
+     "args": "{\"query\":\"get reputation of a wallet\"}",
+     "spoken": "Swapped in 9 tools: use_pasted_text, afg_get_reputation, afg_get_job, afg_discard_wallet, afg_create_wallet, afg_sign_contract, afg_leaderboard, afg_post_job, afg_fund",
+     "cls": "call phase-call",
+     "rect": {
+      "x": 603.7890625,
+      "y": 457.9921875,
+      "w": 443.203125,
+      "h": 171.265625
+     },
+     "argsRect": {
+      "x": 618.7890625,
+      "y": 492.4921875,
+      "w": 415.203125,
+      "h": 18
+     }
+    },
+    {
+     "name": "find_tools",
+     "meta": "68 ms · phase swap",
+     "args": "{\"query\":\"run a spec check on a job contract\"}",
+     "spoken": "Swapped in 9 tools: use_pasted_text, afg_post_job, afg_speccheck, afg_dispute, afg_submit, afg_sign_contract, afg_contract_template, afg_get_job, afg_prepare_signed_request",
+     "cls": "call phase-call",
+     "rect": {
+      "x": 603.7890625,
+      "y": 639.2578125,
+      "w": 443.203125,
+      "h": 155.1875
+     },
+     "argsRect": {
+      "x": 618.7890625,
+      "y": 673.7578125,
+      "w": 415.203125,
+      "h": 18
+     }
+    }
+   ]
+  },
+  {
+   "t": 71350,
+   "type": "dom.gate",
+   "v": {
+    "shown": true,
+    "kind": "paste",
+    "kindText": "Heard from speech, may be wrong - paste it to run",
+    "tool": "afg_get_reputation",
+    "value": "0x5A AEB6 053F 3E94 C9B9 A09F 3366 9435 E7EF 1BEA ED",
+    "say": "I may have misheard that value. Please paste it into the box under the Talk button, and I will use exactly what you paste.",
+    "rect": {
+     "x": 24,
+     "y": 145.03125,
+     "w": 1040,
+     "h": 128.1171875
+    }
+   }
+  },
+  {
+   "t": 71350,
+   "type": "dom.chips",
+   "v": {
+    "chips": [
+     {
+      "name": "find_tools",
+      "isNew": false
+     },
+     {
+      "name": "use_pasted_text",
+      "isNew": false
+     },
+     {
+      "name": "afg_get_reputation",
+      "isNew": true
+     },
+     {
+      "name": "afg_get_job",
+      "isNew": false
+     },
+     {
+      "name": "afg_discard_wallet",
+      "isNew": true
+     },
+     {
+      "name": "afg_create_wallet",
+      "isNew": true
+     },
+     {
+      "name": "afg_sign_contract",
+      "isNew": false
+     },
+     {
+      "name": "afg_leaderboard",
+      "isNew": true
+     },
+     {
+      "name": "afg_post_job",
+      "isNew": false
+     },
+     {
+      "name": "afg_fund",
+      "isNew": true
+     }
+    ],
+    "rect": {
+     "x": 41,
+     "y": 870.6484375,
+     "w": 514.7890625,
+     "h": 94.5
+    }
+   }
+  },
+  {
+   "t": 71350,
+   "type": "dom.ui",
+   "v": {
+    "status": "Listening",
+    "server": "AFG: Agent Fulfillment Guarantee (sandbox, test money only)",
+    "connect": "Connect",
+    "sample": "Copy sample address",
+    "paste": "",
+    "scrollY": 1121.5,
+    "results": []
+   }
+  },
+  {
+   "t": 71371,
+   "type": "scroll",
+   "y": 1121.5
+  },
+  {
+   "t": 71590,
+   "type": "harness.scrolled",
+   "selector": "#paste-row",
+   "y": 1121.5
+  },
+  {
+   "t": 71597,
+   "type": "mouse",
+   "x": 87,
+   "y": 72
+  },
+  {
+   "t": 71614,
+   "type": "mouse",
+   "x": 90,
+   "y": 72
+  },
+  {
+   "t": 71632,
+   "type": "mouse",
+   "x": 95,
+   "y": 72
+  },
+  {
+   "t": 71649,
+   "type": "mouse",
+   "x": 101,
+   "y": 72
+  },
+  {
+   "t": 71667,
+   "type": "mouse",
+   "x": 109,
+   "y": 72
+  },
+  {
+   "t": 71684,
+   "type": "mouse",
+   "x": 119,
+   "y": 72
+  },
+  {
+   "t": 71702,
+   "type": "mouse",
+   "x": 130,
+   "y": 72
+  },
+  {
+   "t": 71720,
+   "type": "mouse",
+   "x": 144,
+   "y": 72
+  },
+  {
+   "t": 71738,
+   "type": "mouse",
+   "x": 159,
+   "y": 72
+  },
+  {
+   "t": 71755,
+   "type": "mouse",
+   "x": 176,
+   "y": 72
+  },
+  {
+   "t": 71774,
+   "type": "mouse",
+   "x": 195,
+   "y": 72
+  },
+  {
+   "t": 71792,
+   "type": "mouse",
+   "x": 216,
+   "y": 72
+  },
+  {
+   "t": 71828,
+   "type": "mouse",
+   "x": 238,
+   "y": 72
+  },
+  {
+   "t": 71847,
+   "type": "mouse",
+   "x": 262,
+   "y": 72
+  },
+  {
+   "t": 71865,
+   "type": "mouse",
+   "x": 288,
+   "y": 72
+  },
+  {
+   "t": 71884,
+   "type": "mouse",
+   "x": 316,
+   "y": 72
+  },
+  {
+   "t": 71903,
+   "type": "mouse",
+   "x": 346,
+   "y": 72
+  },
+  {
+   "t": 71921,
+   "type": "mouse",
+   "x": 377,
+   "y": 72
+  },
+  {
+   "t": 71941,
+   "type": "mouse",
+   "x": 410,
+   "y": 72
+  },
+  {
+   "t": 71959,
+   "type": "mouse",
+   "x": 445,
+   "y": 72
+  },
+  {
+   "t": 71993,
+   "type": "mouse",
+   "x": 482,
+   "y": 72
+  },
+  {
+   "t": 72010,
+   "type": "mouse",
+   "x": 520,
+   "y": 71
+  },
+  {
+   "t": 72027,
+   "type": "mouse",
+   "x": 559,
+   "y": 71
+  },
+  {
+   "t": 72043,
+   "type": "mouse",
+   "x": 596,
+   "y": 71
+  },
+  {
+   "t": 72060,
+   "type": "mouse",
+   "x": 631,
+   "y": 71
+  },
+  {
+   "t": 72077,
+   "type": "mouse",
+   "x": 664,
+   "y": 71
+  },
+  {
+   "t": 72093,
+   "type": "mouse",
+   "x": 695,
+   "y": 71
+  },
+  {
+   "t": 72110,
+   "type": "mouse",
+   "x": 725,
+   "y": 71
+  },
+  {
+   "t": 72126,
+   "type": "mouse",
+   "x": 752,
+   "y": 71
+  },
+  {
+   "t": 72143,
+   "type": "mouse",
+   "x": 778,
+   "y": 71
+  },
+  {
+   "t": 72161,
+   "type": "mouse",
+   "x": 803,
+   "y": 71
+  },
+  {
+   "t": 72180,
+   "type": "mouse",
+   "x": 825,
+   "y": 71
+  },
+  {
+   "t": 72196,
+   "type": "mouse",
+   "x": 846,
+   "y": 71
+  },
+  {
+   "t": 72215,
+   "type": "mouse",
+   "x": 864,
+   "y": 71
+  },
+  {
+   "t": 72232,
+   "type": "mouse",
+   "x": 882,
+   "y": 71
+  },
+  {
+   "t": 72248,
+   "type": "mouse",
+   "x": 897,
+   "y": 71
+  },
+  {
+   "t": 72263,
+   "type": "mouse",
+   "x": 910,
+   "y": 71
+  },
+  {
+   "t": 72280,
+   "type": "mouse",
+   "x": 922,
+   "y": 71
+  },
+  {
+   "t": 72296,
+   "type": "mouse",
+   "x": 932,
+   "y": 71
+  },
+  {
+   "t": 72311,
+   "type": "mouse",
+   "x": 940,
+   "y": 71
+  },
+  {
+   "t": 72343,
+   "type": "mouse",
+   "x": 946,
+   "y": 71
+  },
+  {
+   "t": 72360,
+   "type": "mouse",
+   "x": 951,
+   "y": 71
+  },
+  {
+   "t": 72379,
+   "type": "mouse",
+   "x": 953,
+   "y": 71
+  },
+  {
+   "t": 72395,
+   "type": "mouse",
+   "x": 954,
+   "y": 71
+  },
+  {
+   "t": 72534,
+   "type": "mousedown",
+   "x": 954,
+   "y": 71
+  },
+  {
+   "t": 72606,
+   "type": "mouseup",
+   "x": 954,
+   "y": 71
+  },
+  {
+   "t": 72644,
+   "type": "dom.ui",
+   "v": {
+    "status": "Listening",
+    "server": "AFG: Agent Fulfillment Guarantee (sandbox, test money only)",
+    "connect": "Connect",
+    "sample": "Copied - now paste it in the box",
+    "paste": "",
+    "scrollY": 1121.5,
+    "results": []
+   }
+  },
+  {
+   "t": 73473,
+   "type": "mouse",
+   "x": 953,
+   "y": 71
+  },
+  {
+   "t": 73490,
+   "type": "mouse",
+   "x": 951,
+   "y": 71
+  },
+  {
+   "t": 73508,
+   "type": "mouse",
+   "x": 947,
+   "y": 71
+  },
+  {
+   "t": 73526,
+   "type": "mouse",
+   "x": 942,
+   "y": 71
+  },
+  {
+   "t": 73543,
+   "type": "mouse",
+   "x": 935,
+   "y": 71
+  },
+  {
+   "t": 73561,
+   "type": "mouse",
+   "x": 927,
+   "y": 71
+  },
+  {
+   "t": 73593,
+   "type": "mouse",
+   "x": 917,
+   "y": 71
+  },
+  {
+   "t": 73612,
+   "type": "mouse",
+   "x": 906,
+   "y": 71
+  },
+  {
+   "t": 73632,
+   "type": "mouse",
+   "x": 893,
+   "y": 71
+  },
+  {
+   "t": 73651,
+   "type": "mouse",
+   "x": 879,
+   "y": 71
+  },
+  {
+   "t": 73668,
+   "type": "mouse",
+   "x": 864,
+   "y": 71
+  },
+  {
+   "t": 73693,
+   "type": "mouse",
+   "x": 846,
+   "y": 71
+  },
+  {
+   "t": 73710,
+   "type": "mouse",
+   "x": 828,
+   "y": 71
+  },
+  {
+   "t": 73727,
+   "type": "mouse",
+   "x": 807,
+   "y": 71
+  },
+  {
+   "t": 73747,
+   "type": "mouse",
+   "x": 786,
+   "y": 71
+  },
+  {
+   "t": 73793,
+   "type": "mouse",
+   "x": 763,
+   "y": 71
+  },
+  {
+   "t": 73811,
+   "type": "mouse",
+   "x": 738,
+   "y": 71
+  },
+  {
+   "t": 73843,
+   "type": "mouse",
+   "x": 712,
+   "y": 71
+  },
+  {
+   "t": 73860,
+   "type": "mouse",
+   "x": 684,
+   "y": 71
+  },
+  {
+   "t": 73877,
+   "type": "mouse",
+   "x": 656,
+   "y": 71
+  },
+  {
+   "t": 73894,
+   "type": "mouse",
+   "x": 630,
+   "y": 71
+  },
+  {
+   "t": 73912,
+   "type": "mouse",
+   "x": 605,
+   "y": 71
+  },
+  {
+   "t": 73930,
+   "type": "mouse",
+   "x": 582,
+   "y": 71
+  },
+  {
+   "t": 73949,
+   "type": "mouse",
+   "x": 560,
+   "y": 71
+  },
+  {
+   "t": 73967,
+   "type": "mouse",
+   "x": 540,
+   "y": 71
+  },
+  {
+   "t": 73985,
+   "type": "mouse",
+   "x": 522,
+   "y": 71
+  },
+  {
+   "t": 74004,
+   "type": "mouse",
+   "x": 504,
+   "y": 71
+  },
+  {
+   "t": 74023,
+   "type": "mouse",
+   "x": 489,
+   "y": 71
+  },
+  {
+   "t": 74043,
+   "type": "mouse",
+   "x": 474,
+   "y": 71
+  },
+  {
+   "t": 74063,
+   "type": "mouse",
+   "x": 462,
+   "y": 71
+  },
+  {
+   "t": 74093,
+   "type": "mouse",
+   "x": 450,
+   "y": 71
+  },
+  {
+   "t": 74111,
+   "type": "mouse",
+   "x": 441,
+   "y": 71
+  },
+  {
+   "t": 74128,
+   "type": "mouse",
+   "x": 432,
+   "y": 71
+  },
+  {
+   "t": 74146,
+   "type": "mouse",
+   "x": 426,
+   "y": 71
+  },
+  {
+   "t": 74164,
+   "type": "mouse",
+   "x": 421,
+   "y": 71
+  },
+  {
+   "t": 74183,
+   "type": "mouse",
+   "x": 417,
+   "y": 71
+  },
+  {
+   "t": 74201,
+   "type": "mouse",
+   "x": 415,
+   "y": 71
+  },
+  {
+   "t": 74219,
+   "type": "mouse",
+   "x": 414,
+   "y": 71
+  },
+  {
+   "t": 74357,
+   "type": "mousedown",
+   "x": 414,
+   "y": 71
+  },
+  {
+   "t": 74432,
+   "type": "mouseup",
+   "x": 414,
+   "y": 71
+  },
+  {
+   "t": 74589,
+   "type": "key",
+   "key": "Meta",
+   "meta": true,
+   "ctrl": false
+  },
+  {
+   "t": 74592,
+   "type": "key",
+   "key": "V",
+   "meta": true,
+   "ctrl": false
+  },
+  {
+   "t": 74601,
+   "type": "paste",
+   "chars": 42,
+   "text": "0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed"
+  },
+  {
+   "t": 74610,
+   "type": "dom.ui",
+   "v": {
+    "status": "Listening",
+    "server": "AFG: Agent Fulfillment Guarantee (sandbox, test money only)",
+    "connect": "Connect",
+    "sample": "Copied - now paste it in the box",
+    "paste": "0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed",
+    "scrollY": 1121.5,
+    "results": []
+   }
+  },
+  {
+   "t": 74913,
+   "type": "ws.out",
+   "msg": "session.update",
+   "keyterms": [
+    "0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED",
+    "mainnet",
+    "testnet",
+    "sandbox",
+    "30d",
+    "buyer",
+    "AFG",
+    "fulfillment",
+    "discard",
+    "wallet",
+    "leaderboard"
+   ]
+  },
+  {
+   "t": 74972,
+   "type": "ws.in",
+   "msg": "session.updated"
+  },
+  {
+   "t": 75115,
+   "type": "harness.paste",
+   "path": "clipboard"
+  },
+  {
+   "t": 75143,
+   "type": "dom.ui",
+   "v": {
+    "status": "Listening",
+    "server": "AFG: Agent Fulfillment Guarantee (sandbox, test money only)",
+    "connect": "Connect",
+    "sample": "Copy sample address",
+    "paste": "0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed",
+    "scrollY": 1121.5,
+    "results": []
+   }
+  },
+  {
+   "t": 76087,
+   "type": "scroll",
+   "y": 1136
+  },
+  {
+   "t": 76099,
+   "type": "dom.calls",
+   "v": [
+    {
+     "name": "afg_get_reputation",
+     "meta": "held: heard, needs a paste",
+     "args": "{\"address\":\"0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED\"}",
+     "spoken": "I may have misheard that value. Please paste it into the box under the Talk button, and I will use exactly what you paste.",
+     "cls": "call held",
+     "rect": {
+      "x": 603.7890625,
+      "y": 305.6484375,
+      "w": 443.203125,
+      "h": 113.34375
+     },
+     "argsRect": {
+      "x": 618.7890625,
+      "y": 340.1484375,
+      "w": 415.203125,
+      "h": 18
+     }
+    },
+    {
+     "name": "find_tools",
+     "meta": "73 ms · phase swap",
+     "args": "{\"query\":\"get reputation of a wallet\"}",
+     "spoken": "Swapped in 9 tools: use_pasted_text, afg_get_reputation, afg_get_job, afg_discard_wallet, afg_create_wallet, afg_sign_contract, afg_leaderboard, afg_post_job, afg_fund",
+     "cls": "call phase-call",
+     "rect": {
+      "x": 603.7890625,
+      "y": 428.9921875,
+      "w": 443.203125,
+      "h": 171.265625
+     },
+     "argsRect": {
+      "x": 618.7890625,
+      "y": 463.4921875,
+      "w": 415.203125,
+      "h": 18
+     }
+    },
+    {
+     "name": "find_tools",
+     "meta": "68 ms · phase swap",
+     "args": "{\"query\":\"run a spec check on a job contract\"}",
+     "spoken": "Swapped in 9 tools: use_pasted_text, afg_post_job, afg_speccheck, afg_dispute, afg_submit, afg_sign_contract, afg_contract_template, afg_get_job, afg_prepare_signed_request",
+     "cls": "call phase-call",
+     "rect": {
+      "x": 603.7890625,
+      "y": 610.2578125,
+      "w": 443.203125,
+      "h": 155.1875
+     },
+     "argsRect": {
+      "x": 618.7890625,
+      "y": 644.7578125,
+      "w": 415.203125,
+      "h": 18
+     }
+    }
+   ]
+  },
+  {
+   "t": 76099,
+   "type": "dom.gate",
+   "v": {
+    "shown": true,
+    "kind": "paste",
+    "kindText": "Heard from speech, may be wrong - paste it to run",
+    "tool": "afg_get_reputation",
+    "value": "0x5A AEB6 053F 3E94 C9B9 A09F 3366 9435 E7EF 1BEA ED",
+    "say": "I may have misheard that value. Please paste it into the box under the Talk button, and I will use exactly what you paste.",
+    "rect": {
+     "x": 24,
+     "y": 116.03125,
+     "w": 1040,
+     "h": 128.1171875
+    }
+   }
+  },
+  {
+   "t": 76099,
+   "type": "dom.chips",
+   "v": {
+    "chips": [
+     {
+      "name": "find_tools",
+      "isNew": false
+     },
+     {
+      "name": "use_pasted_text",
+      "isNew": false
+     },
+     {
+      "name": "afg_get_reputation",
+      "isNew": true
+     },
+     {
+      "name": "afg_get_job",
+      "isNew": false
+     },
+     {
+      "name": "afg_discard_wallet",
+      "isNew": true
+     },
+     {
+      "name": "afg_create_wallet",
+      "isNew": true
+     },
+     {
+      "name": "afg_sign_contract",
+      "isNew": false
+     },
+     {
+      "name": "afg_leaderboard",
+      "isNew": true
+     },
+     {
+      "name": "afg_post_job",
+      "isNew": false
+     },
+     {
+      "name": "afg_fund",
+      "isNew": true
+     }
+    ],
+    "rect": {
+     "x": 41,
+     "y": 841.6484375,
+     "w": 514.7890625,
+     "h": 94.5
+    }
+   }
+  },
+  {
+   "t": 76099,
+   "type": "dom.ui",
+   "v": {
+    "status": "Listening",
+    "server": "AFG: Agent Fulfillment Guarantee (sandbox, test money only)",
+    "connect": "Connect",
+    "sample": "Copy sample address",
+    "paste": "0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed",
+    "scrollY": 1150.5,
+    "results": []
+   }
+  },
+  {
+   "t": 76352,
+   "type": "dom.calls",
+   "v": [
+    {
+     "name": "afg_get_reputation",
+     "meta": "held: heard, needs a paste",
+     "args": "{\"address\":\"0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED\"}",
+     "spoken": "I may have misheard that value. Please paste it into the box under the Talk button, and I will use exactly what you paste.",
+     "cls": "call held",
+     "rect": {
+      "x": 603.7890625,
+      "y": 233.1484375,
+      "w": 443.203125,
+      "h": 113.34375
+     },
+     "argsRect": {
+      "x": 618.7890625,
+      "y": 267.6484375,
+      "w": 415.203125,
+      "h": 18
+     }
+    },
+    {
+     "name": "find_tools",
+     "meta": "73 ms · phase swap",
+     "args": "{\"query\":\"get reputation of a wallet\"}",
+     "spoken": "Swapped in 9 tools: use_pasted_text, afg_get_reputation, afg_get_job, afg_discard_wallet, afg_create_wallet, afg_sign_contract, afg_leaderboard, afg_post_job, afg_fund",
+     "cls": "call phase-call",
+     "rect": {
+      "x": 603.7890625,
+      "y": 356.4921875,
+      "w": 443.203125,
+      "h": 171.265625
+     },
+     "argsRect": {
+      "x": 618.7890625,
+      "y": 390.9921875,
+      "w": 415.203125,
+      "h": 18
+     }
+    },
+    {
+     "name": "find_tools",
+     "meta": "68 ms · phase swap",
+     "args": "{\"query\":\"run a spec check on a job contract\"}",
+     "spoken": "Swapped in 9 tools: use_pasted_text, afg_post_job, afg_speccheck, afg_dispute, afg_submit, afg_sign_contract, afg_contract_template, afg_get_job, afg_prepare_signed_request",
+     "cls": "call phase-call",
+     "rect": {
+      "x": 603.7890625,
+      "y": 537.7578125,
+      "w": 443.203125,
+      "h": 155.1875
+     },
+     "argsRect": {
+      "x": 618.7890625,
+      "y": 572.2578125,
+      "w": 415.203125,
+      "h": 18
+     }
+    }
+   ]
+  },
+  {
+   "t": 76352,
+   "type": "dom.gate",
+   "v": {
+    "shown": true,
+    "kind": "paste",
+    "kindText": "Heard from speech, may be wrong - paste it to run",
+    "tool": "afg_get_reputation",
+    "value": "0x5A AEB6 053F 3E94 C9B9 A09F 3366 9435 E7EF 1BEA ED",
+    "say": "I may have misheard that value. Please paste it into the box under the Talk button, and I will use exactly what you paste.",
+    "rect": {
+     "x": 24,
+     "y": 43.53125,
+     "w": 1040,
+     "h": 128.1171875
+    }
+   }
+  },
+  {
+   "t": 76352,
+   "type": "dom.chips",
+   "v": {
+    "chips": [
+     {
+      "name": "find_tools",
+      "isNew": false
+     },
+     {
+      "name": "use_pasted_text",
+      "isNew": false
+     },
+     {
+      "name": "afg_get_reputation",
+      "isNew": true
+     },
+     {
+      "name": "afg_get_job",
+      "isNew": false
+     },
+     {
+      "name": "afg_discard_wallet",
+      "isNew": true
+     },
+     {
+      "name": "afg_create_wallet",
+      "isNew": true
+     },
+     {
+      "name": "afg_sign_contract",
+      "isNew": false
+     },
+     {
+      "name": "afg_leaderboard",
+      "isNew": true
+     },
+     {
+      "name": "afg_post_job",
+      "isNew": false
+     },
+     {
+      "name": "afg_fund",
+      "isNew": true
+     }
+    ],
+    "rect": {
+     "x": 41,
+     "y": 769.1484375,
+     "w": 514.7890625,
+     "h": 94.5
+    }
+   }
+  },
+  {
+   "t": 76353,
+   "type": "dom.ui",
+   "v": {
+    "status": "Listening",
+    "server": "AFG: Agent Fulfillment Guarantee (sandbox, test money only)",
+    "connect": "Connect",
+    "sample": "Copy sample address",
+    "paste": "0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed",
+    "scrollY": 1223,
+    "results": []
+   }
+  },
+  {
+   "t": 76602,
+   "type": "dom.calls",
+   "v": [
+    {
+     "name": "afg_get_reputation",
+     "meta": "held: heard, needs a paste",
+     "args": "{\"address\":\"0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED\"}",
+     "spoken": "I may have misheard that value. Please paste it into the box under the Talk button, and I will use exactly what you paste.",
+     "cls": "call held",
+     "rect": {
+      "x": 603.7890625,
+      "y": 160.6484375,
+      "w": 443.203125,
+      "h": 113.34375
+     },
+     "argsRect": {
+      "x": 618.7890625,
+      "y": 195.1484375,
+      "w": 415.203125,
+      "h": 18
+     }
+    },
+    {
+     "name": "find_tools",
+     "meta": "73 ms · phase swap",
+     "args": "{\"query\":\"get reputation of a wallet\"}",
+     "spoken": "Swapped in 9 tools: use_pasted_text, afg_get_reputation, afg_get_job, afg_discard_wallet, afg_create_wallet, afg_sign_contract, afg_leaderboard, afg_post_job, afg_fund",
+     "cls": "call phase-call",
+     "rect": {
+      "x": 603.7890625,
+      "y": 283.9921875,
+      "w": 443.203125,
+      "h": 171.265625
+     },
+     "argsRect": {
+      "x": 618.7890625,
+      "y": 318.4921875,
+      "w": 415.203125,
+      "h": 18
+     }
+    },
+    {
+     "name": "find_tools",
+     "meta": "68 ms · phase swap",
+     "args": "{\"query\":\"run a spec check on a job contract\"}",
+     "spoken": "Swapped in 9 tools: use_pasted_text, afg_post_job, afg_speccheck, afg_dispute, afg_submit, afg_sign_contract, afg_contract_template, afg_get_job, afg_prepare_signed_request",
+     "cls": "call phase-call",
+     "rect": {
+      "x": 603.7890625,
+      "y": 465.2578125,
+      "w": 443.203125,
+      "h": 155.1875
+     },
+     "argsRect": {
+      "x": 618.7890625,
+      "y": 499.7578125,
+      "w": 415.203125,
+      "h": 18
+     }
+    }
+   ]
+  },
+  {
+   "t": 76602,
+   "type": "dom.gate",
+   "v": {
+    "shown": true,
+    "kind": "paste",
+    "kindText": "Heard from speech, may be wrong - paste it to run",
+    "tool": "afg_get_reputation",
+    "value": "0x5A AEB6 053F 3E94 C9B9 A09F 3366 9435 E7EF 1BEA ED",
+    "say": "I may have misheard that value. Please paste it into the box under the Talk button, and I will use exactly what you paste.",
+    "rect": {
+     "x": 24,
+     "y": -28.96875,
+     "w": 1040,
+     "h": 128.1171875
+    }
+   }
+  },
+  {
+   "t": 76602,
+   "type": "dom.chips",
+   "v": {
+    "chips": [
+     {
+      "name": "find_tools",
+      "isNew": false
+     },
+     {
+      "name": "use_pasted_text",
+      "isNew": false
+     },
+     {
+      "name": "afg_get_reputation",
+      "isNew": true
+     },
+     {
+      "name": "afg_get_job",
+      "isNew": false
+     },
+     {
+      "name": "afg_discard_wallet",
+      "isNew": true
+     },
+     {
+      "name": "afg_create_wallet",
+      "isNew": true
+     },
+     {
+      "name": "afg_sign_contract",
+      "isNew": false
+     },
+     {
+      "name": "afg_leaderboard",
+      "isNew": true
+     },
+     {
+      "name": "afg_post_job",
+      "isNew": false
+     },
+     {
+      "name": "afg_fund",
+      "isNew": true
+     }
+    ],
+    "rect": {
+     "x": 41,
+     "y": 696.6484375,
+     "w": 514.7890625,
+     "h": 94.5
+    }
+   }
+  },
+  {
+   "t": 76602,
+   "type": "dom.ui",
+   "v": {
+    "status": "Listening",
+    "server": "AFG: Agent Fulfillment Guarantee (sandbox, test money only)",
+    "connect": "Connect",
+    "sample": "Copy sample address",
+    "paste": "0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed",
+    "scrollY": 1295.5,
+    "results": []
+   }
+  },
+  {
+   "t": 76850,
+   "type": "dom.calls",
+   "v": [
+    {
+     "name": "afg_get_reputation",
+     "meta": "held: heard, needs a paste",
+     "args": "{\"address\":\"0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED\"}",
+     "spoken": "I may have misheard that value. Please paste it into the box under the Talk button, and I will use exactly what you paste.",
+     "cls": "call held",
+     "rect": {
+      "x": 603.7890625,
+      "y": 88.1484375,
+      "w": 443.203125,
+      "h": 113.34375
+     },
+     "argsRect": {
+      "x": 618.7890625,
+      "y": 122.6484375,
+      "w": 415.203125,
+      "h": 18
+     }
+    },
+    {
+     "name": "find_tools",
+     "meta": "73 ms · phase swap",
+     "args": "{\"query\":\"get reputation of a wallet\"}",
+     "spoken": "Swapped in 9 tools: use_pasted_text, afg_get_reputation, afg_get_job, afg_discard_wallet, afg_create_wallet, afg_sign_contract, afg_leaderboard, afg_post_job, afg_fund",
+     "cls": "call phase-call",
+     "rect": {
+      "x": 603.7890625,
+      "y": 211.4921875,
+      "w": 443.203125,
+      "h": 171.265625
+     },
+     "argsRect": {
+      "x": 618.7890625,
+      "y": 245.9921875,
+      "w": 415.203125,
+      "h": 18
+     }
+    },
+    {
+     "name": "find_tools",
+     "meta": "68 ms · phase swap",
+     "args": "{\"query\":\"run a spec check on a job contract\"}",
+     "spoken": "Swapped in 9 tools: use_pasted_text, afg_post_job, afg_speccheck, afg_dispute, afg_submit, afg_sign_contract, afg_contract_template, afg_get_job, afg_prepare_signed_request",
+     "cls": "call phase-call",
+     "rect": {
+      "x": 603.7890625,
+      "y": 392.7578125,
+      "w": 443.203125,
+      "h": 155.1875
+     },
+     "argsRect": {
+      "x": 618.7890625,
+      "y": 427.2578125,
+      "w": 415.203125,
+      "h": 18
+     }
+    }
+   ]
+  },
+  {
+   "t": 76850,
+   "type": "dom.gate",
+   "v": {
+    "shown": true,
+    "kind": "paste",
+    "kindText": "Heard from speech, may be wrong - paste it to run",
+    "tool": "afg_get_reputation",
+    "value": "0x5A AEB6 053F 3E94 C9B9 A09F 3366 9435 E7EF 1BEA ED",
+    "say": "I may have misheard that value. Please paste it into the box under the Talk button, and I will use exactly what you paste.",
+    "rect": {
+     "x": 24,
+     "y": -101.46875,
+     "w": 1040,
+     "h": 128.1171875
+    }
+   }
+  },
+  {
+   "t": 76850,
+   "type": "dom.chips",
+   "v": {
+    "chips": [
+     {
+      "name": "find_tools",
+      "isNew": false
+     },
+     {
+      "name": "use_pasted_text",
+      "isNew": false
+     },
+     {
+      "name": "afg_get_reputation",
+      "isNew": true
+     },
+     {
+      "name": "afg_get_job",
+      "isNew": false
+     },
+     {
+      "name": "afg_discard_wallet",
+      "isNew": true
+     },
+     {
+      "name": "afg_create_wallet",
+      "isNew": true
+     },
+     {
+      "name": "afg_sign_contract",
+      "isNew": false
+     },
+     {
+      "name": "afg_leaderboard",
+      "isNew": true
+     },
+     {
+      "name": "afg_post_job",
+      "isNew": false
+     },
+     {
+      "name": "afg_fund",
+      "isNew": true
+     }
+    ],
+    "rect": {
+     "x": 41,
+     "y": 624.1484375,
+     "w": 514.7890625,
+     "h": 94.5
+    }
+   }
+  },
+  {
+   "t": 76850,
+   "type": "dom.ui",
+   "v": {
+    "status": "Listening",
+    "server": "AFG: Agent Fulfillment Guarantee (sandbox, test money only)",
+    "connect": "Connect",
+    "sample": "Copy sample address",
+    "paste": "0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed",
+    "scrollY": 1368,
+    "results": []
+   }
+  },
+  {
+   "t": 76955,
+   "type": "scroll",
+   "y": 1382.5
+  },
+  {
+   "t": 76987,
+   "type": "dom.calls",
+   "v": [
+    {
+     "name": "afg_get_reputation",
+     "meta": "held: heard, needs a paste",
+     "args": "{\"address\":\"0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED\"}",
+     "spoken": "I may have misheard that value. Please paste it into the box under the Talk button, and I will use exactly what you paste.",
+     "cls": "call held",
+     "rect": {
+      "x": 603.7890625,
+      "y": 73.6484375,
+      "w": 443.203125,
+      "h": 113.34375
+     },
+     "argsRect": {
+      "x": 618.7890625,
+      "y": 108.1484375,
+      "w": 415.203125,
+      "h": 18
+     }
+    },
+    {
+     "name": "find_tools",
+     "meta": "73 ms · phase swap",
+     "args": "{\"query\":\"get reputation of a wallet\"}",
+     "spoken": "Swapped in 9 tools: use_pasted_text, afg_get_reputation, afg_get_job, afg_discard_wallet, afg_create_wallet, afg_sign_contract, afg_leaderboard, afg_post_job, afg_fund",
+     "cls": "call phase-call",
+     "rect": {
+      "x": 603.7890625,
+      "y": 196.9921875,
+      "w": 443.203125,
+      "h": 171.265625
+     },
+     "argsRect": {
+      "x": 618.7890625,
+      "y": 231.4921875,
+      "w": 415.203125,
+      "h": 18
+     }
+    },
+    {
+     "name": "find_tools",
+     "meta": "68 ms · phase swap",
+     "args": "{\"query\":\"run a spec check on a job contract\"}",
+     "spoken": "Swapped in 9 tools: use_pasted_text, afg_post_job, afg_speccheck, afg_dispute, afg_submit, afg_sign_contract, afg_contract_template, afg_get_job, afg_prepare_signed_request",
+     "cls": "call phase-call",
+     "rect": {
+      "x": 603.7890625,
+      "y": 378.2578125,
+      "w": 443.203125,
+      "h": 155.1875
+     },
+     "argsRect": {
+      "x": 618.7890625,
+      "y": 412.7578125,
+      "w": 415.203125,
+      "h": 18
+     }
+    }
+   ]
+  },
+  {
+   "t": 76987,
+   "type": "dom.gate",
+   "v": {
+    "shown": true,
+    "kind": "paste",
+    "kindText": "Heard from speech, may be wrong - paste it to run",
+    "tool": "afg_get_reputation",
+    "value": "0x5A AEB6 053F 3E94 C9B9 A09F 3366 9435 E7EF 1BEA ED",
+    "say": "I may have misheard that value. Please paste it into the box under the Talk button, and I will use exactly what you paste.",
+    "rect": {
+     "x": 24,
+     "y": -115.96875,
+     "w": 1040,
+     "h": 128.1171875
+    }
+   }
+  },
+  {
+   "t": 76987,
+   "type": "dom.chips",
+   "v": {
+    "chips": [
+     {
+      "name": "find_tools",
+      "isNew": false
+     },
+     {
+      "name": "use_pasted_text",
+      "isNew": false
+     },
+     {
+      "name": "afg_get_reputation",
+      "isNew": true
+     },
+     {
+      "name": "afg_get_job",
+      "isNew": false
+     },
+     {
+      "name": "afg_discard_wallet",
+      "isNew": true
+     },
+     {
+      "name": "afg_create_wallet",
+      "isNew": true
+     },
+     {
+      "name": "afg_sign_contract",
+      "isNew": false
+     },
+     {
+      "name": "afg_leaderboard",
+      "isNew": true
+     },
+     {
+      "name": "afg_post_job",
+      "isNew": false
+     },
+     {
+      "name": "afg_fund",
+      "isNew": true
+     }
+    ],
+    "rect": {
+     "x": 41,
+     "y": 609.6484375,
+     "w": 514.7890625,
+     "h": 94.5
+    }
+   }
+  },
+  {
+   "t": 76987,
+   "type": "dom.ui",
+   "v": {
+    "status": "Listening",
+    "server": "AFG: Agent Fulfillment Guarantee (sandbox, test money only)",
+    "connect": "Connect",
+    "sample": "Copy sample address",
+    "paste": "0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed",
+    "scrollY": 1382.5,
+    "results": []
+   }
+  },
+  {
+   "t": 77174,
+   "type": "harness.scrolled",
+   "selector": "#panes",
+   "y": 1382.5
+  },
+  {
+   "t": 81338,
+   "type": "say",
+   "id": "Q4"
+  },
+  {
+   "t": 81340,
+   "type": "clip.start",
+   "id": "Q4",
+   "ctx": 0,
+   "contextTime": 81.06866666666666,
+   "seconds": 2.73
+  },
+  {
+   "t": 82366,
+   "type": "ws.in",
+   "msg": "input.speech.started"
+  },
+  {
+   "t": 82398,
+   "type": "dom.lines",
+   "v": [
+    {
+     "who": "agent",
+     "text": "Connected to AFG: Agent Fulfillment Guarantee (sandbox, test money only), with 18 tools available. What would you like to do?"
+    },
+    {
+     "who": "you",
+     "text": "I want to run a spec check on a job contract."
+    },
+    {
+     "who": "agent",
+     "text": "I can certainly help with that. Please provide the job contract you would like me to check."
+    },
+    {
+     "who": "you",
+     "text": "What is the reputation of wallet 0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED?"
+    },
+    {
+     "who": "agent",
+     "text": "I may have misheard that value. Please paste it into the box under the Talk button, and I will use exactly what you paste."
+    },
+    {
+     "who": "you live",
+     "text": "Check"
+    }
+   ]
+  },
+  {
+   "t": 82398,
+   "type": "dom.ui",
+   "v": {
+    "status": "Hearing you",
+    "server": "AFG: Agent Fulfillment Guarantee (sandbox, test money only)",
+    "connect": "Connect",
+    "sample": "Copy sample address",
+    "paste": "0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed",
+    "scrollY": 1382.5,
+    "results": []
+   }
+  },
+  {
+   "t": 82596,
+   "type": "dom.lines",
+   "v": [
+    {
+     "who": "agent",
+     "text": "Connected to AFG: Agent Fulfillment Guarantee (sandbox, test money only), with 18 tools available. What would you like to do?"
+    },
+    {
+     "who": "you",
+     "text": "I want to run a spec check on a job contract."
+    },
+    {
+     "who": "agent",
+     "text": "I can certainly help with that. Please provide the job contract you would like me to check."
+    },
+    {
+     "who": "you",
+     "text": "What is the reputation of wallet 0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED?"
+    },
+    {
+     "who": "agent",
+     "text": "I may have misheard that value. Please paste it into the box under the Talk button, and I will use exactly what you paste."
+    },
+    {
+     "who": "you live",
+     "text": "Check the"
+    }
+   ]
+  },
+  {
+   "t": 83799,
+   "type": "dom.lines",
+   "v": [
+    {
+     "who": "agent",
+     "text": "Connected to AFG: Agent Fulfillment Guarantee (sandbox, test money only), with 18 tools available. What would you like to do?"
+    },
+    {
+     "who": "you",
+     "text": "I want to run a spec check on a job contract."
+    },
+    {
+     "who": "agent",
+     "text": "I can certainly help with that. Please provide the job contract you would like me to check."
+    },
+    {
+     "who": "you",
+     "text": "What is the reputation of wallet 0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED?"
+    },
+    {
+     "who": "agent",
+     "text": "I may have misheard that value. Please paste it into the box under the Talk button, and I will use exactly what you paste."
+    },
+    {
+     "who": "you live",
+     "text": "Check the reputation of the wallet."
+    }
+   ]
+  },
+  {
+   "t": 84123,
+   "type": "clip.end",
+   "id": "Q4"
+  },
+  {
+   "t": 84767,
+   "type": "ws.in",
+   "msg": "transcript.user",
+   "text": "Check the reputation of the wallet I pasted."
+  },
+  {
+   "t": 84768,
+   "type": "ws.in",
+   "msg": "reply.started",
+   "reply_id": "resp_6c6fb82d1c93488b9ddd2a8be3e19bb8"
+  },
+  {
+   "t": 84768,
+   "type": "ws.in",
+   "msg": "input.speech.stopped"
+  },
+  {
+   "t": 84799,
+   "type": "dom.lines",
+   "v": [
+    {
+     "who": "agent",
+     "text": "Connected to AFG: Agent Fulfillment Guarantee (sandbox, test money only), with 18 tools available. What would you like to do?"
+    },
+    {
+     "who": "you",
+     "text": "I want to run a spec check on a job contract."
+    },
+    {
+     "who": "agent",
+     "text": "I can certainly help with that. Please provide the job contract you would like me to check."
+    },
+    {
+     "who": "you",
+     "text": "What is the reputation of wallet 0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED?"
+    },
+    {
+     "who": "agent",
+     "text": "I may have misheard that value. Please paste it into the box under the Talk button, and I will use exactly what you paste."
+    },
+    {
+     "who": "you",
+     "text": "Check the reputation of the wallet I pasted."
+    }
+   ]
+  },
+  {
+   "t": 84800,
+   "type": "dom.ui",
+   "v": {
+    "status": "Thinking",
+    "server": "AFG: Agent Fulfillment Guarantee (sandbox, test money only)",
+    "connect": "Connect",
+    "sample": "Copy sample address",
+    "paste": "0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed",
+    "scrollY": 1382.5,
+    "results": []
+   }
+  },
+  {
+   "t": 86489,
+   "type": "ws.in",
+   "msg": "tool.call",
+   "call_id": "chatcmpl-tool-be772a1b0c7cef8b",
+   "name": "use_pasted_text",
+   "arguments": {}
+  },
+  {
+   "t": 86523,
+   "type": "dom.calls",
+   "v": [
+    {
+     "name": "use_pasted_text",
+     "meta": "1 ms",
+     "args": "(no arguments)",
+     "spoken": "Read 42 characters from the paste box.",
+     "cls": "call",
+     "rect": {
+      "x": 603.7890625,
+      "y": 73.6484375,
+      "w": 443.203125,
+      "h": 92.421875
+     },
+     "argsRect": {
+      "x": 618.7890625,
+      "y": 108.1484375,
+      "w": 415.203125,
+      "h": 18
+     }
+    },
+    {
+     "name": "afg_get_reputation",
+     "meta": "held: heard, needs a paste",
+     "args": "{\"address\":\"0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED\"}",
+     "spoken": "I may have misheard that value. Please paste it into the box under the Talk button, and I will use exactly what you paste.",
+     "cls": "call held",
+     "rect": {
+      "x": 603.7890625,
+      "y": 176.0703125,
+      "w": 443.203125,
+      "h": 113.34375
+     },
+     "argsRect": {
+      "x": 618.7890625,
+      "y": 210.5703125,
+      "w": 415.203125,
+      "h": 18
+     }
+    },
+    {
+     "name": "find_tools",
+     "meta": "73 ms · phase swap",
+     "args": "{\"query\":\"get reputation of a wallet\"}",
+     "spoken": "Swapped in 9 tools: use_pasted_text, afg_get_reputation, afg_get_job, afg_discard_wallet, afg_create_wallet, afg_sign_contract, afg_leaderboard, afg_post_job, afg_fund",
+     "cls": "call phase-call",
+     "rect": {
+      "x": 603.7890625,
+      "y": 299.4140625,
+      "w": 443.203125,
+      "h": 171.265625
+     },
+     "argsRect": {
+      "x": 618.7890625,
+      "y": 333.9140625,
+      "w": 415.203125,
+      "h": 18
+     }
+    },
+    {
+     "name": "find_tools",
+     "meta": "68 ms · phase swap",
+     "args": "{\"query\":\"run a spec check on a job contract\"}",
+     "spoken": "Swapped in 9 tools: use_pasted_text, afg_post_job, afg_speccheck, afg_dispute, afg_submit, afg_sign_contract, afg_contract_template, afg_get_job, afg_prepare_signed_request",
+     "cls": "call phase-call",
+     "rect": {
+      "x": 603.7890625,
+      "y": 480.6796875,
+      "w": 443.203125,
+      "h": 155.1875
+     },
+     "argsRect": {
+      "x": 618.7890625,
+      "y": 515.1796875,
+      "w": 415.203125,
+      "h": 18
+     }
+    }
+   ]
+  },
+  {
+   "t": 86523,
+   "type": "dom.ui",
+   "v": {
+    "status": "Calling use_pasted_text",
+    "server": "AFG: Agent Fulfillment Guarantee (sandbox, test money only)",
+    "connect": "Connect",
+    "sample": "Copy sample address",
+    "paste": "0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed",
+    "scrollY": 1382.5,
+    "results": []
+   }
+  },
+  {
+   "t": 86690,
+   "type": "ws.in",
+   "msg": "reply.done",
+   "reply_id": "resp_6c6fb82d1c93488b9ddd2a8be3e19bb8",
+   "status": "completed",
+   "audioBytes": 0
+  },
+  {
+   "t": 86691,
+   "type": "ws.out",
+   "msg": "tool.result",
+   "call_id": "chatcmpl-tool-be772a1b0c7cef8b",
+   "chars": 246
+  },
+  {
+   "t": 86753,
+   "type": "ws.in",
+   "msg": "reply.started",
+   "reply_id": "resp_776fe2f481e3454e94bb78100478a426"
+  },
+  {
+   "t": 87533,
+   "type": "ws.in",
+   "msg": "tool.call",
+   "call_id": "chatcmpl-tool-8587d2a8151d45d8",
+   "name": "afg_get_reputation",
+   "arguments": {
+    "address": "0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed"
+   }
+  },
+  {
+   "t": 87534,
+   "type": "fetch.start",
+   "id": "p0jeey",
+   "path": "/api/mcp/call",
+   "body": {
+    "tool": "afg_get_reputation",
+    "arguments": {
+     "address": "0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed"
+    },
+    "session": "sess_bad159e000e9412ba713b9dfb8389cf2"
+   }
+  },
+  {
+   "t": 87568,
+   "type": "dom.calls",
+   "v": [
+    {
+     "name": "afg_get_reputation",
+     "meta": "calling…",
+     "args": "{\"address\":\"0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed\"}",
+     "spoken": "",
+     "cls": "call pending",
+     "rect": {
+      "x": 603.7890625,
+      "y": 73.6484375,
+      "w": 443.203125,
+      "h": 63.5
+     },
+     "argsRect": {
+      "x": 618.7890625,
+      "y": 108.1484375,
+      "w": 415.203125,
+      "h": 18
+     }
+    },
+    {
+     "name": "use_pasted_text",
+     "meta": "1 ms",
+     "args": "(no arguments)",
+     "spoken": "Read 42 characters from the paste box.",
+     "cls": "call",
+     "rect": {
+      "x": 603.7890625,
+      "y": 147.1484375,
+      "w": 443.203125,
+      "h": 92.421875
+     },
+     "argsRect": {
+      "x": 618.7890625,
+      "y": 181.6484375,
+      "w": 415.203125,
+      "h": 18
+     }
+    },
+    {
+     "name": "afg_get_reputation",
+     "meta": "held: heard, needs a paste",
+     "args": "{\"address\":\"0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED\"}",
+     "spoken": "I may have misheard that value. Please paste it into the box under the Talk button, and I will use exactly what you paste.",
+     "cls": "call held",
+     "rect": {
+      "x": 603.7890625,
+      "y": 249.5703125,
+      "w": 443.203125,
+      "h": 113.34375
+     },
+     "argsRect": {
+      "x": 618.7890625,
+      "y": 284.0703125,
+      "w": 415.203125,
+      "h": 18
+     }
+    },
+    {
+     "name": "find_tools",
+     "meta": "73 ms · phase swap",
+     "args": "{\"query\":\"get reputation of a wallet\"}",
+     "spoken": "Swapped in 9 tools: use_pasted_text, afg_get_reputation, afg_get_job, afg_discard_wallet, afg_create_wallet, afg_sign_contract, afg_leaderboard, afg_post_job, afg_fund",
+     "cls": "call phase-call",
+     "rect": {
+      "x": 603.7890625,
+      "y": 372.9140625,
+      "w": 443.203125,
+      "h": 171.265625
+     },
+     "argsRect": {
+      "x": 618.7890625,
+      "y": 407.4140625,
+      "w": 415.203125,
+      "h": 18
+     }
+    },
+    {
+     "name": "find_tools",
+     "meta": "68 ms · phase swap",
+     "args": "{\"query\":\"run a spec check on a job contract\"}",
+     "spoken": "Swapped in 9 tools: use_pasted_text, afg_post_job, afg_speccheck, afg_dispute, afg_submit, afg_sign_contract, afg_contract_template, afg_get_job, afg_prepare_signed_request",
+     "cls": "call phase-call",
+     "rect": {
+      "x": 603.7890625,
+      "y": 554.1796875,
+      "w": 443.203125,
+      "h": 155.1875
+     },
+     "argsRect": {
+      "x": 618.7890625,
+      "y": 588.6796875,
+      "w": 415.203125,
+      "h": 18
+     }
+    }
+   ]
+  },
+  {
+   "t": 87568,
+   "type": "dom.ui",
+   "v": {
+    "status": "Calling afg_get_reputation",
+    "server": "AFG: Agent Fulfillment Guarantee (sandbox, test money only)",
+    "connect": "Connect",
+    "sample": "Copy sample address",
+    "paste": "0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed",
+    "scrollY": 1382.5,
+    "results": []
+   }
+  },
+  {
+   "t": 87800,
+   "type": "ws.in",
+   "msg": "reply.done",
+   "reply_id": "resp_776fe2f481e3454e94bb78100478a426",
+   "status": "completed",
+   "audioBytes": 0
+  },
+  {
+   "t": 88606,
+   "type": "fetch.done",
+   "id": "p0jeey",
+   "path": "/api/mcp/call",
+   "status": 200,
+   "ms": 1071
+  },
+  {
+   "t": 88610,
+   "type": "ws.out",
+   "msg": "tool.result",
+   "call_id": "chatcmpl-tool-8587d2a8151d45d8",
+   "chars": 1675
+  },
+  {
+   "t": 88610,
+   "type": "mcp.timing",
+   "id": "p0jeey",
+   "mcpMs": 862,
+   "totalMs": 898,
+   "refineMs": 0,
+   "refine": "circuit_open",
+   "method": "local",
+   "shaped": true,
+   "isError": false
+  },
+  {
+   "t": 88643,
+   "type": "dom.calls",
+   "v": [
+    {
+     "name": "afg_get_reputation",
+     "meta": "898 ms · local",
+     "args": "{\"address\":\"0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed\"}",
+     "spoken": "basis AFG job outcomes (MVP: mock ledger, test tokens, no real value). settled AFG jobs by wallet, as provider and as buyer. refund outcomes, and how each was reached (auto, mediator, panel, timeout). disputes and appeals, and whose favor they resolved in.",
+     "cls": "call",
+     "rect": {
+      "x": 603.7890625,
+      "y": 73.6484375,
+      "w": 443.203125,
+      "h": 199.609375
+     },
+     "argsRect": {
+      "x": 618.7890625,
+      "y": 108.1484375,
+      "w": 415.203125,
+      "h": 18
+     }
+    },
+    {
+     "name": "use_pasted_text",
+     "meta": "1 ms",
+     "args": "(no arguments)",
+     "spoken": "Read 42 characters from the paste box.",
+     "cls": "call",
+     "rect": {
+      "x": 603.7890625,
+      "y": 283.2578125,
+      "w": 443.203125,
+      "h": 92.421875
+     },
+     "argsRect": {
+      "x": 618.7890625,
+      "y": 317.7578125,
+      "w": 415.203125,
+      "h": 18
+     }
+    },
+    {
+     "name": "afg_get_reputation",
+     "meta": "held: heard, needs a paste",
+     "args": "{\"address\":\"0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED\"}",
+     "spoken": "I may have misheard that value. Please paste it into the box under the Talk button, and I will use exactly what you paste.",
+     "cls": "call held",
+     "rect": {
+      "x": 603.7890625,
+      "y": 385.6796875,
+      "w": 443.203125,
+      "h": 113.34375
+     },
+     "argsRect": {
+      "x": 618.7890625,
+      "y": 420.1796875,
+      "w": 415.203125,
+      "h": 18
+     }
+    },
+    {
+     "name": "find_tools",
+     "meta": "73 ms · phase swap",
+     "args": "{\"query\":\"get reputation of a wallet\"}",
+     "spoken": "Swapped in 9 tools: use_pasted_text, afg_get_reputation, afg_get_job, afg_discard_wallet, afg_create_wallet, afg_sign_contract, afg_leaderboard, afg_post_job, afg_fund",
+     "cls": "call phase-call",
+     "rect": {
+      "x": 603.7890625,
+      "y": 509.0234375,
+      "w": 443.203125,
+      "h": 171.265625
+     },
+     "argsRect": {
+      "x": 618.7890625,
+      "y": 543.5234375,
+      "w": 415.203125,
+      "h": 18
+     }
+    },
+    {
+     "name": "find_tools",
+     "meta": "68 ms · phase swap",
+     "args": "{\"query\":\"run a spec check on a job contract\"}",
+     "spoken": "Swapped in 9 tools: use_pasted_text, afg_post_job, afg_speccheck, afg_dispute, afg_submit, afg_sign_contract, afg_contract_template, afg_get_job, afg_prepare_signed_request",
+     "cls": "call phase-call",
+     "rect": {
+      "x": 603.7890625,
+      "y": 690.2890625,
+      "w": 443.203125,
+      "h": 155.1875
+     },
+     "argsRect": {
+      "x": 618.7890625,
+      "y": 724.7890625,
+      "w": 415.203125,
+      "h": 18
+     }
+    }
+   ]
+  },
+  {
+   "t": 88673,
+   "type": "ws.in",
+   "msg": "reply.started",
+   "reply_id": "resp_95778d1d9e4a4772b5e8f3a0292dfcc8"
+  },
+  {
+   "t": 89347,
+   "type": "ws.in",
+   "msg": "reply.audio.first",
+   "reply_id": "resp_95778d1d9e4a4772b5e8f3a0292dfcc8"
+  },
+  {
+   "t": 89352,
+   "type": "dom.ui",
+   "v": {
+    "status": "Speaking",
+    "server": "AFG: Agent Fulfillment Guarantee (sandbox, test money only)",
+    "connect": "Connect",
+    "sample": "Copy sample address",
+    "paste": "0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed",
+    "scrollY": 1382.5,
+    "results": []
+   }
+  },
+  {
+   "t": 89575,
+   "type": "dom.lines",
+   "v": [
+    {
+     "who": "agent",
+     "text": "Connected to AFG: Agent Fulfillment Guarantee (sandbox, test money only), with 18 tools available. What would you like to do?"
+    },
+    {
+     "who": "you",
+     "text": "I want to run a spec check on a job contract."
+    },
+    {
+     "who": "agent",
+     "text": "I can certainly help with that. Please provide the job contract you would like me to check."
+    },
+    {
+     "who": "you",
+     "text": "What is the reputation of wallet 0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED?"
+    },
+    {
+     "who": "agent",
+     "text": "I may have misheard that value. Please paste it into the box under the Talk button, and I will use exactly what you paste."
+    },
+    {
+     "who": "you",
+     "text": "Check the reputation of the wallet I pasted."
+    },
+    {
+     "who": "agent live",
+     "text": "That  wallet has no recorded job outcomes yet, either as a provider or as a buyer."
+    }
+   ]
+  },
+  {
+   "t": 93677,
+   "type": "ws.in",
+   "msg": "transcript.agent",
+   "text": "That wallet has no recorded job outcomes yet, either as a provider or as a buyer.",
+   "reply_id": "resp_95778d1d9e4a4772b5e8f3a0292dfcc8",
+   "interrupted": false
+  },
+  {
+   "t": 93709,
+   "type": "dom.lines",
+   "v": [
+    {
+     "who": "agent",
+     "text": "Connected to AFG: Agent Fulfillment Guarantee (sandbox, test money only), with 18 tools available. What would you like to do?"
+    },
+    {
+     "who": "you",
+     "text": "I want to run a spec check on a job contract."
+    },
+    {
+     "who": "agent",
+     "text": "I can certainly help with that. Please provide the job contract you would like me to check."
+    },
+    {
+     "who": "you",
+     "text": "What is the reputation of wallet 0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED?"
+    },
+    {
+     "who": "agent",
+     "text": "I may have misheard that value. Please paste it into the box under the Talk button, and I will use exactly what you paste."
+    },
+    {
+     "who": "you",
+     "text": "Check the reputation of the wallet I pasted."
+    },
+    {
+     "who": "agent",
+     "text": "That wallet has no recorded job outcomes yet, either as a provider or as a buyer."
+    }
+   ]
+  },
+  {
+   "t": 94001,
+   "type": "ws.in",
+   "msg": "reply.done",
+   "reply_id": "resp_95778d1d9e4a4772b5e8f3a0292dfcc8",
+   "status": "completed",
+   "audioBytes": 224640
+  },
+  {
+   "t": 94064,
+   "type": "dom.ui",
+   "v": {
+    "status": "Listening",
+    "server": "AFG: Agent Fulfillment Guarantee (sandbox, test money only)",
+    "connect": "Connect",
+    "sample": "Copy sample address",
+    "paste": "0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed",
+    "scrollY": 1382.5,
+    "results": []
+   }
+  },
+  {
+   "t": 96600,
+   "type": "dom.calls",
+   "v": [
+    {
+     "name": "afg_get_reputation",
+     "meta": "898 ms · local",
+     "args": "{\"address\":\"0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed\"}",
+     "spoken": "basis AFG job outcomes (MVP: mock ledger, test tokens, no real value). settled AFG jobs by wallet, as provider and as buyer. refund outcomes, and how each was reached (auto, mediator, panel, timeout). disputes and appeals, and whose favor they resolved in.",
+     "cls": "call",
+     "rect": {
+      "x": 603.7890625,
+      "y": 148.1484375,
+      "w": 443.203125,
+      "h": 199.609375
+     },
+     "argsRect": {
+      "x": 618.7890625,
+      "y": 182.6484375,
+      "w": 415.203125,
+      "h": 18
+     }
+    },
+    {
+     "name": "use_pasted_text",
+     "meta": "1 ms",
+     "args": "(no arguments)",
+     "spoken": "Read 42 characters from the paste box.",
+     "cls": "call",
+     "rect": {
+      "x": 603.7890625,
+      "y": 357.7578125,
+      "w": 443.203125,
+      "h": 92.421875
+     },
+     "argsRect": {
+      "x": 618.7890625,
+      "y": 392.2578125,
+      "w": 415.203125,
+      "h": 18
+     }
+    },
+    {
+     "name": "afg_get_reputation",
+     "meta": "held: heard, needs a paste",
+     "args": "{\"address\":\"0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED\"}",
+     "spoken": "I may have misheard that value. Please paste it into the box under the Talk button, and I will use exactly what you paste.",
+     "cls": "call held",
+     "rect": {
+      "x": 603.7890625,
+      "y": 460.1796875,
+      "w": 443.203125,
+      "h": 113.34375
+     },
+     "argsRect": {
+      "x": 618.7890625,
+      "y": 494.6796875,
+      "w": 415.203125,
+      "h": 18
+     }
+    },
+    {
+     "name": "find_tools",
+     "meta": "73 ms · phase swap",
+     "args": "{\"query\":\"get reputation of a wallet\"}",
+     "spoken": "Swapped in 9 tools: use_pasted_text, afg_get_reputation, afg_get_job, afg_discard_wallet, afg_create_wallet, afg_sign_contract, afg_leaderboard, afg_post_job, afg_fund",
+     "cls": "call phase-call",
+     "rect": {
+      "x": 603.7890625,
+      "y": 583.5234375,
+      "w": 443.203125,
+      "h": 171.265625
+     },
+     "argsRect": {
+      "x": 618.7890625,
+      "y": 618.0234375,
+      "w": 415.203125,
+      "h": 18
+     }
+    },
+    {
+     "name": "find_tools",
+     "meta": "68 ms · phase swap",
+     "args": "{\"query\":\"run a spec check on a job contract\"}",
+     "spoken": "Swapped in 9 tools: use_pasted_text, afg_post_job, afg_speccheck, afg_dispute, afg_submit, afg_sign_contract, afg_contract_template, afg_get_job, afg_prepare_signed_request",
+     "cls": "call phase-call",
+     "rect": {
+      "x": 603.7890625,
+      "y": 764.7890625,
+      "w": 443.203125,
+      "h": 155.1875
+     },
+     "argsRect": {
+      "x": 618.7890625,
+      "y": 799.2890625,
+      "w": 415.203125,
+      "h": 18
+     }
+    }
+   ]
+  },
+  {
+   "t": 96600,
+   "type": "dom.gate",
+   "v": {
+    "shown": true,
+    "kind": "paste",
+    "kindText": "Heard from speech, may be wrong - paste it to run",
+    "tool": "afg_get_reputation",
+    "value": "0x5A AEB6 053F 3E94 C9B9 A09F 3366 9435 E7EF 1BEA ED",
+    "say": "I may have misheard that value. Please paste it into the box under the Talk button, and I will use exactly what you paste.",
+    "rect": {
+     "x": 24,
+     "y": -41.46875,
+     "w": 1040,
+     "h": 128.1171875
+    }
+   }
+  },
+  {
+   "t": 96600,
+   "type": "dom.chips",
+   "v": {
+    "chips": [
+     {
+      "name": "find_tools",
+      "isNew": false
+     },
+     {
+      "name": "use_pasted_text",
+      "isNew": false
+     },
+     {
+      "name": "afg_get_reputation",
+      "isNew": true
+     },
+     {
+      "name": "afg_get_job",
+      "isNew": false
+     },
+     {
+      "name": "afg_discard_wallet",
+      "isNew": true
+     },
+     {
+      "name": "afg_create_wallet",
+      "isNew": true
+     },
+     {
+      "name": "afg_sign_contract",
+      "isNew": false
+     },
+     {
+      "name": "afg_leaderboard",
+      "isNew": true
+     },
+     {
+      "name": "afg_post_job",
+      "isNew": false
+     },
+     {
+      "name": "afg_fund",
+      "isNew": true
+     }
+    ],
+    "rect": {
+     "x": 41,
+     "y": 684.1484375,
+     "w": 514.7890625,
+     "h": 94.5
+    }
+   }
+  },
+  {
+   "t": 96600,
+   "type": "dom.ui",
+   "v": {
+    "status": "Listening",
+    "server": "AFG: Agent Fulfillment Guarantee (sandbox, test money only)",
+    "connect": "Connect",
+    "sample": "Copy sample address",
+    "paste": "0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed",
+    "scrollY": 1308,
+    "results": []
+   }
+  },
+  {
+   "t": 96853,
+   "type": "dom.calls",
+   "v": [
+    {
+     "name": "afg_get_reputation",
+     "meta": "898 ms · local",
+     "args": "{\"address\":\"0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed\"}",
+     "spoken": "basis AFG job outcomes (MVP: mock ledger, test tokens, no real value). settled AFG jobs by wallet, as provider and as buyer. refund outcomes, and how each was reached (auto, mediator, panel, timeout). disputes and appeals, and whose favor they resolved in.",
+     "cls": "call",
+     "rect": {
+      "x": 603.7890625,
+      "y": 272.1484375,
+      "w": 443.203125,
+      "h": 199.609375
+     },
+     "argsRect": {
+      "x": 618.7890625,
+      "y": 306.6484375,
+      "w": 415.203125,
+      "h": 18
+     }
+    },
+    {
+     "name": "use_pasted_text",
+     "meta": "1 ms",
+     "args": "(no arguments)",
+     "spoken": "Read 42 characters from the paste box.",
+     "cls": "call",
+     "rect": {
+      "x": 603.7890625,
+      "y": 481.7578125,
+      "w": 443.203125,
+      "h": 92.421875
+     },
+     "argsRect": {
+      "x": 618.7890625,
+      "y": 516.2578125,
+      "w": 415.203125,
+      "h": 18
+     }
+    },
+    {
+     "name": "afg_get_reputation",
+     "meta": "held: heard, needs a paste",
+     "args": "{\"address\":\"0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED\"}",
+     "spoken": "I may have misheard that value. Please paste it into the box under the Talk button, and I will use exactly what you paste.",
+     "cls": "call held",
+     "rect": {
+      "x": 603.7890625,
+      "y": 584.1796875,
+      "w": 443.203125,
+      "h": 113.34375
+     },
+     "argsRect": {
+      "x": 618.7890625,
+      "y": 618.6796875,
+      "w": 415.203125,
+      "h": 18
+     }
+    },
+    {
+     "name": "find_tools",
+     "meta": "73 ms · phase swap",
+     "args": "{\"query\":\"get reputation of a wallet\"}",
+     "spoken": "Swapped in 9 tools: use_pasted_text, afg_get_reputation, afg_get_job, afg_discard_wallet, afg_create_wallet, afg_sign_contract, afg_leaderboard, afg_post_job, afg_fund",
+     "cls": "call phase-call",
+     "rect": {
+      "x": 603.7890625,
+      "y": 707.5234375,
+      "w": 443.203125,
+      "h": 171.265625
+     },
+     "argsRect": {
+      "x": 618.7890625,
+      "y": 742.0234375,
+      "w": 415.203125,
+      "h": 18
+     }
+    },
+    {
+     "name": "find_tools",
+     "meta": "68 ms · phase swap",
+     "args": "{\"query\":\"run a spec check on a job contract\"}",
+     "spoken": "Swapped in 9 tools: use_pasted_text, afg_post_job, afg_speccheck, afg_dispute, afg_submit, afg_sign_contract, afg_contract_template, afg_get_job, afg_prepare_signed_request",
+     "cls": "call phase-call",
+     "rect": {
+      "x": 603.7890625,
+      "y": 888.7890625,
+      "w": 443.203125,
+      "h": 155.1875
+     },
+     "argsRect": {
+      "x": 618.7890625,
+      "y": 923.2890625,
+      "w": 415.203125,
+      "h": 18
+     }
+    }
+   ]
+  },
+  {
+   "t": 96853,
+   "type": "dom.gate",
+   "v": {
+    "shown": true,
+    "kind": "paste",
+    "kindText": "Heard from speech, may be wrong - paste it to run",
+    "tool": "afg_get_reputation",
+    "value": "0x5A AEB6 053F 3E94 C9B9 A09F 3366 9435 E7EF 1BEA ED",
+    "say": "I may have misheard that value. Please paste it into the box under the Talk button, and I will use exactly what you paste.",
+    "rect": {
+     "x": 24,
+     "y": 82.53125,
+     "w": 1040,
+     "h": 128.1171875
+    }
+   }
+  },
+  {
+   "t": 96853,
+   "type": "dom.chips",
+   "v": {
+    "chips": [
+     {
+      "name": "find_tools",
+      "isNew": false
+     },
+     {
+      "name": "use_pasted_text",
+      "isNew": false
+     },
+     {
+      "name": "afg_get_reputation",
+      "isNew": true
+     },
+     {
+      "name": "afg_get_job",
+      "isNew": false
+     },
+     {
+      "name": "afg_discard_wallet",
+      "isNew": true
+     },
+     {
+      "name": "afg_create_wallet",
+      "isNew": true
+     },
+     {
+      "name": "afg_sign_contract",
+      "isNew": false
+     },
+     {
+      "name": "afg_leaderboard",
+      "isNew": true
+     },
+     {
+      "name": "afg_post_job",
+      "isNew": false
+     },
+     {
+      "name": "afg_fund",
+      "isNew": true
+     }
+    ],
+    "rect": {
+     "x": 41,
+     "y": 808.1484375,
+     "w": 514.7890625,
+     "h": 94.5
+    }
+   }
+  },
+  {
+   "t": 96853,
+   "type": "dom.ui",
+   "v": {
+    "status": "Listening",
+    "server": "AFG: Agent Fulfillment Guarantee (sandbox, test money only)",
+    "connect": "Connect",
+    "sample": "Copy sample address",
+    "paste": "0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed",
+    "scrollY": 1184,
+    "results": []
+   }
+  },
+  {
+   "t": 97101,
+   "type": "dom.calls",
+   "v": [
+    {
+     "name": "afg_get_reputation",
+     "meta": "898 ms · local",
+     "args": "{\"address\":\"0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed\"}",
+     "spoken": "basis AFG job outcomes (MVP: mock ledger, test tokens, no real value). settled AFG jobs by wallet, as provider and as buyer. refund outcomes, and how each was reached (auto, mediator, panel, timeout). disputes and appeals, and whose favor they resolved in.",
+     "cls": "call",
+     "rect": {
+      "x": 603.7890625,
+      "y": 396.1484375,
+      "w": 443.203125,
+      "h": 199.609375
+     },
+     "argsRect": {
+      "x": 618.7890625,
+      "y": 430.6484375,
+      "w": 415.203125,
+      "h": 18
+     }
+    },
+    {
+     "name": "use_pasted_text",
+     "meta": "1 ms",
+     "args": "(no arguments)",
+     "spoken": "Read 42 characters from the paste box.",
+     "cls": "call",
+     "rect": {
+      "x": 603.7890625,
+      "y": 605.7578125,
+      "w": 443.203125,
+      "h": 92.421875
+     },
+     "argsRect": {
+      "x": 618.7890625,
+      "y": 640.2578125,
+      "w": 415.203125,
+      "h": 18
+     }
+    },
+    {
+     "name": "afg_get_reputation",
+     "meta": "held: heard, needs a paste",
+     "args": "{\"address\":\"0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED\"}",
+     "spoken": "I may have misheard that value. Please paste it into the box under the Talk button, and I will use exactly what you paste.",
+     "cls": "call held",
+     "rect": {
+      "x": 603.7890625,
+      "y": 708.1796875,
+      "w": 443.203125,
+      "h": 113.34375
+     },
+     "argsRect": {
+      "x": 618.7890625,
+      "y": 742.6796875,
+      "w": 415.203125,
+      "h": 18
+     }
+    },
+    {
+     "name": "find_tools",
+     "meta": "73 ms · phase swap",
+     "args": "{\"query\":\"get reputation of a wallet\"}",
+     "spoken": "Swapped in 9 tools: use_pasted_text, afg_get_reputation, afg_get_job, afg_discard_wallet, afg_create_wallet, afg_sign_contract, afg_leaderboard, afg_post_job, afg_fund",
+     "cls": "call phase-call",
+     "rect": {
+      "x": 603.7890625,
+      "y": 831.5234375,
+      "w": 443.203125,
+      "h": 171.265625
+     },
+     "argsRect": {
+      "x": 618.7890625,
+      "y": 866.0234375,
+      "w": 415.203125,
+      "h": 18
+     }
+    },
+    {
+     "name": "find_tools",
+     "meta": "68 ms · phase swap",
+     "args": "{\"query\":\"run a spec check on a job contract\"}",
+     "spoken": "Swapped in 9 tools: use_pasted_text, afg_post_job, afg_speccheck, afg_dispute, afg_submit, afg_sign_contract, afg_contract_template, afg_get_job, afg_prepare_signed_request",
+     "cls": "call phase-call",
+     "rect": {
+      "x": 603.7890625,
+      "y": 1012.7890625,
+      "w": 443.203125,
+      "h": 155.1875
+     },
+     "argsRect": {
+      "x": 618.7890625,
+      "y": 1047.2890625,
+      "w": 415.203125,
+      "h": 18
+     }
+    }
+   ]
+  },
+  {
+   "t": 97102,
+   "type": "dom.gate",
+   "v": {
+    "shown": true,
+    "kind": "paste",
+    "kindText": "Heard from speech, may be wrong - paste it to run",
+    "tool": "afg_get_reputation",
+    "value": "0x5A AEB6 053F 3E94 C9B9 A09F 3366 9435 E7EF 1BEA ED",
+    "say": "I may have misheard that value. Please paste it into the box under the Talk button, and I will use exactly what you paste.",
+    "rect": {
+     "x": 24,
+     "y": 206.53125,
+     "w": 1040,
+     "h": 128.1171875
+    }
+   }
+  },
+  {
+   "t": 97102,
+   "type": "dom.chips",
+   "v": {
+    "chips": [
+     {
+      "name": "find_tools",
+      "isNew": false
+     },
+     {
+      "name": "use_pasted_text",
+      "isNew": false
+     },
+     {
+      "name": "afg_get_reputation",
+      "isNew": true
+     },
+     {
+      "name": "afg_get_job",
+      "isNew": false
+     },
+     {
+      "name": "afg_discard_wallet",
+      "isNew": true
+     },
+     {
+      "name": "afg_create_wallet",
+      "isNew": true
+     },
+     {
+      "name": "afg_sign_contract",
+      "isNew": false
+     },
+     {
+      "name": "afg_leaderboard",
+      "isNew": true
+     },
+     {
+      "name": "afg_post_job",
+      "isNew": false
+     },
+     {
+      "name": "afg_fund",
+      "isNew": true
+     }
+    ],
+    "rect": {
+     "x": 41,
+     "y": 932.1484375,
+     "w": 514.7890625,
+     "h": 94.5
+    }
+   }
+  },
+  {
+   "t": 97102,
+   "type": "dom.ui",
+   "v": {
+    "status": "Listening",
+    "server": "AFG: Agent Fulfillment Guarantee (sandbox, test money only)",
+    "connect": "Connect",
+    "sample": "Copy sample address",
+    "paste": "0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed",
+    "scrollY": 1060,
+    "results": []
+   }
+  },
+  {
+   "t": 97269,
+   "type": "scroll",
+   "y": 985.5
+  },
+  {
+   "t": 97303,
+   "type": "dom.calls",
+   "v": [
+    {
+     "name": "afg_get_reputation",
+     "meta": "898 ms · local",
+     "args": "{\"address\":\"0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed\"}",
+     "spoken": "basis AFG job outcomes (MVP: mock ledger, test tokens, no real value). settled AFG jobs by wallet, as provider and as buyer. refund outcomes, and how each was reached (auto, mediator, panel, timeout). disputes and appeals, and whose favor they resolved in.",
+     "cls": "call",
+     "rect": {
+      "x": 603.7890625,
+      "y": 470.6484375,
+      "w": 443.203125,
+      "h": 199.609375
+     },
+     "argsRect": {
+      "x": 618.7890625,
+      "y": 505.1484375,
+      "w": 415.203125,
+      "h": 18
+     }
+    },
+    {
+     "name": "use_pasted_text",
+     "meta": "1 ms",
+     "args": "(no arguments)",
+     "spoken": "Read 42 characters from the paste box.",
+     "cls": "call",
+     "rect": {
+      "x": 603.7890625,
+      "y": 680.2578125,
+      "w": 443.203125,
+      "h": 92.421875
+     },
+     "argsRect": {
+      "x": 618.7890625,
+      "y": 714.7578125,
+      "w": 415.203125,
+      "h": 18
+     }
+    },
+    {
+     "name": "afg_get_reputation",
+     "meta": "held: heard, needs a paste",
+     "args": "{\"address\":\"0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED\"}",
+     "spoken": "I may have misheard that value. Please paste it into the box under the Talk button, and I will use exactly what you paste.",
+     "cls": "call held",
+     "rect": {
+      "x": 603.7890625,
+      "y": 782.6796875,
+      "w": 443.203125,
+      "h": 113.34375
+     },
+     "argsRect": {
+      "x": 618.7890625,
+      "y": 817.1796875,
+      "w": 415.203125,
+      "h": 18
+     }
+    },
+    {
+     "name": "find_tools",
+     "meta": "73 ms · phase swap",
+     "args": "{\"query\":\"get reputation of a wallet\"}",
+     "spoken": "Swapped in 9 tools: use_pasted_text, afg_get_reputation, afg_get_job, afg_discard_wallet, afg_create_wallet, afg_sign_contract, afg_leaderboard, afg_post_job, afg_fund",
+     "cls": "call phase-call",
+     "rect": {
+      "x": 603.7890625,
+      "y": 906.0234375,
+      "w": 443.203125,
+      "h": 171.265625
+     },
+     "argsRect": {
+      "x": 618.7890625,
+      "y": 940.5234375,
+      "w": 415.203125,
+      "h": 18
+     }
+    },
+    {
+     "name": "find_tools",
+     "meta": "68 ms · phase swap",
+     "args": "{\"query\":\"run a spec check on a job contract\"}",
+     "spoken": "Swapped in 9 tools: use_pasted_text, afg_post_job, afg_speccheck, afg_dispute, afg_submit, afg_sign_contract, afg_contract_template, afg_get_job, afg_prepare_signed_request",
+     "cls": "call phase-call",
+     "rect": {
+      "x": 603.7890625,
+      "y": 1087.2890625,
+      "w": 443.203125,
+      "h": 155.1875
+     },
+     "argsRect": {
+      "x": 618.7890625,
+      "y": 1121.7890625,
+      "w": 415.203125,
+      "h": 18
+     }
+    }
+   ]
+  },
+  {
+   "t": 97303,
+   "type": "dom.gate",
+   "v": {
+    "shown": true,
+    "kind": "paste",
+    "kindText": "Heard from speech, may be wrong - paste it to run",
+    "tool": "afg_get_reputation",
+    "value": "0x5A AEB6 053F 3E94 C9B9 A09F 3366 9435 E7EF 1BEA ED",
+    "say": "I may have misheard that value. Please paste it into the box under the Talk button, and I will use exactly what you paste.",
+    "rect": {
+     "x": 24,
+     "y": 281.03125,
+     "w": 1040,
+     "h": 128.1171875
+    }
+   }
+  },
+  {
+   "t": 97303,
+   "type": "dom.chips",
+   "v": {
+    "chips": [
+     {
+      "name": "find_tools",
+      "isNew": false
+     },
+     {
+      "name": "use_pasted_text",
+      "isNew": false
+     },
+     {
+      "name": "afg_get_reputation",
+      "isNew": true
+     },
+     {
+      "name": "afg_get_job",
+      "isNew": false
+     },
+     {
+      "name": "afg_discard_wallet",
+      "isNew": true
+     },
+     {
+      "name": "afg_create_wallet",
+      "isNew": true
+     },
+     {
+      "name": "afg_sign_contract",
+      "isNew": false
+     },
+     {
+      "name": "afg_leaderboard",
+      "isNew": true
+     },
+     {
+      "name": "afg_post_job",
+      "isNew": false
+     },
+     {
+      "name": "afg_fund",
+      "isNew": true
+     }
+    ],
+    "rect": {
+     "x": 41,
+     "y": 1006.6484375,
+     "w": 514.7890625,
+     "h": 94.5
+    }
+   }
+  },
+  {
+   "t": 97303,
+   "type": "dom.ui",
+   "v": {
+    "status": "Listening",
+    "server": "AFG: Agent Fulfillment Guarantee (sandbox, test money only)",
+    "connect": "Connect",
+    "sample": "Copy sample address",
+    "paste": "0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed",
+    "scrollY": 985.5,
+    "results": []
+   }
+  },
+  {
+   "t": 97490,
+   "type": "harness.scrolled",
+   "selector": "#talk",
+   "y": 985.5
+  },
+  {
+   "t": 97496,
+   "type": "mouse",
+   "x": 413,
+   "y": 71
+  },
+  {
+   "t": 97511,
+   "type": "mouse",
+   "x": 412,
+   "y": 71
+  },
+  {
+   "t": 97528,
+   "type": "mouse",
+   "x": 410,
+   "y": 71
+  },
+  {
+   "t": 97543,
+   "type": "mouse",
+   "x": 407,
+   "y": 71
+  },
+  {
+   "t": 97562,
+   "type": "mouse",
+   "x": 402,
+   "y": 71
+  },
+  {
+   "t": 97592,
+   "type": "mouse",
+   "x": 397,
+   "y": 71
+  },
+  {
+   "t": 97608,
+   "type": "mouse",
+   "x": 392,
+   "y": 71
+  },
+  {
+   "t": 97626,
+   "type": "mouse",
+   "x": 385,
+   "y": 71
+  },
+  {
+   "t": 97644,
+   "type": "mouse",
+   "x": 377,
+   "y": 71
+  },
+  {
+   "t": 97660,
+   "type": "mouse",
+   "x": 368,
+   "y": 71
+  },
+  {
+   "t": 97676,
+   "type": "mouse",
+   "x": 359,
+   "y": 71
+  },
+  {
+   "t": 97692,
+   "type": "mouse",
+   "x": 348,
+   "y": 71
+  },
+  {
+   "t": 97709,
+   "type": "mouse",
+   "x": 337,
+   "y": 71
+  },
+  {
+   "t": 97726,
+   "type": "mouse",
+   "x": 325,
+   "y": 71
+  },
+  {
+   "t": 97742,
+   "type": "mouse",
+   "x": 312,
+   "y": 71
+  },
+  {
+   "t": 97759,
+   "type": "mouse",
+   "x": 298,
+   "y": 71
+  },
+  {
+   "t": 97777,
+   "type": "mouse",
+   "x": 283,
+   "y": 71
+  },
+  {
+   "t": 97795,
+   "type": "mouse",
+   "x": 267,
+   "y": 71
+  },
+  {
+   "t": 97813,
+   "type": "mouse",
+   "x": 250,
+   "y": 71
+  },
+  {
+   "t": 97843,
+   "type": "mouse",
+   "x": 233,
+   "y": 72
+  },
+  {
+   "t": 97859,
+   "type": "mouse",
+   "x": 217,
+   "y": 72
+  },
+  {
+   "t": 97875,
+   "type": "mouse",
+   "x": 203,
+   "y": 72
+  },
+  {
+   "t": 97892,
+   "type": "mouse",
+   "x": 188,
+   "y": 72
+  },
+  {
+   "t": 97910,
+   "type": "mouse",
+   "x": 175,
+   "y": 72
+  },
+  {
+   "t": 97926,
+   "type": "mouse",
+   "x": 163,
+   "y": 72
+  },
+  {
+   "t": 97943,
+   "type": "mouse",
+   "x": 152,
+   "y": 72
+  },
+  {
+   "t": 97962,
+   "type": "mouse",
+   "x": 141,
+   "y": 72
+  },
+  {
+   "t": 97980,
+   "type": "mouse",
+   "x": 132,
+   "y": 72
+  },
+  {
+   "t": 97998,
+   "type": "mouse",
+   "x": 123,
+   "y": 72
+  },
+  {
+   "t": 98017,
+   "type": "mouse",
+   "x": 116,
+   "y": 72
+  },
+  {
+   "t": 98039,
+   "type": "mouse",
+   "x": 109,
+   "y": 72
+  },
+  {
+   "t": 98057,
+   "type": "mouse",
+   "x": 103,
+   "y": 72
+  },
+  {
+   "t": 98077,
+   "type": "mouse",
+   "x": 98,
+   "y": 72
+  },
+  {
+   "t": 98094,
+   "type": "mouse",
+   "x": 94,
+   "y": 72
+  },
+  {
+   "t": 98126,
+   "type": "mouse",
+   "x": 91,
+   "y": 72
+  },
+  {
+   "t": 98143,
+   "type": "mouse",
+   "x": 88,
+   "y": 72
+  },
+  {
+   "t": 98159,
+   "type": "mouse",
+   "x": 87,
+   "y": 72
+  },
+  {
+   "t": 98176,
+   "type": "mouse",
+   "x": 87,
+   "y": 72
+  },
+  {
+   "t": 98314,
+   "type": "mousedown",
+   "x": 87,
+   "y": 72
+  },
+  {
+   "t": 98387,
+   "type": "mouseup",
+   "x": 87,
+   "y": 72
+  },
+  {
+   "t": 98387,
+   "type": "ws.out",
+   "msg": "session.end"
+  },
+  {
+   "t": 98421,
+   "type": "dom.lines",
+   "v": [
+    {
+     "who": "agent",
+     "text": "Connected to AFG: Agent Fulfillment Guarantee (sandbox, test money only), with 18 tools available. What would you like to do?"
+    },
+    {
+     "who": "you",
+     "text": "I want to run a spec check on a job contract."
+    },
+    {
+     "who": "agent",
+     "text": "I can certainly help with that. Please provide the job contract you would like me to check."
+    },
+    {
+     "who": "you",
+     "text": "What is the reputation of wallet 0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED?"
+    },
+    {
+     "who": "agent",
+     "text": "I may have misheard that value. Please paste it into the box under the Talk button, and I will use exactly what you paste."
+    },
+    {
+     "who": "you",
+     "text": "Check the reputation of the wallet I pasted."
+    },
+    {
+     "who": "agent",
+     "text": "That wallet has no recorded job outcomes yet, either as a provider or as a buyer."
+    },
+    {
+     "who": "note",
+     "text": "Session ended: ended by you."
+    }
+   ]
+  },
+  {
+   "t": 98421,
+   "type": "dom.ui",
+   "v": {
+    "status": "Session ended",
+    "server": "AFG: Agent Fulfillment Guarantee (sandbox, test money only)",
+    "connect": "Connect",
+    "sample": "Copy sample address",
+    "paste": "0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed",
+    "scrollY": 985.5,
+    "results": []
+   }
+  },
+  {
+   "t": 98546,
+   "type": "harness.talk",
+   "label": "end"
+  },
+  {
+   "t": 98548,
+   "type": "audio.closed",
+   "ctx": 2,
+   "stem": "agent"
+  },
+  {
+   "t": 98548,
+   "type": "audio.closed",
+   "ctx": 1,
+   "stem": "pagemic"
+  },
+  {
+   "t": 98564,
+   "type": "ws.in",
+   "msg": "session.ended"
+  },
+  {
+   "t": 99123,
+   "type": "ws.close",
+   "code": 1000
+  },
+  {
+   "t": 100854,
+   "type": "sync.beep",
+   "label": "end",
+   "ctx": 0,
+   "contextTime": 100.78333333333333,
+   "heardAt": 1790500703414.4783
+  },
+  {
+   "t": 101131,
+   "type": "sync.flash.on",
+   "label": "end"
+  },
+  {
+   "t": 101158,
+   "type": "sync.flash.off",
+   "label": "end"
+  }
+ ]
+}

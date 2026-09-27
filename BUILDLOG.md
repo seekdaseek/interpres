@@ -3444,3 +3444,117 @@ scene C rehearsals, and all six were heard exactly.
 $ npm run typecheck    (no errors)
 $ npm test             ℹ tests 424  ℹ pass 424  ℹ fail 0
 ```
+
+## 2026-09-27 - round H3: deployed, proved on the public URL, captured again, rebuilt
+
+**Deploy:** `sh ops/redeploy.sh` shipped 18ea86b. The tree was clean; the local `data/events.jsonl`
+was stashed for the run and restored after.
+- PM2 before and after, name, pid, restarts and status only:
+
+```
+16c16
+< interpres 3682770 0 online
+---
+> interpres 3685099 0 online
+200 /api/health on 127.0.0.1:3031
+```
+
+- Only `interpres` changed. The other 44 processes, `interpres-tunnel` included, kept their pids.
+- **The public URL serves the new page.** Its bundle is `interpres-index-BcYOMczH.js`, the same file
+  as the local build. `transcription_mode` appears in exactly the three page updates, set from the
+  one constant `min_latency`.
+- **`/api/mcp/connect` for `goji.agency`** answers with `phase.sessionUpdate.session.input` =
+  keyterms, transcription_prompt and `transcription_mode: "min_latency"`.
+
+**Public proof** (`e2e-audio --api https://interpres.ochinimus.app`, macOS `say`):
+
+| | session | heard | tool call | voice to voice | Session History mode |
+| --- | --- | --- | --- | ---: | --- |
+| Q1, goji | `sess_2fbef92d81ad4717ae40c62671a3e5fc` | "What is SEO in plain English?" | `goji_explain_term({"term":"SEO"})` | 3,273 ms | min_latency |
+| Q2, Books | `sess_b7aac8424c634d239cbf8ed6e5586654` | "Who recommends Sapiens?" | `get_book_recommenders({"title":"Sapiens"})` | 3,769 ms | min_latency |
+
+**H3.6: A, B and C captured again**, one take each, 09:14 to 09:18 UTC. Every take passed every scene
+check on its first try. With the two proofs that is 5 public sessions in the hour; no limit was
+raised.
+
+| exchange | new take | voice to voice | round G take (balanced) | voice to voice | sync, start / end |
+| --- | --- | ---: | --- | ---: | --- |
+| A Q1 | `sess_2df644020f0f4646ae311f71e61a0bec` | 4,372 ms | `sess_ef3b6586…` | 5,179 ms | +3.3 / -2.9 ms |
+| B Q2 | `sess_37d290ae5e8f431d9f6e4b1d10d6280e` | 4,846 ms | `sess_d61ab83c…` | 5,280 ms | -0.4 / -4.1 ms |
+| C Q3 | `sess_bad159e000e9412ba713b9dfb8389cf2` | 2,875 ms | `sess_3fcf411e…` | 3,104 ms | -1.0 / -4.3 ms |
+| C Q5 | same | 5,949 ms | same | 6,758 ms | |
+| C Q4 | same | 5,780 ms | same | 5,683 ms | |
+
+- **What the page sent, from Session History.** All three page sessions have `min_latency` in
+  their final config. Scene C's opening update and both find_tools swaps carry it.
+- **The paste update is recorded as `{}`.** Session History's `config_changes` record only what
+  changed, and the paste changed nothing: the pasted address was already a keyterm, carried over by
+  the Q5 swap. The served bundle shows that update carries the mode as well.
+- **Scene A's "Found" line says "757 ms, remembered from an earlier look".**
+  - The server keeps a discovery answer for 10 minutes (`DISCOVERY_CACHE_MS`), and my post-deploy
+    check of `/api/mcp/connect` for `goji.agency` had run it two minutes before the take.
+  - The take was the first to pass, so it is used, and VIDEO.md explains the line.
+  - Round G's take showed a fresh 228 ms lookup.
+- **The recount** now includes the new C take's Q5, heard exactly: **13 of 23**, still 5 misheard
+  that reached a server. The README and JUDGE_GUIDE were requoted, and the identifiers slide reads
+  "23 spoken attempts, 13 exact".
+- `data/video/after-capture.json` is removed. The new takes show the page copy as it is now.
+
+**The rebuild.**
+- **First render, 3:56.9:** every automated check passed except N7 word for word. The final file's
+  transcript heard "Speech often gets identifiers wrong" as "gets identified as wrong". The clip was
+  unchanged: the same audio had passed its own check and round G's final file.
+  - Under the standing rule, the phrase became "Speech often mishears identifiers": the same
+    meaning, and the number is unchanged.
+  - The new clip passed on try 2: `sess_573e8fd085ee43c78e6af8418df82fee`. Try 1,
+    `sess_6e0d4c5413344520b3f497ec8c19ebe7`, was heard as "mishars".
+- **Second render:** everything passed, but the silence list had a new 5.8 s span at the end of C2.
+  - This take reached its End press after a scroll; round G's never did, so its shot ended 1.2 s
+    after the agent.
+  - C2 now ends 0.7 s after the agent's last word, as scene B does (`edl.ts`).
+- **Third render: `interpres-demo.mp4`**, sha256
+  `5b96af90f595290b7c01c802c59ff9e747ed7042b120b50569a88cc24d6f0c5f`:
+
+```
+ok   H.264 High · 1920x1080 · yuv420p · r 30/1, avg 30/1 · AAC LC 48 kHz 2 ch · 192012 b/s · ftyp moov free mdat
+ok   232.107 s (3:52.1) · 31,997,494 bytes (30.5 MB) · -16 LUFS (LRA 5.3 LU) · true peak -2.3 dBTP · 0 black spans
+ok   N1-N12 word for word (transcript d4a1d616-b8ff-440b-9a74-d27373098c0f)
+```
+
+- **Silences of 2.5 s or more, all accounted for:**
+  - the five voice-to-voice waits, never cut: 4.3, 4.8, 2.8, 5.8 and 5.7 s;
+  - A's connect, 3.0 s, kept whole;
+  - C between turns, 2.5 s;
+  - the try slide and end card.
+- **The gaps G3 set still hold:**
+  - N6 to Q3: 1.85 s;
+  - N5 to Q2: 1.84 s;
+  - N4 to N5: 0.80 s.
+- **I looked at the contact sheet, the five key frames and two caption-heavy frames myself:**
+  - no clipped caption;
+  - no caption over page text;
+  - no token, secret or `.env` value.
+  - The AFG card and the paste hint show the new copy.
+- **The round G video stayed on the Desktop until all of this passed.** Only then did
+  `build.ts --skip-render --reuse-transcript` copy the new one there (same file, same transcript).
+- **VIDEO.md** now also has:
+  - the new takes' voice to voice next to round G's balanced takes, from `data/video/previous-takes.json`;
+  - the worst window SNR beside the page-mic fidelity. Q4's 0 of 5 bit-exact windows are at
+    217 dB, a float rounding difference.
+
+**The npm tarball was rebuilt**, because `phaseSessionUpdate` changed.
+- `build/npm/interpres-0.1.0.tgz`, 100,256 bytes, sha256
+  `acc86ef4b122d65a19b20a1b06c7628449afb3878218973fe4bcc514ad314b01`. Two runs gave the same bytes.
+- The README example ran from a clean install of it.
+- `npm view interpres version` is still E404, so there is no install line.
+
+**Voice Agent usage** (`scripts/usage.ts`): 262 sessions, all `completed`, 132.2 min, $9.91, 6.61% of
+the $150. That is 28 since 1d09616:
+- 18 A/B sessions, plus 3 from the stopped first start (`sess_0eaa7a38…` is the one cut off);
+- 2 public proofs;
+- 3 takes;
+- 2 N7 clip sessions.
+
+```
+$ npm test    ℹ tests 424  ℹ pass 424  ℹ fail 0
+```

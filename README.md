@@ -233,7 +233,7 @@ server are different.
 **Voice for intent, keyboard for identifiers, and nothing misheard gets executed.**
 
 Speech-to-text does not reliably carry a long identifier. Of every recorded attempt to speak
-a wallet address, **<!-- value:identifiers-exact -->12 of 22<!-- /value:identifiers-exact -->** came through exact
+a wallet address, **<!-- value:identifiers-exact -->13 of 23<!-- /value:identifiers-exact -->** came through exact
 ([docs/IDENTIFIERS.md](docs/IDENTIFIERS.md) lists each one, recounted from `data/` by
 `node scripts/spoken-identifiers.ts`). It fails in four ways:
 

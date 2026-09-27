@@ -1,7 +1,0 @@
-{
- "what": "Page copy changed after the takes in data/video/takes.json were captured (round G). The video shows the page as it was when captured; nothing inside a page frame is edited.",
- "changes": [
-  { "where": "the paste box's hint (apps/web/interpres-index.html)", "before": "Speech-to-text cannot carry long IDs: nothing it mishears is ever run.", "after": "Speech-to-text does not reliably carry long IDs, so nothing spoken is run until it is pasted." },
-  { "where": "the AFG preset card (apps/server/src/presets.ts)", "before": "15 tools, so find_tools has to swap the set. Test money only.", "after": "More than ten tools, so find_tools has to swap the set. Test money only.", "why": "the server now lists 18 tools" }
- ]
-}

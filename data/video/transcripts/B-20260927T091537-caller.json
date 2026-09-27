@@ -1,0 +1,24 @@
+{
+ "file": "video/captures/B-20260927T091537/stems/caller.wav",
+ "sha256": "cb9a9b92dbc87496fbc7dea65179a9fed24f9bc5b7f1852b01b6e88290eeb18c",
+ "id": "5dd91399-4cb7-42bc-8024-8afae9c6cbdb",
+ "speechModel": "universal-3-5-pro,universal-2",
+ "text": "Who recommends Sapiens?",
+ "words": [
+  {
+   "text": "Who",
+   "start": 21547,
+   "end": 21692
+  },
+  {
+   "text": "recommends",
+   "start": 21708,
+   "end": 22126
+  },
+  {
+   "text": "Sapiens?",
+   "start": 22126,
+   "end": 22687
+  }
+ ]
+}

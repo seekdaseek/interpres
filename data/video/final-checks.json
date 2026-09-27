@@ -1,6 +1,6 @@
 {
  "file": "video/out/interpres-demo.mp4",
- "sha256": "681ab05e547f734760f6c5f23d0882a06481ee972a1edfcbeda02c5d2c1e863b",
+ "sha256": "5b96af90f595290b7c01c802c59ff9e747ed7042b120b50569a88cc24d6f0c5f",
  "results": [
   {
    "check": "video: H.264 High",
@@ -45,17 +45,17 @@
   {
    "check": "duration and size",
    "ok": true,
-   "detail": "235.567 s, 31,839,453 bytes"
+   "detail": "232.107 s, 31,997,494 bytes"
   },
   {
    "check": "length 3:30 to 4:15 (hard cap 4:55)",
    "ok": true,
-   "detail": "3:55.6"
+   "detail": "3:52.1"
   },
   {
    "check": "size 300 MB or less",
    "ok": true,
-   "detail": "30.4 MB"
+   "detail": "30.5 MB"
   },
   {
    "check": "loudness -16 LUFS integrated +-1",
@@ -100,7 +100,7 @@
   {
    "check": "N6 word for word",
    "ok": true,
-   "detail": "ok (variants: interprete -> interpres, interprete -> interpres)"
+   "detail": "ok (variants: interpreze -> interpres, interpreze -> interpres)"
   },
   {
    "check": "N8 word for word",
@@ -137,47 +137,47 @@
  "silences": [
   {
    "start": 43818,
-   "end": 46707,
+   "end": 46834,
    "what": "A (live): clicks; Talk pressed: the page fetches a token, opens the session and waits for the greeting"
   },
   {
-   "start": 53053,
-   "end": 58194,
-   "what": "Q1: the voice-to-voice wait from the caller's last word to the agent's first (5179 ms), never cut | A (live): the tool call goji_explain_term runs"
+   "start": 54395,
+   "end": 58711,
+   "what": "Q1: the voice-to-voice wait from the caller's last word to the agent's first (4372 ms), never cut | A (live): the tool call goji_explain_term runs"
   },
   {
-   "start": 89943,
-   "end": 95094,
-   "what": "Q2: the voice-to-voice wait from the caller's last word to the agent's first (5280 ms), never cut | B (live): the tool call get_book_recommenders runs; punch-in on the get_book_recommenders call"
+   "start": 88045,
+   "end": 92799,
+   "what": "Q2: the voice-to-voice wait from the caller's last word to the agent's first (4846 ms), never cut | B (live): the tool call get_book_recommenders runs; punch-in on the get_book_recommenders call"
   },
   {
-   "start": 117668,
-   "end": 120679,
-   "what": "Q3: the voice-to-voice wait from the caller's last word to the agent's first (3104 ms), never cut | C1+C3 (live): the tool call find_tools runs; punch-in on find_tools and the swap"
+   "start": 115693,
+   "end": 118488,
+   "what": "Q3: the voice-to-voice wait from the caller's last word to the agent's first (2875 ms), never cut | C1+C3 (live): the tool call find_tools runs; punch-in on find_tools and the swap"
   },
   {
-   "start": 124992,
-   "end": 127499,
+   "start": 122947,
+   "end": 125466,
    "what": "C1+C3 (live): the page between spoken turns"
   },
   {
-   "start": 133297,
-   "end": 139923,
-   "what": "Q5: the voice-to-voice wait from the caller's last word to the agent's first (6758 ms), never cut | C1+C3 (live): the tool call find_tools runs; the tool call afg_get_reputation is held by the gate (no request); punch-in on needs_paste"
+   "start": 131263,
+   "end": 137082,
+   "what": "Q5: the voice-to-voice wait from the caller's last word to the agent's first (5949 ms), never cut | C1+C3 (live): the tool call find_tools runs; the tool call afg_get_reputation is held by the gate (no request); punch-in on needs_paste"
   },
   {
-   "start": 171360,
-   "end": 176910,
-   "what": "Q4: the voice-to-voice wait from the caller's last word to the agent's first (5683 ms), never cut | C2 (live): the tool call use_pasted_text runs; the tool call afg_get_reputation runs; punch-in on afg_get_reputation and its argument"
+   "start": 168282,
+   "end": 173934,
+   "what": "Q4: the voice-to-voice wait from the caller's last word to the agent's first (5780 ms), never cut | C2 (live): the tool call use_pasted_text runs; the tool call afg_get_reputation runs; punch-in on afg_get_reputation and its argument"
   },
   {
-   "start": 230421,
-   "end": 235563,
+   "start": 226956,
+   "end": 232107,
    "what": "the try slide and the end card"
   }
  ],
  "transcript": {
-  "id": "2b8e4bce-7936-4fca-a6a7-b21023652e6e",
+  "id": "d4a1d616-b8ff-440b-9a74-d27373098c0f",
   "speechModel": "universal-3-5-pro,universal-2"
  }
 }

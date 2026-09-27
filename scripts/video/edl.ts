@@ -497,7 +497,10 @@ export function build(opts: { only?: string } = {}): Edl {
     t = slideStart + 4000 + SCENE_XFADE;
     addNarration('N7', n7Out);
     // 9: the paste, then C2.
-    const p2: Plan = { name: 'C2', capture: c.name, from: n7.t + (t - SCENE_XFADE - n7Out), to: talkEnd.t + 700, cuts: [] };
+    // Round H: a take that reaches its End press scrolls to it first, 5 s of page action with
+    // no sound. End 0.7 s after the agent's last word, as scene B does, or at the End press if sooner.
+    const lastWordC2 = (agentIn(c, q4!.callerEndMs, talkEnd.t).at(-1)?.end ?? talkEnd.t) + 700;
+    const p2: Plan = { name: 'C2', capture: c.name, from: n7.t + (t - SCENE_XFADE - n7Out), to: Math.min(talkEnd.t + 700, lastWordC2), cuts: [] };
     const t4 = answerCut(c, q4!, talkEnd.t);
     if (t4) p2.cuts.push(t4);
     const L2 = live(p2, { narrationIds: [] });

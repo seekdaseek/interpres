@@ -1,0 +1,394 @@
+{
+ "file": "video/captures/C-20260927T091639/stems/agent.wav",
+ "sha256": "b3d56feee81cf2a69fbee8cc2a83fbe9f9cbfdc094f7b3b020e391bcb2783a33",
+ "id": "39433858-6267-4f32-b15b-066873ecffe5",
+ "speechModel": "universal-3-5-pro,universal-2",
+ "text": "Connected to AFG. Agent Fulfillment Guarantee, sandbox, test money only, with 18 tools available. What would you like to do? I can certainly help with that. Please provide the job contract you would like me to check. I may have misheard that value. Please paste it into the box under the talk button, and I will use exactly what you paste. That wallet has no recorded job outcomes yet, either as a provider or as a buyer.",
+ "words": [
+  {
+   "text": "Connected",
+   "start": 11833,
+   "end": 12315
+  },
+  {
+   "text": "to",
+   "start": 12315,
+   "end": 12459
+  },
+  {
+   "text": "AFG.",
+   "start": 12636,
+   "end": 12797
+  },
+  {
+   "text": "Agent",
+   "start": 13503,
+   "end": 13760
+  },
+  {
+   "text": "Fulfillment",
+   "start": 13760,
+   "end": 14306
+  },
+  {
+   "text": "Guarantee,",
+   "start": 14306,
+   "end": 14868
+  },
+  {
+   "text": "sandbox,",
+   "start": 15061,
+   "end": 15767
+  },
+  {
+   "text": "test",
+   "start": 15847,
+   "end": 16088
+  },
+  {
+   "text": "money",
+   "start": 16088,
+   "end": 16297
+  },
+  {
+   "text": "only,",
+   "start": 16393,
+   "end": 16570
+  },
+  {
+   "text": "with",
+   "start": 16891,
+   "end": 17116
+  },
+  {
+   "text": "18",
+   "start": 17196,
+   "end": 17501
+  },
+  {
+   "text": "tools",
+   "start": 17533,
+   "end": 17871
+  },
+  {
+   "text": "available.",
+   "start": 17871,
+   "end": 18320
+  },
+  {
+   "text": "What",
+   "start": 18738,
+   "end": 18850
+  },
+  {
+   "text": "would",
+   "start": 18882,
+   "end": 18962
+  },
+  {
+   "text": "you",
+   "start": 18962,
+   "end": 19059
+  },
+  {
+   "text": "like",
+   "start": 19059,
+   "end": 19219
+  },
+  {
+   "text": "to",
+   "start": 19219,
+   "end": 19316
+  },
+  {
+   "text": "do?",
+   "start": 19316,
+   "end": 19508
+  },
+  {
+   "text": "I",
+   "start": 26027,
+   "end": 26075
+  },
+  {
+   "text": "can",
+   "start": 26124,
+   "end": 26284
+  },
+  {
+   "text": "certainly",
+   "start": 26284,
+   "end": 26653
+  },
+  {
+   "text": "help",
+   "start": 26670,
+   "end": 26910
+  },
+  {
+   "text": "with",
+   "start": 26910,
+   "end": 27007
+  },
+  {
+   "text": "that.",
+   "start": 27007,
+   "end": 27344
+  },
+  {
+   "text": "Please",
+   "start": 27729,
+   "end": 27938
+  },
+  {
+   "text": "provide",
+   "start": 27986,
+   "end": 28307
+  },
+  {
+   "text": "the",
+   "start": 28307,
+   "end": 28436
+  },
+  {
+   "text": "job",
+   "start": 28436,
+   "end": 28612
+  },
+  {
+   "text": "contract",
+   "start": 28612,
+   "end": 29319
+  },
+  {
+   "text": "you",
+   "start": 29319,
+   "end": 29399
+  },
+  {
+   "text": "would",
+   "start": 29399,
+   "end": 29495
+  },
+  {
+   "text": "like",
+   "start": 29495,
+   "end": 29720
+  },
+  {
+   "text": "me",
+   "start": 29720,
+   "end": 29768
+  },
+  {
+   "text": "to",
+   "start": 29817,
+   "end": 29897
+  },
+  {
+   "text": "check.",
+   "start": 29897,
+   "end": 30202
+  },
+  {
+   "text": "I",
+   "start": 52842,
+   "end": 52874
+  },
+  {
+   "text": "may",
+   "start": 52874,
+   "end": 53099
+  },
+  {
+   "text": "have",
+   "start": 53099,
+   "end": 53307
+  },
+  {
+   "text": "misheard",
+   "start": 53323,
+   "end": 53725
+  },
+  {
+   "text": "that",
+   "start": 53725,
+   "end": 53853
+  },
+  {
+   "text": "value.",
+   "start": 53902,
+   "end": 54287
+  },
+  {
+   "text": "Please",
+   "start": 54464,
+   "end": 54672
+  },
+  {
+   "text": "paste",
+   "start": 54785,
+   "end": 55106
+  },
+  {
+   "text": "it",
+   "start": 55106,
+   "end": 55186
+  },
+  {
+   "text": "into",
+   "start": 55250,
+   "end": 55427
+  },
+  {
+   "text": "the",
+   "start": 55427,
+   "end": 55507
+  },
+  {
+   "text": "box",
+   "start": 55507,
+   "end": 55989
+  },
+  {
+   "text": "under",
+   "start": 55989,
+   "end": 56166
+  },
+  {
+   "text": "the",
+   "start": 56166,
+   "end": 56294
+  },
+  {
+   "text": "talk",
+   "start": 56294,
+   "end": 56535
+  },
+  {
+   "text": "button,",
+   "start": 56551,
+   "end": 56840
+  },
+  {
+   "text": "and",
+   "start": 57193,
+   "end": 57257
+  },
+  {
+   "text": "I",
+   "start": 57338,
+   "end": 57386
+  },
+  {
+   "text": "will",
+   "start": 57418,
+   "end": 57514
+  },
+  {
+   "text": "use",
+   "start": 57514,
+   "end": 57755
+  },
+  {
+   "text": "exactly",
+   "start": 57755,
+   "end": 58205
+  },
+  {
+   "text": "what",
+   "start": 58237,
+   "end": 58349
+  },
+  {
+   "text": "you",
+   "start": 58381,
+   "end": 58462
+  },
+  {
+   "text": "paste.",
+   "start": 58462,
+   "end": 58815
+  },
+  {
+   "text": "That",
+   "start": 89691,
+   "end": 89820
+  },
+  {
+   "text": "wallet",
+   "start": 89868,
+   "end": 90189
+  },
+  {
+   "text": "has",
+   "start": 90189,
+   "end": 90398
+  },
+  {
+   "text": "no",
+   "start": 90414,
+   "end": 90526
+  },
+  {
+   "text": "recorded",
+   "start": 90526,
+   "end": 90912
+  },
+  {
+   "text": "job",
+   "start": 90912,
+   "end": 91104
+  },
+  {
+   "text": "outcomes",
+   "start": 91217,
+   "end": 91602
+  },
+  {
+   "text": "yet,",
+   "start": 91618,
+   "end": 91875
+  },
+  {
+   "text": "either",
+   "start": 92036,
+   "end": 92244
+  },
+  {
+   "text": "as",
+   "start": 92261,
+   "end": 92357
+  },
+  {
+   "text": "a",
+   "start": 92357,
+   "end": 92373
+  },
+  {
+   "text": "provider",
+   "start": 92421,
+   "end": 92887
+  },
+  {
+   "text": "or",
+   "start": 93063,
+   "end": 93111
+  },
+  {
+   "text": "as",
+   "start": 93224,
+   "end": 93288
+  },
+  {
+   "text": "a",
+   "start": 93336,
+   "end": 93352
+  },
+  {
+   "text": "buyer.",
+   "start": 93401,
+   "end": 93770
+  }
+ ]
+}

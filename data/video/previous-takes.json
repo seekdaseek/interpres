@@ -1,0 +1,4 @@
+{
+ "what": "The takes the round G video used (3:55.6, sha256 681ab05e...), captured before round H, when interpres sent no transcription_mode: the API's default, balanced. Round H captured A, B and C again with min_latency.",
+ "takes": { "A": "A-20260926T215425", "B": "B-20260926T221242", "C": "C-20260927T064547" }
+}

@@ -2,11 +2,11 @@
 
 Every recorded attempt to speak a wallet address, from every source in `data/`, recounted by `scripts/spoken-identifiers.ts`. "Ran" is whether the address reached an MCP server: a misheard value ran in 5 of them, all from before the gate held spoken identifiers (decision D4).
 
-Exact: 12 of 22.
+Exact: 13 of 23.
 
 Misheard and reached a server: 5.
 
-The 12 exact hearings came from 1 distinct clip: michael's Q5 clip (sha256 9bd03d7469cc…), heard exactly in 1 video take and 5 rehearsals and 6 round H1 A/B sessions.
+The 13 exact hearings came from 1 distinct clip: michael's Q5 clip (sha256 9bd03d7469cc…), heard exactly in 2 video takes and 5 rehearsals and 6 round H1 A/B sessions.
 
 | source | session | spoken | heard | exact | ran |
 | --- | --- | --- | --- | --- | --- |
@@ -20,6 +20,7 @@ The 12 exact hearings came from 1 distinct clip: michael's Q5 clip (sha256 9bd03
 | qa-public-round-e.json (desktop) | `sess_144a98f5fd3f434f94f2d1628f21d984` | `0x5aaeb605…1beaed` (42) | `0x5aeb6053…f1b8ed` (40) | no | nothing ran |
 | qa-public-round-e.json (mobile375) | `sess_ee5881f4b8074acdabe6137482a8327b` | `0x5aaeb605…1beaed` (42) | `0x5aeb6053…f1b8ed` (40) | no | nothing ran |
 | video/capture-C-20260927T064547.json | `sess_3fcf411e656145b0a5b487036ce05e38` | `0x5aaeb605…1beaed` (42) | `0x5aaeb605…1beaed` (42) | yes | nothing ran |
+| video/capture-C-20260927T091639.json | `sess_bad159e000e9412ba713b9dfb8389cf2` | `0x5aaeb605…1beaed` (42) | `0x5aaeb605…1beaed` (42) | yes | nothing ran |
 | video/rehearsals-c.json (brief) | `sess_7207e8d4878241fca8de881aaad6b9f9` | `0x5aaeb605…1beaed` (42) | `0x5aaeb605…1beaed` (42) | yes | nothing ran |
 | video/rehearsals-c.json (brief) | `sess_5d116e8491ce41f894d2dd99061aed65` | `0x5aaeb605…1beaed` (42) | `0x5aaeb605…1beaed` (42) | yes | ran with the spoken value |
 | video/rehearsals-c.json (brief) | `sess_01ca2a290e594b2981fd9b60e845a6ae` | `0x5aaeb605…1beaed` (42) | `0x5aaeb605…1beaed` (42) | yes | ran with the spoken value |
@@ -47,4 +48,5 @@ The 12 exact hearings came from 1 distinct clip: michael's Q5 clip (sha256 9bd03
 | `sweep-2026-09-26T1252Z-recheck-summary.json` | an address inside a registry server description; nothing was spoken |
 | `video/caller-gate.json` | the F2a hearing gate: its only address was pasted for Q4, not spoken |
 | `video/transcripts/C-20260927T064547-caller.json` | a capture stem transcript; that take is counted from its capture log |
+| `video/transcripts/C-20260927T091639-caller.json` | a capture stem transcript; that take is counted from its capture log |
 | `video/voices.json` | the caller clip texts themselves; the sessions that spoke them are counted |

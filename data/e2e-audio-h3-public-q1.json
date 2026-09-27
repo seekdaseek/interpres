@@ -1,0 +1,105 @@
+{
+  "at": "2026-09-27T09:12:51.940Z",
+  "voice": "Samantha",
+  "carry": true,
+  "results": [
+    {
+      "url": "https://mcp.goji.agency/mcp",
+      "sessionId": "sess_2fbef92d81ad4717ae40c62671a3e5fc",
+      "turns": [
+        {
+          "said": "What is SEO in plain English?",
+          "heard": [
+            "What is SEO in plain English?"
+          ],
+          "calls": [
+            {
+              "callId": "chatcmpl-tool-9b0ff9f461464d7a",
+              "name": "goji_explain_term",
+              "arguments": {
+                "term": "SEO"
+              },
+              "callAt": 1790500353897,
+              "transitionReply": 0,
+              "mcpName": "goji_explain_term",
+              "normalisersApplied": [],
+              "rawChars": 1480,
+              "spokenChars": 508,
+              "spoken": "# SEO (Search Engine Optimisation) SEO is the work of making your website the result search engines choose to show: through content that answers what people search for, a site engines can read easily, and a reputation other sites corroborate. It remains the entry ticket to every search-shaped surface, including the AI ones. ## Why it matters Search is still where buying journeys start, and the habit compounds: pages that earn positions keep paying for years, unlike ads that stop the day the budget does.",
+              "method": "truncated",
+              "refine": "not_needed",
+              "refineMs": 0,
+              "mcpMs": 567,
+              "isError": false,
+              "readyAt": 1790500354578,
+              "execMs": 679,
+              "sentAt": 1790500354579,
+              "answerReply": 1,
+              "transitionDoneAt": 1790500354210,
+              "agentWaitMs": 369,
+              "transitionAudioMs": 0,
+              "silenceOnUsMs": 682
+            }
+          ],
+          "agentReply": "SEO is the work of making your website the result that search engines choose to show. This is done by creating content that answers what people are searching for, making your site easy for engines to read, and building a reputation that other sites back up. You can find more at goji dot agency.",
+          "interrupted": false,
+          "startedAt": 1790500350579,
+          "speechEndAt": 1790500352179,
+          "firstAudioAt": 1790500355452,
+          "voiceToVoiceMs": 3273,
+          "idleAt": 1790500370419,
+          "ms": 19840,
+          "timeToAnswerMs": 3272
+        }
+      ],
+      "events": {
+        "session.updated": 1,
+        "session.ready": 1,
+        "input.speech.started": 1,
+        "transcript.user.delta": 2,
+        "input.speech.stopped": 1,
+        "transcript.user": 1,
+        "reply.started": 2,
+        "tool.call": 1,
+        "reply.done": 2,
+        "reply.audio": 1500,
+        "transcript.agent.delta": 54,
+        "transcript.agent": 1,
+        "session.ended": 1
+      },
+      "failures": [],
+      "audio": {
+        "chunksSent": 526,
+        "reanchors": 0
+      },
+      "shaper": {
+        "calls": 0,
+        "used": 0,
+        "failures": 0,
+        "rateLimited": 0,
+        "timeouts": 0,
+        "totalMs": 0
+      },
+      "replies": [
+        {
+          "startedAt": 1790500353309,
+          "audioMs": 0,
+          "doneAt": 1790500354210
+        },
+        {
+          "startedAt": 1790500354644,
+          "firstAudioAt": 1790500355451,
+          "audioMs": 15000,
+          "doneAt": 1790500370409
+        }
+      ],
+      "ended": {
+        "session_duration_seconds": 21.496437,
+        "type": "session.ended",
+        "timestamp": 1790500371.4231257,
+        "audio_duration_seconds": null
+      },
+      "ok": true
+    }
+  ]
+}

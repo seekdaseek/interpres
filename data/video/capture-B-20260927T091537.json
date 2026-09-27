@@ -1,0 +1,3035 @@
+{
+ "capture": "B-20260927T091537",
+ "scene": "B",
+ "sessionId": "sess_37d290ae5e8f431d9f6e4b1d10d6280e",
+ "t0": 1790500540009.24,
+ "lengthMs": 40816,
+ "frames": 1043,
+ "frameSize": "2176x1170 px",
+ "clockFits": {
+  "0": {
+   "samples": 161,
+   "driftPpm": -12,
+   "maxResidualMs": 0.09
+  },
+  "1": {
+   "samples": 89,
+   "driftPpm": 41,
+   "maxResidualMs": 16.65
+  },
+  "2": {
+   "samples": 88,
+   "driftPpm": -12,
+   "maxResidualMs": 0.08
+  }
+ },
+ "stems": {
+  "caller": "recorded at 24000 Hz in the harness context, upsampled to 48000 Hz, 41.8 s",
+  "agent": "recorded at 24000 Hz in the page's context, upsampled to 48000 Hz",
+  "pagemic": "the page's mic input, recorded at 24000 Hz, evidence only"
+ },
+ "pageMicFidelity": [
+  {
+   "id": "Q2",
+   "windows": 3,
+   "bitExactWindows": 3,
+   "slips": [],
+   "worstWindowSnrDb": 999
+  }
+ ],
+ "latency": [
+  {
+   "id": "Q2",
+   "steps": {
+    "callerLastWord": 0,
+    "apiEndOfTurn": 1210,
+    "transcriptFinal": 1210,
+    "tools": [
+     {
+      "name": "get_book_recommenders",
+      "heldByGate": false,
+      "toolCallAt": 3278,
+      "fetchMs": 748,
+      "serverMs": 687,
+      "networkMs": 61,
+      "mcpMs": 684,
+      "refine": "circuit_open",
+      "refineMs": 0,
+      "method": "local",
+      "serverTimingsFrom": "the page (the /api/mcp/call response)",
+      "resultSentAt": 4031
+     }
+    ],
+    "lastToolResultSent": 4031,
+    "firstReplyAudioReceived": 4631,
+    "answerAudioReceived": 4631,
+    "firstAudioPlayed": 4846
+   },
+   "clipTrailingSilenceMs": 477,
+   "e2eStyleMs": 4155,
+   "playoutMs": 215,
+   "videoMs": 4846
+  }
+ ],
+ "sync": [
+  {
+   "label": "start",
+   "flashMs": 1750.590087890625,
+   "beepMs": 1750.1875,
+   "offsetMs": -0.4,
+   "ok": true
+  },
+  {
+   "label": "end",
+   "flashMs": 39257.947021484375,
+   "beepMs": 39253.8125,
+   "offsetMs": -4.1,
+   "ok": true
+  }
+ ],
+ "exchanges": [
+  {
+   "id": "Q2",
+   "callerStartMs": 21502.1875,
+   "callerEndMs": 22718.666748046875,
+   "agentStartMs": 27564.583333333332,
+   "voiceToVoiceMs": 4846,
+   "heard": "Who recommends Sapiens?"
+  }
+ ],
+ "consoleErrors": [],
+ "checks": [
+  {
+   "check": "the first result is Most Recommended Books",
+   "ok": true,
+   "detail": "Most Recommended Booksmostrecommendedbooks.com · 6 toolsRead-only MCP server for"
+  },
+  {
+   "check": "it connects",
+   "ok": true,
+   "detail": "most-recommended-books"
+  },
+  {
+   "check": "Q2 heard as said",
+   "ok": true,
+   "detail": "heard \"Who recommends Sapiens?\""
+  },
+  {
+   "check": "get_book_recommenders succeeds",
+   "ok": true,
+   "detail": "1 call(s); /api/mcp/call 200"
+  },
+  {
+   "check": "Q2: the agent answers",
+   "ok": true,
+   "detail": "Sapiens is recommended by thirty-two verified people, including Joe Rogan and Lex Fridman."
+  },
+  {
+   "check": "no console errors",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "check": "sync within one frame",
+   "ok": true,
+   "detail": ""
+  }
+ ],
+ "spokenAddresses": [],
+ "log": [
+  {
+   "t": -690,
+   "type": "fetch.start",
+   "id": "fy4nul",
+   "path": "/api/presets"
+  },
+  {
+   "t": -683,
+   "type": "url",
+   "href": "https://interpres.ochinimus.app/"
+  },
+  {
+   "t": -652,
+   "type": "dom.hint",
+   "v": {
+    "shown": false,
+    "text": "",
+    "rect": {
+     "x": 0,
+     "y": 0,
+     "w": 0,
+     "h": 0
+    },
+    "font": "12.5px"
+   }
+  },
+  {
+   "t": -652,
+   "type": "dom.calls",
+   "v": []
+  },
+  {
+   "t": -652,
+   "type": "dom.gate",
+   "v": {
+    "shown": false,
+    "kindText": "",
+    "tool": "",
+    "value": "",
+    "say": "",
+    "rect": {
+     "x": 0,
+     "y": 0,
+     "w": 0,
+     "h": 0
+    }
+   }
+  },
+  {
+   "t": -652,
+   "type": "dom.chips",
+   "v": {
+    "chips": [],
+    "rect": {
+     "x": 0,
+     "y": 0,
+     "w": 0,
+     "h": 0
+    }
+   }
+  },
+  {
+   "t": -651,
+   "type": "dom.lines",
+   "v": []
+  },
+  {
+   "t": -651,
+   "type": "dom.ui",
+   "v": {
+    "status": "Press to talk",
+    "server": "",
+    "connect": "Connect",
+    "sample": "",
+    "paste": "",
+    "scrollY": 0,
+    "results": []
+   }
+  },
+  {
+   "t": -625,
+   "type": "fetch.done",
+   "id": "fy4nul",
+   "path": "/api/presets",
+   "status": 200,
+   "ms": 65
+  },
+  {
+   "t": 279,
+   "type": "audio.recorder",
+   "ctx": 0,
+   "stem": "caller",
+   "rate": 24000
+  },
+  {
+   "t": 592,
+   "type": "capture.start",
+   "scene": "B",
+   "dry": false,
+   "ready": {
+    "state": "running",
+    "rate": 24000,
+    "waitedMs": 307
+   },
+   "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.0.0 Safari/537.36"
+  },
+  {
+   "t": 595,
+   "type": "clock.node",
+   "nodeMid": 1790500540603.5,
+   "roundTripMs": 1
+  },
+  {
+   "t": 600,
+   "type": "clip.loaded",
+   "id": "Q1",
+   "voice": "michael",
+   "sha256": "0ee22445f1969b19ae4d9b8e61a70b0b4d5cee791291545ff2928012697e5aa5",
+   "ms": 2290
+  },
+  {
+   "t": 613,
+   "type": "clip.loaded",
+   "id": "Q2",
+   "voice": "michael",
+   "sha256": "c6df75b263c388e8fcc62e208483f83b752365d5df531b3949b5ec8ecaf7932a",
+   "ms": 1960
+  },
+  {
+   "t": 619,
+   "type": "clip.loaded",
+   "id": "Q3",
+   "voice": "michael",
+   "sha256": "23c4977f5f8defc80a72776b8c7bbcc3e8f2c77d4dec10c8f8540f86142e7174",
+   "ms": 2690
+  },
+  {
+   "t": 626,
+   "type": "clip.loaded",
+   "id": "Q4",
+   "voice": "michael",
+   "sha256": "82bce38c71f5127e08451ebe1207bd0198abe4069791d690890adf01000ce53f",
+   "ms": 2730
+  },
+  {
+   "t": 633,
+   "type": "clip.loaded",
+   "id": "Q5",
+   "voice": "michael",
+   "sha256": "9bd03d7469cc072b4282929007a677ad32c30252728f3bd76656a73395b624ab",
+   "ms": 14490
+  },
+  {
+   "t": 1471,
+   "type": "sync.beep",
+   "label": "start",
+   "ctx": 0,
+   "contextTime": 1.386,
+   "heardAt": 1790500541759.3774
+  },
+  {
+   "t": 1740,
+   "type": "sync.flash.on",
+   "label": "start"
+  },
+  {
+   "t": 1760,
+   "type": "sync.flash.off",
+   "label": "start"
+  },
+  {
+   "t": 4367,
+   "type": "narration",
+   "id": "N5",
+   "ms": 7890
+  },
+  {
+   "t": 5488,
+   "type": "scroll",
+   "y": 280
+  },
+  {
+   "t": 5520,
+   "type": "dom.ui",
+   "v": {
+    "status": "Press to talk",
+    "server": "",
+    "connect": "Connect",
+    "sample": "",
+    "paste": "",
+    "scrollY": 280,
+    "results": []
+   }
+  },
+  {
+   "t": 5713,
+   "type": "harness.scrolled",
+   "selector": "#registry",
+   "y": 280
+  },
+  {
+   "t": 5776,
+   "type": "mouse",
+   "x": 674,
+   "y": 321
+  },
+  {
+   "t": 5793,
+   "type": "mouse",
+   "x": 673,
+   "y": 321
+  },
+  {
+   "t": 5809,
+   "type": "mouse",
+   "x": 672,
+   "y": 321
+  },
+  {
+   "t": 5826,
+   "type": "mouse",
+   "x": 670,
+   "y": 322
+  },
+  {
+   "t": 5843,
+   "type": "mouse",
+   "x": 667,
+   "y": 322
+  },
+  {
+   "t": 5859,
+   "type": "mouse",
+   "x": 664,
+   "y": 322
+  },
+  {
+   "t": 5877,
+   "type": "mouse",
+   "x": 660,
+   "y": 322
+  },
+  {
+   "t": 5894,
+   "type": "mouse",
+   "x": 656,
+   "y": 323
+  },
+  {
+   "t": 5912,
+   "type": "mouse",
+   "x": 651,
+   "y": 323
+  },
+  {
+   "t": 5928,
+   "type": "mouse",
+   "x": 646,
+   "y": 323
+  },
+  {
+   "t": 5946,
+   "type": "mouse",
+   "x": 640,
+   "y": 324
+  },
+  {
+   "t": 5964,
+   "type": "mouse",
+   "x": 634,
+   "y": 324
+  },
+  {
+   "t": 5981,
+   "type": "mouse",
+   "x": 627,
+   "y": 325
+  },
+  {
+   "t": 5997,
+   "type": "mouse",
+   "x": 619,
+   "y": 325
+  },
+  {
+   "t": 6015,
+   "type": "mouse",
+   "x": 611,
+   "y": 326
+  },
+  {
+   "t": 6033,
+   "type": "mouse",
+   "x": 603,
+   "y": 326
+  },
+  {
+   "t": 6051,
+   "type": "mouse",
+   "x": 593,
+   "y": 327
+  },
+  {
+   "t": 6070,
+   "type": "mouse",
+   "x": 584,
+   "y": 328
+  },
+  {
+   "t": 6089,
+   "type": "mouse",
+   "x": 573,
+   "y": 328
+  },
+  {
+   "t": 6109,
+   "type": "mouse",
+   "x": 562,
+   "y": 329
+  },
+  {
+   "t": 6139,
+   "type": "mouse",
+   "x": 551,
+   "y": 330
+  },
+  {
+   "t": 6159,
+   "type": "mouse",
+   "x": 539,
+   "y": 331
+  },
+  {
+   "t": 6193,
+   "type": "mouse",
+   "x": 527,
+   "y": 332
+  },
+  {
+   "t": 6212,
+   "type": "mouse",
+   "x": 515,
+   "y": 333
+  },
+  {
+   "t": 6230,
+   "type": "mouse",
+   "x": 504,
+   "y": 333
+  },
+  {
+   "t": 6247,
+   "type": "mouse",
+   "x": 494,
+   "y": 334
+  },
+  {
+   "t": 6267,
+   "type": "mouse",
+   "x": 484,
+   "y": 335
+  },
+  {
+   "t": 6287,
+   "type": "mouse",
+   "x": 475,
+   "y": 335
+  },
+  {
+   "t": 6306,
+   "type": "mouse",
+   "x": 466,
+   "y": 336
+  },
+  {
+   "t": 6343,
+   "type": "mouse",
+   "x": 458,
+   "y": 337
+  },
+  {
+   "t": 6363,
+   "type": "mouse",
+   "x": 451,
+   "y": 337
+  },
+  {
+   "t": 6382,
+   "type": "mouse",
+   "x": 444,
+   "y": 338
+  },
+  {
+   "t": 6398,
+   "type": "mouse",
+   "x": 437,
+   "y": 338
+  },
+  {
+   "t": 6415,
+   "type": "mouse",
+   "x": 431,
+   "y": 339
+  },
+  {
+   "t": 6431,
+   "type": "mouse",
+   "x": 426,
+   "y": 339
+  },
+  {
+   "t": 6448,
+   "type": "mouse",
+   "x": 421,
+   "y": 339
+  },
+  {
+   "t": 6464,
+   "type": "mouse",
+   "x": 417,
+   "y": 340
+  },
+  {
+   "t": 6480,
+   "type": "mouse",
+   "x": 414,
+   "y": 340
+  },
+  {
+   "t": 6498,
+   "type": "mouse",
+   "x": 410,
+   "y": 340
+  },
+  {
+   "t": 6515,
+   "type": "mouse",
+   "x": 408,
+   "y": 340
+  },
+  {
+   "t": 6532,
+   "type": "mouse",
+   "x": 406,
+   "y": 340
+  },
+  {
+   "t": 6550,
+   "type": "mouse",
+   "x": 405,
+   "y": 341
+  },
+  {
+   "t": 6567,
+   "type": "mouse",
+   "x": 404,
+   "y": 341
+  },
+  {
+   "t": 6586,
+   "type": "mouse",
+   "x": 404,
+   "y": 341
+  },
+  {
+   "t": 6728,
+   "type": "mousedown",
+   "x": 404,
+   "y": 341
+  },
+  {
+   "t": 6805,
+   "type": "mouseup",
+   "x": 404,
+   "y": 341
+  },
+  {
+   "t": 6959,
+   "type": "key",
+   "key": "b",
+   "meta": false,
+   "ctrl": false
+  },
+  {
+   "t": 7117,
+   "type": "key",
+   "key": "o",
+   "meta": false,
+   "ctrl": false
+  },
+  {
+   "t": 7217,
+   "type": "key",
+   "key": "o",
+   "meta": false,
+   "ctrl": false
+  },
+  {
+   "t": 7309,
+   "type": "key",
+   "key": "k",
+   "meta": false,
+   "ctrl": false
+  },
+  {
+   "t": 7420,
+   "type": "key",
+   "key": "s",
+   "meta": false,
+   "ctrl": false
+  },
+  {
+   "t": 7673,
+   "type": "fetch.start",
+   "id": "ioyvzn",
+   "path": "/api/registry/search",
+   "query": "?q=books"
+  },
+  {
+   "t": 7753,
+   "type": "fetch.done",
+   "id": "ioyvzn",
+   "path": "/api/registry/search",
+   "status": 200,
+   "ms": 80
+  },
+  {
+   "t": 7878,
+   "type": "dom.ui",
+   "v": {
+    "status": "Press to talk",
+    "server": "",
+    "connect": "Connect",
+    "sample": "",
+    "paste": "",
+    "scrollY": 280,
+    "results": [
+     {
+      "text": "Most Recommended Booksmostrecommendedbooks.com · 6 toolsRead-only MCP server for",
+      "rect": {
+       "x": 24,
+       "y": 399.1015625,
+       "w": 294.6640625,
+       "h": 103.9453125
+      }
+     },
+     {
+      "text": "无名图书 wuming-bookswww.book345.com · 6 toolsSearch Chinese books with Douban ratin",
+      "rect": {
+       "x": 326.6640625,
+       "y": 399.1015625,
+       "w": 294.6640625,
+       "h": 122.0703125
+      }
+     },
+     {
+      "text": "On-Demand-Bookson-demand-books-dq2yvpdh.fermyon.app · 3 toolsFind personalized p",
+      "rect": {
+       "x": 629.328125,
+       "y": 399.1015625,
+       "w": 294.6640625,
+       "h": 121.9453125
+      }
+     }
+    ]
+   }
+  },
+  {
+   "t": 8822,
+   "type": "mouse",
+   "x": 403,
+   "y": 341
+  },
+  {
+   "t": 8840,
+   "type": "mouse",
+   "x": 403,
+   "y": 341
+  },
+  {
+   "t": 8856,
+   "type": "mouse",
+   "x": 401,
+   "y": 342
+  },
+  {
+   "t": 8874,
+   "type": "mouse",
+   "x": 400,
+   "y": 342
+  },
+  {
+   "t": 8891,
+   "type": "mouse",
+   "x": 397,
+   "y": 343
+  },
+  {
+   "t": 8908,
+   "type": "mouse",
+   "x": 395,
+   "y": 345
+  },
+  {
+   "t": 8926,
+   "type": "mouse",
+   "x": 392,
+   "y": 346
+  },
+  {
+   "t": 8942,
+   "type": "mouse",
+   "x": 388,
+   "y": 348
+  },
+  {
+   "t": 8959,
+   "type": "mouse",
+   "x": 384,
+   "y": 350
+  },
+  {
+   "t": 8976,
+   "type": "mouse",
+   "x": 379,
+   "y": 352
+  },
+  {
+   "t": 8993,
+   "type": "mouse",
+   "x": 374,
+   "y": 354
+  },
+  {
+   "t": 9011,
+   "type": "mouse",
+   "x": 369,
+   "y": 357
+  },
+  {
+   "t": 9027,
+   "type": "mouse",
+   "x": 363,
+   "y": 360
+  },
+  {
+   "t": 9046,
+   "type": "mouse",
+   "x": 356,
+   "y": 363
+  },
+  {
+   "t": 9062,
+   "type": "mouse",
+   "x": 349,
+   "y": 366
+  },
+  {
+   "t": 9082,
+   "type": "mouse",
+   "x": 342,
+   "y": 370
+  },
+  {
+   "t": 9099,
+   "type": "mouse",
+   "x": 334,
+   "y": 373
+  },
+  {
+   "t": 9118,
+   "type": "mouse",
+   "x": 326,
+   "y": 377
+  },
+  {
+   "t": 9134,
+   "type": "mouse",
+   "x": 317,
+   "y": 382
+  },
+  {
+   "t": 9152,
+   "type": "mouse",
+   "x": 307,
+   "y": 386
+  },
+  {
+   "t": 9171,
+   "type": "mouse",
+   "x": 298,
+   "y": 391
+  },
+  {
+   "t": 9192,
+   "type": "mouse",
+   "x": 287,
+   "y": 396
+  },
+  {
+   "t": 9212,
+   "type": "mouse",
+   "x": 277,
+   "y": 400
+  },
+  {
+   "t": 9230,
+   "type": "mouse",
+   "x": 267,
+   "y": 405
+  },
+  {
+   "t": 9247,
+   "type": "mouse",
+   "x": 258,
+   "y": 410
+  },
+  {
+   "t": 9263,
+   "type": "mouse",
+   "x": 249,
+   "y": 414
+  },
+  {
+   "t": 9281,
+   "type": "mouse",
+   "x": 240,
+   "y": 418
+  },
+  {
+   "t": 9298,
+   "type": "mouse",
+   "x": 232,
+   "y": 421
+  },
+  {
+   "t": 9315,
+   "type": "mouse",
+   "x": 225,
+   "y": 425
+  },
+  {
+   "t": 9330,
+   "type": "mouse",
+   "x": 218,
+   "y": 428
+  },
+  {
+   "t": 9348,
+   "type": "mouse",
+   "x": 211,
+   "y": 431
+  },
+  {
+   "t": 9366,
+   "type": "mouse",
+   "x": 205,
+   "y": 434
+  },
+  {
+   "t": 9384,
+   "type": "mouse",
+   "x": 200,
+   "y": 437
+  },
+  {
+   "t": 9403,
+   "type": "mouse",
+   "x": 195,
+   "y": 439
+  },
+  {
+   "t": 9420,
+   "type": "mouse",
+   "x": 190,
+   "y": 441
+  },
+  {
+   "t": 9442,
+   "type": "mouse",
+   "x": 186,
+   "y": 443
+  },
+  {
+   "t": 9459,
+   "type": "mouse",
+   "x": 183,
+   "y": 445
+  },
+  {
+   "t": 9476,
+   "type": "mouse",
+   "x": 179,
+   "y": 446
+  },
+  {
+   "t": 9494,
+   "type": "mouse",
+   "x": 177,
+   "y": 448
+  },
+  {
+   "t": 9511,
+   "type": "mouse",
+   "x": 175,
+   "y": 449
+  },
+  {
+   "t": 9527,
+   "type": "mouse",
+   "x": 173,
+   "y": 450
+  },
+  {
+   "t": 9544,
+   "type": "mouse",
+   "x": 172,
+   "y": 450
+  },
+  {
+   "t": 9562,
+   "type": "mouse",
+   "x": 171,
+   "y": 450
+  },
+  {
+   "t": 9579,
+   "type": "mouse",
+   "x": 171,
+   "y": 451
+  },
+  {
+   "t": 9721,
+   "type": "mousedown",
+   "x": 171,
+   "y": 451
+  },
+  {
+   "t": 9799,
+   "type": "mouseup",
+   "x": 171,
+   "y": 451
+  },
+  {
+   "t": 9803,
+   "type": "fetch.start",
+   "id": "xi1l6w",
+   "path": "/api/mcp/connect",
+   "body": {
+    "url": "https://mostrecommendedbooks.com/api/mcp"
+   }
+  },
+  {
+   "t": 9835,
+   "type": "dom.ui",
+   "v": {
+    "status": "Press to talk",
+    "server": "",
+    "connect": "Connecting…",
+    "sample": "",
+    "paste": "",
+    "scrollY": 280,
+    "results": [
+     {
+      "text": "Most Recommended Booksmostrecommendedbooks.com · 6 toolsRead-only MCP server for",
+      "rect": {
+       "x": 24,
+       "y": 399.1015625,
+       "w": 294.6640625,
+       "h": 103.9453125
+      }
+     },
+     {
+      "text": "无名图书 wuming-bookswww.book345.com · 6 toolsSearch Chinese books with Douban ratin",
+      "rect": {
+       "x": 326.6640625,
+       "y": 399.1015625,
+       "w": 294.6640625,
+       "h": 122.0703125
+      }
+     },
+     {
+      "text": "On-Demand-Bookson-demand-books-dq2yvpdh.fermyon.app · 3 toolsFind personalized p",
+      "rect": {
+       "x": 629.328125,
+       "y": 399.1015625,
+       "w": 294.6640625,
+       "h": 121.9453125
+      }
+     }
+    ]
+   }
+  },
+  {
+   "t": 9868,
+   "type": "fetch.done",
+   "id": "xi1l6w",
+   "path": "/api/mcp/connect",
+   "status": 200,
+   "ms": 66
+  },
+  {
+   "t": 9881,
+   "type": "fetch.start",
+   "id": "vhem55",
+   "path": "/api/mcp/starters"
+  },
+  {
+   "t": 9881,
+   "type": "url",
+   "href": "https://interpres.ochinimus.app/?url=https%3A%2F%2Fmostrecommendedbooks.com%2Fapi%2Fmcp"
+  },
+  {
+   "t": 9912,
+   "type": "dom.chips",
+   "v": {
+    "chips": [
+     {
+      "name": "use_pasted_text",
+      "isNew": false
+     },
+     {
+      "name": "search_books",
+      "isNew": false
+     },
+     {
+      "name": "get_person_recommendations",
+      "isNew": false
+     },
+     {
+      "name": "get_book_recommenders",
+      "isNew": false
+     },
+     {
+      "name": "get_series_reading_order",
+      "isNew": false
+     },
+     {
+      "name": "get_list",
+      "isNew": false
+     },
+     {
+      "name": "get_summary",
+      "isNew": false
+     }
+    ],
+    "rect": {
+     "x": 41,
+     "y": 679.2578125,
+     "w": 514.7890625,
+     "h": 94.5
+    }
+   }
+  },
+  {
+   "t": 9913,
+   "type": "dom.ui",
+   "v": {
+    "status": "Press to talk",
+    "server": "most-recommended-books",
+    "connect": "Connect",
+    "sample": "",
+    "paste": "",
+    "scrollY": 1320,
+    "results": [
+     {
+      "text": "Most Recommended Booksmostrecommendedbooks.com · 6 toolsRead-only MCP server for",
+      "rect": {
+       "x": 24,
+       "y": -640.8984375,
+       "w": 294.6640625,
+       "h": 103.9453125
+      }
+     },
+     {
+      "text": "无名图书 wuming-bookswww.book345.com · 6 toolsSearch Chinese books with Douban ratin",
+      "rect": {
+       "x": 326.6640625,
+       "y": -640.8984375,
+       "w": 294.6640625,
+       "h": 122.0703125
+      }
+     },
+     {
+      "text": "On-Demand-Bookson-demand-books-dq2yvpdh.fermyon.app · 3 toolsFind personalized p",
+      "rect": {
+       "x": 629.328125,
+       "y": -640.8984375,
+       "w": 294.6640625,
+       "h": 121.9453125
+      }
+     }
+    ]
+   }
+  },
+  {
+   "t": 9947,
+   "type": "scroll",
+   "y": 1320
+  },
+  {
+   "t": 10692,
+   "type": "fetch.done",
+   "id": "vhem55",
+   "path": "/api/mcp/starters",
+   "status": 200,
+   "ms": 811
+  },
+  {
+   "t": 10725,
+   "type": "dom.chips",
+   "v": {
+    "chips": [
+     {
+      "name": "use_pasted_text",
+      "isNew": false
+     },
+     {
+      "name": "search_books",
+      "isNew": false
+     },
+     {
+      "name": "get_person_recommendations",
+      "isNew": false
+     },
+     {
+      "name": "get_book_recommenders",
+      "isNew": false
+     },
+     {
+      "name": "get_series_reading_order",
+      "isNew": false
+     },
+     {
+      "name": "get_list",
+      "isNew": false
+     },
+     {
+      "name": "get_summary",
+      "isNew": false
+     }
+    ],
+    "rect": {
+     "x": 41,
+     "y": 722.1796875,
+     "w": 514.7890625,
+     "h": 94.5
+    }
+   }
+  },
+  {
+   "t": 12088,
+   "type": "scroll",
+   "y": 1574
+  },
+  {
+   "t": 12120,
+   "type": "dom.chips",
+   "v": {
+    "chips": [
+     {
+      "name": "use_pasted_text",
+      "isNew": false
+     },
+     {
+      "name": "search_books",
+      "isNew": false
+     },
+     {
+      "name": "get_person_recommendations",
+      "isNew": false
+     },
+     {
+      "name": "get_book_recommenders",
+      "isNew": false
+     },
+     {
+      "name": "get_series_reading_order",
+      "isNew": false
+     },
+     {
+      "name": "get_list",
+      "isNew": false
+     },
+     {
+      "name": "get_summary",
+      "isNew": false
+     }
+    ],
+    "rect": {
+     "x": 41,
+     "y": 468.1796875,
+     "w": 514.7890625,
+     "h": 94.5
+    }
+   }
+  },
+  {
+   "t": 12120,
+   "type": "dom.ui",
+   "v": {
+    "status": "Press to talk",
+    "server": "most-recommended-books",
+    "connect": "Connect",
+    "sample": "",
+    "paste": "",
+    "scrollY": 1574,
+    "results": [
+     {
+      "text": "Most Recommended Booksmostrecommendedbooks.com · 6 toolsRead-only MCP server for",
+      "rect": {
+       "x": 24,
+       "y": -894.8984375,
+       "w": 294.6640625,
+       "h": 103.9453125
+      }
+     },
+     {
+      "text": "无名图书 wuming-bookswww.book345.com · 6 toolsSearch Chinese books with Douban ratin",
+      "rect": {
+       "x": 326.6640625,
+       "y": -894.8984375,
+       "w": 294.6640625,
+       "h": 122.0703125
+      }
+     },
+     {
+      "text": "On-Demand-Bookson-demand-books-dq2yvpdh.fermyon.app · 3 toolsFind personalized p",
+      "rect": {
+       "x": 629.328125,
+       "y": -894.8984375,
+       "w": 294.6640625,
+       "h": 121.9453125
+      }
+     }
+    ]
+   }
+  },
+  {
+   "t": 12310,
+   "type": "harness.scrolled",
+   "selector": "#talk",
+   "y": 1574
+  },
+  {
+   "t": 12320,
+   "type": "mouse",
+   "x": 171,
+   "y": 450
+  },
+  {
+   "t": 12337,
+   "type": "mouse",
+   "x": 170,
+   "y": 449
+  },
+  {
+   "t": 12355,
+   "type": "mouse",
+   "x": 170,
+   "y": 447
+  },
+  {
+   "t": 12372,
+   "type": "mouse",
+   "x": 169,
+   "y": 444
+  },
+  {
+   "t": 12391,
+   "type": "mouse",
+   "x": 169,
+   "y": 441
+  },
+  {
+   "t": 12409,
+   "type": "mouse",
+   "x": 168,
+   "y": 437
+  },
+  {
+   "t": 12427,
+   "type": "mouse",
+   "x": 167,
+   "y": 431
+  },
+  {
+   "t": 12444,
+   "type": "mouse",
+   "x": 165,
+   "y": 426
+  },
+  {
+   "t": 12460,
+   "type": "mouse",
+   "x": 164,
+   "y": 419
+  },
+  {
+   "t": 12476,
+   "type": "mouse",
+   "x": 162,
+   "y": 412
+  },
+  {
+   "t": 12493,
+   "type": "mouse",
+   "x": 160,
+   "y": 403
+  },
+  {
+   "t": 12509,
+   "type": "mouse",
+   "x": 158,
+   "y": 394
+  },
+  {
+   "t": 12527,
+   "type": "mouse",
+   "x": 156,
+   "y": 385
+  },
+  {
+   "t": 12545,
+   "type": "mouse",
+   "x": 154,
+   "y": 374
+  },
+  {
+   "t": 12564,
+   "type": "mouse",
+   "x": 151,
+   "y": 363
+  },
+  {
+   "t": 12582,
+   "type": "mouse",
+   "x": 149,
+   "y": 351
+  },
+  {
+   "t": 12600,
+   "type": "mouse",
+   "x": 146,
+   "y": 338
+  },
+  {
+   "t": 12619,
+   "type": "mouse",
+   "x": 143,
+   "y": 324
+  },
+  {
+   "t": 12637,
+   "type": "mouse",
+   "x": 139,
+   "y": 310
+  },
+  {
+   "t": 12656,
+   "type": "mouse",
+   "x": 136,
+   "y": 294
+  },
+  {
+   "t": 12693,
+   "type": "mouse",
+   "x": 132,
+   "y": 278
+  },
+  {
+   "t": 12712,
+   "type": "mouse",
+   "x": 129,
+   "y": 262
+  },
+  {
+   "t": 12730,
+   "type": "mouse",
+   "x": 125,
+   "y": 245
+  },
+  {
+   "t": 12749,
+   "type": "mouse",
+   "x": 121,
+   "y": 229
+  },
+  {
+   "t": 12768,
+   "type": "mouse",
+   "x": 118,
+   "y": 214
+  },
+  {
+   "t": 12792,
+   "type": "mouse",
+   "x": 115,
+   "y": 199
+  },
+  {
+   "t": 12811,
+   "type": "mouse",
+   "x": 112,
+   "y": 185
+  },
+  {
+   "t": 12830,
+   "type": "mouse",
+   "x": 109,
+   "y": 172
+  },
+  {
+   "t": 12849,
+   "type": "mouse",
+   "x": 106,
+   "y": 160
+  },
+  {
+   "t": 12868,
+   "type": "mouse",
+   "x": 104,
+   "y": 149
+  },
+  {
+   "t": 12885,
+   "type": "mouse",
+   "x": 101,
+   "y": 139
+  },
+  {
+   "t": 12903,
+   "type": "mouse",
+   "x": 99,
+   "y": 129
+  },
+  {
+   "t": 12921,
+   "type": "mouse",
+   "x": 97,
+   "y": 120
+  },
+  {
+   "t": 12941,
+   "type": "mouse",
+   "x": 95,
+   "y": 112
+  },
+  {
+   "t": 12958,
+   "type": "mouse",
+   "x": 94,
+   "y": 104
+  },
+  {
+   "t": 12993,
+   "type": "mouse",
+   "x": 92,
+   "y": 98
+  },
+  {
+   "t": 13012,
+   "type": "mouse",
+   "x": 91,
+   "y": 92
+  },
+  {
+   "t": 13030,
+   "type": "mouse",
+   "x": 90,
+   "y": 87
+  },
+  {
+   "t": 13048,
+   "type": "mouse",
+   "x": 89,
+   "y": 82
+  },
+  {
+   "t": 13067,
+   "type": "mouse",
+   "x": 88,
+   "y": 79
+  },
+  {
+   "t": 13083,
+   "type": "mouse",
+   "x": 87,
+   "y": 76
+  },
+  {
+   "t": 13101,
+   "type": "mouse",
+   "x": 87,
+   "y": 74
+  },
+  {
+   "t": 13120,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 13138,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 13175,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 13193,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 13210,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 13228,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 13245,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 13262,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 13279,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 13298,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 13315,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 13332,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 13349,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 13366,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 13384,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 13401,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 13420,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 13440,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 13459,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 13477,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 13495,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 13514,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 13529,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 13548,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 13566,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 13584,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 13602,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 13621,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 13639,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 13657,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 13676,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 13695,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 13711,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 13729,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 13749,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 13767,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 13786,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 13804,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 13822,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 13840,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 13979,
+   "type": "mousedown",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 14054,
+   "type": "mouseup",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 14054,
+   "type": "fetch.start",
+   "id": "ov406b",
+   "path": "/api/token"
+  },
+  {
+   "t": 14087,
+   "type": "dom.ui",
+   "v": {
+    "status": "Connecting",
+    "server": "most-recommended-books",
+    "connect": "Connect",
+    "sample": "",
+    "paste": "",
+    "scrollY": 1574,
+    "results": [
+     {
+      "text": "Most Recommended Booksmostrecommendedbooks.com · 6 toolsRead-only MCP server for",
+      "rect": {
+       "x": 24,
+       "y": -894.8984375,
+       "w": 294.6640625,
+       "h": 103.9453125
+      }
+     },
+     {
+      "text": "无名图书 wuming-bookswww.book345.com · 6 toolsSearch Chinese books with Douban ratin",
+      "rect": {
+       "x": 326.6640625,
+       "y": -894.8984375,
+       "w": 294.6640625,
+       "h": 122.0703125
+      }
+     },
+     {
+      "text": "On-Demand-Bookson-demand-books-dq2yvpdh.fermyon.app · 3 toolsFind personalized p",
+      "rect": {
+       "x": 629.328125,
+       "y": -894.8984375,
+       "w": 294.6640625,
+       "h": 121.9453125
+      }
+     }
+    ]
+   }
+  },
+  {
+   "t": 14207,
+   "type": "harness.talk",
+   "label": "start"
+  },
+  {
+   "t": 14270,
+   "type": "fetch.done",
+   "id": "ov406b",
+   "path": "/api/token",
+   "status": 200,
+   "ms": 216
+  },
+  {
+   "t": 14272,
+   "type": "audio.context",
+   "ctx": 1,
+   "rate": 24000
+  },
+  {
+   "t": 14272,
+   "type": "audio.context",
+   "ctx": 2,
+   "rate": 24000
+  },
+  {
+   "t": 14280,
+   "type": "mic.getUserMedia",
+   "audio": true
+  },
+  {
+   "t": 14282,
+   "type": "audio.recorder",
+   "ctx": 2,
+   "stem": "agent",
+   "rate": 24000
+  },
+  {
+   "t": 14282,
+   "type": "agent.tap",
+   "ctx": 2
+  },
+  {
+   "t": 14285,
+   "type": "ws.open",
+   "url": "wss://agents.assemblyai.com/v1/ws?token=STRIPPED"
+  },
+  {
+   "t": 14286,
+   "type": "audio.recorder",
+   "ctx": 1,
+   "stem": "pagemic",
+   "rate": 24000
+  },
+  {
+   "t": 14287,
+   "type": "pagemic.tap",
+   "ctx": 1,
+   "rate": 24000
+  },
+  {
+   "t": 14486,
+   "type": "ws.out",
+   "msg": "session.update",
+   "tools": [
+    "use_pasted_text",
+    "search_books",
+    "get_person_recommendations",
+    "get_book_recommenders",
+    "get_series_reading_order",
+    "get_list",
+    "get_summary"
+   ],
+   "keyterms": [
+    "recommenders"
+   ],
+   "greeting": "Connected to most-recommended-books, with 6 tools available. What would you like to do?",
+   "voice": "alba"
+  },
+  {
+   "t": 14966,
+   "type": "ws.in",
+   "msg": "session.updated"
+  },
+  {
+   "t": 15027,
+   "type": "ws.in",
+   "msg": "session.ready",
+   "session_id": "sess_37d290ae5e8f431d9f6e4b1d10d6280e"
+  },
+  {
+   "t": 15035,
+   "type": "ws.in",
+   "msg": "reply.started",
+   "reply_id": "resp_82749f87ac1148b3a573001517c17f41"
+  },
+  {
+   "t": 15061,
+   "type": "dom.ui",
+   "v": {
+    "status": "Listening",
+    "server": "most-recommended-books",
+    "connect": "Connect",
+    "sample": "",
+    "paste": "",
+    "scrollY": 1574,
+    "results": [
+     {
+      "text": "Most Recommended Booksmostrecommendedbooks.com · 6 toolsRead-only MCP server for",
+      "rect": {
+       "x": 24,
+       "y": -894.8984375,
+       "w": 294.6640625,
+       "h": 103.9453125
+      }
+     },
+     {
+      "text": "无名图书 wuming-bookswww.book345.com · 6 toolsSearch Chinese books with Douban ratin",
+      "rect": {
+       "x": 326.6640625,
+       "y": -894.8984375,
+       "w": 294.6640625,
+       "h": 122.0703125
+      }
+     },
+     {
+      "text": "On-Demand-Bookson-demand-books-dq2yvpdh.fermyon.app · 3 toolsFind personalized p",
+      "rect": {
+       "x": 629.328125,
+       "y": -894.8984375,
+       "w": 294.6640625,
+       "h": 121.9453125
+      }
+     }
+    ]
+   }
+  },
+  {
+   "t": 15216,
+   "type": "ws.in",
+   "msg": "reply.audio.first",
+   "reply_id": "resp_82749f87ac1148b3a573001517c17f41"
+  },
+  {
+   "t": 15254,
+   "type": "dom.ui",
+   "v": {
+    "status": "Speaking",
+    "server": "most-recommended-books",
+    "connect": "Connect",
+    "sample": "",
+    "paste": "",
+    "scrollY": 1574,
+    "results": [
+     {
+      "text": "Most Recommended Booksmostrecommendedbooks.com · 6 toolsRead-only MCP server for",
+      "rect": {
+       "x": 24,
+       "y": -894.8984375,
+       "w": 294.6640625,
+       "h": 103.9453125
+      }
+     },
+     {
+      "text": "无名图书 wuming-bookswww.book345.com · 6 toolsSearch Chinese books with Douban ratin",
+      "rect": {
+       "x": 326.6640625,
+       "y": -894.8984375,
+       "w": 294.6640625,
+       "h": 122.0703125
+      }
+     },
+     {
+      "text": "On-Demand-Bookson-demand-books-dq2yvpdh.fermyon.app · 3 toolsFind personalized p",
+      "rect": {
+       "x": 629.328125,
+       "y": -894.8984375,
+       "w": 294.6640625,
+       "h": 121.9453125
+      }
+     }
+    ]
+   }
+  },
+  {
+   "t": 15492,
+   "type": "dom.chips",
+   "v": {
+    "chips": [
+     {
+      "name": "use_pasted_text",
+      "isNew": false
+     },
+     {
+      "name": "search_books",
+      "isNew": false
+     },
+     {
+      "name": "get_person_recommendations",
+      "isNew": false
+     },
+     {
+      "name": "get_book_recommenders",
+      "isNew": false
+     },
+     {
+      "name": "get_series_reading_order",
+      "isNew": false
+     },
+     {
+      "name": "get_list",
+      "isNew": false
+     },
+     {
+      "name": "get_summary",
+      "isNew": false
+     }
+    ],
+    "rect": {
+     "x": 41,
+     "y": 470.3828125,
+     "w": 514.7890625,
+     "h": 94.5
+    }
+   }
+  },
+  {
+   "t": 15493,
+   "type": "dom.lines",
+   "v": [
+    {
+     "who": "agent live",
+     "text": "Connected to most-recommended-books, with 6 tools available. What would you like to do?"
+    }
+   ]
+  },
+  {
+   "t": 20106,
+   "type": "ws.in",
+   "msg": "transcript.agent",
+   "text": "Connected to most-recommended-books, with 6 tools available. What would you like to do?",
+   "reply_id": "resp_82749f87ac1148b3a573001517c17f41",
+   "interrupted": false
+  },
+  {
+   "t": 20138,
+   "type": "dom.lines",
+   "v": [
+    {
+     "who": "agent",
+     "text": "Connected to most-recommended-books, with 6 tools available. What would you like to do?"
+    }
+   ]
+  },
+  {
+   "t": 20485,
+   "type": "ws.in",
+   "msg": "reply.done",
+   "reply_id": "resp_82749f87ac1148b3a573001517c17f41",
+   "status": "completed",
+   "audioBytes": 252000
+  },
+  {
+   "t": 20510,
+   "type": "dom.ui",
+   "v": {
+    "status": "Listening",
+    "server": "most-recommended-books",
+    "connect": "Connect",
+    "sample": "",
+    "paste": "",
+    "scrollY": 1574,
+    "results": [
+     {
+      "text": "Most Recommended Booksmostrecommendedbooks.com · 6 toolsRead-only MCP server for",
+      "rect": {
+       "x": 24,
+       "y": -894.8984375,
+       "w": 294.6640625,
+       "h": 103.9453125
+      }
+     },
+     {
+      "text": "无名图书 wuming-bookswww.book345.com · 6 toolsSearch Chinese books with Douban ratin",
+      "rect": {
+       "x": 326.6640625,
+       "y": -894.8984375,
+       "w": 294.6640625,
+       "h": 122.0703125
+      }
+     },
+     {
+      "text": "On-Demand-Bookson-demand-books-dq2yvpdh.fermyon.app · 3 toolsFind personalized p",
+      "rect": {
+       "x": 629.328125,
+       "y": -894.8984375,
+       "w": 294.6640625,
+       "h": 121.9453125
+      }
+     }
+    ]
+   }
+  },
+  {
+   "t": 21150,
+   "type": "say",
+   "id": "Q2"
+  },
+  {
+   "t": 21152,
+   "type": "clip.start",
+   "id": "Q2",
+   "ctx": 0,
+   "contextTime": 20.871333333333332,
+   "seconds": 1.96
+  },
+  {
+   "t": 22354,
+   "type": "ws.in",
+   "msg": "input.speech.started"
+  },
+  {
+   "t": 22385,
+   "type": "dom.chips",
+   "v": {
+    "chips": [
+     {
+      "name": "use_pasted_text",
+      "isNew": false
+     },
+     {
+      "name": "search_books",
+      "isNew": false
+     },
+     {
+      "name": "get_person_recommendations",
+      "isNew": false
+     },
+     {
+      "name": "get_book_recommenders",
+      "isNew": false
+     },
+     {
+      "name": "get_series_reading_order",
+      "isNew": false
+     },
+     {
+      "name": "get_list",
+      "isNew": false
+     },
+     {
+      "name": "get_summary",
+      "isNew": false
+     }
+    ],
+    "rect": {
+     "x": 41,
+     "y": 503.6328125,
+     "w": 514.7890625,
+     "h": 94.5
+    }
+   }
+  },
+  {
+   "t": 22385,
+   "type": "dom.lines",
+   "v": [
+    {
+     "who": "agent",
+     "text": "Connected to most-recommended-books, with 6 tools available. What would you like to do?"
+    },
+    {
+     "who": "you live",
+     "text": "Who recommend?"
+    }
+   ]
+  },
+  {
+   "t": 22385,
+   "type": "dom.ui",
+   "v": {
+    "status": "Hearing you",
+    "server": "most-recommended-books",
+    "connect": "Connect",
+    "sample": "",
+    "paste": "",
+    "scrollY": 1574,
+    "results": [
+     {
+      "text": "Most Recommended Booksmostrecommendedbooks.com · 6 toolsRead-only MCP server for",
+      "rect": {
+       "x": 24,
+       "y": -894.8984375,
+       "w": 294.6640625,
+       "h": 103.9453125
+      }
+     },
+     {
+      "text": "无名图书 wuming-bookswww.book345.com · 6 toolsSearch Chinese books with Douban ratin",
+      "rect": {
+       "x": 326.6640625,
+       "y": -894.8984375,
+       "w": 294.6640625,
+       "h": 122.0703125
+      }
+     },
+     {
+      "text": "On-Demand-Bookson-demand-books-dq2yvpdh.fermyon.app · 3 toolsFind personalized p",
+      "rect": {
+       "x": 629.328125,
+       "y": -894.8984375,
+       "w": 294.6640625,
+       "h": 121.9453125
+      }
+     }
+    ]
+   }
+  },
+  {
+   "t": 23157,
+   "type": "clip.end",
+   "id": "Q2"
+  },
+  {
+   "t": 23489,
+   "type": "dom.lines",
+   "v": [
+    {
+     "who": "agent",
+     "text": "Connected to most-recommended-books, with 6 tools available. What would you like to do?"
+    },
+    {
+     "who": "you live",
+     "text": "Who recommends Sapiens?"
+    }
+   ]
+  },
+  {
+   "t": 23928,
+   "type": "ws.in",
+   "msg": "input.speech.stopped"
+  },
+  {
+   "t": 23929,
+   "type": "ws.in",
+   "msg": "transcript.user",
+   "text": "Who recommends Sapiens?"
+  },
+  {
+   "t": 23930,
+   "type": "ws.in",
+   "msg": "reply.started",
+   "reply_id": "resp_c8dc2f2b80864ff8876365c5ca73d74c"
+  },
+  {
+   "t": 23959,
+   "type": "dom.lines",
+   "v": [
+    {
+     "who": "agent",
+     "text": "Connected to most-recommended-books, with 6 tools available. What would you like to do?"
+    },
+    {
+     "who": "you",
+     "text": "Who recommends Sapiens?"
+    }
+   ]
+  },
+  {
+   "t": 23960,
+   "type": "dom.ui",
+   "v": {
+    "status": "Thinking",
+    "server": "most-recommended-books",
+    "connect": "Connect",
+    "sample": "",
+    "paste": "",
+    "scrollY": 1574,
+    "results": [
+     {
+      "text": "Most Recommended Booksmostrecommendedbooks.com · 6 toolsRead-only MCP server for",
+      "rect": {
+       "x": 24,
+       "y": -894.8984375,
+       "w": 294.6640625,
+       "h": 103.9453125
+      }
+     },
+     {
+      "text": "无名图书 wuming-bookswww.book345.com · 6 toolsSearch Chinese books with Douban ratin",
+      "rect": {
+       "x": 326.6640625,
+       "y": -894.8984375,
+       "w": 294.6640625,
+       "h": 122.0703125
+      }
+     },
+     {
+      "text": "On-Demand-Bookson-demand-books-dq2yvpdh.fermyon.app · 3 toolsFind personalized p",
+      "rect": {
+       "x": 629.328125,
+       "y": -894.8984375,
+       "w": 294.6640625,
+       "h": 121.9453125
+      }
+     }
+    ]
+   }
+  },
+  {
+   "t": 25997,
+   "type": "ws.in",
+   "msg": "tool.call",
+   "call_id": "chatcmpl-tool-8092ab7c6ff254ea",
+   "name": "get_book_recommenders",
+   "arguments": {
+    "title": "Sapiens"
+   }
+  },
+  {
+   "t": 25999,
+   "type": "fetch.start",
+   "id": "o3gmv5",
+   "path": "/api/mcp/call",
+   "body": {
+    "tool": "get_book_recommenders",
+    "arguments": {
+     "title": "Sapiens"
+    },
+    "session": "sess_37d290ae5e8f431d9f6e4b1d10d6280e"
+   }
+  },
+  {
+   "t": 26031,
+   "type": "dom.calls",
+   "v": [
+    {
+     "name": "get_book_recommenders",
+     "meta": "calling…",
+     "args": "{\"title\":\"Sapiens\"}",
+     "spoken": "",
+     "cls": "call pending",
+     "rect": {
+      "x": 603.7890625,
+      "y": 327.8828125,
+      "w": 443.203125,
+      "h": 63.5
+     },
+     "argsRect": {
+      "x": 618.7890625,
+      "y": 362.3828125,
+      "w": 415.203125,
+      "h": 18
+     }
+    }
+   ]
+  },
+  {
+   "t": 26032,
+   "type": "dom.ui",
+   "v": {
+    "status": "Calling get_book_recommenders",
+    "server": "most-recommended-books",
+    "connect": "Connect",
+    "sample": "",
+    "paste": "",
+    "scrollY": 1574,
+    "results": [
+     {
+      "text": "Most Recommended Booksmostrecommendedbooks.com · 6 toolsRead-only MCP server for",
+      "rect": {
+       "x": 24,
+       "y": -894.8984375,
+       "w": 294.6640625,
+       "h": 103.9453125
+      }
+     },
+     {
+      "text": "无名图书 wuming-bookswww.book345.com · 6 toolsSearch Chinese books with Douban ratin",
+      "rect": {
+       "x": 326.6640625,
+       "y": -894.8984375,
+       "w": 294.6640625,
+       "h": 122.0703125
+      }
+     },
+     {
+      "text": "On-Demand-Bookson-demand-books-dq2yvpdh.fermyon.app · 3 toolsFind personalized p",
+      "rect": {
+       "x": 629.328125,
+       "y": -894.8984375,
+       "w": 294.6640625,
+       "h": 121.9453125
+      }
+     }
+    ]
+   }
+  },
+  {
+   "t": 26243,
+   "type": "ws.in",
+   "msg": "reply.done",
+   "reply_id": "resp_c8dc2f2b80864ff8876365c5ca73d74c",
+   "status": "completed",
+   "audioBytes": 0
+  },
+  {
+   "t": 26747,
+   "type": "fetch.done",
+   "id": "o3gmv5",
+   "path": "/api/mcp/call",
+   "status": 200,
+   "ms": 748
+  },
+  {
+   "t": 26749,
+   "type": "ws.out",
+   "msg": "tool.result",
+   "call_id": "chatcmpl-tool-8092ab7c6ff254ea",
+   "chars": 386
+  },
+  {
+   "t": 26749,
+   "type": "mcp.timing",
+   "id": "o3gmv5",
+   "mcpMs": 684,
+   "totalMs": 687,
+   "refineMs": 0,
+   "refine": "circuit_open",
+   "method": "local",
+   "shaped": true,
+   "isError": false
+  },
+  {
+   "t": 26781,
+   "type": "dom.calls",
+   "v": [
+    {
+     "name": "get_book_recommenders",
+     "meta": "687 ms · local",
+     "args": "{\"title\":\"Sapiens\"}",
+     "spoken": "\"Sapiens\" by Yuval Noah Harari is recommended by 32 verified people:. Joe Rogan (Comedian) — \"\"It really puts in perspective how bizarre human beings are. It’s an awesome overview of our species.\" - Joe Rogan\" (source:. Lex Fridman (Scientist) — \"\"Basically one of the things we've created here is we've imagined ideas that we all share.\" - Lex Fridman\" (source:.",
+     "cls": "call",
+     "rect": {
+      "x": 603.7890625,
+      "y": 327.8828125,
+      "w": 443.203125,
+      "h": 220.53125
+     },
+     "argsRect": {
+      "x": 618.7890625,
+      "y": 362.3828125,
+      "w": 415.203125,
+      "h": 18
+     }
+    }
+   ]
+  },
+  {
+   "t": 26781,
+   "type": "dom.chips",
+   "v": {
+    "chips": [
+     {
+      "name": "use_pasted_text",
+      "isNew": false
+     },
+     {
+      "name": "search_books",
+      "isNew": false
+     },
+     {
+      "name": "get_person_recommendations",
+      "isNew": false
+     },
+     {
+      "name": "get_book_recommenders",
+      "isNew": false
+     },
+     {
+      "name": "get_series_reading_order",
+      "isNew": false
+     },
+     {
+      "name": "get_list",
+      "isNew": false
+     },
+     {
+      "name": "get_summary",
+      "isNew": false
+     }
+    ],
+    "rect": {
+     "x": 41,
+     "y": 644.4140625,
+     "w": 514.7890625,
+     "h": 94.5
+    }
+   }
+  },
+  {
+   "t": 26813,
+   "type": "ws.in",
+   "msg": "reply.started",
+   "reply_id": "resp_d7d3bc37279e477fad44080a02a4b61e"
+  },
+  {
+   "t": 27350,
+   "type": "ws.in",
+   "msg": "reply.audio.first",
+   "reply_id": "resp_d7d3bc37279e477fad44080a02a4b61e"
+  },
+  {
+   "t": 27387,
+   "type": "dom.ui",
+   "v": {
+    "status": "Speaking",
+    "server": "most-recommended-books",
+    "connect": "Connect",
+    "sample": "",
+    "paste": "",
+    "scrollY": 1574,
+    "results": [
+     {
+      "text": "Most Recommended Booksmostrecommendedbooks.com · 6 toolsRead-only MCP server for",
+      "rect": {
+       "x": 24,
+       "y": -894.8984375,
+       "w": 294.6640625,
+       "h": 103.9453125
+      }
+     },
+     {
+      "text": "无名图书 wuming-bookswww.book345.com · 6 toolsSearch Chinese books with Douban ratin",
+      "rect": {
+       "x": 326.6640625,
+       "y": -894.8984375,
+       "w": 294.6640625,
+       "h": 122.0703125
+      }
+     },
+     {
+      "text": "On-Demand-Bookson-demand-books-dq2yvpdh.fermyon.app · 3 toolsFind personalized p",
+      "rect": {
+       "x": 629.328125,
+       "y": -894.8984375,
+       "w": 294.6640625,
+       "h": 121.9453125
+      }
+     }
+    ]
+   }
+  },
+  {
+   "t": 27626,
+   "type": "dom.lines",
+   "v": [
+    {
+     "who": "agent",
+     "text": "Connected to most-recommended-books, with 6 tools available. What would you like to do?"
+    },
+    {
+     "who": "you",
+     "text": "Who recommends Sapiens?"
+    },
+    {
+     "who": "agent live",
+     "text": "Sapiens  is recommended by thirty-two verified people, including Joe Rogan and Lex Fridman."
+    }
+   ]
+  },
+  {
+   "t": 32881,
+   "type": "ws.in",
+   "msg": "transcript.agent",
+   "text": "Sapiens is recommended by thirty-two verified people, including Joe Rogan and Lex Fridman.",
+   "reply_id": "resp_d7d3bc37279e477fad44080a02a4b61e",
+   "interrupted": false
+  },
+  {
+   "t": 32913,
+   "type": "dom.lines",
+   "v": [
+    {
+     "who": "agent",
+     "text": "Connected to most-recommended-books, with 6 tools available. What would you like to do?"
+    },
+    {
+     "who": "you",
+     "text": "Who recommends Sapiens?"
+    },
+    {
+     "who": "agent",
+     "text": "Sapiens is recommended by thirty-two verified people, including Joe Rogan and Lex Fridman."
+    }
+   ]
+  },
+  {
+   "t": 33195,
+   "type": "ws.in",
+   "msg": "reply.done",
+   "reply_id": "resp_d7d3bc37279e477fad44080a02a4b61e",
+   "status": "completed",
+   "audioBytes": 282240
+  },
+  {
+   "t": 33269,
+   "type": "dom.ui",
+   "v": {
+    "status": "Listening",
+    "server": "most-recommended-books",
+    "connect": "Connect",
+    "sample": "",
+    "paste": "",
+    "scrollY": 1574,
+    "results": [
+     {
+      "text": "Most Recommended Booksmostrecommendedbooks.com · 6 toolsRead-only MCP server for",
+      "rect": {
+       "x": 24,
+       "y": -894.8984375,
+       "w": 294.6640625,
+       "h": 103.9453125
+      }
+     },
+     {
+      "text": "无名图书 wuming-bookswww.book345.com · 6 toolsSearch Chinese books with Douban ratin",
+      "rect": {
+       "x": 326.6640625,
+       "y": -894.8984375,
+       "w": 294.6640625,
+       "h": 122.0703125
+      }
+     },
+     {
+      "text": "On-Demand-Bookson-demand-books-dq2yvpdh.fermyon.app · 3 toolsFind personalized p",
+      "rect": {
+       "x": 629.328125,
+       "y": -894.8984375,
+       "w": 294.6640625,
+       "h": 121.9453125
+      }
+     }
+    ]
+   }
+  },
+  {
+   "t": 35631,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 35648,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 35664,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 35679,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 35697,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 35716,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 35733,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 35751,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 35767,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 35791,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 35809,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 35826,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 35842,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 35858,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 35874,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 35891,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 35910,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 35928,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 35946,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 35964,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 35983,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 36001,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 36019,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 36041,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 36059,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 36076,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 36094,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 36110,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 36126,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 36144,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 36161,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 36178,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 36197,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 36216,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 36234,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 36253,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 36270,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 36291,
+   "type": "mouse",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 36432,
+   "type": "mousedown",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 36507,
+   "type": "mouseup",
+   "x": 87,
+   "y": 73
+  },
+  {
+   "t": 36507,
+   "type": "ws.out",
+   "msg": "session.end"
+  },
+  {
+   "t": 36540,
+   "type": "dom.lines",
+   "v": [
+    {
+     "who": "agent",
+     "text": "Connected to most-recommended-books, with 6 tools available. What would you like to do?"
+    },
+    {
+     "who": "you",
+     "text": "Who recommends Sapiens?"
+    },
+    {
+     "who": "agent",
+     "text": "Sapiens is recommended by thirty-two verified people, including Joe Rogan and Lex Fridman."
+    },
+    {
+     "who": "note",
+     "text": "Session ended: ended by you."
+    }
+   ]
+  },
+  {
+   "t": 36541,
+   "type": "dom.ui",
+   "v": {
+    "status": "Session ended",
+    "server": "most-recommended-books",
+    "connect": "Connect",
+    "sample": "",
+    "paste": "",
+    "scrollY": 1574,
+    "results": [
+     {
+      "text": "Most Recommended Booksmostrecommendedbooks.com · 6 toolsRead-only MCP server for",
+      "rect": {
+       "x": 24,
+       "y": -894.8984375,
+       "w": 294.6640625,
+       "h": 103.9453125
+      }
+     },
+     {
+      "text": "无名图书 wuming-bookswww.book345.com · 6 toolsSearch Chinese books with Douban ratin",
+      "rect": {
+       "x": 326.6640625,
+       "y": -894.8984375,
+       "w": 294.6640625,
+       "h": 122.0703125
+      }
+     },
+     {
+      "text": "On-Demand-Bookson-demand-books-dq2yvpdh.fermyon.app · 3 toolsFind personalized p",
+      "rect": {
+       "x": 629.328125,
+       "y": -894.8984375,
+       "w": 294.6640625,
+       "h": 121.9453125
+      }
+     }
+    ]
+   }
+  },
+  {
+   "t": 36664,
+   "type": "harness.talk",
+   "label": "end"
+  },
+  {
+   "t": 36666,
+   "type": "ws.in",
+   "msg": "session.ended"
+  },
+  {
+   "t": 36700,
+   "type": "audio.closed",
+   "ctx": 2,
+   "stem": "agent"
+  },
+  {
+   "t": 36700,
+   "type": "audio.closed",
+   "ctx": 1,
+   "stem": "pagemic"
+  },
+  {
+   "t": 37300,
+   "type": "ws.close",
+   "code": 1000
+  },
+  {
+   "t": 38970,
+   "type": "sync.beep",
+   "label": "end",
+   "ctx": 0,
+   "contextTime": 38.89,
+   "heardAt": 1790500579262.9783
+  },
+  {
+   "t": 39244,
+   "type": "sync.flash.on",
+   "label": "end"
+  },
+  {
+   "t": 39274,
+   "type": "sync.flash.off",
+   "label": "end"
+  }
+ ]
+}

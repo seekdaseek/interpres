@@ -52,7 +52,7 @@ export function narration(): Record<string, string> {
     N4: "That answer came from goji's own server, through a live tool call.",
     N5: 'No website in mind? Search more than 11,000 public MCP servers right on the page. One click connects.',
     N6: 'Many servers list more than ten tools. interpres shows the agent ten at a time, and one of them is find tools. Ask for something out of view, and interpres swaps the right tools in, mid-conversation.',
-    N7: `Speech often gets identifiers wrong. Before this gate, a misheard wallet address reached the server ${RAN} times, and a right hearing looks exactly like a wrong one. So the address comes from the paste box, and the agent uses the exact text.`,
+    N7: `Speech often mishears identifiers. Before this gate, a misheard wallet address reached the server ${RAN} times, and a right hearing looks exactly like a wrong one. So the address comes from the paste box, and the agent uses the exact text.`,
     N8: 'A spoken address is held back, right or wrong. Nothing runs.',
     N9: "To check it isn't just these three, we probed every remote server in the official MCP registry. 12,012 answered without a login, listing more than 200,000 tools, and every tool converted.",
     N10: 'Then we gave thirty of them one spoken question each, untuned. Twenty-nine sessions ran, each one answered out loud, and fourteen answered from live data. When a tool ran, the median was 3.5 seconds voice to voice, and the whole run cost 60 cents.',

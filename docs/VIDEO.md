@@ -26,14 +26,17 @@ Narration is checked word for word with AssemblyAI's pre-recorded transcription 
 | N4 | charles | 3,940 ms | `sess_05d04df8826145de94c170728403fe27` | pass on try 1 |
 | N5 | charles | 7,890 ms | `sess_06ae7b1c46d94306853818b7150494ae` | pass on try 1 |
 | N6 | charles | 12,610 ms | `sess_39b20174ab784e91998ce218c92b255c` | pass on try 1 |
-| N7 | charles | 14,980 ms | `sess_d87c15ff178e4a1cb5baa6621cb5c1c6` | pass on try 1 |
+| N7 | charles | 13,720 ms | `sess_573e8fd085ee43c78e6af8418df82fee` | pass on try 2 |
 | N8 | charles | 4,470 ms | `sess_0d716136675f4f968c440a62775e1f2d` | pass on try 1 |
 | N9 | charles | 12,680 ms | `sess_bd9af3992cac44878a6929ffa414dc81` | pass on try 1 |
 | N10 | charles | 17,250 ms | `sess_1e097174e2d546949ff6c19a233a5fb0` | pass on try 1 |
 | N11 | charles | 7,810 ms | `sess_c127c341a94b43d98538e55f443b5928` | pass on try 1 |
 | N12 | charles | 7,810 ms | `sess_4ece2f31161147d08bbd6764352ed123` | pass on try 1 |
 
-Rewordings under the standing rule (a line that fails only because the transcriber spells a word differently): none were needed this round. Earlier, N10's "Every one answered out loud" was heard as "Everyone" on 4 of 4 tries; Sergiu changed it to "Each one answered out loud" (BUILDLOG, round F2).
+Rewordings under the standing rule (a line that fails only because the transcriber spells a word differently):
+
+- **N7, round H.** The clip that read "Speech often gets identifiers wrong" passed its own check and round G's final file. In round H's final file, with the same audio, it was heard as "gets identified as wrong". The phrase became "Speech often mishears identifiers": the same meaning, and the number is unchanged. The new clip passed on its second try, after "mishars" on the first.
+- **N10, round F2.** "Every one answered out loud" was heard as "Everyone" on 4 of 4 tries. Sergiu changed it to "Each one answered out loud" (BUILDLOG, round F2).
 
 ## The caller
 
@@ -49,25 +52,30 @@ Caller clips are judged where they are heard: each streamed into a live Voice Ag
 
 ## Scenes and takes
 
-A take counts only if every exchange passes its checks; the first such take of each scene is used (`data/video/takes.json`). Takes used: A = `A-20260926T215425`, B = `B-20260926T221242`, C = `C-20260927T064547`.
+A take counts only if every exchange passes its checks; the first such take of each scene is used (`data/video/takes.json`). Takes used: A = `A-20260927T091341`, B = `B-20260927T091537`, C = `C-20260927T091639`.
 
 | take | scene | session | checks | used |
 | --- | --- | --- | --- | --- |
 | `A-20260926T214149` | A | `sess_c869f61e78754fae9d2be5602963ec2f` | FAIL: Q1 heard as said (heard "What is AEO in plain English?") | no |
-| `A-20260926T215425` | A | `sess_ef3b65861b724be29f631f70f33a3327` | all pass | yes |
-| `B-20260926T221242` | B | `sess_d61ab83ced10487593b210a4d503c7f1` | all pass | yes |
-| `C-20260927T064547` | C | `sess_3fcf411e656145b0a5b487036ce05e38` | all pass | yes |
+| `A-20260926T215425` | A | `sess_ef3b65861b724be29f631f70f33a3327` | all pass | no |
+| `A-20260927T091341` | A | `sess_2df644020f0f4646ae311f71e61a0bec` | all pass | yes |
+| `B-20260926T221242` | B | `sess_d61ab83ced10487593b210a4d503c7f1` | all pass | no |
+| `B-20260927T091537` | B | `sess_37d290ae5e8f431d9f6e4b1d10d6280e` | all pass | yes |
+| `C-20260927T064547` | C | `sess_3fcf411e656145b0a5b487036ce05e38` | all pass | no |
+| `C-20260927T091639` | C | `sess_bad159e000e9412ba713b9dfb8389cf2` | all pass | yes |
 
-**Scene A** (`sess_ef3b65861b724be29f631f70f33a3327`): `goji_explain_term({"term":"SEO"})`.
+**Scene A** (`sess_2df644020f0f4646ae311f71e61a0bec`): `goji_explain_term({"term":"SEO"})`.
 
-- ok: discovery connects to https://mcp.goji.agency/mcp (Found in the official MCP registry: https://mcp.goji.agency/mcp · 9 tools · 228 ms)
+- ok: discovery connects to https://mcp.goji.agency/mcp (Found in the official MCP registry: https://mcp.goji.agency/mcp · 9 tools · 757 ms, remembered from an earlier look)
 - ok: Q1 heard as said (heard "What is SEO in plain English?")
 - ok: goji_explain_term called once and succeeds (1 call(s) [{"term":"SEO"}]; /api/mcp/call 200)
 - ok: Q1: the agent answers (SEO stands for Search Engine Optimisation. It is the work of making your website the result that search engines choose to show, by using con)
 - ok: no console errors
 - ok: sync within one frame
 
-**Scene B** (`sess_d61ab83ced10487593b210a4d503c7f1`): `get_book_recommenders({"title":"Sapiens"})`.
+The page says the discovery was "remembered from an earlier look". The server keeps a discovery answer for 10 minutes (`DISCOVERY_CACHE_MS`), and the same lookup had run about 2 minutes before this take, in the post-deploy check of `/api/mcp/connect` (BUILDLOG, round H). The time shown is that first lookup's. The take passed every check and was the first to do so, so it is the one used.
+
+**Scene B** (`sess_37d290ae5e8f431d9f6e4b1d10d6280e`): `get_book_recommenders({"title":"Sapiens"})`.
 
 - ok: the first result is Most Recommended Books (Most Recommended Booksmostrecommendedbooks.com · 6 toolsRead-only MCP server for)
 - ok: it connects (most-recommended-books)
@@ -77,19 +85,19 @@ A take counts only if every exchange passes its checks; the first such take of e
 - ok: no console errors
 - ok: sync within one frame
 
-**Scene C** (`sess_3fcf411e656145b0a5b487036ce05e38`): `find_tools({"query":"run a spec check on a job contract"})`, `find_tools({"query":"get reputation of a wallet address"})`, `afg_get_reputation({"address":"0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED"})`, `use_pasted_text({})`, `afg_get_reputation({"address":"0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed"})`.
+**Scene C** (`sess_bad159e000e9412ba713b9dfb8389cf2`): `find_tools({"query":"run a spec check on a job contract"})`, `find_tools({"query":"get reputation of a wallet"})`, `afg_get_reputation({"address":"0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED"})`, `use_pasted_text({})`, `afg_get_reputation({"address":"0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed"})`.
 
 - ok: Q3 heard as said (heard "I want to run a spec check on a job contract.")
 - ok: C1: find_tools is called ([{"query":"run a spec check on a job contract"}])
 - ok: C1: the swap card lists afg_speccheck as new ([{"name":"find_tools","isNew":false},{"name":"use_pasted_text","isNew":false},{"name":"afg_post_job","isNew":true},{"name":"afg_speccheck",")
-- ok: Q3: the agent answers (I can certainly help you with that. Please provide the job contract you'd like me to check.)
+- ok: Q3: the agent answers (I can certainly help with that. Please provide the job contract you would like me to check.)
 - ok: C3: needs_paste appears (Heard from speech, may be wrong - paste it to run / 0x5A AEB6 053F 3E94 C9B9 A09F 3366 9435 E7EF 1BEA ED)
 - ok: C3: zero /api/mcp/call from Q5 until the paste (0 request(s); paste at after the agent)
 - ok: C3: the agent asks for a paste (I may have misheard that value. Please paste it into the box under the Talk button, and I will use exactly what you paste.)
 - ok: C3: Q5 heard exactly (recorded, not required) (exact: heard "What is the reputation of wallet 0x5AAEB6053F3E94C9B9A09F33669435E7EF1BEAED?")
 - ok: Q4 heard as said (heard "Check the reputation of the wallet I pasted.")
 - ok: C2: afg_get_reputation called exactly once, with exactly the pasted value (1 call(s) [{"address":"0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed"}]; 1 /api/mcp/call; turn calls: use_pasted_text, afg_get_reputation)
-- ok: Q4: the agent answers (That wallet currently has no recorded job outcomes, so it doesn't have a reputation yet.)
+- ok: Q4: the agent answers (That wallet has no recorded job outcomes yet, either as a provider or as a buyer.)
 - ok: no console errors
 - ok: sync within one frame
 
@@ -101,11 +109,23 @@ Both medians are measured the way `scripts/e2e-audio.ts` measures: from the mome
 
 | scene | exchange | video (last word to first sound) | e2e-audio style (clip end to first audio received) | clip's trailing silence | page playback buffer |
 | --- | --- | ---: | ---: | ---: | ---: |
-| A | Q1 | 5,179 ms | 4,737 ms | 242 ms | 200 ms |
-| B | Q2 | 5,280 ms | 4,540 ms | 477 ms | 264 ms |
-| C | Q3 | 3,104 ms | 2,621 ms | 221 ms | 262 ms |
-| C | Q5 | 6,758 ms | 6,197 ms | 324 ms | 237 ms |
-| C | Q4 | 5,683 ms | 5,098 ms | 346 ms | 238 ms |
+| A | Q1 | 4,372 ms | 3,911 ms | 242 ms | 220 ms |
+| B | Q2 | 4,846 ms | 4,155 ms | 477 ms | 215 ms |
+| C | Q3 | 2,875 ms | 2,390 ms | 221 ms | 264 ms |
+| C | Q5 | 5,949 ms | 5,387 ms | 324 ms | 237 ms |
+| C | Q4 | 5,780 ms | 5,190 ms | 346 ms | 245 ms |
+
+### Against the takes before min_latency
+
+The takes the round G video used (3:55.6, sha256 681ab05e...), captured before round H, when interpres sent no transcription_mode: the API's default, balanced. Round H captured A, B and C again with min_latency. The same measure, last word to first sound, exchange by exchange:
+
+| exchange | this video (min_latency) | session | before (balanced) | session | difference |
+| --- | ---: | --- | ---: | --- | ---: |
+| A Q1 | 4,372 ms | `sess_2df644020f0f4646ae311f71e61a0bec` | 5,179 ms | `sess_ef3b65861b724be29f631f70f33a3327` | -807 ms |
+| B Q2 | 4,846 ms | `sess_37d290ae5e8f431d9f6e4b1d10d6280e` | 5,280 ms | `sess_d61ab83ced10487593b210a4d503c7f1` | -434 ms |
+| C Q3 | 2,875 ms | `sess_bad159e000e9412ba713b9dfb8389cf2` | 3,104 ms | `sess_3fcf411e656145b0a5b487036ce05e38` | -229 ms |
+| C Q5 | 5,949 ms | `sess_bad159e000e9412ba713b9dfb8389cf2` | 6,758 ms | `sess_3fcf411e656145b0a5b487036ce05e38` | -809 ms |
+| C Q4 | 5,780 ms | `sess_bad159e000e9412ba713b9dfb8389cf2` | 5,683 ms | `sess_3fcf411e656145b0a5b487036ce05e38` | +97 ms |
 
 ### Where the time goes
 
@@ -113,32 +133,33 @@ Each step in ms after the caller's last word, from the take's log. A tool's page
 
 | exchange | API end of turn | tool calls | last result sent | first audio received | first audio played |
 | --- | ---: | --- | ---: | ---: | ---: |
-| A Q1 | 1826 | goji_explain_term at 3602: 543 ms = network 62 + server 481 (MCP 481, refine not_needed 0 ms, truncated) | 4150 | 4979 | 5179 |
-| B Q2 | 1791 | get_book_recommenders at 3848: 548 ms = network 61 + server 487 (MCP 485, refine circuit_open 0 ms, local) | 4399 | 5016 | 5280 |
-| C Q3 | 846 | find_tools at 1805: 64 ms | 2064 | 2842 | 3104 |
-| C Q5 | 1939 | find_tools at 4348: 65 ms; afg_get_reputation at 5455 (held by the gate, no request) | 5729 | 6521 | 6758 |
-| C Q4 | 1027 | use_pasted_text at 2593 (in the page); afg_get_reputation at 3688: 1004 ms = network 87 + server 917 (MCP 913, refine circuit_open 0 ms, local) | 4713 | 5444 | 5683 |
+| A Q1 | 1179 | goji_explain_term at 2982: 354 ms = network 60 + server 294 (MCP 293, refine not_needed 0 ms, truncated) | 3342 | 4153 | 4372 |
+| B Q2 | 1210 | get_book_recommenders at 3278: 748 ms = network 61 + server 687 (MCP 684, refine circuit_open 0 ms, local) | 4031 | 4631 | 4846 |
+| C Q3 | 671 | find_tools at 1652: 63 ms | 1903 | 2611 | 2875 |
+| C Q5 | 1228 | find_tools at 3612: 69 ms; afg_get_reputation at 4673 (held by the gate, no request) | 4947 | 5711 | 5949 |
+| C Q4 | 957 | use_pasted_text at 2677 (in the page); afg_get_reputation at 3721: 1071 ms = network 173 + server 898 (MCP 862, refine circuit_open 0 ms, local) | 4798 | 5536 | 5780 |
 
 ## The edit
 
-12 shots, 235.6 s. Scenes change with 300 ms crossfades. Every cut inside a scene is a visible 200 ms crossfade, and nothing between a caller's last word and the agent's first is ever cut, sped up or slowed down (`scripts/video/edl.ts` checks it for each exchange).
+12 shots, 232.1 s. Scenes change with 300 ms crossfades. Every cut inside a scene is a visible 200 ms crossfade, and nothing between a caller's last word and the agent's first is ever cut, sped up or slowed down (`scripts/video/edl.ts` checks it for each exchange).
 
 | cut | at | removed from the take | reason |
 | --- | ---: | --- | --- |
-| B | 87.1 s | 12.6 s to 14.7 s of the take | before the mic is pressed: the scroll to the talk bar, which ran past N5 |
-| B | 87.7 s | 15.3 s to 21.4 s of the take | from the mic press to the first frame where the page is listening: the connect and the greeting (greetings after scene A may be cut) |
-| C1+C3 | 113.9 s | 6.1 s to 9.3 s of the take | between the AFG click and the mic press: the connect and the scroll (before the mic is pressed) |
-| C1+C3 | 114.5 s | 9.8 s to 20.0 s of the take | from the mic press to the first frame where the page is listening: the connect and the greeting (greetings after scene A may be cut) |
-| C1+C3 | 130.6 s | 36.1 s to 44.3 s of the take | inside Q5, which runs 13.8 s: its first 4 s and last 3 s kept, cut between two letters |
+| A | 70.7 s | 41.8 s to 45.4 s of the take | the tail of Q1's answer, cut at a sentence end 11.9 s in |
+| B | 85.2 s | 12.6 s to 13.8 s of the take | before the mic is pressed: the scroll to the talk bar, which ran past N5 |
+| B | 85.8 s | 14.5 s to 20.7 s of the take | from the mic press to the first frame where the page is listening: the connect and the greeting (greetings after scene A may be cut) |
+| C1+C3 | 112.0 s | 6.0 s to 10.3 s of the take | between the AFG click and the mic press: the connect and the scroll (before the mic is pressed) |
+| C1+C3 | 112.5 s | 10.9 s to 20.0 s of the take | from the mic press to the first frame where the page is listening: the connect and the greeting (greetings after scene A may be cut) |
+| C1+C3 | 128.5 s | 36.0 s to 44.2 s of the take | inside Q5, which runs 13.8 s: its first 4 s and last 3 s kept, cut between two letters |
 
 | punch-in | at | on |
 | --- | ---: | --- |
-| 1.4x, about 3 s | 36.9 s | "Found in the official MCP registry" |
-| 1.4x, about 3 s | 74.3 s | the goji_explain_term call, under N4 |
-| 1.4x, about 3 s | 94.0 s | the get_book_recommenders call |
-| 1.4x, about 3 s | 119.8 s | find_tools and the swap |
-| 1.4x, about 3 s | 138.9 s | needs_paste |
-| 1.4x, about 3 s | 174.1 s | afg_get_reputation and its argument |
+| 1.4x, about 3 s | 36.6 s | "Found in the official MCP registry" |
+| 1.4x, about 3 s | 72.4 s | the goji_explain_term call, under N4 |
+| 1.4x, about 3 s | 91.5 s | the get_book_recommenders call |
+| 1.4x, about 3 s | 117.6 s | find_tools and the swap |
+| 1.4x, about 3 s | 136.1 s | needs_paste |
+| 1.4x, about 3 s | 171.1 s | afg_get_reputation and its argument |
 
 Captions: narration shows the script as written, timed by the narration clip's word timestamps. Caller lines show the live transcript (what interpres heard), with a spoken identifier printed in groups of four as the page's own gate card prints it. Agent lines come from AssemblyAI's transcript of the agent stem.
 
@@ -148,23 +169,23 @@ Every capture starts (and, when the take ends cleanly, ends) with one white fram
 
 | take | flash to beep |
 | --- | --- |
-| `A-20260926T215425` | start 2.3 ms (within a frame), end -0.6 ms (within a frame) |
-| `B-20260926T221242` | start -2.4 ms (within a frame), end -3.9 ms (within a frame) |
-| `C-20260927T064547` | start -4.5 ms (within a frame) |
+| `A-20260927T091341` | start 3.3 ms (within a frame), end -2.9 ms (within a frame) |
+| `B-20260927T091537` | start -0.4 ms (within a frame), end -4.1 ms (within a frame) |
+| `C-20260927T091639` | start -1 ms (within a frame), end -4.3 ms (within a frame) |
 
 What the page's own microphone path received, against each clip as made, in 0.5 s windows:
 
-| take | clip | bit-exact windows | sample slips |
-| --- | --- | ---: | --- |
-| `A-20260926T215425` | Q1 | 4 of 4 | none |
-| `B-20260926T221242` | Q2 | 2 of 3 | none |
-| `C-20260927T064547` | Q3 | 5 of 5 | none |
-| `C-20260927T064547` | Q5 | 26 of 28 | -1 at 3500 ms, +1 at 4000 ms, -3 at 7000 ms |
-| `C-20260927T064547` | Q4 | 5 of 5 | none |
+| take | clip | bit-exact windows | sample slips | worst window SNR |
+| --- | --- | ---: | --- | ---: |
+| `A-20260927T091341` | Q1 | 4 of 4 | none | exact |
+| `B-20260927T091537` | Q2 | 3 of 3 | none | exact |
+| `C-20260927T091639` | Q3 | 4 of 5 | none | 54.9 dB |
+| `C-20260927T091639` | Q5 | 0 of 28 | -1 at 3500 ms, +1 at 4000 ms, -3 at 9500 ms | 15.6 dB |
+| `C-20260927T091639` | Q4 | 0 of 5 | none | 217.3 dB |
 
 ## The rendered file
 
-`interpres-demo.mp4`, sha256 `681ab05e547f734760f6c5f23d0882a06481ee972a1edfcbeda02c5d2c1e863b`. The checks of brief F, F2.7 (`scripts/video/checks.ts`):
+`interpres-demo.mp4`, sha256 `5b96af90f595290b7c01c802c59ff9e747ed7042b120b50569a88cc24d6f0c5f`. The checks of brief F, F2.7 (`scripts/video/checks.ts`):
 
 - ok: video: H.264 High: h264 High
 - ok: video: 1920x1080: 1920x1080
@@ -174,9 +195,9 @@ What the page's own microphone path received, against each clip as made, in 0.5 
 - ok: audio: 48 kHz stereo: 48000 Hz, 2 ch
 - ok: audio: 192 kbps: 192012 b/s
 - ok: +faststart (moov before mdat): ftyp moov free mdat
-- ok: duration and size: 235.567 s, 31,839,453 bytes
-- ok: length 3:30 to 4:15 (hard cap 4:55): 3:55.6
-- ok: size 300 MB or less: 30.4 MB
+- ok: duration and size: 232.107 s, 31,997,494 bytes
+- ok: length 3:30 to 4:15 (hard cap 4:55): 3:52.1
+- ok: size 300 MB or less: 30.5 MB
 - ok: loudness -16 LUFS integrated +-1: -16 LUFS (LRA 5.3 LU)
 - ok: true peak -1.5 dBTP or lower: -2.3 dBTP
 - ok: no black over 0.3 s outside fades: 0 black span(s)
@@ -185,7 +206,7 @@ What the page's own microphone path received, against each clip as made, in 0.5 
 - ok: N3 word for word: ok (variants: interpraze -> interpres)
 - ok: N4 word for word: ok
 - ok: N5 word for word: ok
-- ok: N6 word for word: ok (variants: interprete -> interpres, interprete -> interpres)
+- ok: N6 word for word: ok (variants: interpreze -> interpres, interpreze -> interpres)
 - ok: N8 word for word: ok
 - ok: N7 word for word: ok
 - ok: N9 word for word: ok
@@ -195,23 +216,16 @@ What the page's own microphone path received, against each clip as made, in 0.5 
 
 Every silence of 2.5 s or more at -45 dB, and what it is:
 
-- 43.8 s to 46.7 s: A (live): clicks; Talk pressed: the page fetches a token, opens the session and waits for the greeting
-- 53.1 s to 58.2 s: Q1: the voice-to-voice wait from the caller's last word to the agent's first (5179 ms), never cut | A (live): the tool call goji_explain_term runs
-- 89.9 s to 95.1 s: Q2: the voice-to-voice wait from the caller's last word to the agent's first (5280 ms), never cut | B (live): the tool call get_book_recommenders runs; punch-in on the get_book_recommenders call
-- 117.7 s to 120.7 s: Q3: the voice-to-voice wait from the caller's last word to the agent's first (3104 ms), never cut | C1+C3 (live): the tool call find_tools runs; punch-in on find_tools and the swap
-- 125.0 s to 127.5 s: C1+C3 (live): the page between spoken turns
-- 133.3 s to 139.9 s: Q5: the voice-to-voice wait from the caller's last word to the agent's first (6758 ms), never cut | C1+C3 (live): the tool call find_tools runs; the tool call afg_get_reputation is held by the gate (no request); punch-in on needs_paste
-- 171.4 s to 176.9 s: Q4: the voice-to-voice wait from the caller's last word to the agent's first (5683 ms), never cut | C2 (live): the tool call use_pasted_text runs; the tool call afg_get_reputation runs; punch-in on afg_get_reputation and its argument
-- 230.4 s to 235.6 s: the try slide and the end card
+- 43.8 s to 46.8 s: A (live): clicks; Talk pressed: the page fetches a token, opens the session and waits for the greeting
+- 54.4 s to 58.7 s: Q1: the voice-to-voice wait from the caller's last word to the agent's first (4372 ms), never cut | A (live): the tool call goji_explain_term runs
+- 88.0 s to 92.8 s: Q2: the voice-to-voice wait from the caller's last word to the agent's first (4846 ms), never cut | B (live): the tool call get_book_recommenders runs; punch-in on the get_book_recommenders call
+- 115.7 s to 118.5 s: Q3: the voice-to-voice wait from the caller's last word to the agent's first (2875 ms), never cut | C1+C3 (live): the tool call find_tools runs; punch-in on find_tools and the swap
+- 122.9 s to 125.5 s: C1+C3 (live): the page between spoken turns
+- 131.3 s to 137.1 s: Q5: the voice-to-voice wait from the caller's last word to the agent's first (5949 ms), never cut | C1+C3 (live): the tool call find_tools runs; the tool call afg_get_reputation is held by the gate (no request); punch-in on needs_paste
+- 168.3 s to 173.9 s: Q4: the voice-to-voice wait from the caller's last word to the agent's first (5780 ms), never cut | C2 (live): the tool call use_pasted_text runs; the tool call afg_get_reputation runs; punch-in on afg_get_reputation and its argument
+- 227.0 s to 232.1 s: the try slide and the end card
 
-The transcript of the file's audio is AssemblyAI transcript `2b8e4bce-7936-4fca-a6a7-b21023652e6e` (universal-3-5-pro,universal-2, speaker labels on).
-
-## Changed on the page after capture
-
-Page copy changed after the takes in data/video/takes.json were captured (round G). The video shows the page as it was when captured; nothing inside a page frame is edited.
-
-- the paste box's hint (apps/web/interpres-index.html): "Speech-to-text cannot carry long IDs: nothing it mishears is ever run." is now "Speech-to-text does not reliably carry long IDs, so nothing spoken is run until it is pasted."
-- the AFG preset card (apps/server/src/presets.ts) (the server now lists 18 tools): "15 tools, so find_tools has to swap the set. Test money only." is now "More than ten tools, so find_tools has to swap the set. Test money only."
+The transcript of the file's audio is AssemblyAI transcript `d4a1d616-b8ff-440b-9a74-d27373098c0f` (universal-3-5-pro,universal-2, speaker labels on).
 
 ## Rebuild
 
