@@ -9,6 +9,7 @@
  *   data/video/final-checks.json  F2.7's checks on the rendered file
  *   data/video/previous-takes.json the takes the video used before round H (balanced)
  *   data/video/take-builds.json   the deployed commit each take was captured against
+ *   data/video/waivers.json       checks Sergiu waived for one rendered file, by its sha256
  *   docs/VOICE-SWEEP.md           the sweep's tool-call median
  *   data/e2e-audio-warm-on.json   the warm suite's median (scripts/warm-ab.ts)
  *
@@ -170,8 +171,19 @@ export async function videoDoc(): Promise<string> {
   if (final) {
     md.push('## The rendered file', '');
     md.push(`\`${final.file.split('/').at(-1)}\`${final.sha256 ? `, sha256 \`${final.sha256}\`` : ''}. The checks of brief F, F2.7 (\`scripts/video/checks.ts\`):`, '');
-    for (const r of final.results) md.push(`- ${r.ok ? 'ok' : 'FAIL'}: ${r.check}: ${r.detail}`);
-    if (final.results.some((r) => !r.ok)) md.push('', '**This file failed a check above, so it did not replace the video on the Desktop.** The Desktop keeps the last video that passed every check (BUILDLOG).');
+    // A waiver names the rendered file by sha256, so it can never carry over to another render.
+    const waivers = existsSync('data/video/waivers.json')
+      ? j<{ waivers: Array<{ sha256: string; check: string; by: string; at: string; reason: string }> }>('data/video/waivers.json').waivers.filter((w) => w.sha256 === final.sha256)
+      : [];
+    const waived = (check: string) => waivers.find((w) => w.check === check);
+    for (const r of final.results) md.push(`- ${r.ok ? 'ok' : waived(r.check) ? 'FAIL, waived' : 'FAIL'}: ${r.check}: ${r.detail}`);
+    const failed = final.results.filter((r) => !r.ok);
+    for (const r of failed) {
+      const w = waived(r.check);
+      if (w) md.push('', `**Waived: ${r.check}.** ${w.by} waived this check for this file only (sha256 above) on ${w.at}: ${w.reason}`);
+    }
+    if (failed.some((r) => !waived(r.check))) md.push('', '**This file failed a check above, so it did not replace the video on the Desktop.** The Desktop keeps the last video that passed every check (BUILDLOG).');
+    else if (failed.length > 0) md.push('', 'Every failed check above is waived for this file, so it is the video on the Desktop.');
     md.push('', `Every silence of 2.5 s or more at -45 dB, and what it is:`, '');
     for (const x of final.silences) md.push(`- ${s1(x.start)} to ${s1(x.end)}: ${x.what}`);
     md.push('', `The transcript of the file's audio is AssemblyAI transcript \`${final.transcript.id}\` (${final.transcript.speechModel}, speaker labels on).`, '');

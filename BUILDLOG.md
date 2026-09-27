@@ -3685,3 +3685,31 @@ used 10: 1 take and 9 narration sessions.
 ```
 $ npm test    ℹ tests 424  ℹ pass 424  ℹ fail 0
 ```
+
+## 2026-09-27 - the final round: N6 waived for this build, and the video on the Desktop
+
+**The waiver.** Sergiu waived "N6 word for word" for the 4:14.1 build only, sha256
+`75d96f35fe858ed578d2e208d127ceccdf936d25f7b0b3a57b13f424dda67cd8`. His reason: "The line passed its
+own clip check; the final-file transcriber misheard the invented name "interpres" as "interplay"."
+- It is recorded in `data/video/waivers.json` against that sha256, so it cannot carry over to
+  another render.
+- VIDEO.md prints the check as "FAIL, waived", with the reason.
+
+**Run:** `node --env-file=.env scripts/video/build.ts --skip-render --reuse-transcript`.
+- The render was skipped, because the edit list is the one this file was rendered from.
+- Transcript `ce12ea6f-c660-4f76-9b64-8898e9db6f81` was reused, because it is the same file.
+- Every check read as before: all ok except N6, now waived.
+
+**Desktop outputs:**
+
+| file | sha256 |
+| --- | --- |
+| `interpres-demo.mp4` (4:14.1, 33,944,626 bytes) | `75d96f35fe858ed578d2e208d127ceccdf936d25f7b0b3a57b13f424dda67cd8` |
+| `interpres-demo.srt` | `cb22146c2551f5dcf6a0c05b29666656bce27c23467d9164077909502c227ca7` |
+| `interpres-demo-transcript.txt` | `e170dbc539c572f3b63314ed1f7b485a8316924ed6754f265517d55e4c70ec9b` |
+| `interpres-demo-contact.png` | `99a5b74ed013fe2bc9a4bdb5ce6c65970be0bdf8d2aa45026165da834d7e713b` |
+| `interpres-demo-frames/1-found.png` | `82d84d597fcef0d33c433e5b1c8a16a36ccb928660a6be84a2d6834782e61ab5` |
+| `interpres-demo-frames/2-scene-a-tool-call.png` | `3e6fc0c979b907db6343f007c808ede436bb8eb6602f265d1a896cef5ddc91ae` |
+| `interpres-demo-frames/3-swap-card.png` | `8f1a6ef9f7b863e1acff93287a1a7ecd74364cad79226510961a077b78a82a16` |
+| `interpres-demo-frames/4-needs-paste.png` | `5c0478ae86b638426a5f1c4722140d282344a8f2ec2823f1b1a2681b0f8962bf` |
+| `interpres-demo-frames/5-registry-slide.png` | `fba65d666163e33a4373dc15792e98d3f91195b68587afa3a611e01246383107` |

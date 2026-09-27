@@ -1,0 +1,12 @@
+{
+ "what": "F2.7 checks Sergiu waived for one rendered file, named by its sha256. A waiver covers that file only; a new render is checked in full again.",
+ "waivers": [
+  {
+   "sha256": "75d96f35fe858ed578d2e208d127ceccdf936d25f7b0b3a57b13f424dda67cd8",
+   "check": "N6 word for word",
+   "by": "Sergiu",
+   "at": "2026-09-27",
+   "reason": "The line passed its own clip check; the final-file transcriber misheard the invented name \"interpres\" as \"interplay\"."
+  }
+ ]
+}

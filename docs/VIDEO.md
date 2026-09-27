@@ -222,7 +222,7 @@ What the page's own microphone path received, against each clip as made, in 0.5 
 - ok: N3 word for word: ok (variants: interpreze -> interpres)
 - ok: N4 word for word: ok
 - ok: N5 word for word: ok
-- FAIL: N6 word for word: at word 7: script "interpres shows the agent" heard "interplay shows the agent"
+- FAIL, waived: N6 word for word: at word 7: script "interpres shows the agent" heard "interplay shows the agent"
 - ok: N8 word for word: ok
 - ok: N7 word for word: ok
 - ok: N9 word for word: ok
@@ -231,7 +231,9 @@ What the page's own microphone path received, against each clip as made, in 0.5 
 - ok: N12 word for word: ok
 - ok: N13 word for word: ok (variants: interprez -> interpres)
 
-**This file failed a check above, so it did not replace the video on the Desktop.** The Desktop keeps the last video that passed every check (BUILDLOG).
+**Waived: N6 word for word.** Sergiu waived this check for this file only (sha256 above) on 2026-09-27: The line passed its own clip check; the final-file transcriber misheard the invented name "interpres" as "interplay".
+
+Every failed check above is waived for this file, so it is the video on the Desktop.
 
 Every silence of 2.5 s or more at -45 dB, and what it is:
 
