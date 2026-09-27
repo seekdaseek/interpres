@@ -34,6 +34,7 @@ The 6 exact hearings came from 1 distinct clip: michael's Q5 clip (sha256 9bd03d
 | `e2e-audio-gate-paste-d4.json` | the address was pasted, not spoken |
 | `e2e-audio-gate-paste.json` | the address was pasted, not spoken |
 | `e2e-checkpoint-a.json` | text injected with conversation.message (scripts/e2e.ts), not speech |
+| `latency-ab-2026-09-27.json` | the transcription-mode A/B (round G1): no clip speaks an address; the only one was pasted for Q4 |
 | `qa-audio/clips.json` | the clip texts themselves, counted through the QA record |
 | `sweep-2026-09-26T1148Z-summary.json` | an address inside a registry server description; nothing was spoken |
 | `sweep-2026-09-26T1252Z-recheck-summary.json` | an address inside a registry server description; nothing was spoken |

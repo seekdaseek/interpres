@@ -1,0 +1,31 @@
+{
+ "GATES": {
+  "madeIn": "sess_cb3de09f5a124c29895d81f62ced4be2",
+  "ms": 2280
+ },
+ "DUNE": {
+  "madeIn": "sess_ab0b8356d78a43f39251ef5fd68f677e",
+  "ms": 3200
+ },
+ "HESITATION": {
+  "madeIn": [
+   "sess_6fa0d5fa19b2491daa48e1638444551a",
+   "sess_ada0ba7e74814cd6a0be1cdd6844ab6b"
+  ],
+  "gapMs": 800,
+  "ms": 3331
+ },
+ "SERGIU": {
+  "session": "sess_a5ba0e6e7f7648ceb26cc31b751f1e08",
+  "channel": 0,
+  "fromS": 6.7,
+  "toS": 9.841,
+  "timelineSaid": [
+   1790455474134,
+   1790455476922
+  ],
+  "recordingOffsetS": 1.52,
+  "transcript": "What is SEO in plain English?",
+  "speechModel": "universal-3-5-pro,universal-2"
+ }
+}

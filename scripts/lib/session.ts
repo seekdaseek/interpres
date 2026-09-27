@@ -156,6 +156,12 @@ export type OpenOptions = {
    * session listens first with no greeting, as every proof script always has.
    */
   asPage?: boolean;
+  /**
+   * `input.transcription_mode` ("min_latency" | "balanced" | "max_accuracy"). Unset,
+   * nothing is sent, which is what interpres sends today: the API's default, balanced.
+   * When set it rides on every input update the session sends.
+   */
+  transcriptionMode?: 'min_latency' | 'balanced' | 'max_accuracy';
 };
 
 /** What `/api/mcp/connect` returns, as far as a session needs it. */
@@ -207,6 +213,7 @@ export class LiveSession {
   /** The opening `session.update`, exactly as sent. */
   sentSetup: Record<string, unknown> = {};
   private readonly asPage: boolean;
+  readonly transcriptionMode?: 'min_latency' | 'balanced' | 'max_accuracy';
   /** Every gate decision that stopped a call, in order. */
   readonly gateLog: Array<{ tool: string; action: GateDecision['action']; trigger?: string; heard?: string; at: number }> = [];
   /** MCP tools/call requests actually made, by tool - the thing the gate must keep at zero. */
@@ -253,6 +260,7 @@ export class LiveSession {
     if (!remote) assertPhaseValid(this.phase);
     this.phaseKeyterms = this.phase.keyterms;
     this.asPage = opts.asPage ?? false;
+    this.transcriptionMode = opts.transcriptionMode;
     this.shaper = makeShaper({ stats: this.shaperStats, breaker: this.breaker });
     this.refine = config.shaperRefine;
     this.protocol = new AgentProtocol(
@@ -415,7 +423,7 @@ export class LiveSession {
         if (this.sessionId === '') reject(new Error(`socket closed before session.ready (code ${(ev as CloseEvent).code})`));
       });
     });
-    const input = { keyterms: mergeKeyterms(this.phaseKeyterms, this.yourKeyterms), transcription_prompt: this.phase.transcriptionPrompt };
+    const input = { keyterms: mergeKeyterms(this.phaseKeyterms, this.yourKeyterms), transcription_prompt: this.phase.transcriptionPrompt, ...this.modeField() };
     // By default no greeting: "omit it to listen first", which keeps the event
     // flow clean. `asPage` sends what the page sends, greeting and all.
     this.sentSetup = this.asPage
@@ -486,7 +494,8 @@ export class LiveSession {
       }
       this.log(`  PHASE -> ${outcome.available.join(', ')}`);
       if (outcome.carried.length > 0) this.log(`  PHASE carried from the user's turn: ${outcome.carried.join(', ')}`);
-      return { result: outcome.toolResult, sessionUpdate: { session: upd.session } };
+      const withMode = { ...upd.session, input: { ...(upd.session.input as Record<string, unknown>), ...this.modeField() } };
+      return { result: outcome.toolResult, sessionUpdate: { session: withMode } };
     }
 
     const mcpName = this.catalog.nameMap.get(call.name);
@@ -565,6 +574,11 @@ export class LiveSession {
     }
   }
 
+  /** `{ transcription_mode }` when the session was opened with one, else nothing. */
+  private modeField(): Record<string, string> {
+    return this.transcriptionMode ? { transcription_mode: this.transcriptionMode } : {};
+  }
+
   /**
    * The paste box changed mid-session, as the page's `notePaste` handles it:
    * the text becomes a source the gate accepts, and its word parts join the
@@ -577,7 +591,7 @@ export class LiveSession {
     this.yourKeyterms = pasteKeyterms(text);
     const merged = mergeKeyterms(this.phaseKeyterms, this.yourKeyterms);
     this.phase = { ...this.phase, keyterms: merged };
-    this.send({ type: 'session.update', session: { input: { keyterms: merged } } });
+    this.send({ type: 'session.update', session: { input: { keyterms: merged, ...this.modeField() } } });
     return merged;
   }
 

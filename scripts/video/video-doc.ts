@@ -139,6 +139,14 @@ export async function videoDoc(): Promise<string> {
     md.push('', `The transcript of the file's audio is AssemblyAI transcript \`${final.transcript.id}\` (${final.transcript.speechModel}, speaker labels on).`, '');
   }
 
+  if (existsSync('data/video/after-capture.json')) {
+    const after = j<{ what: string; changes: Array<{ where: string; before: string; after: string; why?: string }> }>('data/video/after-capture.json');
+    md.push('## Changed on the page after capture', '');
+    md.push(after.what, '');
+    for (const c of after.changes) md.push(`- ${c.where}${c.why ? ` (${c.why})` : ''}: "${c.before}" is now "${c.after}"`);
+    md.push('');
+  }
+
   md.push('## Rebuild', '');
   md.push('From the saved captures in `video/captures/` (not in git: frames and stems are too heavy):', '');
   md.push('```', 'node --env-file=.env scripts/video/build.ts', '```', '');

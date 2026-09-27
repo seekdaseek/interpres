@@ -35,7 +35,8 @@ export const PRESETS: Preset[] = [
   {
     label: 'AFG marketplace (sandbox)',
     url: 'https://afg.ai/mcp',
-    blurb: '15 tools, so find_tools has to swap the set. Test money only.',
+    // No count: the server grew from 15 to 18 tools; the point is only that it is over ten.
+    blurb: 'More than ten tools, so find_tools has to swap the set. Test money only.',
     asks: [
       // Paste the sample address first: identifiers go by keyboard, intent by voice.
       'Check the reputation of the wallet I pasted.',

@@ -134,6 +134,7 @@ function leftOutReason(file: string): string | null {
   if (/^sweep-/.test(file)) return 'an address inside a registry server description; nothing was spoken';
   if (/^qa-audio\//.test(file)) return 'the clip texts themselves, counted through the QA record';
   if (file === 'video/caller-gate.json') return 'the F2a hearing gate: its only address was pasted for Q4, not spoken';
+  if (/^latency-ab-/.test(file)) return 'the transcription-mode A/B (round G1): no clip speaks an address; the only one was pasted for Q4';
   if (file === 'video/voices.json') return 'the caller clip texts themselves; the sessions that spoke them are counted';
   if (/^video\/transcripts\//.test(file)) return 'a capture stem transcript; that take is counted from its capture log';
   return null;

@@ -1,0 +1,1073 @@
+{
+ "what": "Round G1: transcription_mode balanced (nothing sent, today) against min_latency; in-process, the page's exact session setup per server. scripts/latency-ab.ts",
+ "turns": [
+  {
+   "clip": "Q1",
+   "mode": "balanced",
+   "run": 1,
+   "sessionId": "sess_3457f947d5ca4d07813c88944d4452fd",
+   "at": "2026-09-27T08:06:40.519Z",
+   "heard": "What is AEO in plain English?",
+   "exact": false,
+   "transcripts": 1,
+   "split": false,
+   "endOfTurnMs": 1902,
+   "voiceToVoiceMs": 5317,
+   "calls": [
+    {
+     "name": "goji_explain_term",
+     "arguments": {
+      "term": "AEO"
+     }
+    }
+   ]
+  },
+  {
+   "clip": "Q1",
+   "mode": "min_latency",
+   "run": 1,
+   "sessionId": "sess_b2740c5944ed4706a8244c6ef29f6472",
+   "at": "2026-09-27T08:07:13.985Z",
+   "heard": "What is SEO in plain English?",
+   "exact": true,
+   "transcripts": 1,
+   "split": false,
+   "endOfTurnMs": 1241,
+   "voiceToVoiceMs": 3986,
+   "calls": [
+    {
+     "name": "goji_explain_term",
+     "arguments": {
+      "term": "SEO"
+     }
+    }
+   ]
+  },
+  {
+   "clip": "HESITATION",
+   "mode": "balanced",
+   "run": 1,
+   "sessionId": "sess_a94b55e083454b54a714ab32f0135026",
+   "at": "2026-09-27T08:07:43.475Z",
+   "heard": "What is? SEO in plain English.",
+   "exact": true,
+   "transcripts": 2,
+   "split": true,
+   "endOfTurnMs": 1711,
+   "voiceToVoiceMs": 4314,
+   "calls": [
+    {
+     "name": "goji_explain_term",
+     "arguments": {
+      "term": "SEO"
+     }
+    }
+   ]
+  },
+  {
+   "clip": "HESITATION",
+   "mode": "min_latency",
+   "run": 1,
+   "sessionId": "sess_8c8ef2c7a0ed43328d2d4f127631e8a7",
+   "at": "2026-09-27T08:08:17.381Z",
+   "heard": "What is? SEO in plain English.",
+   "exact": true,
+   "transcripts": 2,
+   "split": true,
+   "endOfTurnMs": 1099,
+   "voiceToVoiceMs": 3823,
+   "calls": [
+    {
+     "name": "goji_explain_term",
+     "arguments": {
+      "term": "SEO"
+     }
+    }
+   ]
+  },
+  {
+   "clip": "SERGIU",
+   "mode": "balanced",
+   "run": 1,
+   "sessionId": "sess_57d08b894c3247679cdd4acabf62ba2d",
+   "at": "2026-09-27T08:08:49.698Z",
+   "heard": "What is SEO in plain English?",
+   "exact": true,
+   "transcripts": 1,
+   "split": false,
+   "endOfTurnMs": 1920,
+   "voiceToVoiceMs": 4637,
+   "calls": [
+    {
+     "name": "goji_explain_term",
+     "arguments": {
+      "term": "SEO"
+     }
+    }
+   ]
+  },
+  {
+   "clip": "SERGIU",
+   "mode": "min_latency",
+   "run": 1,
+   "sessionId": "sess_aa9a9153156f4cf991b0a1840cbee563",
+   "at": "2026-09-27T08:09:20.819Z",
+   "heard": "What is SEO in plain English?",
+   "exact": true,
+   "transcripts": 1,
+   "split": false,
+   "endOfTurnMs": 1001,
+   "voiceToVoiceMs": 3640,
+   "calls": [
+    {
+     "name": "goji_explain_term",
+     "arguments": {
+      "term": "SEO"
+     }
+    }
+   ]
+  },
+  {
+   "clip": "Q2",
+   "mode": "balanced",
+   "run": 1,
+   "sessionId": "sess_50d9ab5adbee422ea20449038d77bdd6",
+   "at": "2026-09-27T08:09:51.460Z",
+   "heard": "Who recommends Sapiens?",
+   "exact": true,
+   "transcripts": 1,
+   "split": false,
+   "endOfTurnMs": 1900,
+   "voiceToVoiceMs": 4799,
+   "calls": [
+    {
+     "name": "get_book_recommenders",
+     "arguments": {
+      "title": "Sapiens"
+     }
+    }
+   ]
+  },
+  {
+   "clip": "Q2",
+   "mode": "min_latency",
+   "run": 1,
+   "sessionId": "sess_70bf9de043e943d3bd84aee5d3574ced",
+   "at": "2026-09-27T08:10:12.237Z",
+   "heard": "Who recommends Sapiens?",
+   "exact": true,
+   "transcripts": 1,
+   "split": false,
+   "endOfTurnMs": 1296,
+   "voiceToVoiceMs": 4055,
+   "calls": [
+    {
+     "name": "get_book_recommenders",
+     "arguments": {
+      "title": "Sapiens"
+     }
+    }
+   ]
+  },
+  {
+   "clip": "GATES",
+   "mode": "balanced",
+   "run": 1,
+   "sessionId": "sess_e4bc81fd4cec48e7bbe83ceafd3c4e1f",
+   "at": "2026-09-27T08:10:32.339Z",
+   "heard": "What books does Bill Gates recommend?",
+   "exact": true,
+   "transcripts": 1,
+   "split": false,
+   "endOfTurnMs": 813,
+   "voiceToVoiceMs": 3268,
+   "calls": [
+    {
+     "name": "get_person_recommendations",
+     "arguments": {
+      "person": "Bill Gates"
+     }
+    }
+   ]
+  },
+  {
+   "clip": "GATES",
+   "mode": "min_latency",
+   "run": 1,
+   "sessionId": "sess_82109be166a64f3387317dcfc335ac3f",
+   "at": "2026-09-27T08:10:59.311Z",
+   "heard": "What books does Bill Gates recommend?",
+   "exact": true,
+   "transcripts": 1,
+   "split": false,
+   "endOfTurnMs": 807,
+   "voiceToVoiceMs": 3254,
+   "calls": [
+    {
+     "name": "get_person_recommendations",
+     "arguments": {
+      "person": "Bill Gates"
+     }
+    }
+   ]
+  },
+  {
+   "clip": "DUNE",
+   "mode": "balanced",
+   "run": 1,
+   "sessionId": "sess_2fb74337e2f8439199315192129502e3",
+   "at": "2026-09-27T08:11:25.258Z",
+   "heard": "What is the reading order for the Dune series?",
+   "exact": true,
+   "transcripts": 1,
+   "split": false,
+   "endOfTurnMs": 750,
+   "voiceToVoiceMs": 3178,
+   "calls": [
+    {
+     "name": "get_series_reading_order",
+     "arguments": {
+      "series": "Dune"
+     }
+    }
+   ]
+  },
+  {
+   "clip": "DUNE",
+   "mode": "min_latency",
+   "run": 1,
+   "sessionId": "sess_a6d723d26c364405b365533eed606ad5",
+   "at": "2026-09-27T08:11:53.278Z",
+   "heard": "What is the reading order for the Dune series?",
+   "exact": true,
+   "transcripts": 1,
+   "split": false,
+   "endOfTurnMs": 756,
+   "voiceToVoiceMs": 2904,
+   "calls": [
+    {
+     "name": "get_series_reading_order",
+     "arguments": {
+      "series": "Dune"
+     }
+    }
+   ]
+  },
+  {
+   "clip": "Q3",
+   "mode": "balanced",
+   "run": 1,
+   "sessionId": "sess_59965d4b80d74d1c9736ab2352f28f51",
+   "at": "2026-09-27T08:12:25.846Z",
+   "heard": "I want to run a spec check on a job contract.",
+   "exact": true,
+   "transcripts": 1,
+   "split": false,
+   "endOfTurnMs": 612,
+   "voiceToVoiceMs": 2498,
+   "calls": [
+    {
+     "name": "find_tools",
+     "arguments": {
+      "query": "run a spec check on a job contract"
+     }
+    }
+   ]
+  },
+  {
+   "clip": "Q4",
+   "mode": "balanced",
+   "run": 1,
+   "sessionId": "sess_59965d4b80d74d1c9736ab2352f28f51",
+   "at": "2026-09-27T08:12:39.950Z",
+   "heard": "Check the reputation of the wallet I pasted.",
+   "exact": true,
+   "transcripts": 1,
+   "split": false,
+   "endOfTurnMs": 780,
+   "voiceToVoiceMs": 6225,
+   "calls": [
+    {
+     "name": "use_pasted_text",
+     "arguments": {}
+    },
+    {
+     "name": "find_tools",
+     "arguments": {
+      "query": "check the reputation of a wallet address"
+     }
+    },
+    {
+     "name": "afg_get_reputation",
+     "arguments": {
+      "address": "0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed"
+     }
+    }
+   ]
+  },
+  {
+   "clip": "Q3",
+   "mode": "min_latency",
+   "run": 1,
+   "sessionId": "sess_aeb698c07a1943ec8e814ffecb547e5f",
+   "at": "2026-09-27T08:13:08.785Z",
+   "heard": "I want to run a spec check on a job contract.",
+   "exact": true,
+   "transcripts": 1,
+   "split": false,
+   "endOfTurnMs": 617,
+   "voiceToVoiceMs": 2303,
+   "calls": [
+    {
+     "name": "find_tools",
+     "arguments": {
+      "query": "run a spec check on a job contract"
+     }
+    }
+   ]
+  },
+  {
+   "clip": "Q4",
+   "mode": "min_latency",
+   "run": 1,
+   "sessionId": "sess_aeb698c07a1943ec8e814ffecb547e5f",
+   "at": "2026-09-27T08:13:21.717Z",
+   "heard": "Check the reputation of the wallet I pasted.",
+   "exact": true,
+   "transcripts": 1,
+   "split": false,
+   "endOfTurnMs": 840,
+   "voiceToVoiceMs": 6210,
+   "calls": [
+    {
+     "name": "use_pasted_text",
+     "arguments": {}
+    },
+    {
+     "name": "find_tools",
+     "arguments": {
+      "query": "check the reputation of a wallet address"
+     }
+    },
+    {
+     "name": "afg_get_reputation",
+     "arguments": {
+      "address": "0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed"
+     }
+    }
+   ]
+  },
+  {
+   "clip": "Q1",
+   "mode": "min_latency",
+   "run": 2,
+   "sessionId": "sess_08ceeee6954c4d8199275beb10873fd6",
+   "at": "2026-09-27T08:13:44.888Z",
+   "heard": "What is SEO in plain English?",
+   "exact": true,
+   "transcripts": 1,
+   "split": false,
+   "endOfTurnMs": 1140,
+   "voiceToVoiceMs": 4091,
+   "calls": [
+    {
+     "name": "goji_explain_term",
+     "arguments": {
+      "term": "SEO"
+     }
+    }
+   ]
+  },
+  {
+   "clip": "Q1",
+   "mode": "balanced",
+   "run": 2,
+   "sessionId": "sess_fa334974cd3145a286cf064d5599bf7a",
+   "at": "2026-09-27T08:14:14.616Z",
+   "heard": "What is SEO in plain English?",
+   "exact": true,
+   "transcripts": 1,
+   "split": false,
+   "endOfTurnMs": 1734,
+   "voiceToVoiceMs": 4368,
+   "calls": [
+    {
+     "name": "goji_explain_term",
+     "arguments": {
+      "term": "SEO"
+     }
+    }
+   ]
+  },
+  {
+   "clip": "HESITATION",
+   "mode": "min_latency",
+   "run": 2,
+   "sessionId": "sess_c9fdb011bf814f149e5f2d40d411e6e5",
+   "at": "2026-09-27T08:14:45.070Z",
+   "heard": "What is? SEO in plain English.",
+   "exact": true,
+   "transcripts": 2,
+   "split": true,
+   "endOfTurnMs": 1199,
+   "voiceToVoiceMs": 3822,
+   "calls": [
+    {
+     "name": "goji_explain_term",
+     "arguments": {
+      "term": "SEO"
+     }
+    }
+   ]
+  },
+  {
+   "clip": "HESITATION",
+   "mode": "balanced",
+   "run": 2,
+   "sessionId": "sess_d2f6b36de4874709b9487437da4223db",
+   "at": "2026-09-27T08:15:27.480Z",
+   "heard": "What is? SEO in plain English.",
+   "exact": true,
+   "transcripts": 2,
+   "split": true,
+   "endOfTurnMs": 1715,
+   "voiceToVoiceMs": 4287,
+   "calls": [
+    {
+     "name": "goji_explain_term",
+     "arguments": {
+      "term": "SEO"
+     }
+    }
+   ]
+  },
+  {
+   "clip": "SERGIU",
+   "mode": "min_latency",
+   "run": 2,
+   "sessionId": "sess_2900738aacde4668bc22b8283fb96273",
+   "at": "2026-09-27T08:15:59.808Z",
+   "heard": "What is SEO in plain English?",
+   "exact": true,
+   "transcripts": 1,
+   "split": false,
+   "endOfTurnMs": 997,
+   "voiceToVoiceMs": 3658,
+   "calls": [
+    {
+     "name": "goji_explain_term",
+     "arguments": {
+      "term": "SEO"
+     }
+    }
+   ]
+  },
+  {
+   "clip": "SERGIU",
+   "mode": "balanced",
+   "run": 2,
+   "sessionId": "sess_d91bb5b00e184b319d0544b9bb4fe161",
+   "at": "2026-09-27T08:16:27.177Z",
+   "heard": "What is SEO in plain English?",
+   "exact": true,
+   "transcripts": 1,
+   "split": false,
+   "endOfTurnMs": 1594,
+   "voiceToVoiceMs": 4408,
+   "calls": [
+    {
+     "name": "goji_explain_term",
+     "arguments": {
+      "term": "SEO"
+     }
+    }
+   ]
+  },
+  {
+   "clip": "Q2",
+   "mode": "min_latency",
+   "run": 2,
+   "sessionId": "sess_1be53bcac1e244a081060c574f3ce627",
+   "at": "2026-09-27T08:17:01.636Z",
+   "heard": "Who recommends Sapiens?",
+   "exact": true,
+   "transcripts": 1,
+   "split": false,
+   "endOfTurnMs": 1199,
+   "voiceToVoiceMs": 4019,
+   "calls": [
+    {
+     "name": "get_book_recommenders",
+     "arguments": {
+      "title": "Sapiens"
+     }
+    }
+   ]
+  },
+  {
+   "clip": "Q2",
+   "mode": "balanced",
+   "run": 2,
+   "sessionId": "sess_47842a310010484f93018e6eee799652",
+   "at": "2026-09-27T08:17:25.372Z",
+   "heard": "Who recommends Sapiens?",
+   "exact": true,
+   "transcripts": 1,
+   "split": false,
+   "endOfTurnMs": 1807,
+   "voiceToVoiceMs": 4413,
+   "calls": [
+    {
+     "name": "get_book_recommenders",
+     "arguments": {
+      "title": "Sapiens"
+     }
+    }
+   ]
+  },
+  {
+   "clip": "GATES",
+   "mode": "min_latency",
+   "run": 2,
+   "sessionId": "sess_02ebfbe28ea54a1789c0158ce1b4ce4d",
+   "at": "2026-09-27T08:17:46.554Z",
+   "heard": "What books does Bill Gates recommend?",
+   "exact": true,
+   "transcripts": 1,
+   "split": false,
+   "endOfTurnMs": 767,
+   "voiceToVoiceMs": 3317,
+   "calls": [
+    {
+     "name": "get_person_recommendations",
+     "arguments": {
+      "person": "Bill Gates"
+     }
+    }
+   ]
+  },
+  {
+   "clip": "GATES",
+   "mode": "balanced",
+   "run": 2,
+   "sessionId": "sess_50763f1f28b7479c9b2a8f9d0431481e",
+   "at": "2026-09-27T08:18:13.645Z",
+   "heard": "What books does Bill Gates recommend?",
+   "exact": true,
+   "transcripts": 1,
+   "split": false,
+   "endOfTurnMs": 718,
+   "voiceToVoiceMs": 3083,
+   "calls": [
+    {
+     "name": "get_person_recommendations",
+     "arguments": {
+      "person": "Bill Gates"
+     }
+    }
+   ]
+  },
+  {
+   "clip": "DUNE",
+   "mode": "min_latency",
+   "run": 2,
+   "sessionId": "sess_2b1674e44d154d4387214b052c9f9487",
+   "at": "2026-09-27T08:18:37.929Z",
+   "heard": "What is the reading order for the Dune series?",
+   "exact": true,
+   "transcripts": 1,
+   "split": false,
+   "endOfTurnMs": 831,
+   "voiceToVoiceMs": 3310,
+   "calls": [
+    {
+     "name": "get_series_reading_order",
+     "arguments": {
+      "series": "Dune"
+     }
+    }
+   ]
+  },
+  {
+   "clip": "DUNE",
+   "mode": "balanced",
+   "run": 2,
+   "sessionId": "sess_907ed807943948a5908e545713ca9283",
+   "at": "2026-09-27T08:19:05.061Z",
+   "heard": "What is the reading order for the Dune series?",
+   "exact": true,
+   "transcripts": 1,
+   "split": false,
+   "endOfTurnMs": 630,
+   "voiceToVoiceMs": 2959,
+   "calls": [
+    {
+     "name": "get_series_reading_order",
+     "arguments": {
+      "series": "Dune"
+     }
+    }
+   ]
+  },
+  {
+   "clip": "Q3",
+   "mode": "min_latency",
+   "run": 2,
+   "sessionId": "sess_14f03cb7874241dc8422f93ac4c5c0fa",
+   "at": "2026-09-27T08:19:39.358Z",
+   "heard": "I want to run a spec check on a job contract.",
+   "exact": true,
+   "transcripts": 1,
+   "split": false,
+   "endOfTurnMs": 690,
+   "voiceToVoiceMs": 2462,
+   "calls": [
+    {
+     "name": "find_tools",
+     "arguments": {
+      "query": "run a spec check on a job contract"
+     }
+    }
+   ]
+  },
+  {
+   "clip": "Q4",
+   "mode": "min_latency",
+   "run": 2,
+   "sessionId": "sess_14f03cb7874241dc8422f93ac4c5c0fa",
+   "at": "2026-09-27T08:19:52.377Z",
+   "heard": "Check the reputation of the wallet I pasted.",
+   "exact": true,
+   "transcripts": 1,
+   "split": false,
+   "endOfTurnMs": 933,
+   "voiceToVoiceMs": 6428,
+   "calls": [
+    {
+     "name": "use_pasted_text",
+     "arguments": {}
+    },
+    {
+     "name": "find_tools",
+     "arguments": {
+      "query": "get reputation of a wallet address"
+     }
+    },
+    {
+     "name": "afg_get_reputation",
+     "arguments": {
+      "address": "0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed"
+     }
+    }
+   ]
+  },
+  {
+   "clip": "Q3",
+   "mode": "balanced",
+   "run": 2,
+   "sessionId": "sess_f6447fff64e24628bf80c6f63d4216e4",
+   "at": "2026-09-27T08:20:20.374Z",
+   "heard": "I want to run a spec check on a job contract.",
+   "exact": true,
+   "transcripts": 1,
+   "split": false,
+   "endOfTurnMs": 772,
+   "voiceToVoiceMs": 2651,
+   "calls": [
+    {
+     "name": "find_tools",
+     "arguments": {
+      "query": "run a spec check on a job contract"
+     }
+    }
+   ]
+  },
+  {
+   "clip": "Q4",
+   "mode": "balanced",
+   "run": 2,
+   "sessionId": "sess_f6447fff64e24628bf80c6f63d4216e4",
+   "at": "2026-09-27T08:20:33.937Z",
+   "heard": "Check the reputation of the wallet I pasted.",
+   "exact": true,
+   "transcripts": 1,
+   "split": false,
+   "endOfTurnMs": 833,
+   "voiceToVoiceMs": 6198,
+   "calls": [
+    {
+     "name": "use_pasted_text",
+     "arguments": {}
+    },
+    {
+     "name": "find_tools",
+     "arguments": {
+      "query": "get reputation of a wallet address"
+     }
+    },
+    {
+     "name": "afg_get_reputation",
+     "arguments": {
+      "address": "0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed"
+     }
+    }
+   ]
+  },
+  {
+   "clip": "Q1",
+   "mode": "balanced",
+   "run": 3,
+   "sessionId": "sess_25413318c02946eabb2a07c0014f9e71",
+   "at": "2026-09-27T08:20:58.894Z",
+   "heard": "What is AEO in plain English?",
+   "exact": false,
+   "transcripts": 1,
+   "split": false,
+   "endOfTurnMs": 1913,
+   "voiceToVoiceMs": 5237,
+   "calls": [
+    {
+     "name": "goji_explain_term",
+     "arguments": {
+      "term": "AEO"
+     }
+    }
+   ]
+  },
+  {
+   "clip": "Q1",
+   "mode": "min_latency",
+   "run": 3,
+   "sessionId": "sess_a04f9ca9d0714095a810c9219bcbe521",
+   "at": "2026-09-27T08:21:32.421Z",
+   "heard": "What is SEO in plain English?",
+   "exact": true,
+   "transcripts": 1,
+   "split": false,
+   "endOfTurnMs": 1311,
+   "voiceToVoiceMs": 4101,
+   "calls": [
+    {
+     "name": "goji_explain_term",
+     "arguments": {
+      "term": "SEO"
+     }
+    }
+   ]
+  },
+  {
+   "clip": "HESITATION",
+   "mode": "balanced",
+   "run": 3,
+   "sessionId": "sess_b00d7241cd8f4a9c8b2fd81b42a746fd",
+   "at": "2026-09-27T08:22:02.927Z",
+   "heard": "What is? SEO in plain English.",
+   "exact": true,
+   "transcripts": 2,
+   "split": true,
+   "endOfTurnMs": 1760,
+   "voiceToVoiceMs": 4471,
+   "calls": [
+    {
+     "name": "goji_explain_term",
+     "arguments": {
+      "term": "SEO"
+     }
+    }
+   ]
+  },
+  {
+   "clip": "HESITATION",
+   "mode": "min_latency",
+   "run": 3,
+   "sessionId": "sess_a4812001171047f18a278783cf2713e6",
+   "at": "2026-09-27T08:22:33.957Z",
+   "heard": "What is? SEO in plain English.",
+   "exact": true,
+   "transcripts": 2,
+   "split": true,
+   "endOfTurnMs": 1120,
+   "voiceToVoiceMs": 3842,
+   "calls": [
+    {
+     "name": "goji_explain_term",
+     "arguments": {
+      "term": "SEO"
+     }
+    }
+   ]
+  },
+  {
+   "clip": "SERGIU",
+   "mode": "balanced",
+   "run": 3,
+   "sessionId": "sess_a61c32bd77664961b12c3db65ae79f80",
+   "at": "2026-09-27T08:23:07.907Z",
+   "heard": "What is SEO in plain English?",
+   "exact": true,
+   "transcripts": 1,
+   "split": false,
+   "endOfTurnMs": 1691,
+   "voiceToVoiceMs": 4493,
+   "calls": [
+    {
+     "name": "goji_explain_term",
+     "arguments": {
+      "term": "SEO"
+     }
+    }
+   ]
+  },
+  {
+   "clip": "SERGIU",
+   "mode": "min_latency",
+   "run": 3,
+   "sessionId": "sess_0101f5a2e93c445f9db256295c2b8faf",
+   "at": "2026-09-27T08:23:39.886Z",
+   "heard": "What is SEO in plain English?",
+   "exact": true,
+   "transcripts": 1,
+   "split": false,
+   "endOfTurnMs": 1023,
+   "voiceToVoiceMs": 3732,
+   "calls": [
+    {
+     "name": "goji_explain_term",
+     "arguments": {
+      "term": "SEO"
+     }
+    }
+   ]
+  },
+  {
+   "clip": "Q2",
+   "mode": "balanced",
+   "run": 3,
+   "sessionId": "sess_99b36da51a024975aeac521abda75a92",
+   "at": "2026-09-27T08:24:16.049Z",
+   "heard": "Who recommends Sapiens?",
+   "exact": true,
+   "transcripts": 1,
+   "split": false,
+   "endOfTurnMs": 1913,
+   "voiceToVoiceMs": 4655,
+   "calls": [
+    {
+     "name": "get_book_recommenders",
+     "arguments": {
+      "title": "Sapiens"
+     }
+    }
+   ]
+  },
+  {
+   "clip": "Q2",
+   "mode": "min_latency",
+   "run": 3,
+   "sessionId": "sess_f006ca64ae8a4f6085bc3620535c7e93",
+   "at": "2026-09-27T08:24:36.701Z",
+   "heard": "Who recommends Sapiens?",
+   "exact": true,
+   "transcripts": 1,
+   "split": false,
+   "endOfTurnMs": 1213,
+   "voiceToVoiceMs": 3811,
+   "calls": [
+    {
+     "name": "get_book_recommenders",
+     "arguments": {
+      "title": "Sapiens"
+     }
+    }
+   ]
+  },
+  {
+   "clip": "GATES",
+   "mode": "balanced",
+   "run": 3,
+   "sessionId": "sess_ec2f0bb3393840e1909d80beea0b0462",
+   "at": "2026-09-27T08:24:56.759Z",
+   "heard": "What books does Bill Gates recommend?",
+   "exact": true,
+   "transcripts": 1,
+   "split": false,
+   "endOfTurnMs": 723,
+   "voiceToVoiceMs": 3175,
+   "calls": [
+    {
+     "name": "get_person_recommendations",
+     "arguments": {
+      "person": "Bill Gates"
+     }
+    }
+   ]
+  },
+  {
+   "clip": "GATES",
+   "mode": "min_latency",
+   "run": 3,
+   "sessionId": "sess_1970813af31d412da3f6e8b153535db0",
+   "at": "2026-09-27T08:25:23.868Z",
+   "heard": "What books does Bill Gates recommend?",
+   "exact": true,
+   "transcripts": 1,
+   "split": false,
+   "endOfTurnMs": 732,
+   "voiceToVoiceMs": 3118,
+   "calls": [
+    {
+     "name": "get_person_recommendations",
+     "arguments": {
+      "person": "Bill Gates"
+     }
+    }
+   ]
+  },
+  {
+   "clip": "DUNE",
+   "mode": "balanced",
+   "run": 3,
+   "sessionId": "sess_5b28c86a3b104dbbafa5493e39461730",
+   "at": "2026-09-27T08:25:50.616Z",
+   "heard": "What is the reading order for the Dune series?",
+   "exact": true,
+   "transcripts": 1,
+   "split": false,
+   "endOfTurnMs": 735,
+   "voiceToVoiceMs": 2925,
+   "calls": [
+    {
+     "name": "get_series_reading_order",
+     "arguments": {
+      "series": "Dune"
+     }
+    }
+   ]
+  },
+  {
+   "clip": "DUNE",
+   "mode": "min_latency",
+   "run": 3,
+   "sessionId": "sess_bca5023c061b40b99ef193bef9e70ac0",
+   "at": "2026-09-27T08:26:13.536Z",
+   "heard": "What is the reading order for the Dune series?",
+   "exact": true,
+   "transcripts": 1,
+   "split": false,
+   "endOfTurnMs": 859,
+   "voiceToVoiceMs": 3012,
+   "calls": [
+    {
+     "name": "get_series_reading_order",
+     "arguments": {
+      "series": "Dune"
+     }
+    }
+   ]
+  },
+  {
+   "clip": "Q3",
+   "mode": "balanced",
+   "run": 3,
+   "sessionId": "sess_9056258c4ea74ac48e48a875337fe656",
+   "at": "2026-09-27T08:26:44.417Z",
+   "heard": "I want to run a spec check on a job contract.",
+   "exact": true,
+   "transcripts": 1,
+   "split": false,
+   "endOfTurnMs": 766,
+   "voiceToVoiceMs": 2491,
+   "calls": [
+    {
+     "name": "find_tools",
+     "arguments": {
+      "query": "spec check on a job contract"
+     }
+    }
+   ]
+  },
+  {
+   "clip": "Q4",
+   "mode": "balanced",
+   "run": 3,
+   "sessionId": "sess_9056258c4ea74ac48e48a875337fe656",
+   "at": "2026-09-27T08:26:57.895Z",
+   "heard": "Check the reputation of the wallet I pasted.",
+   "exact": true,
+   "transcripts": 1,
+   "split": false,
+   "endOfTurnMs": 973,
+   "voiceToVoiceMs": 6512,
+   "calls": [
+    {
+     "name": "use_pasted_text",
+     "arguments": {}
+    },
+    {
+     "name": "find_tools",
+     "arguments": {
+      "query": "check reputation of a wallet address"
+     }
+    },
+    {
+     "name": "afg_get_reputation",
+     "arguments": {
+      "address": "0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed"
+     }
+    }
+   ]
+  },
+  {
+   "clip": "Q3",
+   "mode": "min_latency",
+   "run": 3,
+   "sessionId": "sess_a5c443948fbd4704ad573fb2ab0f94fb",
+   "at": "2026-09-27T08:27:23.734Z",
+   "heard": "I want to run a spec check on a job contract.",
+   "exact": true,
+   "transcripts": 1,
+   "split": false,
+   "endOfTurnMs": 688,
+   "voiceToVoiceMs": 2556,
+   "calls": [
+    {
+     "name": "find_tools",
+     "arguments": {
+      "query": "run a spec check on a job contract"
+     }
+    }
+   ]
+  },
+  {
+   "clip": "Q4",
+   "mode": "min_latency",
+   "run": 3,
+   "sessionId": "sess_a5c443948fbd4704ad573fb2ab0f94fb",
+   "at": "2026-09-27T08:27:37.673Z",
+   "heard": "Check the reputation of the wallet I pasted.",
+   "exact": true,
+   "transcripts": 1,
+   "split": false,
+   "endOfTurnMs": 1010,
+   "voiceToVoiceMs": 6207,
+   "calls": [
+    {
+     "name": "use_pasted_text",
+     "arguments": {}
+    },
+    {
+     "name": "find_tools",
+     "arguments": {
+      "query": "check reputation of a wallet address"
+     }
+    },
+    {
+     "name": "afg_get_reputation",
+     "arguments": {
+      "address": "0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed"
+     }
+    }
+   ]
+  }
+ ]
+}

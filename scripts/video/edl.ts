@@ -415,7 +415,9 @@ export function build(opts: { only?: string } = {}): Edl {
     const greeting = agentIn(c, mark(c, 'harness.talk', 'label', 'start')!.t, q1.callerStartMs ?? q1.callerEndMs);
     const greetingMs = greeting.length ? greeting.at(-1)!.end - greeting[0]!.start : 0;
     check('scene A greeting is 7 s or less, kept whole', greetingMs <= 7000, `${Math.round(greetingMs)} ms`);
-    const p: Plan = { name: 'A', capture: c.name, from: n3.t - 1000, to: talkEnd.t + 700, cuts: [] };
+    // G3: the shot ends half a second after N4, not at the End press: the tail was silence.
+    const n4End = mark(c, 'narration', 'id', 'N4')!.t + nMs('N4');
+    const p: Plan = { name: 'A', capture: c.name, from: n3.t - 1000, to: Math.min(talkEnd.t + 700, n4End + 500), cuts: [] };
     const tail = answerCut(c, q1, mark(c, 'narration', 'id', 'N4')!.t);
     if (tail) p.cuts.push(tail);
     caps.set(c.name, c);
@@ -434,16 +436,22 @@ export function build(opts: { only?: string } = {}): Edl {
     const talkStart = mark(c, 'harness.talk', 'label', 'start')!;
     const talkEnd = mark(c, 'harness.talk', 'label', 'end')!;
     const q2 = c.exchanges.find((x) => x.id === 'Q2')!;
-    const p: Plan = { name: 'B', capture: c.name, from: n5.t - 1000, to: talkEnd.t + 700, cuts: [] };
-    const g = agentIn(c, talkStart.t, q2.callerStartMs ?? q2.callerEndMs);
-    if (g.length) p.cuts.push({ from: talkStart.t + 900, to: (q2.callerStartMs ?? q2.callerEndMs) - 500, reason: 'the greeting (greetings after scene A may be cut)' });
+    // G3: a shorter lead, the shot ending 0.7 s after the agent's last word, and one cut from
+    // the mic press to the first frame where the page is listening for the question.
+    const lastWord = (agentIn(c, q2.callerEndMs, talkEnd.t).at(-1)?.end ?? talkEnd.t) + 700;
+    const p: Plan = { name: 'B', capture: c.name, from: n5.t - 600, to: Math.min(talkEnd.t + 700, lastWord), cuts: [] };
+    // The scroll to the talk bar ran past N5: trim that page action to about 1.5 s of silence.
+    const n5End = n5.t + nMs('N5');
+    if (talkStart.t - 400 - (n5End + 300) > 600) p.cuts.push({ from: n5End + 300, to: talkStart.t - 400, reason: 'before the mic is pressed: the scroll to the talk bar, which ran past N5' });
+    p.cuts.push({ from: talkStart.t + 250, to: listeningBefore(c, talkStart.t, q2.callerStartMs ?? q2.callerEndMs) + 150, reason: 'from the mic press to the first frame where the page is listening: the connect and the greeting (greetings after scene A may be cut)' });
     const tail = answerCut(c, q2, talkEnd.t);
     if (tail) p.cuts.push(tail);
     const L = live(p, { narrationIds: ['N5'] });
     const call = callCard(c, q2.callerEndMs, 'get_book_recommenders');
     if (call) punch(punchIns, c, L.toOut, call.t + 200, call.rect, 'the get_book_recommenders call');
   }
-  if (!only) still('phases', `${KIT}/slides/phases.png`, ['N6']);
+  // G3: a short tail, so N6 runs almost straight into scene C's AFG click.
+  if (!only) still('phases', `${KIT}/slides/phases.png`, ['N6'], { tail: 150 });
   // 6-9, round F3 order: C1 (Q3, the swap) and C3 (Q5 spoken, held, N8) in one shot; the
   // identifiers slide over the first 4 s of N7; then the paste and C2 (Q4) in a second shot.
   if (!only || only === 'C') {
@@ -456,8 +464,10 @@ export function build(opts: { only?: string } = {}): Edl {
     // then the shot ends 1.2 s after the agent's last word, still inside the capture.
     const talkEnd = mark(c, 'harness.talk', 'label', 'end') ?? { t: Math.min(c.lengthMs - 800, (c.agentSpans.at(-1)?.end ?? c.lengthMs) + 500), type: 'derived' };
     const [q3, q5, q4] = ['Q3', 'Q5', 'Q4'].map((id) => c.exchanges.find((x) => x.id === id)!);
-    const p1: Plan = { name: 'C1+C3', capture: c.name, from: presetClick.t - 1500, to: n7.t + SCENE_XFADE / 2, cuts: [] };
-    p1.cuts.push({ from: talkStart.t + 900, to: (q3!.callerStartMs ?? q3!.callerEndMs) - 500, reason: 'the greeting (greetings after scene A may be cut)' });
+    // G3: the AFG click, the mic press and the cut to listening, about 2 s in all.
+    const p1: Plan = { name: 'C1+C3', capture: c.name, from: presetClick.t - 150, to: n7.t + SCENE_XFADE / 2, cuts: [] };
+    p1.cuts.push({ from: presetClick.t + 350, to: talkStart.t - 300, reason: 'between the AFG click and the mic press: the connect and the scroll (before the mic is pressed)' });
+    p1.cuts.push({ from: talkStart.t + 250, to: listeningBefore(c, talkStart.t, q3!.callerStartMs ?? q3!.callerEndMs) + 150, reason: 'from the mic press to the first frame where the page is listening: the connect and the greeting (greetings after scene A may be cut)' });
     const t3 = answerCut(c, q3!, q5!.callerStartMs ?? n8.t);
     if (t3) p1.cuts.push(t3);
     const t5 = answerCut(c, q5!, n8.t);
@@ -528,6 +538,16 @@ export function build(opts: { only?: string } = {}): Edl {
   }
   const durationMs = Math.round(t);
   return { fps: FPS, durationMs, shots, narration: narr, audio, captions, punchIns, labels, endCard, cuts, exchanges, checks };
+}
+
+/**
+ * The first frame where the page is listening for the caller: the status reads
+ * "Listening" once the greeting has played out (after the greeting's reply.done).
+ */
+function listeningBefore(c: CaptureData, talkStart: number, question: number): number {
+  const greetingDone = c.log.find((e) => e.type === 'ws.in' && e.msg === 'reply.done' && e.t > talkStart && e.t < question);
+  const listening = greetingDone ? c.log.find((e) => e.type === 'dom.ui' && e.t >= greetingDone.t && e.t < question && (e.v as { status: string }).status === 'Listening') : undefined;
+  return listening ? listening.t : question - 500;
 }
 
 /** The last sentence end 6-14 s into an answer longer than 14 s; the cut runs to the answer's end. */
